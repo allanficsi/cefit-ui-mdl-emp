@@ -1,0 +1,552 @@
+<section>    
+  <div class="section-body">
+
+    <!-- <div *ngIf="mensagem">      
+      {{mensagem.text}}
+    </div> -->
+
+    <!-- BEGIN BASICDATION -->
+    <div class="row">     
+
+      <div class="col-lg-12">
+        <div class="card card-underline">
+          <div class="card-head card-head-sm">
+            <header><b>Empregador - Cadastrar</b></header>
+          </div>
+          
+          <div class="card-body">
+            <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8"  (ngSubmit)="inserir()">
+              
+              <h5>Os campos com * são obrigatórios.</h5>
+
+
+              <!-- DADOS GERAIS -->
+              <div class="card card-outlined style-primary" id="divDadosGeraisUsuario">
+                <div class="card-head">
+                  <header>Dados Gerais</header>
+                </div>
+                
+                <div class="card-body" style="display: block;">          
+
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label>Tipo de Pessoa *</label>
+                        <div style="margin-top: 10px;">
+                        <label class="radio-inline radio-styled">
+                          <input type="radio" value="F" [(ngModel)]="objetoAtualiza.cadastroUnico.tipoPessoa" (change)="selecionarTipoPessoa()" name="tipoPessoa" #tipoPessoa="ngModel" >
+                          <span>Física</span>
+                        </label>
+                        <label class="radio-inline radio-styled">
+                          <input type="radio" value="J" [(ngModel)]="objetoAtualiza.cadastroUnico.tipoPessoa" (change)="selecionarTipoPessoa()" name="tipoPessoa" #tipoPessoa="ngModel" >
+                          <span>Jurídica</span>
+                        </label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-sm-3" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
+                      <div class="form-group">
+                        <input type="text" maxlength="18" aptValidaCnpj autocomplete="off"
+                        [(ngModel)]="objetoAtualiza.cadastroUnico.cnpj" mask='00.000.000/0000-00'
+                              name="cnpj" class="form-control" required>  
+                        <label>CNPJ *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "F"'>
+                      <div class="form-group">
+                        <input type="text" maxlength="18" aptValidaCpf autocomplete="off"
+                        [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'
+                              name="cpf" class="form-control" required>  
+                        <label>CPF *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
+                      <div class="form-group">
+                        <input type="text" maxlength="7" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroCei" mask='0000000'
+                                name="numeroCei" class="form-control" required>  
+                        <label>CEI *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-7" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "F"'>
+                      <div class="form-group">
+                        <input type="text" maxlength="80" autocomplete="off" [(ngModel)]="objetoAtualiza.cadastroUnico.nome"
+                                name="nome" class="form-control" required>  
+                        <label>Nome *</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" maxlength="80" autocomplete="off"
+                        [(ngModel)]="objetoAtualiza.cadastroUnico.nome" 
+                              name="razaoSocial" class="form-control" required>  
+                        <label>Razão Social *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                          <input type="text" maxlength="80" autocomplete="off"
+                          [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaJuridica.nomeFantasia" 
+                                name="nomeFantasia" class="form-control" required>  
+                          <label>Nome Fantasia *</label>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="row" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "F"'>
+                    <div class="col-sm-3">
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataNascimentoContato">
+                          <div class="input-group-content">
+                            <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" (click)="picker.open()" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
+                                  class="form-control" [max]="maxDate" maxlength="10" #dataNascimento="ngModel" autocomplete="off">
+                            <label>Data de Nascimento</label>
+                          </div>
+                          
+                          <span class="input-group-addon cal" (click)="picker.open()"><i class="fa fa-calendar"></i></span>
+                          <mat-datepicker-toggle style="display: none;" matSuffix [for]="picker" class="input-group-addon cal"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                        </div>                        
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" autocomplete="off" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.registroGeral" mask='00000000000000'
+                                name="cnpj" class="form-control" required>  
+                        <label>RG *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <input type="text" autocomplete="off" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.orgaoEmissorRg"
+                                name="orgaoEmissorRg" maxlength="20" class="form-control" required> 
+                        <label>Org. Emissor *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-1">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.ufOrgaoEmissorRg" name="ufRg" #ufRg="ngModel" required>
+                          <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
+                        </select>
+                        <label>UF *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label>Sexo *</label>
+                        <div style="margin-top: 10px;">
+                        <label class="radio-inline radio-styled">
+                          <input type="radio" value="M" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.sexo" name="sexo" #sexo="ngModel" >
+                          <span>Masculino</span>
+                        </label>
+                        <label class="radio-inline radio-styled">
+                          <input type="radio" value="F" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.sexo" name="sexo" #sexo="ngModel" >
+                          <span>Feminino</span>
+                        </label>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                                
+                </div>
+              </div>
+
+              <!-- ENDERECO -->
+              <div class="card card-outlined style-primary" id="divEndereco">
+                <div class="card-head">
+                  <header>Endereço</header>
+                </div>
+              
+                <div class="card-body" style="display: block;">          
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="endereco.objTipo" name="objTipo" #objTipo="ngModel" required>
+                          <option *ngFor="let tipoEndereco of listaTipoEndereco" [ngValue]="tipoEndereco">{{tipoEndereco.nomeValor}}</option>
+                        </select>   
+                        <label>Tipo de Endereço *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <input type="text" maxlength="18" [(ngModel)]="endereco.cepFormatado" (blur)="pesquisarCep()"
+                              mask='00.000-000' autocomplete="off" name="cep" class="form-control" required>
+                        <label>CEP *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.logradouro" 
+                                name="logradouro" class="form-control" required autocomplete="off">
+                        <label>Logradrouro *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <input type="text" maxlength="30" [(ngModel)]="endereco.numero" autocomplete="off"
+                                name="numero" class="form-control" required >
+                        <label>Número *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" maxlength="30" [(ngModel)]="endereco.complemento" 
+                                name="complemento" class="form-control" required autocomplete="off">
+                        <label>Complemento</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="endereco.pontoReferencia" 
+                                name="complemento" class="form-control" required autocomplete="off">
+                        <label>Ponto de Referência</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.bairro" 
+                                name="bairro" class="form-control" autocomplete="off" required>
+                        <label>Bairro *</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.localidade" 
+                                name="localidade" class="form-control" autocomplete="off" required>
+                        <label>Localidade</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="endereco.extensaoEndereco.uf" name="uf" #uf="ngModel" required>
+                          <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
+                        </select>
+                        <label>Estado *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row small-padding">
+                    <div class="pull-left">
+                        <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarEndereco()">
+                          Adicionar Endereço
+                        </button> 
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th>Tipo de Endereço</th>
+                            <th>Cep</th>
+                            <th>Logradouro</th>
+                            <th>Número</th>
+                            <th>Complemento</th>
+                            <th>Ponto de Referência</th>
+                            <th>Bairro</th>
+                            <th>Cidade</th>
+                            <th>Estado</th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let endereco of listaEndereco; let i = index" [attr.data-index]="i">
+                            <td>{{endereco.descricaoTipo}}</td>
+                            <td>{{endereco.cepFormatado}}</td>
+                            <td>{{endereco.extensaoEndereco.logradouro}}</td>
+                            <td >{{endereco.numero}}</td>
+                            <td>{{endereco.complemento}}</td>
+                            <td>{{endereco.pontoReferencia}}</td>
+                            <td>{{endereco.extensaoEndereco.bairro}}</td>
+                            <td>{{endereco.extensaoEndereco.localidade}}</td>
+                            <td>{{endereco.extensaoEndereco.uf}}</td>
+                            <td style="width: 3%;">
+                                <i class="glyphicon glyphicon-trash" (click)="excluirEndereco(i)" style="cursor: pointer;" title="Inativar"></i>
+                            </td>
+                          </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+    
+              <!-- CONTATO -->
+              <div class="card card-outlined style-primary" id="divContato">
+                <div class="card-head">
+                  <header>Contato</header>
+                </div>
+              
+                <!-- Telefones PF -->
+                <div class="card-body" style="display: block;" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "F"'>          
+
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                          <select class="form-control" [(ngModel)]="telefonePf.objTipo" name="objtipo" #objTipo="ngModel" required>
+                            <option *ngFor="let tipo of listaTipoTelefone" [ngValue]="tipo">{{tipo.nomeValor}}</option>
+                          </select>
+                        <label>Tipo</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                          <input type="text" maxlength="2" [(ngModel)]="telefonePf.ddd" autocomplete="off"
+                                  mask='00' name="dddPf" class="form-control" required>
+                        <label>DDD</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input type="text" maxlength="9" [(ngModel)]="telefonePf.numero" autocomplete="off"
+                                    mask='000000000' name="telefonePf" class="form-control" required>
+                          <label>Telefone</label>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="row small-padding">
+                    <div class="pull-left">
+                        <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarTelefonePf()">
+                          Adicionar Telefone
+                        </button> 
+                    </div>
+                  </div>
+                    
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th>Tipo</th>
+                            <th>Número</th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let telefonePf of listaTelefonePf; let i = index" [attr.data-index]="i">
+                            <td style="width: 25%;">{{telefonePf.descricaoTipo}}</td>
+                            <td style="width: 25%;">{{telefonePf.ddd}} - {{telefonePf.numero}}</td>
+                            <td style="width: 3%;">
+                              <i class="glyphicon glyphicon-trash" (click)="excluirTelefonePf(i)" style="cursor: pointer;" title="Inativar"></i>
+                            </td>
+                          </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Contatos PJ -->
+                <div class="card-body" style="display: block;" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>          
+
+                  <div class="row">
+                    
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="contato.objTipoContato" name="objTipoContato" #objTipoContato="ngModel" required>
+                          <option *ngFor="let tipoContato of listaTipoContato" [ngValue]="tipoContato">{{tipoContato.nomeValor}}</option>
+                        </select>   
+                        <label>Tipo de Contato *</label>
+                      </div>
+                    </div>
+                    
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-content">
+                              <select class="form-control" [(ngModel)]="contato.cargo" name="cargo" #cargo="ngModel" required>
+                                  <option *ngFor="let cargo of listaCargo" [ngValue]="cargo">{{cargo.descricao}}</option>
+                                </select>   
+                                <label>Cargo *</label>
+                          </div>
+                          <div class="input-group-btn">
+                            <button class="btn btn-default" (click)="preparaAddCargo()" type="button">Adicionar Cargo</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                          <input type="text" maxlength="50" [(ngModel)]="contato.nome" 
+                          name="nomeContato" class="form-control" autocomplete="off" required>
+                        <label>Nome *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="contato.email" autocomplete="off"
+                                name="email" class="form-control" required>
+                        <label>Email</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row small-padding">
+                    <div class="pull-left">
+                        <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarContato()">
+                          Adicionar Contato
+                        </button> 
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th style="width: 25%;">Tipo de Contato</th>
+                            <th style="width: 25%;">Nome</th>
+                            <th style="width: 25%;">Cargo</th>
+                            <th style="width: 25%;">Email</th>
+                            <th style="width: 3%;"></th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let contato of listaContato; let i = index" [attr.data-index]="i">
+                              <td colspan="6">
+                                <table class="table table-condensed table-hover no-margin">
+                                  <tr>
+                                      <td style="width: 25%;">{{contato.descricaoTipoContato}}</td>
+                                      <td style="width: 25%;">{{contato.nome}}</td>
+                                      <td style="width: 25%;">{{contato.cargo.descricao}}</td>
+                                      <td style="width: 25%;">{{contato.email}}</td>
+                                      <td style="width: 3%;">
+                                          <i class="glyphicon glyphicon-plus-sign" (click)="preparaAdicionarTelefone(i)" style="cursor: pointer;" title="Adicionar Telefone"></i>
+                                      </td>
+                                      <td style="width: 3%;">
+                                          <i class="glyphicon glyphicon-trash" (click)="excluirContato(i)" style="cursor: pointer;" title="Inativar"></i>
+                                      </td>
+                                  </tr>
+                                  <tr *ngFor="let telefone of contato.listaTelefone; let j = index" [attr.data-index]="i">
+                                    <td>{{telefone.descricaoTipo}}</td>
+                                    <td>{{telefone.ddd}} - {{telefone.numero}}</td>
+                                  </tr>
+                                </table>
+                              </td>
+                          </tr>
+
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <!-- OUTRAS INFORMACOES -->
+              <div class="card card-outlined style-primary" id="divOutrasInfo">
+                  <div class="card-head">
+                    <header>Outras Informações</header>
+                  </div>
+                
+                  <div class="card-body" style="display: block;">          
+
+                    <div class="row" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
+                      <div class="col-sm-8">
+                        <div class="form-group">
+                          <select class="form-control" [(ngModel)]="objetoAtualiza.codigoCnae" name="codigoCnae" #codigoCnae="ngModel" required>
+                              <option [ngValue]="null">- Selecione o CNAE -</option>
+                            <option *ngFor="let cnae of listaCnae" [ngValue]="cnae.codigo">{{cnae.codigoCnae}} - {{cnae.nome}}</option>
+                          </select>   
+                          <label>CNAE *</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <input type="text" maxlength="5"
+                                 [(ngModel)]="objetoAtualiza.numeroFuncionarios" mask='00000'
+                                 name="numeroFuncionarios" class="form-control" autocomplete="off" required>   
+                          <label>Quantidade de Funcionários *</label>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                          <div class="form-group">
+                            <select class="form-control" [(ngModel)]="objetoAtualiza.codigoPorteEmpresa" name="codigoPorteEmpresa" #codigoPorteEmpresa="ngModel" required>
+                              <option *ngFor="let porteEmpresa of listaPorteEmpresa" [ngValue]="porteEmpresa.valorCampo">{{porteEmpresa.nomeValor}}</option>
+                            </select>    
+                            <label>Porte da Empresa *</label>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <input type="text" maxlength="80" [(ngModel)]="objetoAtualiza.observacao"
+                                 name="numeroFuncionarios" class="form-control" autocomplete="off" required>   
+                          <label>Observação</label>
+                        </div>
+                      </div>
+
+                    </div>
+                </div>
+              </div>
+
+
+              <div class="card-actionbar">
+                  <div class="card-actionbar-row">
+                    
+                      <button *ngIf="codigo == undefined" type="submit" class="btn ink-reaction btn-raised btn-success"  accesskey="C">
+                        Cadastrar
+                      </button>  
+                    
+                    
+                      <button *ngIf="codigo != undefined" type="button" (click)="alterar()" class="btn ink-reaction btn-raised btn-success"  accesskey="A">
+                        Alterar
+                      </button>  
+                    
+                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" [routerLink]="['/empregador-pesquisar']">
+                    Voltar 
+                    </a>
+                  </div>
+              </div>
+            </form>
+          </div>
+
+        </div>      
+      </div>
+
+    </div>    
+
+  </div>
+  
+</section>

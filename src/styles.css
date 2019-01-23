@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.mat-dialog-container {
+    padding: 1px !important;
+}
+
+.cdk-overlay-container {
+    z-index: 10000;
+}
+
+.spinner {
+    z-index: 10001 !important;
+    background: #0006 !important;
+}
+
+.mat-calendar-body-selected {
+    background-color: #0b448a;
+    color: #fff;
+}
+
+.over {
+    background: #FBF8EF !important;
+}

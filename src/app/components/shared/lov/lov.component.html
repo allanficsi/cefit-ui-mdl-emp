@@ -1,0 +1,35 @@
+
+<div class="col-sm-2">
+  <div class="form-group">
+    <input type="text" 
+          class="form-control" 
+             id="codigo" *ngIf="visualizar != 'sim'"
+    [(ngModel)]="codigoValor"
+           name="codigo"
+         (blur)="buscar()">
+
+    <input type="text" 
+          class="form-control" 
+             id="codigo" *ngIf="visualizar == 'sim'"
+    [(ngModel)]="codigoValor" disabled
+           name="codigo">
+
+    <label for="Name1">{{genericLov.titulo}}</label>
+  </div>
+</div>
+
+<div class="col-sm-1" style="width: 3%;" *ngIf="visualizar != 'sim'">
+  <div class="form-group">
+    <i class="fa fa-search" (click)="abrirModal()" style="cursor: pointer;"> </i>
+  </div>
+</div>
+
+<div class="col-sm-8">
+  <div class="form-group">
+    <input type="text" 
+          class="form-control"
+             id="resultado" disabled
+    [(ngModel)]="resultado"   
+           name="resultado">
+  </div>
+</div>
