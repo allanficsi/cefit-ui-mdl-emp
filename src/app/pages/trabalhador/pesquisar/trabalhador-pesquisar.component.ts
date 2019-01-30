@@ -11,34 +11,34 @@ import { PessoaJuridica } from '../../../model/cadastro-unico/pessoa-juridica';
 import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
 import { Dominio } from '../../../model/geral/dominio';
 import { DominioService } from '../../../services/geral/dominio.service';
-import { ResponseApi } from 'src/app/model/response-api';
+import { ResponseApi } from '../../../model/response-api';
+import { Trabalhador } from '../../../model/trabalhador/trabalhador';
+import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
 
 @Component({
-  selector: 'app-empregador-pesquisar',
-  templateUrl: './empregador-pesquisar.component.html',
-  styleUrls: ['./empregador-pesquisar.component.css']
+  selector: 'app-trabalhador-pesquisar',
+  templateUrl: './trabalhador-pesquisar.component.html',
+  styleUrls: ['./trabalhador-pesquisar.component.css']
 })
-export class EmpregadorPesquisarComponent extends AptareCrudController<Empregador, {new(): Empregador}>{
+export class TrabalhadorPesquisarComponent extends AptareCrudController<Trabalhador, {new(): Trabalhador}>{
 
   listaSituacao = [];
-  valueSituacao = [];
 
   constructor(router: Router, 
               route: ActivatedRoute,             
-              service: EmpregadorService,
+              service: TrabalhadorService,
               dialog: MatDialog,
               dialogService: DialogService,
               private dominioService: DominioService,
               mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Empregador, service, mensagem);   
+    super(router, route, dialogService, dialog, Trabalhador, service, mensagem);   
   }
 
   iniciarPaginaPesquisar() {
     this.objetoPesquisa.cadastroUnico = new CadastroUnico();
-    this.objetoPesquisa.cadastroUnico.pessoaJuridica = new PessoaJuridica();
     this.objetoPesquisa.cadastroUnico.pessoaFisica = new PessoaFisica();
 
-    this.objetoPesquisa.cadastroUnico.tipoPessoa = 'J';
+    this.objetoPesquisa.cadastroUnico.tipoPessoa = 'F';
 
     this.popularSituacao();
   }
@@ -55,32 +55,21 @@ export class EmpregadorPesquisarComponent extends AptareCrudController<Empregado
     });
   }
 
-  selecionarTipoPessoa() {
-    let tipoPessoa = this.objetoPesquisa.cadastroUnico.tipoPessoa;
+  inativarTrabalhador(codigo) {
+    let trabalhador: Trabalhador = new Trabalhador();
+    trabalhador.codigo = codigo;
 
-    this.objetoPesquisa.cadastroUnico = new CadastroUnico();
-
-    this.objetoPesquisa.cadastroUnico.pessoaJuridica = new PessoaJuridica();
-    this.objetoPesquisa.cadastroUnico.pessoaFisica = new PessoaFisica();
-
-    this.objetoPesquisa.cadastroUnico.tipoPessoa = tipoPessoa;
+    this.inativar(trabalhador);
   }
 
-  inativarEmpregador(codigo) {
-    let empregador: Empregador = new Empregador();
-    empregador.codigo = codigo;
+  ativarTrabalhador(codigo) {
+    let trabalhador: Trabalhador = new Trabalhador();
+    trabalhador.codigo = codigo;
 
-    this.inativar(empregador);
+    this.ativar(trabalhador);
   }
 
-  ativarEmpregador(codigo) {
-    let empregador: Empregador = new Empregador();
-    empregador.codigo = codigo;
-
-    this.ativar(empregador);
-  }
-
-  statusInativar(obj: Empregador) {
+  statusInativar(obj: Trabalhador) {
     this.listaResultado.forEach(function (value) {
       if(value.codigo == obj.codigo) {
         value.situacao = 3; //INATIVA
@@ -89,7 +78,7 @@ export class EmpregadorPesquisarComponent extends AptareCrudController<Empregado
     });
   }
 
-  statusAtivar(obj: Empregador) {
+  statusAtivar(obj: Trabalhador) {
     this.listaResultado.forEach(function (value) {
       if(value.codigo == obj.codigo) {
         value.situacao = 2; //ATIVA
@@ -98,8 +87,8 @@ export class EmpregadorPesquisarComponent extends AptareCrudController<Empregado
     });
   }
 
-  editar(id:string){    
-    this.router.navigate(['/empregador-atualizar',id]);
+  editar(id:string){   
+    this.router.navigate(['/trabalhador-atualizar',id]);
   }
 
 }

@@ -11,7 +11,8 @@ export class Empregador {
     codigoPorteEmpresa: Number;
     dataAtualizacaoPorteEmpresa: Date;
     codigoUsuarioAtualizacaoProteEmpresa: Number;
-    flagAtivo: string;
+    situacao: Number;
+    descricaoSituacao: string;
     numeroCei: Number;
     observacao: string;
 

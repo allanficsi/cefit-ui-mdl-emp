@@ -5,7 +5,7 @@ export class PessoaFisica {
     codigoCadastroUnico: Number;
     registroGeral: Number;
     nomeMae: string;
-    dataNascimento: string;
+    dataNascimento: Date;
     sexo: string;
     dataEmissaoRg: Date;
     orgaoEmissorRg: string;

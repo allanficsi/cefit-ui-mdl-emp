@@ -1,16 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Empregador } from '../../../model/empregador/empregador';
-import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { Router, ActivatedRoute } from '@angular/router';
-import { EmpregadorService } from '../../../services/empregador/empregador.service';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { DialogService } from '../../../dialog-service';
-import { MensagemService } from '../../../services/shared/mensagem.service';
-import { CadastroUnico } from 'src/app/model/cadastro-unico/cadastro-unico';
-import { PessoaJuridica } from 'src/app/model/cadastro-unico/pessoa-juridica';
 import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { CargoService } from '../../../services/cadastro-unico/cargo.service';
-import { Auditoria } from 'src/app/model/auditoria';
+import { MensagemService } from '../../../services/shared/mensagem.service';
 
 @Component({
   selector: 'app-cargo-pesquisar',

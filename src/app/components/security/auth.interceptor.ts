@@ -19,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>  {
-        let authRequest : HttpRequest<any>;
+        let authRequest : any;
 
         this.spinnerService.show();
 
@@ -28,11 +28,10 @@ export class AuthInterceptor implements HttpInterceptor {
             let token = localStorage.getItem("token");
             //console.log(token);
             authRequest = req.clone({ 
-                setHeaders : {'Authorization' : token , 
-                              'Content-Type'  : 'application/json'}
+                setHeaders : {'Authorization' : token }
             });
             
-            return next.handle(authRequest).do((event: HttpEvent<any>) => {              
+            return next.handle(authRequest).do((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
                   //token ok.. continua o processo (pode ser implementado a logica de sempre atualizar o token)                  
                   this.spinnerService.hide();

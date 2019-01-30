@@ -41,9 +41,13 @@ import { CorreioService } from '../../services/correio/correio.service';
 import { CargoService } from '../../services/cadastro-unico/cargo.service';
 import { CnaeService } from 'src/app/services/empregador/cnae.service';
 import { ModalTelefoneComponent } from '../../pages/geral/modal-telefone/modal-telefone.component';
-import { CargoPesquisarComponent } from 'src/app/pages/cargo/pesquisar/cargo-pesquisar.component';
-import { CargoAtualizarComponent } from 'src/app/pages/cargo/atualizar/cargo-atualizar.component';
-import { ModalCargoComponent } from 'src/app/pages/geral/modal-cargo/modal-cargo.component';
+import { CargoPesquisarComponent } from '../../pages/cargo/pesquisar/cargo-pesquisar.component';
+import { CargoAtualizarComponent } from '../../pages/cargo/atualizar/cargo-atualizar.component';
+import { ModalCargoComponent } from '../../pages/geral/modal-cargo/modal-cargo.component';
+import { TrabalhadorPesquisarComponent } from '../../pages/trabalhador/pesquisar/trabalhador-pesquisar.component';
+import { TrabalhadorService } from '../../services/trabalhador/trabalhador.service';
+import { TrabalhadorAtualizarComponent } from 'src/app/pages/trabalhador/atualizar/trabalhador-atualizar.component';
+import { CboService } from 'src/app/services/trabalhador/cbo.service';
 
 
 @NgModule({
@@ -85,6 +89,9 @@ import { ModalCargoComponent } from 'src/app/pages/geral/modal-cargo/modal-cargo
         EmpregadorPesquisarComponent,
         EmpregadorAtualizarComponent,
 
+        TrabalhadorPesquisarComponent,
+        TrabalhadorAtualizarComponent,
+
         CargoPesquisarComponent,
         CargoAtualizarComponent,
 
@@ -101,8 +108,10 @@ import { ModalCargoComponent } from 'src/app/pages/geral/modal-cargo/modal-cargo
 
       DominioService,
       EmpregadorService,
+      TrabalhadorService,
       CargoService,
       CnaeService,
+      CboService,
       
       {
         provide: HTTP_INTERCEPTORS,

@@ -8,9 +8,14 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+  login: string;
+
   constructor(private router: Router) { }
 
   ngOnInit() {
+
+    this.login = JSON.parse(localStorage.getItem("usuario")).login;
+
   }
 
   logout() {

@@ -8,7 +8,6 @@ export class MensagemService {
     constructor(private toastr: ToastrService) { }
 
     tratarErro(err) {
-        console.log(err);
         if(err.status != 401) {
             if(err['error']['errors'] != null) {      
                 this.toastr.error(err['error']['errors'][0], '');

@@ -8,6 +8,8 @@ import { ModalTelefoneComponent } from '../../pages/geral/modal-telefone/modal-t
 import { CargoPesquisarComponent } from '../../pages/cargo/pesquisar/cargo-pesquisar.component';
 import { CargoAtualizarComponent } from '../../pages/cargo/atualizar/cargo-atualizar.component';
 import { ModalCargoComponent } from '../../pages/geral/modal-cargo/modal-cargo.component';
+import { TrabalhadorPesquisarComponent } from '../../pages/trabalhador/pesquisar/trabalhador-pesquisar.component';
+import { TrabalhadorAtualizarComponent } from '../../pages/trabalhador/atualizar/trabalhador-atualizar.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -18,6 +20,10 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'empregador-pesquisar', component: EmpregadorPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'empregador-atualizar', component: EmpregadorAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'empregador-atualizar/:id', component: EmpregadorAtualizarComponent, canActivate: [AuthGuard] },
+
+    { path : 'trabalhador-pesquisar', component: TrabalhadorPesquisarComponent, canActivate: [AuthGuard] },
+    { path : 'trabalhador-atualizar', component: TrabalhadorAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'trabalhador-atualizar/:id', component: TrabalhadorAtualizarComponent, canActivate: [AuthGuard] },
 
     { path : 'cargo-pesquisar', component: CargoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'cargo-atualizar', component: CargoAtualizarComponent, canActivate: [AuthGuard] },

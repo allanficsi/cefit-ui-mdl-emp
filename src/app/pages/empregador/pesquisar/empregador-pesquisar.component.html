@@ -16,17 +16,57 @@
             <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
                 
               <div class="row">
-                <div class="col-sm-3">
+                
+                <div class="col-sm-2">
                   <div class="form-group">
-                    <input type="text" maxlength="18" aptValidaCnpj
+                    <label>Tipo de Pessoa *</label>
+                    <div style="margin-top: 10px;">
+                    <label class="radio-inline radio-styled">
+                      <input type="radio" value="F" [(ngModel)]="objetoPesquisa.cadastroUnico.tipoPessoa" (change)="selecionarTipoPessoa()" name="tipoPessoa" #tipoPessoa="ngModel" >
+                      <span>Física</span>
+                    </label>
+                    <label class="radio-inline radio-styled">
+                      <input type="radio" value="J" [(ngModel)]="objetoPesquisa.cadastroUnico.tipoPessoa" (change)="selecionarTipoPessoa()" name="tipoPessoa" #tipoPessoa="ngModel" >
+                      <span>Jurídica</span>
+                    </label>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-sm-3" *ngIf='objetoPesquisa.cadastroUnico.tipoPessoa == "J"'>
+                  <div class="form-group">
+                    <input type="text" maxlength="18" aptValidaCnpj autocomplete="off"
                     [(ngModel)]="objetoPesquisa.cadastroUnico.cpfCnpj" mask='00.000.000/0000-00'
                           name="cnpj" class="form-control" required>  
                     <label>CNPJ *</label>
                   </div>
                 </div>
+
+                <div class="col-sm-3" *ngIf='objetoPesquisa.cadastroUnico.tipoPessoa == "F"'>
+                  <div class="form-group">
+                    <input type="text" maxlength="18" aptValidaCpf autocomplete="off"
+                    [(ngModel)]="objetoPesquisa.cadastroUnico.cpfCnpj" mask='000.000.000-00'
+                          name="cpf" class="form-control" required>  
+                    <label>CPF *</label>
+                  </div>
+                </div>
+
+                <!-- <div class="col-sm-4">
+                  <div class="form-group">
+                    <label>Situação *</label>
+                    <div style="margin-top: 10px;">
+                    <label class="checkbox-inline checkbox-styled" *ngFor="let situacao of listaSituacao">
+                      <input type="checkbox" value="{{situacao.valorCampo}}" [(ngModel)]="valuSituacao" (change)="selecionarTipoPessoa()" name="valueSituacao" #valueSituacao="ngModel" >
+                      <span>{{situacao.nomeValor}}</span>
+                    </label>
+                    </div>
+                  </div>
+                </div> -->
+
               </div>
 
-              <div class="row">
+              <div class="row" *ngIf='objetoPesquisa.cadastroUnico.tipoPessoa == "J"'>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <input type="text" maxlength="80" 
@@ -46,6 +86,17 @@
                 </div>
               </div>
 
+
+              <div class="row" *ngIf='objetoPesquisa.cadastroUnico.tipoPessoa == "F"'>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input type="text" maxlength="80" 
+                    [(ngModel)]="objetoPesquisa.cadastroUnico.nome" 
+                          name="razaoSocial" class="form-control" required>  
+                    <label>Nome *</label>
+                  </div>
+                </div>
+              </div>
 
             </form>
           </div>
@@ -76,7 +127,7 @@
                   <tr>
                     <th class="text-center" style="width: 15%;">CNPJ</th>
                     <th class="text-left">Nome Fantasia</th>
-                    <th class="text-left">Razão Social</th>
+                    <th class="text-center">Tipo Pessoa</th>
                     <th class="text-center">Data de Cadastro</th>
                     <th class="text-left">Situação</th>
                     <th class="text-center" style="width: 3%;"></th>
@@ -85,14 +136,18 @@
                 </thead>
 
                 <tr *ngFor="let item of listaResultado">
-                  <td class="text-center">{{item.cadastroUnico.cnpj}}</td>
-                  <td>{{item.cadastroUnico.pessoaJuridica.nomeFantasia}}</td>
+                  <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "J"'>{{item.cadastroUnico.cnpj}}</td>
+                  <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "F"'>{{item.cadastroUnico.cpf}}</td>
                   <td>{{item.cadastroUnico.nome}}</td>
+                  <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "F"'>PESSOA FÍSICA</td>
+                  <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "J"'>PESSOA JURÍDICA</td>
                   <td class="text-center">{{item.auditoria.dataInclusao | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-                  <td *ngIf='item.flagAtivo != "N"'>ATIVO</td>
-                  <td *ngIf='item.flagAtivo == "N"'>INATIVO</td>
+                  <td>{{item.descricaoSituacao}}</td>
                   <td> <i class="fa fa-edit" (click)="editar(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i></td>
-                  <td> <i class="fa fa-remove" (click)="inativarEmpregador(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i></td>
+                  <td> 
+                    <i *ngIf='(item.situacao == 3)' class="fa fa-check" title="Ativar" (click)="ativarEmpregador(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
+                    <i *ngIf='(item.situacao == 1 || item.situacao == 2)' class="fa fa-remove" title="Inativar" (click)="inativarEmpregador(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
+                  </td>
                 </tr>
               </table>
             </div>
