@@ -20,6 +20,8 @@ export class Trabalhador {
     numeroSerieCtps: Number;
     numeroInscricaoPrefeitura: Number;
     numeroInss: Number;
+    flagPsicologo: string;
+    codigoQualificacao;
 
     cadastroUnico: CadastroUnico;
     auditoria: Auditoria;

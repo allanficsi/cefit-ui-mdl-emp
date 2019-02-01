@@ -278,7 +278,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     this.cargoService.pesquisar(cargo)
                 .subscribe((responseApi:ResponseApi) => {
       this.listaCargo = responseApi['data']; 
-      if(codigo != null) {
+      if(codigo != null && typeof codigo !== "undefined") {
         for(let i = 0; i < this.listaCargo.length; i++) {
           if(codigo == this.listaCargo[i].codigo) {
             this.contato.cargo = this.listaCargo[i];

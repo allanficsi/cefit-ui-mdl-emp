@@ -1,0 +1,545 @@
+<section>    
+  <div class="section-body">
+
+    <!-- <div *ngIf="mensagem">      
+      {{mensagem.text}}
+    </div> -->
+
+    <!-- BEGIN BASICDATION -->
+    <div class="row">     
+
+      <div class="col-lg-12">
+        <div class="card card-underline">
+          <div class="card-head card-head-sm">
+            <header><b>Profissional - Cadastrar</b></header>
+          </div>
+          
+          <div class="card-body">
+            <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8"  (ngSubmit)="inserir()">
+              
+              <h5>Os campos com * são obrigatórios.</h5>
+
+
+              <!-- DADOS GERAIS -->
+              <div class="card card-outlined style-primary" id="divDadosGeraisUsuario">
+                <div class="card-head">
+                  <header>Dados Gerais</header>
+                </div>
+                
+                <div class="card-body" style="display: block;">          
+
+                  <div class="row">
+                    
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" maxlength="18" aptValidaCpf autocomplete="off"
+                        [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'
+                              name="cpf" class="form-control" required>  
+                        <label>CPF *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" autocomplete="off" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.registroGeral" mask='00000000000000'
+                                name="cnpj" class="form-control" required>  
+                        <label>RG *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataExpedicaoContato">
+                          <div class="input-group-content">
+                            <input matInput [matDatepicker]="picker1" onkeypress="return formataData(event, this);" (click)="picker1.open()" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg" name="dataEmissaoRg"
+                                  class="form-control" [max]="maxDate" maxlength="10" #dataEmissaoRg="ngModel" autocomplete="off">
+                            <label>Data de Expedição *</label>
+                          </div>
+                          
+                          <span class="input-group-addon cal" (click)="picker1.open()"><i class="fa fa-calendar"></i></span>
+                          <mat-datepicker-toggle style="display: none;" matSuffix [for]="picker1" class="input-group-addon cal"></mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker>
+                        </div>                        
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <input type="text" autocomplete="off" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.orgaoEmissorRg"
+                                name="orgaoEmissorRg" maxlength="20" class="form-control" required> 
+                        <label>Org. Emissor *</label>
+                      </div>
+                    </div>
+    
+                    <div class="col-sm-1">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.ufOrgaoEmissorRg" name="ufRg" #ufRg="ngModel" required>
+                          <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
+                        </select>
+                        <label>UF *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" maxlength="80" autocomplete="off" [(ngModel)]="objetoAtualiza.cadastroUnico.nome"
+                                name="nome" class="form-control" required>  
+                        <label>Nome *</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <input type="text" maxlength="80" autocomplete="off" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.nomeMae"
+                                name="nomeMae" class="form-control" required>  
+                        <label>Nome da Mãe *</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataNascimentoContato">
+                          <div class="input-group-content">
+                            <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" (click)="picker.open()" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
+                                  class="form-control" [max]="maxDate" maxlength="10" #dataNascimento="ngModel" autocomplete="off">
+                            <label>Data de Nascimento *</label>
+                          </div>
+                          
+                          <span class="input-group-addon cal" (click)="picker.open()"><i class="fa fa-calendar"></i></span>
+                          <mat-datepicker-toggle style="display: none;" matSuffix [for]="picker" class="input-group-addon cal"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                        </div>                        
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label>Sexo *</label>
+                        <div style="margin-top: 10px;">
+                        <label class="radio-inline radio-styled">
+                          <input type="radio" value="M" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.sexo" name="sexo" #sexo="ngModel" >
+                          <span>Masculino</span>
+                        </label>
+                        <label class="radio-inline radio-styled">
+                          <input type="radio" value="F" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.sexo" name="sexo" #sexo="ngModel" >
+                          <span>Feminino</span>
+                        </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.estadoCivil" name="estadoCivil" #estadoCivil="ngModel" required>
+                          <option *ngFor="let estadoCivil of listaEstadoCivil" [ngValue]="estadoCivil.valorCampo">{{estadoCivil.nomeValor}}</option>
+                        </select>
+                        <label>Estado Civil *</label>
+                      </div>
+                    </div>
+
+                  </div>
+                                
+                </div>
+              </div>
+
+              <!-- OUTRAS INFORMACOES -->
+              <div class="card card-outlined style-primary" id="divEndereco">
+                <div class="card-head">
+                  <header>Outras Informações</header>
+                </div>
+              
+                <div class="card-body" style="display: block;">          
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" maxlength="7" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroInss" mask='00000000000'
+                                name="numeroInss" class="form-control" required>  
+                        <label>INSS</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" maxlength="11" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroPis" mask='00000000000'
+                                name="numeroPis" class="form-control" required>  
+                        <label>PIS *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" maxlength="7" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroInscricaoPrefeitura" mask='00000000000'
+                                name="numeroInscricaoPrefeitura" class="form-control" required>  
+                        <label>Inscrição Prefeitura</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" maxlength="8" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroCtps" mask='00000000'
+                                name="numeroCtps" class="form-control" required>  
+                        <label>CTPS *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" maxlength="7" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroSerieCtps" mask='00000000000'
+                                name="numeroSerieCtps" class="form-control" required>  
+                        <label>Série *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataExpedicaoCtps">
+                          <div class="input-group-content">
+                            <input matInput [matDatepicker]="dtExpCtps" onkeypress="return formataData(event, this);" (click)="dtExpCtps.open()" [(ngModel)]="objetoAtualiza.dataEmissaoCtps" name="dataExpedicaoCtps"
+                                  class="form-control" [max]="maxDate" maxlength="10" #dataEmissaoCtps="ngModel" autocomplete="off">
+                            <label>Data de Emissão CTPS *</label>
+                          </div>
+                          
+                          <span class="input-group-addon cal" (click)="dtExpCtps.open()"><i class="fa fa-calendar"></i></span>
+                          <mat-datepicker-toggle style="display: none;" matSuffix [for]="picker" class="input-group-addon cal"></mat-datepicker-toggle>
+                          <mat-datepicker #dtExpCtps></mat-datepicker>
+                        </div>                        
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="objetoAtualiza.ufCtps" name="ufCtps" #ufCtps="ngModel" required>
+                          <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
+                        </select>
+                        <label>Estado *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <label>É Psicólogo? *</label>
+                        <div style="margin-top: 10px;">
+                        <label class="radio-inline radio-styled">
+                          <input type="radio" value="S" [(ngModel)]="objetoAtualiza.flagPsicologo" name="flagPsicologo" #flagPsicologo="ngModel" >
+                          <span>Sim</span>
+                        </label>
+                        <label class="radio-inline radio-styled">
+                          <input type="radio" value="N" [(ngModel)]="objetoAtualiza.flagPsicologo" name="flagPsicologo" #flagPsicologo="ngModel" >
+                          <span>Não</span>
+                        </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <input type="text" maxlength="80" [(ngModel)]="objetoAtualiza.observacao" placeholder="Informe aqui dados como fumante ou não fumante, e outras observações relevantes sobre o perfil do trabalhador"
+                                name="observacao" class="form-control" autocomplete="off" required>   
+                        <label>Observações</label>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <!-- QUALIFICACOES -->
+              <div class="card card-outlined style-primary" id="divEndereco">
+                <div class="card-head">
+                  <header>Qualificação</header>
+                </div>
+              
+                <div class="card-body" style="display: block;">          
+
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div class="form-group">
+                          <div class="input-group">
+                            <div class="input-group-content">
+                              <select class="form-control" [(ngModel)]="qualificacao" name="qualificacao" required>
+                                <option [ngValue]="null">- Selecione a Qualificação -</option>
+                                <option *ngFor="let qual of listaQualificacao" [ngValue]="qual">{{qual.descricao}}</option>
+                              </select>   
+                              <label>Qualificação *</label>
+                            </div>
+
+                            <div class="input-group-btn">
+                              <button class="btn btn-default" (click)="preparaAddQualificacao()" type="button">Adicionar Qualificaçao</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row small-padding">
+                    <div class="pull-left">
+                        <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarQualificacao()">
+                          Adicionar Qualificacao
+                        </button> 
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th>Descrição</th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let qualificacao of listaProfissionalQualificacao; let i = index" [attr.data-index]="i">
+                            <td style="width: 97%;">{{qualificacao.descricaoQualificacao}}</td>
+                            <td style="width: 3%;">
+                              <i class="glyphicon glyphicon-trash" (click)="excluirQualificacao(i)" style="cursor: pointer;" title="Inativar"></i>
+                            </td>
+                          </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <!-- ENDERECO -->
+              <div class="card card-outlined style-primary" id="divEndereco">
+                <div class="card-head">
+                  <header>Endereço</header>
+                </div>
+              
+                <div class="card-body" style="display: block;">          
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="endereco.objTipo" name="objTipo" #objTipo="ngModel" required>
+                          <option *ngFor="let tipoEndereco of listaTipoEndereco" [ngValue]="tipoEndereco">{{tipoEndereco.nomeValor}}</option>
+                        </select>   
+                        <label>Tipo de Endereço *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <input type="text" maxlength="18" [(ngModel)]="endereco.cepFormatado" (blur)="pesquisarCep()"
+                              mask='00.000-000' autocomplete="off" name="cepFormatado" class="form-control" required>
+                        <label>CEP *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.logradouro" 
+                                name="logradouro" class="form-control" required autocomplete="off">
+                        <label>Logradrouro *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <input type="text" maxlength="30" [(ngModel)]="endereco.numero" autocomplete="off"
+                                name="numero" class="form-control" required >
+                        <label>Número *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" maxlength="30" [(ngModel)]="endereco.complemento" 
+                                name="complemento" class="form-control" required autocomplete="off">
+                        <label>Complemento</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="endereco.pontoReferencia" 
+                                name="complemento" class="form-control" required autocomplete="off">
+                        <label>Ponto de Referência</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.bairro" 
+                                name="bairro" class="form-control" autocomplete="off" required>
+                        <label>Bairro *</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.localidade" 
+                                name="localidade" class="form-control" autocomplete="off" required>
+                        <label>Localidade</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="endereco.extensaoEndereco.uf" name="uf" #uf="ngModel" required>
+                          <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
+                        </select>
+                        <label>Estado *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row small-padding">
+                    <div class="pull-left">
+                        <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarEndereco()">
+                          Adicionar Endereço
+                        </button> 
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th>Tipo de Endereço</th>
+                            <th>Cep</th>
+                            <th>Logradouro</th>
+                            <th>Número</th>
+                            <th>Complemento</th>
+                            <th>Ponto de Referência</th>
+                            <th>Bairro</th>
+                            <th>Cidade</th>
+                            <th>Estado</th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let endereco of listaEndereco; let i = index" [attr.data-index]="i">
+                            <td>{{endereco.descricaoTipo}}</td>
+                            <td>{{endereco.cepFormatado | mask: '00.000-000'}}</td>
+                            <td>{{endereco.extensaoEndereco.logradouro}}</td>
+                            <td >{{endereco.numero}}</td>
+                            <td>{{endereco.complemento}}</td>
+                            <td>{{endereco.pontoReferencia}}</td>
+                            <td>{{endereco.extensaoEndereco.bairro}}</td>
+                            <td>{{endereco.extensaoEndereco.localidade}}</td>
+                            <td>{{endereco.extensaoEndereco.uf}}</td>
+                            <td style="width: 3%;">
+                                <i class="glyphicon glyphicon-trash" (click)="excluirEndereco(i)" style="cursor: pointer;" title="Inativar"></i>
+                            </td>
+                          </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+    
+              <!-- CONTATO -->
+              <div class="card card-outlined style-primary" id="divContato">
+                <div class="card-head">
+                  <header>Contato</header>
+                </div>
+              
+                <!-- Telefones PF -->
+                <div class="card-body" style="display: block;">          
+
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                          <select class="form-control" [(ngModel)]="telefonePf.objTipo" name="objtipo" #objTipo="ngModel" required>
+                            <option *ngFor="let tipo of listaTipoTelefone" [ngValue]="tipo">{{tipo.nomeValor}}</option>
+                          </select>
+                        <label>Tipo</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                          <input type="text" maxlength="2" [(ngModel)]="telefonePf.ddd" autocomplete="off"
+                                  mask='00' name="dddPf" class="form-control" required>
+                        <label>DDD *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input type="text" maxlength="9" [(ngModel)]="telefonePf.numero" autocomplete="off"
+                                    mask='000000000' name="telefonePf" class="form-control" required>
+                          <label>Telefone *</label>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="row small-padding">
+                    <div class="pull-left">
+                        <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarTelefonePf()">
+                          Adicionar Telefone
+                        </button> 
+                    </div>
+                  </div>
+                    
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th>Tipo</th>
+                            <th>Número</th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let telefonePf of listaTelefonePf; let i = index" [attr.data-index]="i">
+                            <td style="width: 25%;">{{telefonePf.descricaoTipo}}</td>
+                            <td style="width: 25%;">{{telefonePf.ddd}} - {{telefonePf.numero}}</td>
+                            <td style="width: 3%;">
+                              <i class="glyphicon glyphicon-trash" (click)="excluirTelefonePf(i)" style="cursor: pointer;" title="Inativar"></i>
+                            </td>
+                          </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-actionbar">
+                  <div class="card-actionbar-row">
+                    
+                      <button *ngIf="codigo == undefined" type="submit" class="btn ink-reaction btn-raised btn-success"  accesskey="C">
+                        Cadastrar
+                      </button>  
+                    
+                    
+                      <button *ngIf="codigo != undefined" type="button" (click)="alterar()" class="btn ink-reaction btn-raised btn-success"  accesskey="A">
+                        Alterar
+                      </button>  
+                    
+                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" [routerLink]="['/trabalhador-pesquisar']">
+                    Voltar 
+                    </a>
+                  </div>
+              </div>
+            </form>
+          </div>
+
+        </div>      
+      </div>
+
+    </div>    
+
+  </div>
+  
+</section>

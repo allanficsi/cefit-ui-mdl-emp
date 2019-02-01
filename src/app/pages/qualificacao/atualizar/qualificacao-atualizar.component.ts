@@ -1,6 +1,5 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-
-import {Location} from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
@@ -10,22 +9,25 @@ import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { ResponseApi } from '../../../model/response-api';
 import { CargoService } from '../../../services/cadastro-unico/cargo.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
+import { Qualificacao } from '../../../model/profissional/qualificacao';
+import { QualificacaoService } from '../../../services/profissional/qualificacao.service';
+
 
 @Component({
-  selector: 'app-cargo-atualizar',
-  templateUrl: './cargo-atualizar.component.html',
-  styleUrls: ['./cargo-atualizar.component.css']
+  selector: 'app-qualificacao-atualizar',
+  templateUrl: './qualificacao-atualizar.component.html',
+  styleUrls: ['./qualificacao-atualizar.component.css']
 })
-export class CargoAtualizarComponent extends AptareCrudController<Cargo, {new(): Cargo}>{ 
+export class QualificacaoAtualizarComponent extends AptareCrudController<Qualificacao, {new(): Qualificacao}>{ 
 
   constructor(router: Router,
               dialogService: DialogService,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
-              service: CargoService,
+              service: QualificacaoService,
               private _location: Location,
               mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Cargo, service, mensagem);    
+    super(router, route, dialogService, dialog, Qualificacao, service, mensagem);    
   }
 
   voltar() {
@@ -33,11 +35,10 @@ export class CargoAtualizarComponent extends AptareCrudController<Cargo, {new():
   }
 
   iniciarPaginaAlterar() {
-    let cargo: Cargo = new Cargo();
-    cargo.codigo = +this.codigo;
+    let qualificacao: Qualificacao = new Qualificacao();
+    qualificacao.codigo = +this.codigo;
 
-    // GET EMPREGADOR COM O CODIGO
-    this.service.get(cargo).subscribe((responseApi:ResponseApi) => {              
+    this.service.get(qualificacao).subscribe((responseApi:ResponseApi) => {              
       this.objetoAtualiza = responseApi.data;
     } , err => {
       this.mensagem.tratarErro(err);  
@@ -58,11 +59,11 @@ export class CargoAtualizarComponent extends AptareCrudController<Cargo, {new():
   }
 
   completarPosInserir() {
-    this.router.navigate(['cargo-pesquisar']);
+    this.router.navigate(['qualificacao-pesquisar']);
   }
 
   completarPosAlterar() {
-    this.router.navigate(['cargo-pesquisar']);
+    this.router.navigate(['qualificacao-pesquisar']);
   }
 
   validarInserir() {

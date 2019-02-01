@@ -10,6 +10,11 @@ import { CargoAtualizarComponent } from '../../pages/cargo/atualizar/cargo-atual
 import { ModalCargoComponent } from '../../pages/geral/modal-cargo/modal-cargo.component';
 import { TrabalhadorPesquisarComponent } from '../../pages/trabalhador/pesquisar/trabalhador-pesquisar.component';
 import { TrabalhadorAtualizarComponent } from '../../pages/trabalhador/atualizar/trabalhador-atualizar.component';
+import { QualificacaoPesquisarComponent } from '../../pages/qualificacao/pesquisar/qualificacao-pesquisar.component';
+import { QualificacaoAtualizarComponent } from '../../pages/qualificacao/atualizar/qualificacao-atualizar.component';
+import { ProfissionalPesquisarComponent } from '../../pages/profissional/pesquisar/profissional-pesquisar.component';
+import { ProfissionalAtualizarComponent } from '../../pages/profissional/atualizar/profissional-atualizar.component';
+import { ModalQualificacaoComponent } from '../../pages/geral/modal-qualificacao/modal-qualificacao.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -25,12 +30,21 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'trabalhador-atualizar', component: TrabalhadorAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'trabalhador-atualizar/:id', component: TrabalhadorAtualizarComponent, canActivate: [AuthGuard] },
 
+    { path : 'profissional-pesquisar', component: ProfissionalPesquisarComponent, canActivate: [AuthGuard] },
+    { path : 'profissional-atualizar', component: ProfissionalAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'profissional-atualizar/:id', component: ProfissionalAtualizarComponent, canActivate: [AuthGuard] },
+
     { path : 'cargo-pesquisar', component: CargoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'cargo-atualizar', component: CargoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'cargo-atualizar/:id', component: CargoAtualizarComponent, canActivate: [AuthGuard] },
 
+    { path : 'qualificacao-pesquisar', component: QualificacaoPesquisarComponent, canActivate: [AuthGuard] },
+    { path : 'qualificacao-atualizar', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'qualificacao-atualizar/:id', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },
+
     { path : 'modal-telefone', component: ModalTelefoneComponent, canActivate: [AuthGuard] },
     { path : 'modal-cargo', component: ModalCargoComponent, canActivate: [AuthGuard] },
+    { path : 'modal-qualificacao', component: ModalQualificacaoComponent, canActivate: [AuthGuard] },
 
 
 ]

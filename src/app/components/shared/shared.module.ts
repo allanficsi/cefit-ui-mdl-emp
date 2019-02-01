@@ -46,8 +46,15 @@ import { CargoAtualizarComponent } from '../../pages/cargo/atualizar/cargo-atual
 import { ModalCargoComponent } from '../../pages/geral/modal-cargo/modal-cargo.component';
 import { TrabalhadorPesquisarComponent } from '../../pages/trabalhador/pesquisar/trabalhador-pesquisar.component';
 import { TrabalhadorService } from '../../services/trabalhador/trabalhador.service';
-import { TrabalhadorAtualizarComponent } from 'src/app/pages/trabalhador/atualizar/trabalhador-atualizar.component';
-import { CboService } from 'src/app/services/trabalhador/cbo.service';
+import { TrabalhadorAtualizarComponent } from '../../pages/trabalhador/atualizar/trabalhador-atualizar.component';
+import { CboService } from '../../services/trabalhador/cbo.service';
+import { QualificacaoPesquisarComponent } from '../../pages/qualificacao/pesquisar/qualificacao-pesquisar.component';
+import { QualificacaoService } from '../../services/profissional/qualificacao.service';
+import { QualificacaoAtualizarComponent } from '../../pages/qualificacao/atualizar/qualificacao-atualizar.component';
+import { ProfissionalPesquisarComponent } from '../../pages/profissional/pesquisar/profissional-pesquisar.component';
+import { ProfissionalService } from '../../services/profissional/profissional.service';
+import { ProfissionalAtualizarComponent } from '../../pages/profissional/atualizar/profissional-atualizar.component';
+import { ModalQualificacaoComponent } from 'src/app/pages/geral/modal-qualificacao/modal-qualificacao.component';
 
 
 @NgModule({
@@ -92,11 +99,18 @@ import { CboService } from 'src/app/services/trabalhador/cbo.service';
         TrabalhadorPesquisarComponent,
         TrabalhadorAtualizarComponent,
 
+        ProfissionalPesquisarComponent,
+        ProfissionalAtualizarComponent,
+
         CargoPesquisarComponent,
         CargoAtualizarComponent,
 
+        QualificacaoPesquisarComponent,
+        QualificacaoAtualizarComponent,
+
         ModalTelefoneComponent,
         ModalCargoComponent,
+        ModalQualificacaoComponent,
     ],
     providers: [
       LovService,
@@ -109,7 +123,9 @@ import { CboService } from 'src/app/services/trabalhador/cbo.service';
       DominioService,
       EmpregadorService,
       TrabalhadorService,
+      ProfissionalService,
       CargoService,
+      QualificacaoService,
       CnaeService,
       CboService,
       
