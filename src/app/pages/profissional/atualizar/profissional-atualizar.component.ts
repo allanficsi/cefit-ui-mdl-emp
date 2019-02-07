@@ -40,7 +40,7 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
   endereco: Endereco;
   telefonePf: Telefone;
   qualificacao: Qualificacao;
-  profissionalQualificacao = [];
+  //profissionalQualificacao = [];
 
   constructor(router: Router,
               dialogService: DialogService,
@@ -135,7 +135,7 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
       this.listaProfissionalQualificacao = [];
       if(typeof this.objetoAtualiza.listaProfissionalQualificacao !== 'undefined') {
         for(let i = 0; i < this.objetoAtualiza.listaProfissionalQualificacao.length; i++) {
-          this.listaProfissionalQualificacao.push(this.listaProfissionalQualificacao[i]);
+          this.listaProfissionalQualificacao.push(this.objetoAtualiza.listaProfissionalQualificacao[i]);
         }
       }
       
@@ -444,7 +444,10 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
       return false;
     }
 
-    if(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg == null || (typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg == 'undefined')) {
+    console.log(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg);
+    if(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg == null 
+      || (typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg == 'undefined'
+      || this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg.toString() == '')) {
       this.mensagem.tratarErroPersonalizado("", "O campo Data de Expedição é obrigatório.");
       return false;
     }
@@ -466,26 +469,6 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
 
     if(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento == null || typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento === 'undefined') {
       this.mensagem.tratarErroPersonalizado("", "O campo Data de Nascimento é obrigatório.");
-      return false;
-    }
-
-    if(this.objetoAtualiza.numeroPis == null || typeof this.objetoAtualiza.numeroPis === 'undefined') {
-      this.mensagem.tratarErroPersonalizado("", "O campo PISS é obrigatório.");
-      return false;
-    }
-
-    if(this.objetoAtualiza.numeroCtps == null || typeof this.objetoAtualiza.numeroCtps === 'undefined') {
-      this.mensagem.tratarErroPersonalizado("", "O campo CTPS é obrigatório.");
-      return false;
-    }
-
-    if(this.objetoAtualiza.numeroSerieCtps == null || typeof this.objetoAtualiza.numeroSerieCtps === 'undefined') {
-      this.mensagem.tratarErroPersonalizado("", "O campo Série é obrigatório.");
-      return false;
-    }
-
-    if(this.objetoAtualiza.dataEmissaoCtps == null || typeof this.objetoAtualiza.dataEmissaoCtps === 'undefined') {
-      this.mensagem.tratarErroPersonalizado("", "O campo Data de Emissão CTPS é obrigatório.");
       return false;
     }
 

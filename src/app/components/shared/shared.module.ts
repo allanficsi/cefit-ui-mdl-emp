@@ -2,6 +2,7 @@ import { AptSoNumeroDirective } from './../../diretivas/sonumero/apt-so-numero.d
 import { ValidaCpfDirective } from './../../diretivas/validaCpf/apt-valida-cpf.directive';
 import { AptValidaCnpjDirective } from './../../diretivas/validaCnpj/apt-valida-cnpj.directive';
 import { NgModule } from '@angular/core';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { DialogService } from './../../dialog-service';
 import { CommonModule } from "@angular/common";
@@ -31,7 +32,7 @@ import { VariaveisLovService } from '../../services/variaveis-lov.service';
 import {NgxMaskModule} from 'ngx-mask'
 
 import { LovModalComponent } from './lov-modal/lov-modal.component';
-import { MatDialogModule, MatButtonModule, MatIconModule, MatMenuModule, MatCardModule, MatNativeDateModule, MatToolbarModule, MatDatepickerModule, MAT_DATE_LOCALE } from '@angular/material';
+import { MatDialogModule, MatButtonModule, MatIconModule, MatMenuModule, MatCardModule, MatNativeDateModule, MatToolbarModule, MatDatepickerModule, MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material';
 
 import { ToastrModule } from 'ngx-toastr';
 import { EmpregadorPesquisarComponent } from '../../pages/empregador/pesquisar/empregador-pesquisar.component';
@@ -54,7 +55,10 @@ import { QualificacaoAtualizarComponent } from '../../pages/qualificacao/atualiz
 import { ProfissionalPesquisarComponent } from '../../pages/profissional/pesquisar/profissional-pesquisar.component';
 import { ProfissionalService } from '../../services/profissional/profissional.service';
 import { ProfissionalAtualizarComponent } from '../../pages/profissional/atualizar/profissional-atualizar.component';
-import { ModalQualificacaoComponent } from 'src/app/pages/geral/modal-qualificacao/modal-qualificacao.component';
+import { ModalQualificacaoComponent } from '../../pages/geral/modal-qualificacao/modal-qualificacao.component';
+import { ModalEditarContatoComponent } from '../../pages/geral/modal-editar-contato/modal-editar-contato.component';
+import { ContatoService } from '../../services/cadastro-unico/contato.service';
+import { DateFormat } from './util/date-format';
 
 
 @NgModule({
@@ -111,6 +115,7 @@ import { ModalQualificacaoComponent } from 'src/app/pages/geral/modal-qualificac
         ModalTelefoneComponent,
         ModalCargoComponent,
         ModalQualificacaoComponent,
+        ModalEditarContatoComponent,
     ],
     providers: [
       LovService,
@@ -128,13 +133,15 @@ import { ModalQualificacaoComponent } from 'src/app/pages/geral/modal-qualificac
       QualificacaoService,
       CnaeService,
       CboService,
+      ContatoService,
       
       {
         provide: HTTP_INTERCEPTORS,
         useClass: AuthInterceptor,
         multi: true
       }, 
-      {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'}
+      { provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
+      { provide: DateAdapter, useClass: DateFormat },
       
     ]
 })

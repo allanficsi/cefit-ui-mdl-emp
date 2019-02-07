@@ -20,18 +20,58 @@
 					
 						<li class="gui-folder">
 							<a>
-								<div class="gui-icon"><i class="md md-input"></i></div>
-								<span class="title">Cadastro</span>
+								<div class="gui-icon"><i class="md md-business"></i></div>
+								<span class="title">Empregador</span>
 							</a>
 							<ul>
-								<li><a [routerLink]="['/empregador-pesquisar']" ><span class="title">Empregador</span></a></li>
-								<li><a [routerLink]="['/trabalhador-pesquisar']" ><span class="title">Trabalhador</span></a></li>
-								<li><a [routerLink]="['/profissional-pesquisar']" ><span class="title">Profissional</span></a></li>
+								<li><a [routerLink]="['/empregador-pesquisar']" ><span class="title">Pesquisar</span></a></li>
+								<li><a [routerLink]="['/empregador-atualizar']" ><span class="title">Cadastrar</span></a></li>
+							</ul>
+						</li>
+
+						<li class="gui-folder">
+							<a>
+								<div class="gui-icon"><i class="md md-group"></i></div>
+								<span class="title">Profissional</span>
+							</a>
+							<ul>
+								<li><a [routerLink]="['/profissional-pesquisar']" ><span class="title">Pesquisar</span></a></li>
+								<li><a [routerLink]="['/profissional-atualizar']" ><span class="title">Cadastrar</span></a></li>
+							</ul>
+						</li>
+
+						<li class="gui-folder">
+							<a>
+								<div class="gui-icon"><i class="fa fa-briefcase"></i></div>
+								<span class="title">Trabalhador</span>
+							</a>
+							<ul>
+								<li><a [routerLink]="['/trabalhador-pesquisar']" ><span class="title">Pesquisar</span></a></li>
+								<li><a [routerLink]="['/trabalhador-atualizar']" ><span class="title">Cadastrar</span></a></li>
+							</ul>
+						</li>
+
+						<!-- <li class="gui-folder">
+							<a>
+								<div class="gui-icon"><i class="fa fa-bank"></i></div>
+								<span class="title">Espaços</span>
+							</a>
+							<ul>
+								<li><a [routerLink]="['/espaco-pesquisar']" ><span class="title">Pesquisar</span></a></li>
+								<li><a [routerLink]="['/espaco-atualizar']" ><span class="title">Cadastrar</span></a></li>
+							</ul>
+						</li> -->
+
+						<li class="gui-folder">
+							<a>
+								<div class="gui-icon"><i class="fa fa-cogs"></i></div>
+								<span class="title">Configurações</span>
+							</a>
+							<ul>
 								<li><a [routerLink]="['/cargo-pesquisar']" ><span class="title">Cargo</span></a></li>
 								<li><a [routerLink]="['/qualificacao-pesquisar']" ><span class="title">Qualificação</span></a></li>
 							</ul>
 						</li>
-            				
 
 
 					</ul><!--end .main-menu -->

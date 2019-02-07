@@ -52,7 +52,6 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
               private dominioService: DominioService,
               private correioService: CorreioService,
               private cboService: CboService,
-              //private cnaeService: CnaeService,
               mensagem: MensagemService) {
     super(router, route, dialogService, dialog, Trabalhador, service, mensagem);    
   }

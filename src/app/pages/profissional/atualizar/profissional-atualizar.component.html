@@ -49,10 +49,10 @@
 
                     <div class="col-sm-3">
                       <div class="form-group control-width-normal">
-                        <div class="input-group date" id="textDataExpedicaoContato">
+                        <div class="input-group date" id="textDataExpedicaoProfissional">
                           <div class="input-group-content">
-                            <input matInput [matDatepicker]="picker1" onkeypress="return formataData(event, this);" (click)="picker1.open()" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg" name="dataEmissaoRg"
-                                  class="form-control" [max]="maxDate" maxlength="10" #dataEmissaoRg="ngModel" autocomplete="off">
+                            <input matInput [matDatepicker]="picker1" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg" name="dataEmissaoRg"
+                                  class="form-control">
                             <label>Data de Expedição *</label>
                           </div>
                           
@@ -153,75 +153,6 @@
               
                 <div class="card-body" style="display: block;">          
                   <div class="row">
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                        <input type="text" maxlength="7" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroInss" mask='00000000000'
-                                name="numeroInss" class="form-control" required>  
-                        <label>INSS</label>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                        <input type="text" maxlength="11" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroPis" mask='00000000000'
-                                name="numeroPis" class="form-control" required>  
-                        <label>PIS *</label>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                        <input type="text" maxlength="7" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroInscricaoPrefeitura" mask='00000000000'
-                                name="numeroInscricaoPrefeitura" class="form-control" required>  
-                        <label>Inscrição Prefeitura</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                        <input type="text" maxlength="8" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroCtps" mask='00000000'
-                                name="numeroCtps" class="form-control" required>  
-                        <label>CTPS *</label>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                        <input type="text" maxlength="7" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroSerieCtps" mask='00000000000'
-                                name="numeroSerieCtps" class="form-control" required>  
-                        <label>Série *</label>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <div class="form-group control-width-normal">
-                        <div class="input-group date" id="textDataExpedicaoCtps">
-                          <div class="input-group-content">
-                            <input matInput [matDatepicker]="dtExpCtps" onkeypress="return formataData(event, this);" (click)="dtExpCtps.open()" [(ngModel)]="objetoAtualiza.dataEmissaoCtps" name="dataExpedicaoCtps"
-                                  class="form-control" [max]="maxDate" maxlength="10" #dataEmissaoCtps="ngModel" autocomplete="off">
-                            <label>Data de Emissão CTPS *</label>
-                          </div>
-                          
-                          <span class="input-group-addon cal" (click)="dtExpCtps.open()"><i class="fa fa-calendar"></i></span>
-                          <mat-datepicker-toggle style="display: none;" matSuffix [for]="picker" class="input-group-addon cal"></mat-datepicker-toggle>
-                          <mat-datepicker #dtExpCtps></mat-datepicker>
-                        </div>                        
-                      </div>
-                    </div>
-
-                    <div class="col-sm-2">
-                      <div class="form-group">
-                        <select class="form-control" [(ngModel)]="objetoAtualiza.ufCtps" name="ufCtps" #ufCtps="ngModel" required>
-                          <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
-                        </select>
-                        <label>Estado *</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
                     <div class="col-sm-2">
                       <div class="form-group">
                         <label>É Psicólogo? *</label>
@@ -242,7 +173,7 @@
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <input type="text" maxlength="80" [(ngModel)]="objetoAtualiza.observacao" placeholder="Informe aqui dados como fumante ou não fumante, e outras observações relevantes sobre o perfil do trabalhador"
+                        <input type="text" maxlength="80" [(ngModel)]="objetoAtualiza.observacao" placeholder="Informe observações relevantes"
                                 name="observacao" class="form-control" autocomplete="off" required>   
                         <label>Observações</label>
                       </div>
@@ -468,16 +399,16 @@
 
                     <div class="col-sm-2">
                       <div class="form-group">
-                          <input type="text" maxlength="2" [(ngModel)]="telefonePf.ddd" autocomplete="off"
-                                  mask='00' name="dddPf" class="form-control" required>
+                          <input type="text" [(ngModel)]="telefonePf.ddd" autocomplete="off"
+                                  mask='(00)' name="dddPf" class="form-control" required>
                         <label>DDD *</label>
                       </div>
                     </div>
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <input type="text" maxlength="9" [(ngModel)]="telefonePf.numero" autocomplete="off"
-                                    mask='000000000' name="telefonePf" class="form-control" required>
+                            <input type="text" [(ngModel)]="telefonePf.numero" autocomplete="off"
+                                    mask='00000-0000' name="telefonePf" class="form-control" required>
                           <label>Telefone *</label>
                         </div>
                       </div>
@@ -504,7 +435,7 @@
                         <tbody>
                           <tr *ngFor="let telefonePf of listaTelefonePf; let i = index" [attr.data-index]="i">
                             <td style="width: 25%;">{{telefonePf.descricaoTipo}}</td>
-                            <td style="width: 25%;">{{telefonePf.ddd}} - {{telefonePf.numero}}</td>
+                            <td style="width: 25%;">({{telefonePf.ddd}}) {{telefonePf.numero | mask: '00000-0000'}}</td>
                             <td style="width: 3%;">
                               <i class="glyphicon glyphicon-trash" (click)="excluirTelefonePf(i)" style="cursor: pointer;" title="Inativar"></i>
                             </td>
@@ -527,7 +458,7 @@
                         Alterar
                       </button>  
                     
-                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" [routerLink]="['/trabalhador-pesquisar']">
+                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" [routerLink]="['/profissional-pesquisar']">
                     Voltar 
                     </a>
                   </div>

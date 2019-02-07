@@ -15,6 +15,7 @@ import { QualificacaoAtualizarComponent } from '../../pages/qualificacao/atualiz
 import { ProfissionalPesquisarComponent } from '../../pages/profissional/pesquisar/profissional-pesquisar.component';
 import { ProfissionalAtualizarComponent } from '../../pages/profissional/atualizar/profissional-atualizar.component';
 import { ModalQualificacaoComponent } from '../../pages/geral/modal-qualificacao/modal-qualificacao.component';
+import { ModalEditarContatoComponent } from '../../pages/geral/modal-editar-contato/modal-editar-contato.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -45,6 +46,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'modal-telefone', component: ModalTelefoneComponent, canActivate: [AuthGuard] },
     { path : 'modal-cargo', component: ModalCargoComponent, canActivate: [AuthGuard] },
     { path : 'modal-qualificacao', component: ModalQualificacaoComponent, canActivate: [AuthGuard] },
+    { path : 'modal-editar-contato', component: ModalEditarContatoComponent, canActivate: [AuthGuard] },
 
 
 ]

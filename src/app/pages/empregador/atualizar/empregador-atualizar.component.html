@@ -125,22 +125,43 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group">
-                          <input type="text" maxlength="80" autocomplete="off"
-                          [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaJuridica.nomeFantasia" 
-                                name="nomeFantasia" class="form-control" required>  
-                          <label>Nome Fantasia *</label>
-                        </div>
+                      <div class="form-group">
+                        <input type="text" maxlength="80" autocomplete="off"
+                        [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaJuridica.nomeFantasia" 
+                              name="nomeFantasia" class="form-control" required>  
+                        <label>Nome Fantasia *</label>
                       </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <input type="text" maxlength="80" autocomplete="off" 
+                        [(ngModel)]="objetoAtualiza.cadastroUnico.email" 
+                              name="emailpj" class="form-control">  
+                        <label>Email</label>
+                      </div>
+                    </div>
                   </div>
 
                   <div class="row" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "F"'>
+                    
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" maxlength="80" autocomplete="off" 
+                        [(ngModel)]="objetoAtualiza.cadastroUnico.email" 
+                              name="emailpf" class="form-control">  
+                        <label>Email</label>  
+                      </div>
+                    </div>
+                    
                     <div class="col-sm-3">
                       <div class="form-group control-width-normal">
                         <div class="input-group date" id="textDataNascimentoContato">
                           <div class="input-group-content">
-                            <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" (click)="picker.open()" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
-                                  class="form-control" [max]="maxDate" maxlength="10" #dataNascimento="ngModel" autocomplete="off">
+                            <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
+                            class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="off"> 
                             <label>Data de Nascimento</label>
                           </div>
                           
@@ -150,8 +171,6 @@
                         </div>                        
                       </div>
                     </div>
-
-                    
 
                     <div class="col-sm-2">
                       <div class="form-group">
@@ -329,16 +348,16 @@
 
                     <div class="col-sm-2">
                       <div class="form-group">
-                          <input type="text" maxlength="2" [(ngModel)]="telefonePf.ddd" autocomplete="off"
-                                  mask='00' name="dddPf" class="form-control" required>
+                          <input type="text" [(ngModel)]="telefonePf.ddd" autocomplete="off"
+                                  mask='(00)' name="dddPf" class="form-control" required>
                         <label>DDD</label>
                       </div>
                     </div>
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <input type="text" maxlength="9" [(ngModel)]="telefonePf.numero" autocomplete="off"
-                                    mask='000000000' name="telefonePf" class="form-control" required>
+                            <input type="text" [(ngModel)]="telefonePf.numero" autocomplete="off"
+                                    mask='00000-0000' name="telefonePf" class="form-control" required>
                           <label>Telefone</label>
                         </div>
                       </div>
@@ -439,38 +458,42 @@
                       <table class="table table-condensed table-hover no-margin">
                         <thead class="style-primary-light">	
                           <tr>
-                            <th style="width: 25%;">Tipo de Contato</th>
-                            <th style="width: 25%;">Nome</th>
-                            <th style="width: 25%;">Cargo</th>
-                            <th style="width: 25%;">Email</th>
+                            <th style="width: 23%;">Tipo de Contato</th>
+                            <th style="width: 23%;">Nome</th>
+                            <th style="width: 22%;">Cargo</th>
+                            <th style="width: 23%;">Email</th>
+                            <th style="width: 3%;"></th>
                             <th style="width: 3%;"></th>
                             <th style="width: 3%;"></th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr *ngFor="let contato of listaContato; let i = index" [attr.data-index]="i">
-                              <td colspan="6">
+                              <td colspan="7" *ngIf="contato.flagAtivo == 'S'">
                                 <table class="table table-condensed table-hover no-margin">
                                   <tr>
-                                      <td style="width: 25%;">{{contato.descricaoTipoContato}}</td>
-                                      <td style="width: 25%;">{{contato.nome}}</td>
-                                      <td style="width: 25%;">{{contato.cargo.descricao}}</td>
-                                      <td style="width: 25%;">{{contato.email}}</td>
+                                      <td style="width: 23%;">{{contato.descricaoTipoContato}}</td>
+                                      <td style="width: 23%;">{{contato.nome}}</td>
+                                      <td style="width: 22%;">{{contato.cargo.descricao}}</td>
+                                      <td style="width: 23%;">{{contato.email}}</td>
                                       <td style="width: 3%;">
-                                          <i class="glyphicon glyphicon-plus-sign" (click)="preparaAdicionarTelefone(i)" style="cursor: pointer;" title="Adicionar Telefone"></i>
+                                          <i class="fa fa-plus-square" (click)="preparaAdicionarTelefone(i)" style="cursor: pointer;" title="Adicionar Telefone"></i>
                                       </td>
                                       <td style="width: 3%;">
-                                          <i class="glyphicon glyphicon-trash" (click)="excluirContato(i)" style="cursor: pointer;" title="Inativar"></i>
+                                          <i class="fa fa-edit" (click)="preparaEditarContato(i)" style="cursor: pointer;" title="Editar"></i>
+                                      </td>
+                                      <td style="width: 3%;">
+                                        <i class="fa fa-trash" (click)="excluirContato(i)" style="cursor: pointer;" title="Inativar"></i>
                                       </td>
                                   </tr>
                                   <tr *ngFor="let telefone of contato.listaTelefone; let j = index" [attr.data-index]="i">
                                     <td>{{telefone.descricaoTipo}}</td>
-                                    <td>{{telefone.ddd}} - {{telefone.numero}}</td>
+                                    <td>({{telefone.ddd}}) {{telefone.numero | mask: '00000-0000'}}</td>
                                   </tr>
                                 </table>
                               </td>
                           </tr>
-
+                        </tbody>
                       </table>
                     </div>
                   </div>
@@ -494,18 +517,19 @@
                               <option [ngValue]="null">- Selecione o CNAE -</option>
                             <option *ngFor="let cnae of listaCnae" [ngValue]="cnae.codigo">{{cnae.codigoCnae}} - {{cnae.descricao}}</option>
                           </select>   
+
                           <label>CNAE *</label>
                         </div>
                       </div>
                     </div>
 
                     <div class="row" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
-                      <div class="col-sm-2">
+                      <div class="col-sm-3">
                         <div class="form-group">
                           <input type="text" maxlength="5"
                                  [(ngModel)]="objetoAtualiza.numeroFuncionarios" mask='00000'
                                  name="numeroFuncionarios" class="form-control" autocomplete="off" required>   
-                          <label>Quantidade de Funcionários *</label>
+                          <label>Quantidade de Funcionários</label>
                         </div>
                       </div>
 

@@ -1,0 +1,67 @@
+
+<!-- BEGIN BASICDATION -->
+<div class="row">     
+
+    <div class="col-lg-12">
+      
+        <div class="card-head card-head-sm">
+          <header><b>Editar Contato</b></header>
+        </div>
+    
+        <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
+          
+          <div class="card-body" style="display: block;">          
+            
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <select class="form-control" [(ngModel)]="objetoAtualiza.objTipoContato" name="objTipoContato" #objTipoContato="ngModel" required>
+                    <option *ngFor="let tipoContato of listaTipoContato" [ngValue]="tipoContato">{{tipoContato.nomeValor}}</option>
+                  </select> 
+                  <label>Tipo de Contato</label>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <select class="form-control" [(ngModel)]="objetoAtualiza.cargo" name="cargo" #cargo="ngModel" required>
+                    <option *ngFor="let cargo of listaCargo" [ngValue]="cargo">{{cargo.descricao}}</option>
+                  </select>
+                  <label>Cargo</label>
+                </div>
+              </div> 
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.nome" autocomplete="off"
+                          name="nome" class="form-control">
+                  <label>Nome</label>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.email" autocomplete="off"
+                        name="email" class="form-control">
+                  <label>Email</label>
+                </div>
+              </div> 
+            </div>
+          </div>
+
+          <div class="card-actionbar">
+              <div class="card-actionbar-row">
+                  <button type="button" (click)="editarContato()" class="btn ink-reaction btn-raised btn-success" accesskey="F">
+                    Alterar
+                  </button> 
+                  &nbsp;
+                  <button class="btn btn-default" (click)="fechar()" data-dismiss="modal" type="button">Fechar</button>
+              </div>
+          </div>
+        </form>
+      
+    </div>
+
+  </div>

@@ -24,16 +24,16 @@
 
                     <div class="col-sm-2">
                       <div class="form-group">
-                          <input type="text" maxlength="2" [(ngModel)]="telefone.ddd" autocomplete="off"
-                                 mask='00' name="ddd" class="form-control" required>
+                          <input type="text" [(ngModel)]="telefone.ddd" autocomplete="off"
+                                 mask='(00)' name="ddd" class="form-control" required>
                         <label>DDD *</label>
                       </div>
                     </div>
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <input type="text" maxlength="9" [(ngModel)]="telefone.numero" autocomplete="off"
-                                   mask='000000000' name="numera" class="form-control" required>
+                            <input type="text" [(ngModel)]="telefone.numero" autocomplete="off"
+                                   mask='00000-0000' name="numera" class="form-control" required>
                           <label>Número *</label>
                         </div>
                       </div>
