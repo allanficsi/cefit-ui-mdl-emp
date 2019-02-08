@@ -1,0 +1,55 @@
+<section>    
+  <div class="section-body">
+
+    <!-- BEGIN BASICDATION -->
+    <div class="row">     
+
+      <div class="col-lg-12">
+        <div class="card card-underline">
+          <div class="card-head card-head-sm">
+            <header><b>Item de Espaço - Cadastrar</b></header>
+          </div>
+          
+          <div class="card-body">
+              
+            <h5>Os campos com * são obrigatórios.</h5>
+
+            <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8" (ngSubmit)="inserir()">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="form-group">
+                    <input type="text" autocomplete="off" [(ngModel)]="objetoAtualiza.descricao"
+                           name="descricao" #descricao="ngModel" class="form-control">  
+                    <label>Descrição *</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-actionbar">
+                  <div class="card-actionbar-row">
+                    
+                      <button *ngIf="codigo == undefined" type="submit" class="btn ink-reaction btn-raised btn-success"  accesskey="C">
+                        Cadastrar
+                      </button>  
+                    
+                      <button *ngIf="codigo != undefined" type="button" (click)="alterar()" class="btn ink-reaction btn-raised btn-success"  accesskey="A">
+                        Alterar
+                      </button>  
+                    
+                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" (click)="voltar()">
+                      Voltar 
+                    </a>
+                  </div>
+              </div>
+
+            </form>
+          </div>
+
+        </div>      
+      </div>
+
+    </div>    
+
+  </div>
+  
+</section>

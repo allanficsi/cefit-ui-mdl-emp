@@ -513,10 +513,17 @@
                     <div class="row" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
                       <div class="col-sm-8">
                         <div class="form-group">
-                          <select class="form-control" [(ngModel)]="objetoAtualiza.codigoCnae" name="codigoCnae" #codigoCnae="ngModel" required>
+                          <!-- <select class="form-control" [(ngModel)]="objetoAtualiza.codigoCnae" name="codigoCnae" #codigoCnae="ngModel" required>
                               <option [ngValue]="null">- Selecione o CNAE -</option>
-                            <option *ngFor="let cnae of listaCnae" [ngValue]="cnae.codigo">{{cnae.codigoCnae}} - {{cnae.descricao}}</option>
-                          </select>   
+                              <option *ngFor="let cnae of listaCnae" [ngValue]="cnae.codigo">{{cnae.codigoCnae}} - {{cnae.descricao}}</option>
+                          </select>    -->
+
+                            <input matInput [(ngModel)]="objetoAtualiza.codigoCnae" name="codigoCnae" [matAutocomplete]="auto" autocomplete="off">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of listaCnae" [value]="option">
+                                    {{option.descricao}}
+                                </mat-option>
+                            </mat-autocomplete>
 
                           <label>CNAE *</label>
                         </div>

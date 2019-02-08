@@ -32,7 +32,7 @@ import { VariaveisLovService } from '../../services/variaveis-lov.service';
 import {NgxMaskModule} from 'ngx-mask'
 
 import { LovModalComponent } from './lov-modal/lov-modal.component';
-import { MatDialogModule, MatButtonModule, MatIconModule, MatMenuModule, MatCardModule, MatNativeDateModule, MatToolbarModule, MatDatepickerModule, MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material';
+import { MatDialogModule, MatButtonModule, MatIconModule, MatMenuModule, MatCardModule, MatNativeDateModule, MatToolbarModule, MatDatepickerModule, MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter, MatAutocompleteModule, MatFormFieldModule } from '@angular/material';
 
 import { ToastrModule } from 'ngx-toastr';
 import { EmpregadorPesquisarComponent } from '../../pages/empregador/pesquisar/empregador-pesquisar.component';
@@ -78,7 +78,9 @@ import { DateFormat } from './util/date-format';
         MatCardModule,
         MatMenuModule,
         MatIconModule,
-        MatButtonModule,        
+        MatButtonModule,
+        MatAutocompleteModule,
+        MatFormFieldModule,  
         BrowserAnimationsModule,
         MatDatepickerModule,
         MatNativeDateModule,

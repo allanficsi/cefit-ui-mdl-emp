@@ -104,7 +104,7 @@
                         <div class="input-group date" id="textDataNascimentoContato">
                           <div class="input-group-content">
                             <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" (click)="picker.open()" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
-                                  class="form-control" [max]="maxDate" maxlength="10" #dataNascimento="ngModel" autocomplete="off">
+                                  class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="off">
                             <label>Data de Nascimento *</label>
                           </div>
                           

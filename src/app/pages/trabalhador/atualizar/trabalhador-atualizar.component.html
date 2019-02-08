@@ -52,7 +52,7 @@
                         <div class="input-group date" id="textDataExpedicaoContato">
                           <div class="input-group-content">
                             <input matInput [matDatepicker]="picker1" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg" name="dataEmissaoRg"
-                                  class="form-control" [max]="maxDate" maxlength="10" #dataEmissaoRg="ngModel" autocomplete="off">
+                                  class="form-control" maxlength="10" #dataEmissaoRg="ngModel" autocomplete="off">
                             <label>Data de Expedição *</label>
                           </div>
                           
@@ -104,7 +104,7 @@
                         <div class="input-group date" id="textDataNascimentoContato">
                           <div class="input-group-content">
                             <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
-                                  class="form-control" [max]="maxDate" maxlength="10" #dataNascimento="ngModel" autocomplete="off">
+                                  class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="off">
                             <label>Data de Nascimento *</label>
                           </div>
                           
@@ -200,7 +200,7 @@
                         <div class="input-group date" id="textDataExpedicaoCtps">
                           <div class="input-group-content">
                             <input matInput [matDatepicker]="dtExpCtps" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.dataEmissaoCtps" name="dataExpedicaoCtps"
-                                  class="form-control" [max]="maxDate" maxlength="10" #dataEmissaoCtps="ngModel" autocomplete="off">
+                                  class="form-control" maxlength="10" #dataEmissaoCtps="ngModel" autocomplete="off">
                             <label>Data de Emissão CTPS *</label>
                           </div>
                           
