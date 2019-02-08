@@ -59,6 +59,8 @@ import { ModalQualificacaoComponent } from '../../pages/geral/modal-qualificacao
 import { ModalEditarContatoComponent } from '../../pages/geral/modal-editar-contato/modal-editar-contato.component';
 import { ContatoService } from '../../services/cadastro-unico/contato.service';
 import { DateFormat } from './util/date-format';
+import { ItemEspacoAtualizarComponent } from 'src/app/pages/item-espaco/atualizar/item-espaco-atualizar.component';
+import { ItemEspacoPesquisarComponent } from 'src/app/pages/item-espaco/pesquisar/item-espaco-pesquisar.component';
 
 
 @NgModule({
@@ -113,6 +115,9 @@ import { DateFormat } from './util/date-format';
 
         QualificacaoPesquisarComponent,
         QualificacaoAtualizarComponent,
+
+        ItemEspacoAtualizarComponent,
+        ItemEspacoPesquisarComponent,
 
         ModalTelefoneComponent,
         ModalCargoComponent,
