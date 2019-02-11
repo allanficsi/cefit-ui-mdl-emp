@@ -16,6 +16,8 @@ import { ProfissionalPesquisarComponent } from '../../pages/profissional/pesquis
 import { ProfissionalAtualizarComponent } from '../../pages/profissional/atualizar/profissional-atualizar.component';
 import { ModalQualificacaoComponent } from '../../pages/geral/modal-qualificacao/modal-qualificacao.component';
 import { ModalEditarContatoComponent } from '../../pages/geral/modal-editar-contato/modal-editar-contato.component';
+import { ItemEspacoPesquisarComponent } from '../../pages/item-espaco/pesquisar/item-espaco-pesquisar.component';
+import { ItemEspacoAtualizarComponent } from '../../pages/item-espaco/atualizar/item-espaco-atualizar.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -38,6 +40,10 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'cargo-pesquisar', component: CargoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'cargo-atualizar', component: CargoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'cargo-atualizar/:id', component: CargoAtualizarComponent, canActivate: [AuthGuard] },
+
+    { path : 'item-espaco-pesquisar', component: ItemEspacoPesquisarComponent, canActivate: [AuthGuard] },
+    { path : 'item-espaco-atualizar', component: ItemEspacoAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'item-espaco-atualizar/:id', component: ItemEspacoAtualizarComponent, canActivate: [AuthGuard] },
 
     { path : 'qualificacao-pesquisar', component: QualificacaoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'qualificacao-atualizar', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },

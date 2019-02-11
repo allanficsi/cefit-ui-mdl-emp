@@ -47,7 +47,6 @@ export class AptareCrudController<Entity,
     } else {
        this.iniciarPaginaAlterar();
     }
-
   }
 
   pesquisar() {    

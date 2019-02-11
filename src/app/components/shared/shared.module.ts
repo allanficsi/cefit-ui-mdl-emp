@@ -59,8 +59,9 @@ import { ModalQualificacaoComponent } from '../../pages/geral/modal-qualificacao
 import { ModalEditarContatoComponent } from '../../pages/geral/modal-editar-contato/modal-editar-contato.component';
 import { ContatoService } from '../../services/cadastro-unico/contato.service';
 import { DateFormat } from './util/date-format';
-import { ItemEspacoAtualizarComponent } from 'src/app/pages/item-espaco/atualizar/item-espaco-atualizar.component';
-import { ItemEspacoPesquisarComponent } from 'src/app/pages/item-espaco/pesquisar/item-espaco-pesquisar.component';
+import { ItemEspacoAtualizarComponent } from '../../pages/item-espaco/atualizar/item-espaco-atualizar.component';
+import { ItemEspacoPesquisarComponent } from '../../pages/item-espaco/pesquisar/item-espaco-pesquisar.component';
+import { ItemEspacoService } from '../../services/espaco/item-espaco.service';
 
 
 @NgModule({
@@ -141,6 +142,7 @@ import { ItemEspacoPesquisarComponent } from 'src/app/pages/item-espaco/pesquisa
       CnaeService,
       CboService,
       ContatoService,
+      ItemEspacoService,
       
       {
         provide: HTTP_INTERCEPTORS,
