@@ -148,6 +148,7 @@ import { LayoutComponent } from './layout/layout.component';
       CnaeService,
       CboService,
       ContatoService,
+      ItemEspacoService,
       
       {
         provide: HTTP_INTERCEPTORS,

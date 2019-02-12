@@ -55,7 +55,7 @@ export class ItemEspacoPesquisarComponent extends AptareCrudController<ItemEspac
   }
 
   editar(id:string) {    
-    this.router.navigate(['/itemEspaco-atualizar', id]);
+    this.router.navigate(['/item-espaco-atualizar', id]);
   }
 
 }

@@ -30,7 +30,7 @@
                   <a class="btn ink-reaction btn-raised btn-success" (click)="pesquisar()" accesskey="P">
                   Pesquisar  
                   </a> 
-                  <a class="btn ink-reaction btn-raised btn-default" [routerLink]="['/itemEspaco-atualizar']" accesskey="N">
+                  <a class="btn ink-reaction btn-raised btn-default" [routerLink]="['/item-espaco-atualizar']" accesskey="N">
                   Novo  
                   </a>                  
               </div>
@@ -66,8 +66,8 @@
                   <!-- <td> <i class="fa fa-search" (click)="visualizar(item.codigo)" title="Visualizar" style="width:18px; height: 18px; cursor: pointer;"></i></td> -->
                   <td> <i class="fa fa-edit" (click)="editar(item.codigo)" title="Editar" style="width:18px; height: 18px; cursor: pointer;"></i></td>
                   <td> 
-                    <i *ngIf='item.flagAtivo == "N"' class="fa fa-check" title="Ativar" (click)="ativarCargo(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
-                    <i *ngIf='item.flagAtivo == "S"' class="fa fa-remove" title="Inativar" (click)="inativarCargo(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
+                    <i *ngIf='item.flagAtivo == "N"' class="fa fa-check" title="Ativar" (click)="ativarItemEspaco(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
+                    <i *ngIf='item.flagAtivo == "S"' class="fa fa-remove" title="Inativar" (click)="inativarItemEspaco(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
                   </td>
                 </tr>
               </table>
