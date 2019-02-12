@@ -518,7 +518,7 @@
                               <option *ngFor="let cnae of listaCnae" [ngValue]="cnae.codigo">{{cnae.codigoCnae}} - {{cnae.descricao}}</option>
                           </select>    -->
 
-                            <input matInput [(ngModel)]="objetoAtualiza.codigoCnae" name="codigoCnae" [matAutocomplete]="auto" autocomplete="off">
+                            <input matInput [(ngModel)]="objetoAtualiza.codigoCnae" name="codigoCnae"  [matAutocomplete]="auto" autocomplete="off">
                             <mat-autocomplete #auto="matAutocomplete">
                                 <mat-option *ngFor="let option of listaCnae" [value]="option">
                                     {{option.descricao}}
