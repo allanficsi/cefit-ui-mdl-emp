@@ -21,7 +21,8 @@ import { AptareCrudService } from '../../services/shared/aptare-crud.service';
 import { EmpregadorService } from '../../services/empregador/empregador.service';
 
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../security/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -62,6 +63,7 @@ import { DateFormat } from './util/date-format';
 import { ItemEspacoAtualizarComponent } from '../../pages/item-espaco/atualizar/item-espaco-atualizar.component';
 import { ItemEspacoPesquisarComponent } from '../../pages/item-espaco/pesquisar/item-espaco-pesquisar.component';
 import { ItemEspacoService } from '../../services/espaco/item-espaco.service';
+import { LayoutComponent } from './layout/layout.component';
 
 
 @NgModule({
@@ -73,7 +75,9 @@ import { ItemEspacoService } from '../../services/espaco/item-espaco.service';
     ],
     imports: [
         RouterModule,
+        BrowserModule,
         FormsModule,
+        ReactiveFormsModule,
         HttpClientModule,
         CommonModule,
         MatDialogModule,
@@ -124,6 +128,8 @@ import { ItemEspacoService } from '../../services/espaco/item-espaco.service';
         ModalCargoComponent,
         ModalQualificacaoComponent,
         ModalEditarContatoComponent,
+        
+        LayoutComponent,
     ],
     providers: [
       LovService,

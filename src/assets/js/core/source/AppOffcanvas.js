@@ -22,10 +22,18 @@
 	// INIT
 	// =========================================================================
 
-	p.initialize = function () {
+	p.initialize = function (parentSelector) {
 		this._enableEvents();
 	};
 
+	// =========================================================================
+	// UPDATE
+	// =========================================================================
+	
+	p.update = function (parentSelector) {
+		this._enableEventsUpdate(parentSelector);
+	};
+	
 	// =========================================================================
 	// EVENTS
 	// =========================================================================
@@ -61,6 +69,25 @@
 		});
 	};
 
+	p._enableEventsUpdate = function (parentSelector) {
+		var o = this;
+	
+		if (parentSelector == undefined) parentSelector = '';
+		
+		$(parentSelector + ' [data-toggle="offcanvas"]').on('click', function (e) {
+			e.preventDefault();
+			o._handleOffcanvasOpen($(e.currentTarget));
+		});
+		
+		$(parentSelector + ' [data-dismiss="offcanvas"]').on('click', function (e) {
+			o._handleOffcanvasClose();
+		});
+		
+		o.evalScrollbar();
+		
+	};
+	
+	
 	// handlers
 	p._handleScreenSize = function (e) {
 		this.evalScrollbar(e);
@@ -77,7 +104,9 @@
 			return;
 		}
 
-		var id = btn.attr('href');
+		//ALTERADO FRAMEWORK APTARE 
+		//var id = btn.attr('href');
+		var id = btn.data('target');
 
 		// Set data variables
 		this._useBackdrop = (btn.data('backdrop') === undefined) ? true : btn.data('backdrop');
@@ -173,14 +202,58 @@
 
 	p._addBackdrop = function () {
 		if ($('#base > .backdrop').length === 0 && $('#base').data('backdrop') !== 'hidden') {
-			$('<div class="backdrop"></div>').hide().appendTo('#base').fadeIn();
+			
+			var modalExists = '';
+			
+			$('.modal').each(function(index, element){
+					if ($(element).css('display') == 'block')
+					{
+						modalExists = element.id;
+					}
+					
+				});
+			
+			if (modalExists != '')
+			{
+				$('<div class="modal-backdrop hasModal fade-in" style="height:100%; background: rgba(0, 0, 0, 0.4)!important;"></div>').hide().appendTo('#' + modalExists).fadeIn();
+			}
+			
+			else
+			{
+				$('<div class="backdrop"></div>').hide().appendTo('#base').fadeIn();
+			}
+			
 		}
 	};
 
 	p._removeBackdrop = function () {
-		$('#base > .backdrop').fadeOut(function () {
-			$(this).remove();
-		});
+		
+		var modalExists = '';
+		
+		$('.modal').each(function(index, element){
+				if ($(element).css('display') == 'block')
+				{
+					modalExists = element.id;
+				}
+				
+			});
+		
+		if (modalExists != '')
+		{
+			$('#' + modalExists + ' > .hasModal').fadeOut(function () {
+				$(this).remove();
+			});
+		}
+		
+		else
+		{
+			$('#base > .backdrop').fadeOut(function () {
+				$(this).remove();
+			});
+		}
+		
+		
+		
 	};
 
 	// =========================================================================

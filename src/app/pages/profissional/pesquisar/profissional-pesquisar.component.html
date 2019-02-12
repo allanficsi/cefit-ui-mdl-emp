@@ -41,7 +41,7 @@
 
           <div class="card-actionbar">
               <div class="card-actionbar-row">
-                  <a class="btn ink-reaction btn-raised btn-success" (click)="pesquisar()" accesskey="P">
+                  <a class="btn ink-reaction btn-raised btn-success  btn-loading-state" (click)="pesquisar()" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Pesquisando..." accesskey="P">
                   Pesquisar  
                   </a> 
                   <a class="btn ink-reaction btn-raised btn-default" [routerLink]="['/profissional-atualizar']" accesskey="N">

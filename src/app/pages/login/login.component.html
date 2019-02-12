@@ -1,14 +1,18 @@
 <!-- BEGIN LOGIN SECTION -->
-<section class="section-account">
-	<div class="img-backdrop" style="background-image: url('../../assets/img/img16.jpg')"></div>
+<section id="login" class="section-account">
+	<!-- 
+		<div class="img-backdrop" style="background-image: url('assets/img/img16.jpg')"></div>
+	 -->
+	<img src="assets/img/cefit_logo.png" style="size:contain;margin-top:60px !important;max-width:80%;max-height:80%;display:block;margin-left:auto;margin-right:auto" >  
+	<br/>
+	<br/>
+	<!-- 
 	<div class="spacer"></div>
-	<div class="card contain-sm style-transparent">
+	 -->
+	<div class="card contain-sm style-default-light">
 		<div class="card-body">
 			<div class="row">
-				<div class="col-sm-6">
-					<br/>
-					<span class="text-lg text-bold text-primary">CEFIT - Autenticação</span>
-					<br/><br/>
+				<div class="col-sm-6 col-sm-offset-3">
 					<form class="form floating-label" #form="ngForm" (ngSubmit)="login()" novalidate accept-charset="utf-8">
 						<div class="form-group">
 							<input type="text"
@@ -46,15 +50,12 @@
 						</div><!--end .row --> 
 						<br/>
 						<div class="footer text-center">
-							<img alt="Logo Aptare" src="../../assets/framework-aptare/img/footer.png">
+							<img alt="Logo Aptare" src="assets/framework-aptare/img/footer.png">
 						</div>
 					</form>
-				</div><!--end .col -->
-				<div class="col-sm-5 col-sm-offset-1 text-center">
-					
-						</div><!--end .col -->
-					</div><!--end .row -->
-				</div><!--end .card-body -->
-			</div><!--end .card -->
-		</section>
+				</div>
+			</div>		
+		</div><!--end .col -->
+	</div><!--end .card -->
+</section>
 		<!-- END LOGIN SECTION -->

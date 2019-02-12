@@ -16,12 +16,12 @@
 	// INIT
 	// =========================================================================
 
-	p.initialize = function() {
+	p.initialize = function(parentSelector) {
 		// Init events
 		this._enableEvents();
 		
-		this._initRadioAndCheckbox();
-		this._initFloatingLabels();
+		this._initRadioAndCheckbox(parentSelector);
+		this._initFloatingLabels(parentSelector);
 		this._initValidation();
 	};
 	
@@ -50,9 +50,9 @@
 	// RADIO AND CHECKBOX LISTENERS
 	// =========================================================================
 
-	p._initRadioAndCheckbox = function () {
+	p._initRadioAndCheckbox = function (parentSelector) {
 		// Add a span class the styled checkboxes and radio buttons for correct styling
-		$('.checkbox-styled input, .radio-styled input').each(function () {
+		$(parentSelector + ' .checkbox-styled input, .radio-styled input').each(function () {
 			if ($(this).next('span').length === 0) {
 				$(this).after('<span></span>');
 			}
@@ -63,10 +63,10 @@
 	// FLOATING LABELS
 	// =========================================================================
 
-	p._initFloatingLabels = function () {
+	p._initFloatingLabels = function (parentSelector) {
 		var o = this;
 
-		$('.floating-label .form-control').on('keyup change', function (e) {
+		$(parentSelector + ' .floating-label .form-control').on('keyup change', function (e) {
 			var input = $(e.currentTarget);
 
 			if ($.trim(input.val()) !== '') {
@@ -76,7 +76,7 @@
 			}
 		});
 
-		$('.floating-label .form-control').each(function () {
+		$(parentSelector + ' .floating-label .form-control').each(function () {
 			var input = $(this);
 
 			if ($.trim(input.val()) !== '') {
@@ -84,7 +84,7 @@
 			}
 		});
 
-		$('.form-horizontal .form-control').each(function () {
+		$(parentSelector + ' .form-horizontal .form-control').each(function () {
 			$(this).after('<div class="form-control-line"></div>');
 		});
 	};

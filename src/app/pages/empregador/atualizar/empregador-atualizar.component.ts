@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
@@ -33,12 +33,16 @@ import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
 import { FormControl } from '@angular/forms';
 
+
 @Component({
   selector: 'app-empregador-atualizar',
   templateUrl: './empregador-atualizar.component.html',
   styleUrls: ['./empregador-atualizar.component.css']
 })
 export class EmpregadorAtualizarComponent extends AptareCrudController<Empregador, {new(): Empregador}>{ 
+  @Input() value: any;
+  @Output() valueChange = new EventEmitter();
+ 
 
   listaTipoEndereco = [];
   listaTipoTelefone = [];
@@ -52,6 +56,9 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   endereco: Endereco;
   contato: Contato;
   telefonePf: Telefone;
+  
+  myControlCnae: FormControl = new FormControl();
+  filteredOptions: Observable<Cnae[]>;
 
   constructor(router: Router,
               dialogService: DialogService,
@@ -63,7 +70,27 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
               private cargoService: CargoService,
               private cnaeService: CnaeService,
               mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Empregador, service, mensagem);    
+    super(router, route, dialogService, dialog, Empregador, service, mensagem);
+ }
+
+ ngOnInit(): void {
+    super.ngOnInit();
+    this.filteredOptions = this.myControlCnae.valueChanges
+      .pipe(
+        startWith<string | Cnae>(''),
+        map(value => typeof value === 'string' ? value : value.descricao),
+        map(descricao => descricao ? this._filter(descricao) : this.listaCnae.slice())
+      );
+ }
+
+  displayFn(cnae?: Cnae): string | undefined {
+    return cnae ? cnae.descricao : undefined;
+  }
+
+  private _filter(descricao: string): Cnae[] {
+    const filterValue = descricao.toLowerCase();
+
+    return this.listaCnae.filter(option => option.descricao.toLowerCase().indexOf(filterValue) === 0);
   }
 
   setListasStaticas() {
@@ -157,6 +184,15 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
         }
       }
 
+      //setar valor Cnae
+      for(var i=0; i < this.listaCnae.length;i++)
+      {
+      	 console.log(this.listaCnae[i].codigo);
+      	 if(this.listaCnae[i].codigo == this.objetoAtualiza.codigoCnae)
+      	 {
+      	 	this.objetoAtualiza.cnae = this.listaCnae[i];
+      	 }
+      }
       console.log(this.objetoAtualiza);
     } , err => {
       this.mensagem.tratarErro(err);  
@@ -539,6 +575,8 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     this.objetoAtualiza.cadastroUnico.auditoria.dataInclusao = new Date();
     this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
 
+    //LISTA CNAE
+    this.objetoAtualiza.codigoCnae = this.objetoAtualiza.cnae.codigo;
   }
 
   completarAlterar() {
@@ -598,7 +636,8 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       }
     }
 
-
+    //LISTA CNAE
+    this.objetoAtualiza.codigoCnae = this.objetoAtualiza.cnae.codigo;
     console.log(this.objetoAtualiza);
 
   }
@@ -612,7 +651,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   }
 
   validarInserir() {
-
+    
     //VALIDACAO DE CAMPOS OBRIGATORIOS PJ
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J") {
       if(this.objetoAtualiza.cadastroUnico.cnpj == null || this.objetoAtualiza.cadastroUnico.cnpj == '') {

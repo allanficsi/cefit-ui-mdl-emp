@@ -1,14 +1,16 @@
 import { UtilService } from './../../../services/util.service';
 import { AptareCrudService } from './../../../services/shared/aptare-crud.service';
-import { OnInit, AfterViewInit, AfterContentInit, OnDestroy, AfterViewChecked } from '@angular/core';
+import { OnInit, AfterViewInit, AfterContentInit, OnDestroy, AfterViewChecked, Renderer2 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ResponseApi } from '../../../model/response-api';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { DialogService } from '../../../dialog-service';
 import { MatDialog } from '@angular/material';
+import { AptareUtilController } from '../util/aptare-util-controller';
 
-export class AptareCrudController<Entity, 
-                                  CT extends { new(itemEntity?: any): Entity },> 
+export class AptareCrudController <Entity, 
+                                  CT extends { new(itemEntity?: any): Entity },>
+                                  extends AptareUtilController  
                                   implements OnInit {
 
   listaResultado: Entity[];
@@ -23,13 +25,16 @@ export class AptareCrudController<Entity,
 
   listaUf = [];
 
+            
   constructor(public router: Router, 
               public route: ActivatedRoute,          
               public dialogService: DialogService,
               public dialog: MatDialog,
               public typeEntity: CT, 
               public service: AptareCrudService<Entity>,
-              public mensagem: MensagemService) {}
+              public mensagem: MensagemService) {
+                 super(null,router);
+              }            
 
   ngOnInit(): void {
     this.util = UtilService.getInstance();

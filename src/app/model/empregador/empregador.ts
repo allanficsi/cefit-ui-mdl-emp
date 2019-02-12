@@ -1,4 +1,5 @@
 import { CadastroUnico } from "../cadastro-unico/cadastro-unico";
+import { Cnae } from "./cnae";
 import { Auditoria } from "../auditoria";
 
 export class Empregador {
@@ -17,6 +18,7 @@ export class Empregador {
     observacao: string;
 
     cadastroUnico: CadastroUnico;
+    cnae: Cnae;
     auditoria: Auditoria;
 
 }

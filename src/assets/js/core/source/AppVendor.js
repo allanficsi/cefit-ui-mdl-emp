@@ -16,24 +16,24 @@
 	// INIT
 	// =========================================================================
 
-	p.initialize = function() {
-		this._initScroller();
-		this._initTabs();
-		this._initTooltips();
-		this._initPopover();
-		this._initSortables();
+	p.initialize = function(parentSelector) {
+		this._initScroller(parentSelector);
+		this._initTabs(parentSelector);
+		this._initTooltips(parentSelector);
+		this._initPopover(parentSelector);
+		this._initSortables(parentSelector);
 	};
 
 	// =========================================================================
 	// SCROLLER
 	// =========================================================================
 
-	p._initScroller = function () {
+	p._initScroller = function (parentSelector) {
 		if (!$.isFunction($.fn.nanoScroller)) {
 			return;
 		}
 
-		$.each($('.scroll'), function (e) {
+		$.each($(parentSelector + ' .scroll'), function (e) {
 			var holder = $(this);
 			materialadmin.AppVendor.addScroller(holder);
 		});
@@ -115,12 +115,12 @@
 	// SORTABLE
 	// =========================================================================
 
-	p._initSortables = function () {
+	p._initSortables = function (parentSelector) {
 		if (!$.isFunction($.fn.sortable)) {
 			return;
 		}
 
-		$('[data-sortable="true"]').sortable({
+		$(parentSelector + ' [data-sortable="true"]').sortable({
 			placeholder: "ui-state-highlight",
 			delay: 100,
 			start: function (e, ui) {
@@ -134,11 +134,11 @@
 	// TABS
 	// =========================================================================
 
-	p._initTabs = function () {
+	p._initTabs = function (parentSelector) {
 		if (!$.isFunction($.fn.tab)) {
 			return;
 		}
-		$('[data-toggle="tabs"] a').click(function (e) {
+		$(parentSelector + ' [data-toggle="tabs"] a').click(function (e) {
 			e.preventDefault();
 			$(this).tab('show');
 		});
@@ -148,22 +148,22 @@
 	// TOOLTIPS
 	// =========================================================================
 
-	p._initTooltips = function () {
+	p._initTooltips = function (parentSelector) {
 		if (!$.isFunction($.fn.tooltip)) {
 			return;
 		}
-		$('[data-toggle="tooltip"]').tooltip({container: 'body'});
+		$(parentSelector + ' [data-toggle="tooltip"]').tooltip({container: 'body'});
 	};
 
 	// =========================================================================
 	// POPOVER
 	// =========================================================================
 
-	p._initPopover = function () {
+	p._initPopover = function (parentSelector) {
 		if (!$.isFunction($.fn.popover)) {
 			return;
 		}
-		$('[data-toggle="popover"]').popover({container: 'body'});
+		$(parentSelector + ' [data-toggle="popover"]').popover({container: 'body'});
 	};
 	
 	// =========================================================================

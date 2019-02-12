@@ -28,18 +28,21 @@
 	// INIT
 	// =========================================================================
 
-	p.initialize = function () {
+	p.initialize = function (parentSelector) {
 		// Init events
 		this._enableEvents();
 
 		// Init base
-		this._initBreakpoints();
+		//this._initBreakpoints();
 
 		// Init components
-		this._initInk();
+		this._initInk(parentSelector);
 
 		// Init accordion
 		this._initAccordion();
+		
+		// Init full screen
+		this._initFullScreen(parentSelector);
 	};
 
 	// =========================================================================
@@ -57,6 +60,8 @@
 				o._handleFunctionCalls(e);
 			}, 300);
 		});
+		
+		$('.dropdown-toggle').dropdown();
 	};
 
 	// =========================================================================
@@ -110,10 +115,10 @@
 	// INK EFFECT
 	// =========================================================================
 
-	p._initInk = function () {
+	p._initInk = function (parentSelector) {
 		var o = this;
 
-		$('.ink-reaction').on('click', function (e) {
+		$(parentSelector + ' .ink-reaction').on('click', function (e) {
 			var bound = $(this).get(0).getBoundingClientRect();
 			var x = e.clientX - bound.left;
 			var y = e.clientY - bound.top;
@@ -135,6 +140,16 @@
 				ink.remove();
 			}, 1500);
 		});
+	};
+	
+	// =========================================================================
+	// FULL SCREEN
+	// =========================================================================
+	
+	p._initFullScreen = function (parentSelector) {
+		$(parentSelector + ' .toggle-fullscreen').click(function() {
+			toggleFullScreen();
+		  });
 	};
 
 	p.getBackground = function (item) {

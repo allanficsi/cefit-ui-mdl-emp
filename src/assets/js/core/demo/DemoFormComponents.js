@@ -16,16 +16,16 @@
 	// INIT
 	// =========================================================================
 
-	p.initialize = function () {
-		this._initTypeahead();
-		this._initAutocomplete();
-		this._initSelect2();
-		this._initMultiSelect();
-		this._initInputMask();
-		this._initDatePicker();
-		this._initSliders();
-		this._initSpinners();
-		this._initColorPickers();
+	p.initialize = function (parentSelector) {
+		//this._initTypeahead();
+		//this._initAutocomplete();
+		//this._initSelect2();
+		//this._initMultiSelect();
+		//this._initInputMask();
+		//this._initDatePicker();
+		//this._initSliders(parentSelector);
+		//this._initSpinners();
+		//this._initColorPickers();
 	};
 
 	// =========================================================================
@@ -119,33 +119,34 @@
 	// =========================================================================
 
 	p._initSliders = function () {
-		if (!$.isFunction($.fn.slider)) {
+		if (!$.isFunction($.struts2_jquery_ui.slider)) {
 			return;
 		}
-		$("#slider").slider({range: "min", value: 50, min: 0, max: 100,
+		$(parentSelector + " #slider").slider({range: "min", value: 6, min: 3, max: 6,
 			slide: function (event, ui) {
 				$('#slider-value').empty().append(ui.value);
 			}
 		});
-		$("#slider-step").slider({value: 100, min: 0, max: 500, step: 50,
+		/*$($(parentSelector + " #slider-step").slider({value: 100, min: 0, max: 500, step: 50,
 			slide: function (event, ui) {
 				$('#step-value').empty().append(ui.value);
 			}
 		});
-		$("#slider-range").slider({range: true, min: 0, max: 100, values: [25, 75],
+		$($(parentSelector + " #slider-range").slider({range: true, min: 0, max: 100, values: [25, 75],
 			slide: function (event, ui) {
 				$('#range-value1').empty().append(ui.values[ 0 ]);
 				$('#range-value2').empty().append(ui.values[ 1 ]);
 			}
 		});
 
-		$("#eq > span").each(function () {
+		$($(parentSelector + " #eq > span").each(function () {
 			var value = parseInt($(this).text(), 10);
 			$(this).empty().slider({value: value, range: "min", animate: true, orientation: "vertical"});
 			$(this).css('height', '100px');
 			$(this).css('margin-right', '30px');
 			$(this).css('float', 'left');
 		});
+		*/
 	};
 
 	// =========================================================================

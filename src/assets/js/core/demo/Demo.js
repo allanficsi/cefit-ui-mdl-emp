@@ -16,13 +16,14 @@
 	// INIT
 	// =========================================================================
 
-	p.initialize = function () {
-		this._enableEvents();
+	p.initialize = function (parentSelector) {
+		this._enableEvents(parentSelector);
 
-		this._initButtonStates();
+		this._initButtonStates(parentSelector);
 		this._initIconSearch();
 		this._initInversedTogglers();
 		this._initChatMessage();
+		this._initSelect2(parentSelector);
 	};
 
 	// =========================================================================
@@ -30,22 +31,22 @@
 	// =========================================================================
 
 	// events
-	p._enableEvents = function () {
+	p._enableEvents = function (parentSelector) {
 		var o = this;
 
-		$('.card-head .tools .btn-refresh').on('click', function (e) {
+		$(parentSelector + ' .card-head .tools .btn-refresh').on('click', function (e) {
 			o._handleCardRefresh(e);
 		});
-		$('.card-head .tools .btn-collapse').on('click', function (e) {
+		$(parentSelector + ' .card-head .tools .btn-collapse').on('click', function (e) {
 			o._handleCardCollapse(e);
 		});
-		$('.card-head .tools .btn-close').on('click', function (e) {
+		$(parentSelector + ' .card-head .tools .btn-close').on('click', function (e) {
 			o._handleCardClose(e);
 		});
-		$('.card-head .tools .menu-card-styling a').on('click', function (e) {
+		$(parentSelector + ' .card-head .tools .menu-card-styling a').on('click', function (e) {
 			o._handleCardStyling(e);
 		});
-		$('.theme-selector a').on('click', function (e) {
+		$(parentSelector + ' .theme-selector a').on('click', function (e) {
 			o._handleThemeSwitch(e);
 		});
 	};
@@ -186,14 +187,14 @@
 	// INVERSE UI TOGGLERS
 	// =========================================================================
 	
-	p._initInversedTogglers = function () {
+	p._initInversedTogglers = function (parentSelector) {
 		var o = this;
 
 		
-		$('input[name="menubarInversed"]').on('change', function (e) {
+		$(parentSelector + ' input[name="menubarInversed"]').on('change', function (e) {
 			o._handleMenubarInversed(e);
 		});
-		$('input[name="headerInversed"]').on('change', function (e) {
+		$(parentSelector + ' input[name="headerInversed"]').on('change', function (e) {
 			o._handleHeaderInversed(e);
 		});
 	};
@@ -219,14 +220,23 @@
 	// BUTTON STATES (LOADING)
 	// =========================================================================
 
-	p._initButtonStates = function () {
-		$('.btn-loading-state').click(function () {
-			var btn = $(this);
-			btn.button('loading');
-			setTimeout(function () {
-				btn.button('reset');
-			}, 3000);
-		});
+	p._initButtonStates = function (parentSelector) {
+		//FUNCAO ERA FIXA LOADING DE 3 SEGUNDOS
+		//TROCADA PARA OBEDECER A REQUISICAO AJAX
+		$(parentSelector + ' .btn-loading-state').each( function (){
+			$(this).on({
+				    ajaxSend:function(e,req,o) {
+						$(this).bootstrapBtn('loading');
+					},
+					ajaxComplete:function(e,req,o) {
+						if ($(this) != null)
+						{
+							$(this).bootstrapBtn('reset');
+						}
+						
+					}});
+				});
+				
 	};
 
 	// =========================================================================
@@ -253,6 +263,21 @@
 		});
 	};
 		
+	
 	// =========================================================================
+	// SELECT2
+	// =========================================================================
+
+	p._initSelect2 = function (parentSelector) {
+		if (!$.isFunction($.fn.select2)) {
+			return;
+		}
+		$(parentSelector + " .select2-list").select2({
+			allowClear: true
+		});
+	};
+	
+	// =========================================================================
+
 	namespace.Demo = new Demo;
 }(this.materialadmin, jQuery)); // pass in (namespace, jQuery):
