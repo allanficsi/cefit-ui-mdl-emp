@@ -7,7 +7,7 @@ export class AptareUtilController implements OnInit {
   constructor(private parentSelector : string, 
               public router : Router) 
   {
-  	 console.log(parentSelector); 
+  	 //console.log(parentSelector); 
   	 if (parentSelector == null)
   	 {
   	 	this.parentSelector = '#content';	 

@@ -105,7 +105,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       this.listaTrabalhadorCbo = [];
       if(typeof this.objetoAtualiza.listaTrabalhadorCbo !== 'undefined') {
         for(let i = 0; i < this.objetoAtualiza.listaTrabalhadorCbo.length; i++) {
-          console.log(this.objetoAtualiza);
+          //console.log(this.objetoAtualiza);
           this.objetoAtualiza.listaTrabalhadorCbo[i].descricaoCbo = this.objetoAtualiza.listaTrabalhadorCbo[i].cbo.nome;
           this.listaTrabalhadorCbo.push(this.objetoAtualiza.listaTrabalhadorCbo[i]);
         }
@@ -299,7 +299,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       telefoneAdicionar.flagAtivo = 'S';
 
       this.listaTelefonePf.push(telefoneAdicionar);
-      console.log(this.listaTelefonePf);
+      //console.log(this.listaTelefonePf);
       this.resetTelefonePf();
     }
 
