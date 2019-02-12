@@ -85,7 +85,7 @@ export class AptareCrudController <Entity,
   inserir() {    
     if(this.validarInserir()) {
       this.completarInserir();
-      console.log(this.objetoAtualiza);
+      //console.log(this.objetoAtualiza);
       this.service.inserir(this.objetoAtualiza).subscribe((responseApi:ResponseApi) => {
         //RETORNO DO OBJETO PERSISTIDO
         let objeto : Entity = responseApi.data;

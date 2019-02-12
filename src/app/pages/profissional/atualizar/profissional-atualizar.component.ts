@@ -444,7 +444,7 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
       return false;
     }
 
-    console.log(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg);
+    //console.log(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg);
     if(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg == null 
       || (typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg == 'undefined'
       || this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg.toString() == '')) {

@@ -513,9 +513,9 @@
                     <div class="row" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
                       <div class="col-sm-8">
                         <div class="form-group">
-                            <input matInput [(ngModel)]="objetoAtualiza.codigoCnae" name="codigoCnae"  [matAutocomplete]="auto" autocomplete="off">
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of listaCnae" [value]="option">
+                            <input type="text" [formControl]="myControlCnae" matInput class="form-control" [(ngModel)]="objetoAtualiza.cnae" name="codigoCnae" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                                     {{option.descricao}}
                                 </mat-option>
                             </mat-autocomplete>

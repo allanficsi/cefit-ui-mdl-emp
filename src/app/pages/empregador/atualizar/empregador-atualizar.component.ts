@@ -187,13 +187,13 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       //setar valor Cnae
       for(var i=0; i < this.listaCnae.length;i++)
       {
-      	 console.log(this.listaCnae[i].codigo);
+      	 //console.log(this.listaCnae[i].codigo);
       	 if(this.listaCnae[i].codigo == this.objetoAtualiza.codigoCnae)
       	 {
       	 	this.objetoAtualiza.cnae = this.listaCnae[i];
       	 }
       }
-      console.log(this.objetoAtualiza);
+      //console.log(this.objetoAtualiza);
     } , err => {
       this.mensagem.tratarErro(err);  
     });
@@ -638,7 +638,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
 
     //LISTA CNAE
     this.objetoAtualiza.codigoCnae = this.objetoAtualiza.cnae.codigo;
-    console.log(this.objetoAtualiza);
+    //console.log(this.objetoAtualiza);
 
   }
 
@@ -773,11 +773,6 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     }
 
     return true;
-  }
-  
-  
-  teste() {
-    console.log(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento);
   }
 
   validarAlterar() {
