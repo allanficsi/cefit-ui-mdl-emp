@@ -26,11 +26,14 @@
 	// =========================================================================
 
 	p.initialize = function () {
-		this._initSparklines();
-		this._initFlotVisitors();
-		this._initRickshaw();
-		this._initKnob();
-		this._initFlotRegistration();
+		if ($('#fda_dashboard_div').length > 0)
+		{
+			//this._initSparklines();
+			//this._initFlotVisitors(data);
+			//this._initRickshaw();
+			//this._initKnob();
+			//this._initFlotRegistration();
+		}
 	};
 
 	// =========================================================================
@@ -69,7 +72,7 @@
 	// FLOT
 	// =========================================================================
 
-	p._initFlotVisitors = function () {
+	p._initFlotQuantidade = function (dataQtd, dataTicks) {
 		var o = this;
 		var chart = $("#flot-visitors");
 		
@@ -81,30 +84,19 @@
 		// Chart data
 		var data = [
 			{
-				label: 'Pageviews',
-				data: [
-					[moment().subtract(168, 'hours').valueOf(), 50],
-					[moment().subtract(144, 'hours').valueOf(), 620],
-					[moment().subtract(108, 'hours').valueOf(), 380],
-					[moment().subtract(70, 'hours').valueOf(), 880],
-					[moment().subtract(30, 'hours').valueOf(), 450],
-					[moment().subtract(12, 'hours').valueOf(), 600],
-					[moment().valueOf(), 20]
-				],
-				last: true
-			},
-			{
-				label: 'Visitors',
-				data: [
-					[moment().subtract(168, 'hours').valueOf(), 50],
-					[moment().subtract(155, 'hours').valueOf(), 520],
-					[moment().subtract(132, 'hours').valueOf(), 200],
-					[moment().subtract(36, 'hours').valueOf(), 800],
-					[moment().subtract(12, 'hours').valueOf(), 150],
-					[moment().valueOf(), 20]
-				],
+				label: 'Quantidade',
+				/*data: [
+			   		[1, 148],
+					[2, 184],
+					[3, 195],
+					[4, 204],
+					[5, 216],
+					[6, 196]
+				],*/
+				data: dataQtd,
 				last: true
 			}
+			
 		];
 		
 		// Chart options
@@ -115,21 +107,23 @@
 				shadowSize: 0,
 				lines: {
 					show: true,
-					lineWidth: false,
-					fill: true
+					lineWidth: 2
 				},
-				curvedLines: {
-					apply: true,
-					active: true,
-					monotonicFit: false
-			   }
+				points: {
+					show: true,
+					radius: 3,
+					lineWidth: 2
+				}
 			},
 			legend: {
 				container: $('#flot-visitors-legend')
 			},
 			xaxis: {
-				mode: "time",
-				timeformat: "%d %b",
+				mode: null,
+				//ticks: [[1,"Ago"],[2,"Set"],[3,"Out"],[4,"Nov"],[5,"Dez"],[6,"Jan"]],
+				ticks: dataTicks,
+				//tickSize: [30, "day"],
+				//timeformat: "%d %b",
 				font: {color: labelColor}
 			},
 			yaxis: {
@@ -156,7 +150,107 @@
 					var x = item.datapoint[0];
 					var y = item.datapoint[1];
 					var tipLabel = '<strong>' + $(this).data('title') + '</strong>';
-					var tipContent = Math.round(y) + " " + item.series.label.toLowerCase() + " on " + moment(x).format('dddd');
+					var tipContent = Math.round(y) + " " + item.series.label.toLowerCase();
+					
+
+					if (tip !== undefined) {
+						$(tip).popover('destroy');
+					}
+					tip = $('<div></div>').appendTo('body').css({left: item.pageX, top: item.pageY - 5, position: 'absolute'});
+					tip.popover({html: true, title: tipLabel, content: tipContent, placement: 'top'}).popover('show');
+				}
+			}
+			else {
+				if (tip !== undefined) {
+					$(tip).popover('destroy');
+				}
+				previousPoint = null;
+			}
+		});
+	};
+	
+	p._initFlotValores = function (dataVlr, dataRct, dataDsp, dataMeta, dataTicks) {
+		var o = this;
+		var chart = $("#flot-valores");
+		
+		// Elements check
+		if (!$.isFunction($.fn.plot) || chart.length === 0) {
+			return;
+		}
+		
+		// Chart data
+		var data = [
+            {
+            	label: 'Meta',
+            	data: dataMeta,
+            	last: true
+            },
+			{
+				label: 'Valor',
+				data: dataVlr,
+				last: true
+			},
+			{
+				label: 'Receita',
+				data: dataRct,
+				last: true
+			},
+			{
+				label: 'Despesa',
+				data: dataDsp,
+				last: true
+			}
+		];
+		
+		// Chart options
+		var labelColor = chart.css('color');
+		var options = {
+			colors: chart.data('color').split(','),
+			series: {
+				shadowSize: 0,
+				lines: {
+					show: true,
+					lineWidth: 2
+				},
+				points: {
+					show: true,
+					radius: 2,
+					lineWidth: 2
+				}
+			},
+			legend: {
+				container: $('#flot-valores-legend')
+			},
+			xaxis: {
+				mode: null,
+				ticks: dataTicks,
+				font: {color: labelColor}
+			},
+			yaxis: {
+				font: {color: labelColor}
+			},
+			grid: {
+				borderWidth: 0,
+				color: labelColor,
+				hoverable: true
+			}
+		};
+		chart.width('100%');
+		
+		// Create chart
+		var plot = $.plot(chart, data, options);
+
+		// Hover function
+		var tip, previousPoint = null;
+		chart.bind("plothover", function (event, pos, item) {
+			if (item) {
+				if (previousPoint !== item.dataIndex) {
+					previousPoint = item.dataIndex;
+
+					var x = item.datapoint[0];
+					var y = item.datapoint[1];
+					var tipLabel = '<strong>' + $(this).data('title') + '</strong>';
+					var tipContent = formatReal(Math.round(y)) + " " + item.series.label.toLowerCase();
 
 					if (tip !== undefined) {
 						$(tip).popover('destroy');
@@ -174,6 +268,96 @@
 		});
 	};
 
+	p._initFlotDiaDia = function (dataAnt, dataAtu, dataDias) {
+		var o = this;
+		var chart = $("#flot-diadia");
+		
+		// Elements check
+		if (!$.isFunction($.fn.plot) || chart.length === 0) {
+			return;
+		}
+		
+		// Chart data
+		var data = [
+			{
+				label: 'Anterior',
+				data: dataAnt,
+				last: true
+			},
+			{
+				label: 'Atual',
+				data: dataAtu,
+				last: true
+			}
+		];
+		
+		// Chart options
+		var labelColor = chart.css('color');
+		var options = {
+			colors: chart.data('color').split(','),
+			series: {
+				shadowSize: 0,
+				lines: {
+					show: true,
+					lineWidth: false,
+					fill: true
+				},
+				points: {
+					show: false,
+					radius: 3,
+					lineWidth: 2
+				}
+			},
+			legend: {
+				container: $('#flot-diadia-legend')
+			},
+			xaxis: {
+				mode: null,
+				ticks: dataDias,
+				font: {color: labelColor}
+			},
+			yaxis: {
+				font: {color: labelColor}
+			},
+			grid: {
+				borderWidth: 0,
+				color: labelColor,
+				hoverable: true
+			}
+		};
+		chart.width('100%');
+		
+		// Create chart
+		var plot = $.plot(chart, data, options);
+
+		// Hover function
+		var tip, previousPoint = null;
+		chart.bind("plothover", function (event, pos, item) {
+			if (item) {
+				if (previousPoint !== item.dataIndex) {
+					previousPoint = item.dataIndex;
+
+					var x = item.datapoint[0];
+					var y = item.datapoint[1];
+					var tipLabel = '<strong>' + $(this).data('title') + '</strong>';
+					var tipContent = formatReal(Math.round(y));
+					
+					if (tip !== undefined) {
+						$(tip).popover('destroy');
+					}
+					tip = $('<div></div>').appendTo('body').css({left: item.pageX, top: item.pageY - 5, position: 'absolute'});
+					tip.popover({html: true, title: tipLabel, content: tipContent, placement: 'top'}).popover('show');
+				}
+			}
+			else {
+				if (tip !== undefined) {
+					$(tip).popover('destroy');
+				}
+				previousPoint = null;
+			}
+		});
+	};
+	
 	// =========================================================================
 	// Rickshaw
 	// =========================================================================

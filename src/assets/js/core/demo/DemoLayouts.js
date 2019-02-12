@@ -16,8 +16,8 @@
 	// INIT
 	// =========================================================================
 
-	p.initialize = function () {
-		this._enableEvents();
+	p.initialize = function (renderSelector) {
+		this._enableEvents(renderSelector);
 	};
 
 	// =========================================================================
@@ -25,14 +25,14 @@
 	// =========================================================================
 
 	// events
-	p._enableEvents = function () {
+	p._enableEvents = function (renderSelector) {
 		var o = this;
 
-		$('.card-outlined').on('click', function (e) {
+		$(renderSelector + ' .cardlayout').on('click', function (e) {
 			var btn = $(e.currentTarget).next('.text-caption').find('a');
 			o._changeLayout(btn);
 		});
-		$('.layoutButton').on('click', function (e) {
+		$(renderSelector + ' .layoutButton').on('click', function (e) {
 			var btn = $(e.currentTarget);
 			o._changeLayout(btn);
 		});
@@ -51,8 +51,8 @@
 		card.addClass('style-accent');
 		
 		// Set correct button states
-		$('.layoutButton').removeClass('disabled').empty().append('Activate');
-		btn.empty().append('Activated').addClass('disabled').blur();
+		$('.layoutButton').removeClass('disabled').empty().append('Ativar');
+		btn.empty().append('Ativado').addClass('disabled').blur();
 		
 		// Remove all layout classes
 		$('body').removeClass('header-fixed');

@@ -22,8 +22,8 @@
 	// INIT
 	// =========================================================================
 
-	p.initialize = function () {
-		this._enableEvents();
+	p.initialize = function (parentSelector) {
+		this._enableEvents(parentSelector);
 	};
 
 	// =========================================================================
@@ -31,16 +31,17 @@
 	// =========================================================================
 
 	// events
-	p._enableEvents = function () {
+	p._enableEvents = function (parentSelector) {
 		var o = this;
 
 		// Listen for the nav search button click
-		$('.navbar-search .btn').on('click', function (e) {
+		$(parentSelector + ' .navbar-search .btn').on('click', function (e) {
 			o._handleButtonClick(e);
 		});
-
+	
+		
 		// When the search field loses focus
-		$('.navbar-search input').on('blur', function (e) {
+		$(parentSelector + ' .navbar-search input').on('blur', function (e) {
 			o._handleFieldBlur(e);
 		});
 	};
@@ -63,8 +64,24 @@
 		}
 		else {
 			// When there is a keyword, submit the keyword
+			$('#content').html('');
+			
 			form.addClass('expanded');
-			form.submit();
+			
+			input.val(keyword);
+			
+			$.fda_struts2_jquery.simulate($('#fda_btn_search_central')[0], "click");
+			
+			/*$.ajax({
+				  method: "POST",
+				  url: "centralAtendimento_visualizar.action?objetoAtualiza.cadastroUnico.pessoaFisica.identificadorPrincipal=" + keyword
+				})
+				  .done(function( data ) {
+					  $('#content').html(data);
+					  form.removeClass('expanded');
+					  input.val('');
+				  });
+			*/	  
 
 			// Clear the timer that removes the keyword
 			clearTimeout(this._clearSearchTimer);

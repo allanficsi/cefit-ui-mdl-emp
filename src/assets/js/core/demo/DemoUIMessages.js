@@ -119,7 +119,7 @@
 			o._toastrStateConfig();
 			toastr.options.timeOut = 0;
 			toastr.options.positionClass = $(e.currentTarget).data('position');
-			toastr.info('teste msg', '');
+			toastr.info('Position message', '');
 		});
 	};
 	

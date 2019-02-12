@@ -16,6 +16,9 @@ import { ProfissionalPesquisarComponent } from '../../pages/profissional/pesquis
 import { ProfissionalAtualizarComponent } from '../../pages/profissional/atualizar/profissional-atualizar.component';
 import { ModalQualificacaoComponent } from '../../pages/geral/modal-qualificacao/modal-qualificacao.component';
 import { ModalEditarContatoComponent } from '../../pages/geral/modal-editar-contato/modal-editar-contato.component';
+import { ItemEspacoPesquisarComponent } from '../../pages/item-espaco/pesquisar/item-espaco-pesquisar.component';
+import { ItemEspacoAtualizarComponent } from '../../pages/item-espaco/atualizar/item-espaco-atualizar.component';
+import { LayoutComponent } from './layout/layout.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -47,6 +50,8 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'modal-cargo', component: ModalCargoComponent, canActivate: [AuthGuard] },
     { path : 'modal-qualificacao', component: ModalQualificacaoComponent, canActivate: [AuthGuard] },
     { path : 'modal-editar-contato', component: ModalEditarContatoComponent, canActivate: [AuthGuard] },
+
+    { path : 'layout-pesquisar', component: LayoutComponent, canActivate: [AuthGuard] },
 
 
 ]

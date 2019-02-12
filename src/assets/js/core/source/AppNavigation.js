@@ -28,8 +28,8 @@
 	// INIT
 	// =========================================================================
 
-	p.initialize = function () {
-		this._enableEvents();
+	p.initialize = function (parentSelector) {
+		this._enableEvents(parentSelector);
 		
 		this._invalidateMenu();
 		this._evalMenuScrollbar();
@@ -40,32 +40,40 @@
 	// =========================================================================
 
 	// events
-	p._enableEvents = function () {
+	p._enableEvents = function (parentSelector) {
 		var o = this;
 
 		// Window events
-		$(window).on('resize', function (e) {
-			o._handleScreenSize(e);
-		});
+		if (parentSelector == undefined)
+		{
+			$(window).on('resize', function (e) {
+				o._handleScreenSize(e);
+			});
+		}
 		
 		// Menu events
-		$('[data-toggle="menubar"]').on('click', function (e) {
+		$(parentSelector + ' [data-toggle="menubar"]').on('click', function (e) {
 			o._handleMenuToggleClick(e);
 		});
-		$('[data-dismiss="menubar"]').on('click', function (e) {
+		$(parentSelector + ' [data-dismiss="menubar"]').on('click', function (e) {
 			o._handleMenubarLeave();
 		});
-		$('#main-menu').on('click', 'li', function (e) {
+		$(parentSelector + ' #main-menu').on('click', 'li', function (e) {
 			o._handleMenuItemClick(e);
 		});
-		$('#main-menu').on('click', 'a', function (e) {
+		$(parentSelector + ' #main-menu').on('click', 'a', function (e) {
 			o._handleMenuLinkClick(e);
 		});
-		$('body.menubar-hoverable').on('mouseenter', '#menubar', function (e) {
-			setTimeout(function () {
-				o._handleMenubarEnter();
-			}, 1);
-		});
+		
+		// Window events
+		if (parentSelector == undefined)
+		{
+			$('body.menubar-hoverable').on('mouseenter', '#menubar', function (e) {
+				setTimeout(function () {
+					o._handleMenubarEnter();
+				}, 1);
+			});
+		}
 	};
 
 	// handlers
