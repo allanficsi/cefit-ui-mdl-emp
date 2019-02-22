@@ -1,9 +1,7 @@
-import { PessoaJuridica } from "./pessoa-juridica";
-import { PessoaFisica } from "./pessoa-fisica";
-import { ExtensaoEndereco } from "./extensao-endereco";
 import { Auditoria } from "../auditoria";
 import { Correio } from "../correio/correio";
 import { Dominio } from "../geral/dominio";
+import { ExtensaoEndereco } from "./extensao-endereco";
 
 export class Endereco {
     

@@ -1,0 +1,280 @@
+<section>    
+  <div class="section-body">
+
+    <!-- BEGIN BASICDATION -->
+    <div class="row">     
+
+      <div class="col-lg-12">
+        <div class="card card-underline">
+          <div class="card-head card-head-sm">
+            <header><b>Espaço - Cadastrar</b></header>
+          </div>
+          
+          <div class="card-body">
+              
+            <h5>Os campos com * são obrigatórios.</h5>
+
+            <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8" (ngSubmit)="inserir()">
+              
+              <div class="card card-outlined style-primary" id="divDadosGeraisEspaco">
+                <div class="card-head">
+                  <header>Dados Gerais</header>
+                </div>
+                
+                <div class="card-body" style="display: block;">          
+
+              
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" autocomplete="offNmEsp" maxlength="200" [(ngModel)]="objetoAtualiza.nome" placeholder='Por exemplo, "Sala de reunião 01".' 
+                              name="nome" #descricao="ngModel" class="form-control">  
+                        <label>Nome *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                          <div class="input-group">
+                            <div class="input-group-content">
+                              <select class="form-control" [(ngModel)]="objetoAtualiza.codigoLocal" name="codigoLocal" required>
+                                <option [ngValue]="null">- Selecione o Local -</option>
+                                <option *ngFor="let local of listaLocal" [ngValue]="local.codigo">{{local.nome}}</option>
+                              </select>   
+                              <label>Local *</label>
+                            </div>
+
+                            <div class="input-group-btn">
+                              <button class="btn btn-default" (click)="preparaAddLocal()" type="button">NOVO LOCAL</button>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+
+                  <div class="row">
+                      <div class="col-sm-8">
+                        <div class="form-group">
+                          <input type="text" autocomplete="offDesEsp" maxlength="200" [(ngModel)]="objetoAtualiza.descricao"
+                                name="descricao" #descricao="ngModel" class="form-control">  
+                          <label>Descrição *</label>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <input type="text" autocomplete="offCpdEsp" mask="00000" [(ngModel)]="objetoAtualiza.capacidade"
+                                name="capacidade" #descricao="ngModel" class="form-control">  
+                          <label>Capacidade (Pessoas) *</label>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ENDERECO -->
+              <div class="card card-outlined style-primary" id="divEndereco">
+                <div class="card-head">
+                  <header>Endereço</header>
+                </div>
+              
+                <div class="card-body" style="display: block;">          
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="objetoAtualiza.endereco.objTipo" name="objTipo" #objTipo="ngModel" required>
+                          <option *ngFor="let tipoEndereco of listaTipoEndereco" [ngValue]="tipoEndereco">{{tipoEndereco.nomeValor}}</option>
+                        </select>   
+                        <label>Tipo de Endereço *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <input type="text" maxlength="18" [(ngModel)]="objetoAtualiza.endereco.cepFormatado" (blur)="pesquisarCep()"
+                              mask='00.000-000' autocomplete="offCepEsp" name="cepFormatado" class="form-control" required>
+                        <label>CEP *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.logradouro" 
+                                name="logradouro" class="form-control" required autocomplete="offLogEsp">
+                        <label>Logradrouro *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <input type="text" maxlength="30" [(ngModel)]="objetoAtualiza.endereco.numero" autocomplete="offNrEsp"
+                                name="numero" class="form-control" required >
+                        <label>Número *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" maxlength="30" [(ngModel)]="objetoAtualiza.endereco.complemento" 
+                                name="complemento" class="form-control" required autocomplete="offCompEsp">
+                        <label>Complemento</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.endereco.pontoReferencia" 
+                                name="complemento" class="form-control" required autocomplete="offPrEsp">
+                        <label>Ponto de Referência</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.bairro" 
+                                name="bairro" class="form-control" autocomplete="offBrrEsp" required>
+                        <label>Bairro *</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.localidade" 
+                                name="localidade" class="form-control" autocomplete="offLocEsp" required>
+                        <label>Localidade</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.uf" name="uf" #uf="ngModel" required>
+                          <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
+                        </select>
+                        <label>Estado *</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="card card-outlined style-primary" id="divDadosGeraisEspaco">
+                <div class="card-head">
+                  <header>Itens do Espaço</header>
+                </div>
+                
+                <div class="card-body" style="display: block;">          
+              
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-content">
+                              <select class="form-control" [(ngModel)]="itemEspaco" name="itemEspaco" required>
+                                <option value="null">- Selecione um Item -</option>  
+                                <option *ngFor="let obj of listaItemEspaco" [ngValue]="obj">{{obj.descricao}}</option>
+                              </select>   
+                              <label>Item *</label>
+                          </div>
+                          <div class="input-group-btn">
+                            <button class="btn btn-default" (click)="preparaAddItem()" type="button">Novo Item</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" autocomplete="off" mask="00000" [(ngModel)]="espacoItemEspaco.quantidadeAtivos"
+                              name="quantidadeAtivos" #quantidadeAtivos="ngModel" class="form-control">  
+                        <label>Quantidade Ativos *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" autocomplete="off" mask="00000" [(ngModel)]="espacoItemEspaco.quantidadeManutencao"
+                              name="quantidadeManutencao" #quantidadeManutencao="ngModel" class="form-control">  
+                        <label>Quantidade Manutenção</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row small-padding">
+                    <div class="pull-left">
+                        <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarItemEspaco()">
+                          Adicionar Item do Espaço
+                        </button> 
+                    </div>
+                  </div>
+
+
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th style="width: 23%;">Item</th>
+                            <th style="width: 23%;">Quantidade Ativos</th>
+                            <th style="width: 22%;">Quantidade Manutenção</th>
+                            <th style="width: 3%;"></th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let espacoItemEspaco of objetoAtualiza.listaEspacoItemEspaco; let i = index" [attr.data-index]="i">
+                            <td style="width: 23%;">{{espacoItemEspaco.itemEspaco.descricao}}</td>
+                            <td style="width: 23%;">{{espacoItemEspaco.quantidadeAtivos}}</td>
+                            <td style="width: 22%;">{{espacoItemEspaco.quantidadeManutencao}}</td>
+                            <td style="width: 3%;">
+                                <i class="fa fa-edit" (click)="preparaEditarItemEspaco(i)" style="cursor: pointer;" title="Editar"></i>
+                            </td>
+                            <td style="width: 3%;">
+                              <i class="fa fa-trash" (click)="excluirItemEspaco(i)" style="cursor: pointer;" title="Inativar"></i>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+
+
+              <div class="card-actionbar">
+                <div class="card-actionbar-row">
+                  
+                    <button *ngIf="codigo == undefined" type="submit" class="btn ink-reaction btn-raised btn-success"  accesskey="C">
+                      Cadastrar
+                    </button>  
+                  
+                    <button *ngIf="codigo != undefined" type="button" (click)="alterar()" class="btn ink-reaction btn-raised btn-success"  accesskey="A">
+                      Alterar
+                    </button>  
+                  
+                  <a class="btn ink-reaction btn-raised btn-default" accesskey="V" (click)="voltar()">
+                    Voltar 
+                  </a>
+                </div>
+              </div>
+  
+
+            </form>
+
+            
+          </div>
+
+        </div>      
+      </div>
+
+    </div>    
+
+  </div>
+  
+</section>

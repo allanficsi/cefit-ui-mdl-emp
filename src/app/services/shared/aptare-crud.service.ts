@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class AptareCrudService<Entity> {
 
-  constructor(private http: HttpClient) {}
+  constructor(public http: HttpClient) {}
 
   pesquisar(obj: Entity) {
     return this.http.post(`${HOST_CEFIT}/api/`+this.artefato()+`/pesquisar`, obj);

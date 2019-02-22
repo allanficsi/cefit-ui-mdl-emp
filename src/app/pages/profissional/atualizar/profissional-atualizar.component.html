@@ -52,7 +52,7 @@
                         <div class="input-group date" id="textDataExpedicaoProfissional">
                           <div class="input-group-content">
                             <input matInput [matDatepicker]="picker1" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg" name="dataEmissaoRg"
-                                  class="form-control">
+                                  class="form-control" autocomplete="offDtExp">
                             <label>Data de Expedição *</label>
                           </div>
                           
@@ -85,13 +85,13 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="80" autocomplete="off" [(ngModel)]="objetoAtualiza.cadastroUnico.nome"
-                                name="nome" class="form-control" required>  
+                                name="nome" class="form-control" required autocomplete="offNome">  
                         <label>Nome *</label>
                       </div>
                     </div>
                     <div class="col-sm-5">
                       <div class="form-group">
-                        <input type="text" maxlength="80" autocomplete="off" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.nomeMae"
+                        <input type="text" maxlength="80" autocomplete="offNomeMae" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.nomeMae"
                                 name="nomeMae" class="form-control" required>  
                         <label>Nome da Mãe *</label>
                       </div>
@@ -103,8 +103,8 @@
                       <div class="form-group control-width-normal">
                         <div class="input-group date" id="textDataNascimentoContato">
                           <div class="input-group-content">
-                            <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" (click)="picker.open()" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
-                                  class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="off">
+                            <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
+                                  class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="offDtNasc">
                             <label>Data de Nascimento *</label>
                           </div>
                           
@@ -187,7 +187,9 @@
               <!-- QUALIFICACOES -->
               <div class="card card-outlined style-primary" id="divEndereco">
                 <div class="card-head">
-                  <header>Qualificação</header>
+                  <header>Qualificação
+                      <small>  (Adicione pelo menos uma qualificação)</small>
+                  </header>
                 </div>
               
                 <div class="card-body" style="display: block;">          
@@ -247,7 +249,9 @@
               <!-- ENDERECO -->
               <div class="card card-outlined style-primary" id="divEndereco">
                 <div class="card-head">
-                  <header>Endereço</header>
+                  <header>Endereço
+                      <small>  (Adicione pelo menos um endereço)</small>
+                  </header>
                 </div>
               
                 <div class="card-body" style="display: block;">          
@@ -265,7 +269,7 @@
                     <div class="col-sm-2">
                       <div class="form-group">
                         <input type="text" maxlength="18" [(ngModel)]="endereco.cepFormatado" (blur)="pesquisarCep()"
-                              mask='00.000-000' autocomplete="off" name="cepFormatado" class="form-control" required>
+                              mask='00.000-000' autocomplete="offCep" name="cepFormatado" class="form-control" required>
                         <label>CEP *</label>
                       </div>
                     </div>
@@ -273,14 +277,14 @@
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.logradouro" 
-                                name="logradouro" class="form-control" required autocomplete="off">
+                                name="logradouro" class="form-control" required autocomplete="offLog">
                         <label>Logradrouro *</label>
                       </div>
                     </div>
 
                     <div class="col-sm-2">
                       <div class="form-group">
-                        <input type="text" maxlength="30" [(ngModel)]="endereco.numero" autocomplete="off"
+                        <input type="text" maxlength="30" [(ngModel)]="endereco.numero" autocomplete="offNum"
                                 name="numero" class="form-control" required >
                         <label>Número *</label>
                       </div>
@@ -291,15 +295,15 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="30" [(ngModel)]="endereco.complemento" 
-                                name="complemento" class="form-control" required autocomplete="off">
+                                name="complemento" class="form-control" required autocomplete="offComp">
                         <label>Complemento</label>
                       </div>
                     </div>
 
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <input type="text" maxlength="50" [(ngModel)]="endereco.pontoReferencia" 
-                                name="complemento" class="form-control" required autocomplete="off">
+                        <input type="text" maxlength="100" [(ngModel)]="endereco.pontoReferencia" 
+                                name="complemento" class="form-control" required autocomplete="offPtRef">
                         <label>Ponto de Referência</label>
                       </div>
                     </div>
@@ -309,14 +313,14 @@
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.bairro" 
-                                name="bairro" class="form-control" autocomplete="off" required>
+                                name="bairro" class="form-control" autocomplete="offBairro" required>
                         <label>Bairro *</label>
                       </div>
                     </div>
                     <div class="col-sm-5">
                       <div class="form-group">
-                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.localidade" 
-                                name="localidade" class="form-control" autocomplete="off" required>
+                        <input type="text" maxlength="100" [(ngModel)]="endereco.extensaoEndereco.localidade" 
+                                name="localidade" class="form-control" autocomplete="offLc" required>
                         <label>Localidade</label>
                       </div>
                     </div>
@@ -381,7 +385,9 @@
               <!-- CONTATO -->
               <div class="card card-outlined style-primary" id="divContato">
                 <div class="card-head">
-                  <header>Contato</header>
+                  <header>Contato
+                      <small>  (Adicione pelo menos um contato)</small>
+                  </header>
                 </div>
               
                 <!-- Telefones PF -->
@@ -399,7 +405,7 @@
 
                     <div class="col-sm-2">
                       <div class="form-group">
-                          <input type="text" [(ngModel)]="telefonePf.ddd" autocomplete="off"
+                          <input type="text" [(ngModel)]="telefonePf.ddd" autocomplete="offDDD"
                                   mask='(00)' name="dddPf" class="form-control" required>
                         <label>DDD *</label>
                       </div>
@@ -407,7 +413,7 @@
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <input type="text" [(ngModel)]="telefonePf.numero" autocomplete="off"
+                            <input type="text" [(ngModel)]="telefonePf.numero" autocomplete="offTlf"
                                     mask='00000-0000' name="telefonePf" class="form-control" required>
                           <label>Telefone *</label>
                         </div>

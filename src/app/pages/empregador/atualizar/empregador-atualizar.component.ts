@@ -1,6 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators/map';
+import { startWith } from 'rxjs/operators/startWith';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
@@ -9,6 +13,7 @@ import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { Contato } from '../../../model/cadastro-unico/contato';
 import { Endereco } from '../../../model/cadastro-unico/endereco';
 import { ExtensaoEndereco } from '../../../model/cadastro-unico/extensao-endereco';
+import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
 import { PessoaJuridica } from '../../../model/cadastro-unico/pessoa-juridica';
 import { Telefone } from '../../../model/cadastro-unico/telefone';
 import { Correio } from '../../../model/correio/correio';
@@ -23,15 +28,8 @@ import { EmpregadorService } from '../../../services/empregador/empregador.servi
 import { DominioService } from '../../../services/geral/dominio.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { ModalCargoComponent } from '../../geral/modal-cargo/modal-cargo.component';
-import { ModalTelefoneComponent } from '../../geral/modal-telefone/modal-telefone.component';
-import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
 import { ModalEditarContatoComponent } from '../../geral/modal-editar-contato/modal-editar-contato.component';
-import { elementProperty } from '@angular/core/src/render3/instructions';
-import { ContentObserver } from '@angular/cdk/observers';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators/map';
-import { startWith } from 'rxjs/operators/startWith';
-import { FormControl } from '@angular/forms';
+import { ModalTelefoneComponent } from '../../geral/modal-telefone/modal-telefone.component';
 
 
 @Component({
@@ -741,6 +739,10 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       //   this.mensagem.tratarErroPersonalizado("", "O campo Quantidade de Funcionários é obrigatório.");
       //   return false;
       // }
+      if(this.objetoAtualiza.numeroFuncionarios == 0) {
+        this.objetoAtualiza.numeroFuncionarios = null;
+      }
+
     }
 
     return true;

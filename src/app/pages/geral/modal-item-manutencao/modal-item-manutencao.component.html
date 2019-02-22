@@ -1,0 +1,78 @@
+
+<!-- BEGIN BASICDATION -->
+<div class="row">     
+
+    <div class="col-lg-12">
+      
+        <div class="card-head card-head-sm">
+          <header><b>Atualizar Itens de Espaço</b></header>
+        </div>
+    
+        <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
+          
+          <div class="card-body" style="display: block;">          
+            
+            <div class="row">
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    {{objetoAtualiza.nome}}
+                    <label>Espaço: </label>
+                  </div>
+                </div>
+            </div>
+
+            <div class="row">
+              <div class="table-responsive no-margin">
+                <table class="table table-condensed table-hover no-margin">
+                  <thead class="style-primary-light">	
+                    <tr>
+                      <th style="width: 50%;">Item</th>
+                      <th>Qtd Ativos</th>
+                      <th>Qtd Manutenção</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let espacoItemEspaco of objetoAtualiza.listaEspacoItemEspaco; let i = index" [attr.data-index]="i">
+                      <td>{{espacoItemEspaco.itemEspaco.descricao}}</td>
+                      <td>
+                        <input type="text" autocomplete="off" mask="00000" [(ngModel)]="espacoItemEspaco.quantidadeAtivos"
+                        name="qtdAtivos{{i}}" class="form-control">  
+                        <!-- {{espacoItemEspaco.quantidadeAtivos}} -->
+                      </td>
+                      <td>
+                        <input type="text" autocomplete="off" mask="00000" [(ngModel)]="espacoItemEspaco.quantidadeManutencao"
+                        name="qtdManut{{i}}" class="form-control">  
+                        <!-- {{espacoItemEspaco.quantidadeManutencao}} -->
+                      </td>
+                      <td class="text-center">
+                        <b>
+                          {{espacoItemEspaco.totalItens}}
+                        </b>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+            <div class="card-actionbar">
+                <div class="card-actionbar-row">
+                  
+                    <button type="button" (click)="salvar()" class="btn ink-reaction btn-raised btn-success"  accesskey="C">
+                      Salvar
+                    </button>  
+                  
+                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" (click)="fechar()">
+                      Fechar 
+                    </a>  
+                  
+                </div>
+              </div>
+          </div>
+        </form>
+
+    </div>
+
+  </div>

@@ -1,70 +1,73 @@
-import { AptSoNumeroDirective } from './../../diretivas/sonumero/apt-so-numero.directive';
-import { ValidaCpfDirective } from './../../diretivas/validaCpf/apt-valida-cpf.directive';
-import { AptValidaCnpjDirective } from './../../diretivas/validaCnpj/apt-valida-cnpj.directive';
-import { NgModule } from '@angular/core';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
-
-import { DialogService } from './../../dialog-service';
 import { CommonModule } from "@angular/common";
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DateAdapter, MatAutocompleteModule, MatButtonModule, MatCardModule, MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatMenuModule, MatNativeDateModule, MatToolbarModule, MAT_DATE_LOCALE } from '@angular/material';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from "@angular/router";
-
+import { NgxMaskModule } from 'ngx-mask';
+import { ToastrModule } from 'ngx-toastr';
+import { LocalAtualizarComponent } from "../../pages/local/atualizar/local-atualizar.component";
+import { LocalPesquisarComponent } from "../../pages/local/pesquisar/local-pesquisar.component";
+import { AptValidaEmailDirective } from '../../diretivas/validaEmail/apt-valida-email.directive';
+import { CargoAtualizarComponent } from '../../pages/cargo/atualizar/cargo-atualizar.component';
+import { CargoPesquisarComponent } from '../../pages/cargo/pesquisar/cargo-pesquisar.component';
+import { EmpregadorAtualizarComponent } from '../../pages/empregador/atualizar/empregador-atualizar.component';
+import { EmpregadorPesquisarComponent } from '../../pages/empregador/pesquisar/empregador-pesquisar.component';
+import { EspacoAtualizarComponent } from '../../pages/espaco/atualizar/espaco-atualizar.component';
+import { EspacoPesquisarComponent } from '../../pages/espaco/pesquisar/espaco-pesquisar.component';
+import { ModalCargoComponent } from '../../pages/geral/modal-cargo/modal-cargo.component';
+import { ModalEditarContatoComponent } from '../../pages/geral/modal-editar-contato/modal-editar-contato.component';
+import { ModalEditarItemEspacoComponent } from '../../pages/geral/modal-editar-item-espaco/modal-editar-item-espaco.component';
+import { ModalItemEspacoComponent } from '../../pages/geral/modal-item-espaco/modal-item-espaco.component';
+import { ModalItemManutencaoComponent } from '../../pages/geral/modal-item-manutencao/modal-item-manutencao.component';
+import { ModalQualificacaoComponent } from '../../pages/geral/modal-qualificacao/modal-qualificacao.component';
+import { ModalTelefoneComponent } from '../../pages/geral/modal-telefone/modal-telefone.component';
 //SHARED COMPONENTS
 import { HomeComponent } from '../../pages/home/home.component';
-import { HeaderComponent } from './header/header.component';
-import { MenuComponent } from './menu/menu.component';
-import { FooterComponent } from './footer/footer.component';
-
+import { ItemEspacoAtualizarComponent } from '../../pages/item-espaco/atualizar/item-espaco-atualizar.component';
+import { ItemEspacoPesquisarComponent } from '../../pages/item-espaco/pesquisar/item-espaco-pesquisar.component';
+import { ProfissionalAtualizarComponent } from '../../pages/profissional/atualizar/profissional-atualizar.component';
+import { ProfissionalPesquisarComponent } from '../../pages/profissional/pesquisar/profissional-pesquisar.component';
+import { QualificacaoAtualizarComponent } from '../../pages/qualificacao/atualizar/qualificacao-atualizar.component';
+import { QualificacaoPesquisarComponent } from '../../pages/qualificacao/pesquisar/qualificacao-pesquisar.component';
+import { TrabalhadorAtualizarComponent } from '../../pages/trabalhador/atualizar/trabalhador-atualizar.component';
+import { TrabalhadorPesquisarComponent } from '../../pages/trabalhador/pesquisar/trabalhador-pesquisar.component';
+import { CargoService } from '../../services/cadastro-unico/cargo.service';
+import { ContatoService } from '../../services/cadastro-unico/contato.service';
+import { CorreioService } from '../../services/correio/correio.service';
+import { CnaeService } from '../../services/empregador/cnae.service';
+import { EmpregadorService } from '../../services/empregador/empregador.service';
+import { EspacoItemEspacoService } from '../../services/espaco/espaco-item-espaco.service';
+import { EspacoService } from '../../services/espaco/espaco.service';
+import { ItemEspacoService } from '../../services/espaco/item-espaco.service';
+import { LocalService } from '../../services/espaco/local.service';
+import { DominioService } from '../../services/geral/dominio.service';
+import { ProfissionalService } from '../../services/profissional/profissional.service';
+import { QualificacaoService } from '../../services/profissional/qualificacao.service';
+import { AptareCrudService } from '../../services/shared/aptare-crud.service';
 //SERVICES
 import { LovService } from '../../services/shared/lov.service';
 import { MensagemService } from '../../services/shared/mensagem.service';
-import { AptareCrudService } from '../../services/shared/aptare-crud.service';
-import { EmpregadorService } from '../../services/empregador/empregador.service';
-
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from '../security/auth.interceptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NotfoundComponent } from './notfound/notfound.component';
-import { LovComponent } from './lov/lov.component';
-import { VariaveisLovService } from '../../services/variaveis-lov.service';
-
-import {NgxMaskModule} from 'ngx-mask'
-
-import { LovModalComponent } from './lov-modal/lov-modal.component';
-import { MatDialogModule, MatButtonModule, MatIconModule, MatMenuModule, MatCardModule, MatNativeDateModule, MatToolbarModule, MatDatepickerModule, MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter, MatAutocompleteModule, MatFormFieldModule } from '@angular/material';
-
-import { ToastrModule } from 'ngx-toastr';
-import { EmpregadorPesquisarComponent } from '../../pages/empregador/pesquisar/empregador-pesquisar.component';
-import { EmpregadorAtualizarComponent } from '../../pages/empregador/atualizar/empregador-atualizar.component';
-import { DominioService } from '../../services/geral/dominio.service';
-import { CorreioService } from '../../services/correio/correio.service';
-import { CargoService } from '../../services/cadastro-unico/cargo.service';
-import { CnaeService } from 'src/app/services/empregador/cnae.service';
-import { ModalTelefoneComponent } from '../../pages/geral/modal-telefone/modal-telefone.component';
-import { CargoPesquisarComponent } from '../../pages/cargo/pesquisar/cargo-pesquisar.component';
-import { CargoAtualizarComponent } from '../../pages/cargo/atualizar/cargo-atualizar.component';
-import { ModalCargoComponent } from '../../pages/geral/modal-cargo/modal-cargo.component';
-import { TrabalhadorPesquisarComponent } from '../../pages/trabalhador/pesquisar/trabalhador-pesquisar.component';
-import { TrabalhadorService } from '../../services/trabalhador/trabalhador.service';
-import { TrabalhadorAtualizarComponent } from '../../pages/trabalhador/atualizar/trabalhador-atualizar.component';
 import { CboService } from '../../services/trabalhador/cbo.service';
-import { QualificacaoPesquisarComponent } from '../../pages/qualificacao/pesquisar/qualificacao-pesquisar.component';
-import { QualificacaoService } from '../../services/profissional/qualificacao.service';
-import { QualificacaoAtualizarComponent } from '../../pages/qualificacao/atualizar/qualificacao-atualizar.component';
-import { ProfissionalPesquisarComponent } from '../../pages/profissional/pesquisar/profissional-pesquisar.component';
-import { ProfissionalService } from '../../services/profissional/profissional.service';
-import { ProfissionalAtualizarComponent } from '../../pages/profissional/atualizar/profissional-atualizar.component';
-import { ModalQualificacaoComponent } from '../../pages/geral/modal-qualificacao/modal-qualificacao.component';
-import { ModalEditarContatoComponent } from '../../pages/geral/modal-editar-contato/modal-editar-contato.component';
-import { ContatoService } from '../../services/cadastro-unico/contato.service';
-import { DateFormat } from './util/date-format';
-import { ItemEspacoAtualizarComponent } from '../../pages/item-espaco/atualizar/item-espaco-atualizar.component';
-import { ItemEspacoPesquisarComponent } from '../../pages/item-espaco/pesquisar/item-espaco-pesquisar.component';
-import { ItemEspacoService } from '../../services/espaco/item-espaco.service';
+import { TrabalhadorService } from '../../services/trabalhador/trabalhador.service';
+import { VariaveisLovService } from '../../services/variaveis-lov.service';
+import { AuthInterceptor } from '../security/auth.interceptor';
+import { DialogService } from './../../dialog-service';
+import { AptSoNumeroDirective } from './../../diretivas/sonumero/apt-so-numero.directive';
+import { AptValidaCnpjDirective } from './../../diretivas/validaCnpj/apt-valida-cnpj.directive';
+import { ValidaCpfDirective } from './../../diretivas/validaCpf/apt-valida-cpf.directive';
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout/layout.component';
-
+import { LovModalComponent } from './lov-modal/lov-modal.component';
+import { LovComponent } from './lov/lov.component';
+import { MenuComponent } from './menu/menu.component';
+import { NotfoundComponent } from './notfound/notfound.component';
+import { DateFormat } from './util/date-format';
+import { ModalLocalComponent } from "../../pages/geral/modal-local/modal-local.component";
+import { EspacoManutencaoComponent } from "../../pages/espaco/manutencao/espaco-manutencao.component";
 
 @NgModule({
     exports: [
@@ -105,6 +108,7 @@ import { LayoutComponent } from './layout/layout.component';
         AptSoNumeroDirective,
         ValidaCpfDirective,
         AptValidaCnpjDirective,
+        AptValidaEmailDirective,
 
         EmpregadorPesquisarComponent,
         EmpregadorAtualizarComponent,
@@ -118,16 +122,27 @@ import { LayoutComponent } from './layout/layout.component';
         CargoPesquisarComponent,
         CargoAtualizarComponent,
 
+        LocalPesquisarComponent,
+        LocalAtualizarComponent,
+
         QualificacaoPesquisarComponent,
         QualificacaoAtualizarComponent,
 
         ItemEspacoAtualizarComponent,
         ItemEspacoPesquisarComponent,
 
+        EspacoAtualizarComponent,
+        EspacoPesquisarComponent,
+        EspacoManutencaoComponent,
+
         ModalTelefoneComponent,
         ModalCargoComponent,
         ModalQualificacaoComponent,
         ModalEditarContatoComponent,
+        ModalItemEspacoComponent,
+        ModalEditarItemEspacoComponent,
+        ModalItemManutencaoComponent,
+        ModalLocalComponent,
         
         LayoutComponent,
     ],
@@ -144,12 +159,14 @@ import { LayoutComponent } from './layout/layout.component';
       TrabalhadorService,
       ProfissionalService,
       CargoService,
+      LocalService,
       QualificacaoService,
       CnaeService,
       CboService,
       ContatoService,
       ItemEspacoService,
-      
+      EspacoService,
+      EspacoItemEspacoService,
       {
         provide: HTTP_INTERCEPTORS,
         useClass: AuthInterceptor,
