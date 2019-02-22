@@ -78,7 +78,8 @@
                   <td>{{item.cadastroUnico.nome}}</td>
                   <td>{{item.cadastroUnico.pessoaFisica.registroGeral}}</td>
                   <td class="text-center">{{item.auditoria.dataInclusao | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-                  <td>{{item.descricaoSituacao}}</td>
+                  <td *ngIf='item.flagAtivo == "S"'>ATIVO</td>
+                  <td *ngIf='item.flagAtivo == "N"'>INATIVO</td>
                   <td> <i class="fa fa-edit" (click)="editar(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i></td>
                   <td> 
                     <i *ngIf='item.flagAtivo == "N"' class="fa fa-check" title="Ativar" (click)="ativarProfissional(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
