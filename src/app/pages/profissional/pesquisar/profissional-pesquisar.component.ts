@@ -9,6 +9,7 @@ import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
 import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
 import { DominioService } from '../../../services/geral/dominio.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
+import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-profissional-pesquisar',
@@ -24,8 +25,9 @@ export class ProfissionalPesquisarComponent extends AptareCrudController<Profiss
               service: ProfissionalService,
               dialog: MatDialog,
               dialogService: DialogService,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Profissional, service, mensagem);   
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Profissional, service, mensagem, confirm);   
   }
 
   iniciarPaginaPesquisar() {

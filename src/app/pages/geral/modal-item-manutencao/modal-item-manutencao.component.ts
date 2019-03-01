@@ -8,6 +8,7 @@ import { EspacoItemEspaco } from '../../../model/espaco/espaco-item-espaco';
 import { ResponseApi } from '../../../model/response-api';
 import { EspacoService } from '../../../services/espaco/espaco.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-modal-item-manutencao',
@@ -23,8 +24,9 @@ export class ModalItemManutencaoComponent extends AptareCrudController<Espaco, {
               dialogService: DialogService,
               public dialogRef: MatDialogRef<ModalItemManutencaoComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Espaco, service, mensagem);   
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Espaco, service, mensagem, confirm);   
   }
 
   ngOnInit() {

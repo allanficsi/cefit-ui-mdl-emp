@@ -8,7 +8,8 @@ import { DialogService } from '../../../dialog-service';
 import { ResponseApi } from '../../../model/response-api';
 import { EspacoItemEspacoService } from '../../../services/espaco/espaco-item-espaco.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
-import { ItemEspacoService } from 'src/app/services/espaco/item-espaco.service';
+import { ItemEspacoService } from '../../../services/espaco/item-espaco.service';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-modal-editar-item-espaco',
@@ -20,16 +21,17 @@ export class ModalEditarItemEspacoComponent extends AptareCrudController<EspacoI
   listaItemEspaco = [];
   itemEspaco: ItemEspaco;
 
-  constructor(router: Router, 
-              route: ActivatedRoute,             
+  constructor(router: Router,
+              route: ActivatedRoute,
               service: EspacoItemEspacoService,
               private itemEspacoService: ItemEspacoService,
               dialog: MatDialog,
               dialogService: DialogService,
               public dialogRef: MatDialogRef<ModalEditarItemEspacoComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, EspacoItemEspaco, service, mensagem);   
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, EspacoItemEspaco, service, mensagem, confirm);   
   }
 
   ngOnInit() {

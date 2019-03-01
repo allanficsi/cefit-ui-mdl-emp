@@ -32,9 +32,10 @@
                     
                     <div class="col-sm-3">
                       <div class="form-group">
-                        <input type="text" maxlength="18" aptValidaCpf autocomplete="off"
-                        [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'
-                              name="cpf" class="form-control" required>  
+                        <input *ngIf="codigo == undefined" type="text" maxlength="18" aptValidaCpf #cpf="ngModel" autocomplete="off"
+                         [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00' name="cpf" class="form-control" required>
+                        <input *ngIf="codigo != undefined" type="text" [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'
+                              name="cpf" class="form-control" required readonly="true">  
                         <label>CPF *</label>
                       </div>
                     </div>
@@ -277,7 +278,7 @@
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.logradouro" 
-                                name="logradouro" class="form-control" required autocomplete="offLog">
+                                name="logradouro" class="form-control" required autocomplete="offLog" [readonly]="isLogradouroReadOnly">
                         <label>Logradrouro *</label>
                       </div>
                     </div>
@@ -303,7 +304,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="100" [(ngModel)]="endereco.pontoReferencia" 
-                                name="complemento" class="form-control" required autocomplete="offPtRef">
+                                name="ptRef" class="form-control" required autocomplete="offPtRef">
                         <label>Ponto de Referência</label>
                       </div>
                     </div>
@@ -313,20 +314,20 @@
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.bairro" 
-                                name="bairro" class="form-control" autocomplete="offBairro" required>
+                                name="bairro" class="form-control" autocomplete="offBairro" required [readonly]="isBairroReadOnly">
                         <label>Bairro *</label>
                       </div>
                     </div>
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="100" [(ngModel)]="endereco.extensaoEndereco.localidade" 
-                                name="localidade" class="form-control" autocomplete="offLc" required>
+                                name="localidade" class="form-control" autocomplete="offLc" required [readonly]="isLocalidadeReadOnly">
                         <label>Localidade</label>
                       </div>
                     </div>
                     <div class="col-sm-2">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="endereco.extensaoEndereco.uf" name="uf" #uf="ngModel" required>
+                        <select class="form-control" [(ngModel)]="endereco.extensaoEndereco.uf" [disabled]="isUfReadOnly" name="uf" #uf="ngModel" required>
                           <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
                         </select>
                         <label>Estado *</label>
@@ -334,7 +335,7 @@
                     </div>
                   </div>
 
-                  <div class="row small-padding">
+                  <div class="row s`ll-padding">
                     <div class="pull-left">
                         <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarEndereco()">
                           Adicionar Endereço

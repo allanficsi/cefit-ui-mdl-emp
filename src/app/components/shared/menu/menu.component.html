@@ -56,12 +56,23 @@
 						<li class="gui-folder" routerLinkActive="active expanded">
 							<a>
 								<div class="gui-icon"><i class="fa fa-bank"></i></div>
-								<span class="title">Espaços</span>
+								<span class="title">Espaço</span>
 							</a>
 							<ul>
 								<li routerLinkActive="active expanded"><a [routerLink]="['/espaco-pesquisar']" routerLinkActive="active"><span class="title">Pesquisar</span></a></li>
 								<li routerLinkActive="active expanded"><a [routerLink]="['/espaco-atualizar']" routerLinkActive="active"><span class="title">Cadastrar</span></a></li>
 								<li routerLinkActive="active expanded"><a [routerLink]="['/espaco-manutencao']" routerLinkActive="active"><span class="title">Manutenção</span></a></li>
+							</ul>
+						</li>
+
+						<li class="gui-folder" routerLinkActive="active expanded">
+							<a>
+								<div class="gui-icon"><i class="fa fa-exchange"></i></div>
+								<span class="title">Ações</span>
+							</a>
+							<ul>
+								<li routerLinkActive="active expanded"><a [routerLink]="['/acao-pesquisar']" routerLinkActive="active"><span class="title">Pesquisar</span></a></li>
+								<li routerLinkActive="active expanded"><a [routerLink]="['/acao-atualizar']" routerLinkActive="active"><span class="title">Cadastrar</span></a></li>
 							</ul>
 						</li>
 
@@ -75,6 +86,7 @@
 								<li routerLinkActive="active expanded"><a [routerLink]="['/local-pesquisar']" routerLinkActive="active"><span class="title">Local</span></a></li>
 								<li routerLinkActive="active expanded"><a [routerLink]="['/qualificacao-pesquisar']" routerLinkActive="active"><span class="title">Qualificação</span></a></li>
 								<li routerLinkActive="active expanded"><a [routerLink]="['/item-espaco-pesquisar']" routerLinkActive="active"><span class="title">Itens de Espaço</span></a></li>
+								<li routerLinkActive="active expanded"><a [routerLink]="['/tipo-acao-pesquisar']" routerLinkActive="active"><span class="title">Tipos de Ação</span></a></li>
 								<li routerLinkActive="active expanded"><a [routerLink]="['/layout-pesquisar']" routerLinkActive="active"><span class="title">Layout do Sistema</span></a></li>
 							</ul>
 						</li>

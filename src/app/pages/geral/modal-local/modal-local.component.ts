@@ -7,6 +7,7 @@ import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
 import { Local } from '../../../model/espaco/local';
 import { MensagemService } from '../../../services/shared/mensagem.service';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-modal-local',
@@ -22,8 +23,9 @@ export class ModalLocalComponent extends AptareCrudController<Local, {new(): Loc
               dialogService: DialogService,
               public dialogRef: MatDialogRef<ModalLocalComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Local, service, mensagem);   
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Local, service, mensagem, confirm);   
   }
 
   completarInserir() {

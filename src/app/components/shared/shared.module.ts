@@ -24,7 +24,6 @@ import { ModalItemEspacoComponent } from '../../pages/geral/modal-item-espaco/mo
 import { ModalItemManutencaoComponent } from '../../pages/geral/modal-item-manutencao/modal-item-manutencao.component';
 import { ModalQualificacaoComponent } from '../../pages/geral/modal-qualificacao/modal-qualificacao.component';
 import { ModalTelefoneComponent } from '../../pages/geral/modal-telefone/modal-telefone.component';
-//SHARED COMPONENTS
 import { HomeComponent } from '../../pages/home/home.component';
 import { ItemEspacoAtualizarComponent } from '../../pages/item-espaco/atualizar/item-espaco-atualizar.component';
 import { ItemEspacoPesquisarComponent } from '../../pages/item-espaco/pesquisar/item-espaco-pesquisar.component';
@@ -34,6 +33,14 @@ import { QualificacaoAtualizarComponent } from '../../pages/qualificacao/atualiz
 import { QualificacaoPesquisarComponent } from '../../pages/qualificacao/pesquisar/qualificacao-pesquisar.component';
 import { TrabalhadorAtualizarComponent } from '../../pages/trabalhador/atualizar/trabalhador-atualizar.component';
 import { TrabalhadorPesquisarComponent } from '../../pages/trabalhador/pesquisar/trabalhador-pesquisar.component';
+
+import { LovService } from '../../services/shared/lov.service';
+import { MensagemService } from '../../services/shared/mensagem.service';
+import { CboService } from '../../services/trabalhador/cbo.service';
+import { TrabalhadorService } from '../../services/trabalhador/trabalhador.service';
+import { VariaveisLovService } from '../../services/variaveis-lov.service';
+import { AuthInterceptor } from '../security/auth.interceptor';
+import { DialogService } from './../../dialog-service';
 import { CargoService } from '../../services/cadastro-unico/cargo.service';
 import { ContatoService } from '../../services/cadastro-unico/contato.service';
 import { CorreioService } from '../../services/correio/correio.service';
@@ -47,14 +54,10 @@ import { DominioService } from '../../services/geral/dominio.service';
 import { ProfissionalService } from '../../services/profissional/profissional.service';
 import { QualificacaoService } from '../../services/profissional/qualificacao.service';
 import { AptareCrudService } from '../../services/shared/aptare-crud.service';
-//SERVICES
-import { LovService } from '../../services/shared/lov.service';
-import { MensagemService } from '../../services/shared/mensagem.service';
-import { CboService } from '../../services/trabalhador/cbo.service';
-import { TrabalhadorService } from '../../services/trabalhador/trabalhador.service';
-import { VariaveisLovService } from '../../services/variaveis-lov.service';
-import { AuthInterceptor } from '../security/auth.interceptor';
-import { DialogService } from './../../dialog-service';
+import { TipoAcaoService } from "../../services/acao/tipo-acao.service";
+import { MyDateRangePickerModule } from 'mydaterangepicker';
+
+
 import { AptSoNumeroDirective } from './../../diretivas/sonumero/apt-so-numero.directive';
 import { AptValidaCnpjDirective } from './../../diretivas/validaCnpj/apt-valida-cnpj.directive';
 import { ValidaCpfDirective } from './../../diretivas/validaCpf/apt-valida-cpf.directive';
@@ -68,6 +71,18 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { DateFormat } from './util/date-format';
 import { ModalLocalComponent } from "../../pages/geral/modal-local/modal-local.component";
 import { EspacoManutencaoComponent } from "../../pages/espaco/manutencao/espaco-manutencao.component";
+import { TipoAcaoPesquisarComponent } from "../../pages/tipo-acao/pesquisar/tipo-acao-pesquisar.component";
+import { TipoAcaoAtualizarComponent } from "../../pages/tipo-acao/atualizar/tipo-acao-atualizar.component";
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmDialogService } from "../../services/shared/confirm-dialog.service";
+import { ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
+import { AcaoAtualizarComponent } from "../../pages/acao/atualizar/acao-atualizar.component";
+import { AcaoPesquisarComponent } from "../../pages/acao/pesquisar/acao-pesquisar.component";
+import { AcaoService } from "../../services/acao/acao.service";
+import { FeriadoService } from "src/app/services/geral/feriado.service";
+import { ParametroService } from "src/app/services/geral/parametro.service";
+
 
 @NgModule({
     exports: [
@@ -94,7 +109,9 @@ import { EspacoManutencaoComponent } from "../../pages/espaco/manutencao/espaco-
         BrowserAnimationsModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MyDateRangePickerModule,
         ToastrModule.forRoot(),
+        NgbModule.forRoot(),
         NgxMaskModule.forRoot()
     ],
     declarations: [
@@ -105,6 +122,7 @@ import { EspacoManutencaoComponent } from "../../pages/espaco/manutencao/espaco-
         NotfoundComponent,
         LovComponent,
         LovModalComponent,
+        ConfirmDialogComponent,
         AptSoNumeroDirective,
         ValidaCpfDirective,
         AptValidaCnpjDirective,
@@ -128,8 +146,14 @@ import { EspacoManutencaoComponent } from "../../pages/espaco/manutencao/espaco-
         QualificacaoPesquisarComponent,
         QualificacaoAtualizarComponent,
 
+        TipoAcaoPesquisarComponent,
+        TipoAcaoAtualizarComponent,
+
         ItemEspacoAtualizarComponent,
         ItemEspacoPesquisarComponent,
+
+        AcaoAtualizarComponent,
+        AcaoPesquisarComponent,
 
         EspacoAtualizarComponent,
         EspacoPesquisarComponent,
@@ -153,6 +177,7 @@ import { EspacoManutencaoComponent } from "../../pages/espaco/manutencao/espaco-
       DialogService,
       VariaveisLovService,
       CorreioService,
+      ConfirmDialogService,
 
       DominioService,
       EmpregadorService,
@@ -161,11 +186,15 @@ import { EspacoManutencaoComponent } from "../../pages/espaco/manutencao/espaco-
       CargoService,
       LocalService,
       QualificacaoService,
+      TipoAcaoService,
       CnaeService,
       CboService,
       ContatoService,
       ItemEspacoService,
       EspacoService,
+      AcaoService,
+      FeriadoService,
+      ParametroService,
       EspacoItemEspacoService,
       {
         provide: HTTP_INTERCEPTORS,
@@ -175,6 +204,8 @@ import { EspacoManutencaoComponent } from "../../pages/espaco/manutencao/espaco-
       { provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
       { provide: DateAdapter, useClass: DateFormat },
       
-    ]
+    ],
+
+    entryComponents: [ ConfirmDialogComponent ],
 })
 export class SharedModule { }

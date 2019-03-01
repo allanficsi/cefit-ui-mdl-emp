@@ -8,7 +8,8 @@ import { EspacoService } from '../../../services/espaco/espaco.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { ModalItemManutencaoComponent } from '../../geral/modal-item-manutencao/modal-item-manutencao.component';
 import { ResponseApi } from '../../../model/response-api';
-import { EspacoFiltro } from 'src/app/model/espaco/filtro/espaco-filtro';
+import { EspacoFiltro } from '../../../model/espaco/filtro/espaco-filtro';
+import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-espaco-manutencao',
@@ -22,8 +23,9 @@ export class EspacoManutencaoComponent extends AptareCrudController<Espaco, {new
               service: EspacoService,
               dialog: MatDialog,
               dialogService: DialogService,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Espaco, service, mensagem);
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Espaco, service, mensagem, confirm);
   }
 
   iniciarPaginaPesquisar() {

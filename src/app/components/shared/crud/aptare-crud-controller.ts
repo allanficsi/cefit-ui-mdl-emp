@@ -7,6 +7,8 @@ import { MensagemService } from '../../../services/shared/mensagem.service';
 import { DialogService } from '../../../dialog-service';
 import { MatDialog } from '@angular/material';
 import { AptareUtilController } from '../util/aptare-util-controller';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
+import { IMyDrpOptions } from 'mydaterangepicker';
 
 export class AptareCrudController <Entity, 
                                   CT extends { new(itemEntity?: any): Entity },>
@@ -32,7 +34,8 @@ export class AptareCrudController <Entity,
               public dialog: MatDialog,
               public typeEntity: CT, 
               public service: AptareCrudService<Entity>,
-              public mensagem: MensagemService) {
+              public mensagem: MensagemService,
+              public confirmDialogService: ConfirmDialogService) {
                  super(null,router);
               }            
 
@@ -126,31 +129,32 @@ export class AptareCrudController <Entity,
   completarPosAlterar() {}
 
   inativar(obj: Entity){
-    this.dialogService.confirm('Tem certeza que deseja inativar este registro?')
-      .then((candelete:boolean) => {
-          if(candelete){
-            this.service.inativar(obj).subscribe((responseApi:ResponseApi) => {
-                this.mensagem.msgSucesso('O registro foi inativado com sucesso.');
-                this.statusInativar(obj);
-            } , err => {
-              this.mensagem.tratarErro(err);
-            });
-          }
+    this.confirmDialogService.openConfirmDialog('Deseja realmente inativar este registro?')
+      .afterClosed().subscribe(res =>{
+        if(res){
+          this.service.inativar(obj).subscribe((responseApi:ResponseApi) => {
+              this.mensagem.msgSucesso('O registro foi inativado com sucesso.');
+              this.statusInativar(obj);
+          } , err => {
+            this.mensagem.tratarErro(err);
+          });
+                    
+        } 
       });
   }
 
   ativar(obj: Entity){
-    this.dialogService.confirm('Tem certeza que deseja ativar este registro?')
-      .then((candelete:boolean) => {
-          if(candelete){
-            this.service.ativar(obj).subscribe((responseApi:ResponseApi) => {
-                this.mensagem.msgSucesso('O registro foi ativado com sucesso.');
-                this.statusAtivar(obj);
-            } , err => {
-              this.mensagem.tratarErro(err);
-            });
-          }
-      });
+    this.confirmDialogService.openConfirmDialog('Deseja realmente ativar este registro?')
+    .afterClosed().subscribe(res =>{
+      if(res){
+        this.service.ativar(obj).subscribe((responseApi:ResponseApi) => {
+          this.mensagem.msgSucesso('O registro foi ativado com sucesso.');
+          this.statusAtivar(obj);
+        } , err => {
+          this.mensagem.tratarErro(err);
+        });
+      }
+    });
   }
 
   getNewEntityInstance(itemEntity?: any): Entity {    
@@ -187,6 +191,24 @@ export class AptareCrudController <Entity,
   {
     return JSON.parse(localStorage.getItem("usuario"));
   }
+
+  myDateRangePickerOptions: IMyDrpOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+    firstDayOfWeek: 'su',
+    height: '32px',
+    editableDateRangeField: false,
+    openSelectorOnInputClick: true,
+    showClearBtn: false,
+    showClearDateRangeBtn: false,
+    markCurrentDay: true,
+    markCurrentYear: true,
+    markCurrentMonth: true,
+    monthSelector: true,
+    minYear: 2018,
+    dayLabels: {su: 'Dom', mo: 'Seg', tu: 'Ter', we: 'Qua', th: 'Qui', fr: 'Sex', sa: 'Sab'},
+    monthLabels: { 1: 'Jan', 2: 'Fev', 3: 'Mar', 4: 'Abr', 5: 'Mai', 6: 'Jun', 7: 'Jul', 8: 'Ago', 9: 'Set', 10: 'Out', 11: 'Nov', 12: 'Dez' }
+};
 
   setListasStaticas() {
     if(this.listaUf.length == 0) {

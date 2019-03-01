@@ -8,6 +8,7 @@ import { CargoService } from '../../../services/cadastro-unico/cargo.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { Qualificacao } from '../../../model/profissional/qualificacao';
 import { QualificacaoService } from '../../../services/profissional/qualificacao.service';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-qualificacao-pesquisar',
@@ -21,8 +22,9 @@ export class QualificacaoPesquisarComponent extends AptareCrudController<Qualifi
               service: QualificacaoService,
               dialog: MatDialog,
               dialogService: DialogService,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Cargo, service, mensagem);
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Cargo, service, mensagem, confirm);
   }
 
   inativarQualificacao(codigo) {

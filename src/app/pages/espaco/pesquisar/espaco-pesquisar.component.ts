@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { DialogService } from '../../../dialog-service';
 import { Espaco } from '../../../model/espaco/espaco';
 import { EspacoService } from '../../../services/espaco/espaco.service';
+import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
-import { ModalItemManutencaoComponent } from '../../geral/modal-item-manutencao/modal-item-manutencao.component';
 
 @Component({
   selector: 'app-espaco-pesquisar',
@@ -20,8 +20,9 @@ export class EspacoPesquisarComponent extends AptareCrudController<Espaco, {new(
               service: EspacoService,
               dialog: MatDialog,
               dialogService: DialogService,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Espaco, service, mensagem);
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Espaco, service, mensagem, confirm);
   }
 
   inativarItemEspaco(codigo) {

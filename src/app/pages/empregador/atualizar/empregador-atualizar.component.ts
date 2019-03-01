@@ -30,6 +30,7 @@ import { MensagemService } from '../../../services/shared/mensagem.service';
 import { ModalCargoComponent } from '../../geral/modal-cargo/modal-cargo.component';
 import { ModalEditarContatoComponent } from '../../geral/modal-editar-contato/modal-editar-contato.component';
 import { ModalTelefoneComponent } from '../../geral/modal-telefone/modal-telefone.component';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 
 @Component({
@@ -54,6 +55,11 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   endereco: Endereco;
   contato: Contato;
   telefonePf: Telefone;
+
+  isLogradouroReadOnly: boolean;
+  isBairroReadOnly: boolean;
+  isLocalidadeReadOnly: boolean;
+  isUfReadOnly: boolean;
   
   myControlCnae: FormControl = new FormControl();
   filteredOptions: Observable<Cnae[]>;
@@ -67,8 +73,9 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
               private correioService: CorreioService,
               private cargoService: CargoService,
               private cnaeService: CnaeService,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Empregador, service, mensagem);
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Empregador, service, mensagem, confirm);
  }
 
  ngOnInit(): void {
@@ -278,20 +285,36 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
           this.endereco.extensaoEndereco.bairro = correio.bairro;
           this.endereco.extensaoEndereco.localidade = correio.localidade;
           this.endereco.extensaoEndereco.uf = correio.uf;
+
+          this.endereco.extensaoEndereco.logradouro == "" ? this.isLogradouroReadOnly = false : this.isLogradouroReadOnly = true;
+          this.endereco.extensaoEndereco.bairro == "" ? this.isBairroReadOnly = false : this.isBairroReadOnly = true;
+          this.endereco.extensaoEndereco.localidade == "" ? this.isLocalidadeReadOnly = false : this.isLocalidadeReadOnly = true;
+          this.endereco.extensaoEndereco.uf == "" ? this.isUfReadOnly = false : this.isUfReadOnly = true;
+
         } else {
           this.endereco.extensaoEndereco.logradouro = null;
           this.endereco.extensaoEndereco.bairro = null;
           this.endereco.extensaoEndereco.localidade = null;
           this.endereco.extensaoEndereco.uf = 'AC';
+
+          this.isLogradouroReadOnly = false;
+          this.isBairroReadOnly = false;
+          this.isLocalidadeReadOnly = false;
+          this.isUfReadOnly = false;
         }
       } , err => {
         this.mensagem.tratarErro(err);
       });
     } else {
       this.endereco.extensaoEndereco.logradouro = null;
-          this.endereco.extensaoEndereco.bairro = null;
-          this.endereco.extensaoEndereco.localidade = null;
-          this.endereco.extensaoEndereco.uf = "AC";
+      this.endereco.extensaoEndereco.bairro = null;
+      this.endereco.extensaoEndereco.localidade = null;
+      this.endereco.extensaoEndereco.uf = "AC";
+
+      this.isLogradouroReadOnly = false;
+      this.isBairroReadOnly = false;
+      this.isLocalidadeReadOnly = false;
+      this.isUfReadOnly = false;
     }
   }
 

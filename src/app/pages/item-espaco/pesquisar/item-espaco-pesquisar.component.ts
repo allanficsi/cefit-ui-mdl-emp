@@ -7,6 +7,7 @@ import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { ItemEspaco } from '../../../model/espaco/item-espaco';
 import { ItemEspacoService } from '../../../services/espaco/item-espaco.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-item-espaco-pesquisar',
@@ -20,8 +21,9 @@ export class ItemEspacoPesquisarComponent extends AptareCrudController<ItemEspac
               service: ItemEspacoService,
               dialog: MatDialog,
               dialogService: DialogService,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, ItemEspaco, service, mensagem);
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, ItemEspaco, service, mensagem, confirm);
   }
 
   inativarItemEspaco(codigo) {

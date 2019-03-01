@@ -23,6 +23,7 @@ import { ModalEditarItemEspacoComponent } from '../../geral/modal-editar-item-es
 import { LocalService } from '../../../services/espaco/local.service';
 import { Local } from '../../../model/espaco/local';
 import { ModalLocalComponent } from '../../geral/modal-local/modal-local.component';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 
 @Component({
@@ -35,7 +36,12 @@ export class EspacoAtualizarComponent extends AptareCrudController<Espaco, {new(
   listaTipoEndereco = [];
   listaItemEspaco = [];
   listaLocal = [];
+
   itemEspaco: ItemEspaco;
+  isLogradouroReadOnly: boolean;
+  isBairroReadOnly: boolean;
+  isLocalidadeReadOnly: boolean;
+  isUfReadOnly: boolean;
 
   espacoItemEspaco: EspacoItemEspaco;
 
@@ -49,8 +55,9 @@ export class EspacoAtualizarComponent extends AptareCrudController<Espaco, {new(
               private correioService: CorreioService,
               private itemEspacoService: ItemEspacoService,
               private _location: Location,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Espaco, service, mensagem);    
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Espaco, service, mensagem, confirm);
   }
 
   voltar() {
@@ -128,7 +135,6 @@ export class EspacoAtualizarComponent extends AptareCrudController<Espaco, {new(
   }
 
   iniciarPaginaAlterar() {
-    
     this.objetoAtualiza.endereco = new Endereco();
     this.objetoAtualiza.endereco.extensaoEndereco = new ExtensaoEndereco();
     this.objetoAtualiza.listaEspacoItemEspaco = [];
@@ -167,10 +173,11 @@ export class EspacoAtualizarComponent extends AptareCrudController<Espaco, {new(
 
       
       this.objetoAtualiza.endereco.extensaoEndereco = eex;
-      // this.objetoAtualiza.listaEspacoItemEspaco = [];
-      // this.popularTipoEndereco();
-      // this.objetoAtualiza.endereco.extensaoEndereco = new ExtensaoEndereco();
-      console.log(this.objetoAtualiza);
+      
+      this.objetoAtualiza.endereco.extensaoEndereco.logradouro == "" ? this.isLogradouroReadOnly = false : this.isLogradouroReadOnly = true;
+      this.objetoAtualiza.endereco.extensaoEndereco.bairro == "" ? this.isBairroReadOnly = false : this.isBairroReadOnly = true;
+      this.objetoAtualiza.endereco.extensaoEndereco.localidade == "" ? this.isLocalidadeReadOnly = false : this.isLocalidadeReadOnly = true;
+      this.objetoAtualiza.endereco.extensaoEndereco.uf == "" ? this.isUfReadOnly = false : this.isUfReadOnly = true;
 
     } , err => {
       this.mensagem.tratarErro(err);  
@@ -377,7 +384,6 @@ export class EspacoAtualizarComponent extends AptareCrudController<Espaco, {new(
         && this.objetoAtualiza.endereco.cepFormatado != '') {
       let correio: Correio = new Correio();
       correio.cep = Number(this.objetoAtualiza.endereco.cepFormatado);
-
       this.correioService.get(correio)
                   .subscribe((responseApi:ResponseApi) => {
         let correio: Correio = new Correio();
@@ -386,24 +392,43 @@ export class EspacoAtualizarComponent extends AptareCrudController<Espaco, {new(
         this.objetoAtualiza.endereco.extensaoEndereco = new ExtensaoEndereco();
         
         if(correio != null) {
+
           this.objetoAtualiza.endereco.extensaoEndereco.logradouro = correio.logradouro;
           this.objetoAtualiza.endereco.extensaoEndereco.bairro = correio.bairro;
           this.objetoAtualiza.endereco.extensaoEndereco.localidade = correio.localidade;
           this.objetoAtualiza.endereco.extensaoEndereco.uf = correio.uf;
+
+          this.objetoAtualiza.endereco.extensaoEndereco.logradouro == "" ? this.isLogradouroReadOnly = false : this.isLogradouroReadOnly = true;
+          this.objetoAtualiza.endereco.extensaoEndereco.bairro == "" ? this.isBairroReadOnly = false : this.isBairroReadOnly = true;
+          this.objetoAtualiza.endereco.extensaoEndereco.localidade == "" ? this.isLocalidadeReadOnly = false : this.isLocalidadeReadOnly = true;
+          this.objetoAtualiza.endereco.extensaoEndereco.uf == "" ? this.isUfReadOnly = false : this.isUfReadOnly = true;
+
         } else {
+
           this.objetoAtualiza.endereco.extensaoEndereco.logradouro = null;
           this.objetoAtualiza.endereco.extensaoEndereco.bairro = null;
           this.objetoAtualiza.endereco.extensaoEndereco.localidade = null;
           this.objetoAtualiza.endereco.extensaoEndereco.uf = 'AC';
+
+          this.isLogradouroReadOnly = false;
+          this.isBairroReadOnly = false;
+          this.isLocalidadeReadOnly = false;
+          this.isUfReadOnly = false;
+
         }
       } , err => {
         this.mensagem.tratarErro(err);
       });
     } else {
       this.objetoAtualiza.endereco.extensaoEndereco.logradouro = null;
-          this.objetoAtualiza.endereco.extensaoEndereco.bairro = null;
-          this.objetoAtualiza.endereco.extensaoEndereco.localidade = null;
-          this.objetoAtualiza.endereco.extensaoEndereco.uf = "AC";
+      this.objetoAtualiza.endereco.extensaoEndereco.bairro = null;
+      this.objetoAtualiza.endereco.extensaoEndereco.localidade = null;
+      this.objetoAtualiza.endereco.extensaoEndereco.uf = "AC";
+
+      this.isLogradouroReadOnly = false;
+      this.isBairroReadOnly = false;
+      this.isLocalidadeReadOnly = false;
+      this.isUfReadOnly = false;
     }
   }
 

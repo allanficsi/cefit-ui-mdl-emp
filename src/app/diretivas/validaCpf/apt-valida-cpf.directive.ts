@@ -1,16 +1,17 @@
 import { element } from 'protractor';
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, ViewChild, Renderer2, Renderer, Input } from '@angular/core';
 
 @Directive({
   selector: '[aptValidaCpf]'
 })
 export class ValidaCpfDirective {
 
-  constructor(private element: ElementRef) {}
+  constructor(private element: ElementRef, private renderer: Renderer2) {}
+
 
   @HostListener('blur')
   blur() {   
-
+    
     let reg1 = /\./gi;
     let reg2 = /\-/gi;
     let str1 = this.element.nativeElement.value.replace(reg1,"");

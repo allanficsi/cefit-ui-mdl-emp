@@ -3,14 +3,11 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { DialogService } from '../../../dialog-service';
-import { Telefone } from '../../../model/cadastro-unico/telefone';
-import { Empregador } from '../../../model/empregador/empregador';
-import { Dominio } from '../../../model/geral/dominio';
-import { ResponseApi } from '../../../model/response-api';
-import { CargoService } from '../../../services/cadastro-unico/cargo.service';
-import { MensagemService } from '../../../services/shared/mensagem.service';
-import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { Auditoria } from '../../../model/auditoria';
+import { Cargo } from '../../../model/cadastro-unico/cargo';
+import { CargoService } from '../../../services/cadastro-unico/cargo.service';
+import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
+import { MensagemService } from '../../../services/shared/mensagem.service';
 
 @Component({
   selector: 'app-modal-cargo',
@@ -26,8 +23,9 @@ export class ModalCargoComponent extends AptareCrudController<Cargo, {new(): Car
               dialogService: DialogService,
               public dialogRef: MatDialogRef<ModalCargoComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Cargo, service, mensagem);   
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Cargo, service, mensagem, confirm);   
   }
 
   completarInserir() {

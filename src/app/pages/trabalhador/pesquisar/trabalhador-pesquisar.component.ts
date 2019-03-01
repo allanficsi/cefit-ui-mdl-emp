@@ -14,6 +14,7 @@ import { DominioService } from '../../../services/geral/dominio.service';
 import { ResponseApi } from '../../../model/response-api';
 import { Trabalhador } from '../../../model/trabalhador/trabalhador';
 import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-trabalhador-pesquisar',
@@ -30,8 +31,9 @@ export class TrabalhadorPesquisarComponent extends AptareCrudController<Trabalha
               dialog: MatDialog,
               dialogService: DialogService,
               private dominioService: DominioService,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Trabalhador, service, mensagem);   
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Trabalhador, service, mensagem, confirm);   
   }
 
   iniciarPaginaPesquisar() {

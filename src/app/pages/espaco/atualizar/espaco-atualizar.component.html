@@ -102,7 +102,7 @@
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.logradouro" 
-                                name="logradouro" class="form-control" required autocomplete="offLogEsp">
+                                name="logradouro" class="form-control" required autocomplete="offLogEsp" [readonly]="isLogradouroReadOnly">
                         <label>Logradrouro *</label>
                       </div>
                     </div>
@@ -127,7 +127,7 @@
 
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.endereco.pontoReferencia" 
+                        <input type="text" maxlength="100" [(ngModel)]="objetoAtualiza.endereco.pontoReferencia" 
                                 name="complemento" class="form-control" required autocomplete="offPrEsp">
                         <label>Ponto de Referência</label>
                       </div>
@@ -138,20 +138,20 @@
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.bairro" 
-                                name="bairro" class="form-control" autocomplete="offBrrEsp" required>
+                                name="bairro" class="form-control" autocomplete="offBrrEsp" required [readonly]="isBairroReadOnly">
                         <label>Bairro *</label>
                       </div>
                     </div>
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.localidade" 
-                                name="localidade" class="form-control" autocomplete="offLocEsp" required>
+                                name="localidade" class="form-control" [readonly]="isLocalidadeReadOnly" autocomplete="offLocEsp" required>
                         <label>Localidade</label>
                       </div>
                     </div>
                     <div class="col-sm-2">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.uf" name="uf" #uf="ngModel" required>
+                        <select class="form-control" [disabled]="isUfReadOnly" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.uf" name="uf" #uf="ngModel" required>
                           <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
                         </select>
                         <label>Estado *</label>

@@ -28,6 +28,10 @@ import { LocalAtualizarComponent } from '../../pages/local/atualizar/local-atual
 import { LocalPesquisarComponent } from '../../pages/local/pesquisar/local-pesquisar.component';
 import { ModalLocalComponent } from '../../pages/geral/modal-local/modal-local.component';
 import { EspacoManutencaoComponent } from '../../pages/espaco/manutencao/espaco-manutencao.component';
+import { TipoAcaoPesquisarComponent } from '../../pages/tipo-acao/pesquisar/tipo-acao-pesquisar.component';
+import { TipoAcaoAtualizarComponent } from '../../pages/tipo-acao/atualizar/tipo-acao-atualizar.component';
+import { AcaoPesquisarComponent } from '../../pages/acao/pesquisar/acao-pesquisar.component';
+import { AcaoAtualizarComponent } from '../../pages/acao/atualizar/acao-atualizar.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -64,9 +68,17 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'espaco-atualizar/:id', component: EspacoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'espaco-manutencao', component: EspacoManutencaoComponent, canActivate: [AuthGuard] },
 
+    { path : 'acao-pesquisar', component: AcaoPesquisarComponent, canActivate: [AuthGuard] },
+    { path : 'acao-atualizar', component: AcaoAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'acao-atualizar/:id', component: AcaoAtualizarComponent, canActivate: [AuthGuard] },
+
     { path : 'qualificacao-pesquisar', component: QualificacaoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'qualificacao-atualizar', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'qualificacao-atualizar/:id', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },
+
+    { path : 'tipo-acao-pesquisar', component: TipoAcaoPesquisarComponent, canActivate: [AuthGuard] },
+    { path : 'tipo-acao-atualizar', component: TipoAcaoAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'tipo-acao-atualizar/:id', component: TipoAcaoAtualizarComponent, canActivate: [AuthGuard] },
 
     { path : 'modal-telefone', component: ModalTelefoneComponent, canActivate: [AuthGuard] },
     { path : 'modal-cargo', component: ModalCargoComponent, canActivate: [AuthGuard] },
