@@ -10,6 +10,7 @@ import { MensagemService } from '../../../services/shared/mensagem.service';
 import { DominioService } from '../../../services/geral/dominio.service';
 import { ResponseApi } from '../../../model/response-api';
 import { Telefone } from '../../../model/cadastro-unico/telefone';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-modal-telefone',
@@ -29,8 +30,9 @@ export class ModalTelefoneComponent extends AptareCrudController<Empregador, {ne
               private dominioService: DominioService,
               public dialogRef: MatDialogRef<ModalTelefoneComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Empregador, service, mensagem);   
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Empregador, service, mensagem, confirm);
   }
 
   ngOnInit() {

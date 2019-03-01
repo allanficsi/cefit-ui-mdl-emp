@@ -34,11 +34,13 @@
                         <label>Tipo de Pessoa *</label>
                         <div style="margin-top: 10px;">
                         <label class="radio-inline radio-styled">
-                          <input type="radio" value="F" [(ngModel)]="objetoAtualiza.cadastroUnico.tipoPessoa" (change)="selecionarTipoPessoa()" name="tipoPessoa" #tipoPessoa="ngModel" >
+                          <input *ngIf="codigo == undefined" type="radio" value="F" [(ngModel)]="objetoAtualiza.cadastroUnico.tipoPessoa" (change)="selecionarTipoPessoa()" name="tipoPessoa" #tipoPessoa="ngModel" >
+                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="F" [(ngModel)]="objetoAtualiza.cadastroUnico.tipoPessoa" name="tipoPessoa" #tipoPessoa="ngModel" >
                           <span>Física</span>
                         </label>
                         <label class="radio-inline radio-styled">
-                          <input type="radio" value="J" [(ngModel)]="objetoAtualiza.cadastroUnico.tipoPessoa" (change)="selecionarTipoPessoa()" name="tipoPessoa" #tipoPessoa="ngModel" >
+                          <input *ngIf="codigo == undefined" type="radio" value="J" [(ngModel)]="objetoAtualiza.cadastroUnico.tipoPessoa" (change)="selecionarTipoPessoa()" name="tipoPessoa" #tipoPessoa="ngModel" >
+                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="J" [(ngModel)]="objetoAtualiza.cadastroUnico.tipoPessoa" (change)="selecionarTipoPessoa()" name="tipoPessoa" #tipoPessoa="ngModel" >
                           <span>Jurídica</span>
                         </label>
                         </div>
@@ -47,18 +49,22 @@
                     
                     <div class="col-sm-3" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
                       <div class="form-group">
-                        <input type="text" maxlength="18" aptValidaCnpj autocomplete="offCnpj"
+                        <input *ngIf="codigo == undefined" type="text" maxlength="18" aptValidaCnpj autocomplete="offCnpj"
                         [(ngModel)]="objetoAtualiza.cadastroUnico.cnpj" mask='00.000.000/0000-00'
-                              name="cnpj" class="form-control" required>  
+                              name="cnpj" class="form-control" required>
+                        <input *ngIf="codigo != undefined" type="text" [(ngModel)]="objetoAtualiza.cadastroUnico.cnpj" mask='00.000.000/0000-00'
+                                    name="cnpj" class="form-control" required readonly="true">  
                         <label>CNPJ *</label>
                       </div>
                     </div>
 
                     <div class="col-sm-3" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "F"'>
                       <div class="form-group">
-                        <input type="text" maxlength="18" aptValidaCpf autocomplete="offCpf"
+                        <input *ngIf="codigo == undefined" type="text" maxlength="18" aptValidaCpf autocomplete="offCpf"
                         [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'
-                              name="cpf" class="form-control" required>  
+                              name="cpf" class="form-control" required> 
+                        <input *ngIf="codigo != undefined" type="text" [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'
+                              name="cpf" class="form-control" required readonly="true">
                         <label>CPF *</label>
                       </div>
                     </div>
@@ -225,7 +231,7 @@
 
                     <div class="col-sm-5">
                       <div class="form-group">
-                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.logradouro" 
+                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.logradouro" [readonly]="isLogradouroReadOnly"
                                 name="logradouro" class="form-control" required autocomplete="offLogr">
                         <label>Logradrouro *</label>
                       </div>
@@ -243,7 +249,7 @@
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <input type="text" maxlength="100" [(ngModel)]="endereco.complemento" 
+                        <input type="text" maxlength="30" [(ngModel)]="endereco.complemento"  
                                 name="complemento" class="form-control" required autocomplete="offCompl">
                         <label>Complemento</label>
                       </div>
@@ -261,21 +267,21 @@
                   <div class="row">
                     <div class="col-sm-5">
                       <div class="form-group">
-                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.bairro" 
+                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.bairro" [readonly]="isBairroReadOnly"
                                 name="bairro" class="form-control" autocomplete="offBair" required>
                         <label>Bairro *</label>
                       </div>
                     </div>
                     <div class="col-sm-5">
                       <div class="form-group">
-                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.localidade" 
+                        <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.localidade" [readonly]="isLocalidadeReadOnly" 
                                 name="localidade" class="form-control" autocomplete="offLocl" required>
                         <label>Localidade</label>
                       </div>
                     </div>
                     <div class="col-sm-2">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="endereco.extensaoEndereco.uf" name="uf" #uf="ngModel" required>
+                        <select class="form-control" [(ngModel)]="endereco.extensaoEndereco.uf" name="uf" #uf="ngModel" [disabled]="isUfReadOnly" required>
                           <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
                         </select>
                         <label>Estado *</label>

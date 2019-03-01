@@ -9,6 +9,7 @@ import { Local } from '../../../model/espaco/local';
 import { ResponseApi } from '../../../model/response-api';
 import { LocalService } from '../../../services/espaco/local.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 
 @Component({
@@ -24,8 +25,9 @@ export class LocalAtualizarComponent extends AptareCrudController<Local, {new():
               dialog: MatDialog,                   
               service: LocalService,
               private _location: Location,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Local, service, mensagem);    
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Local, service, mensagem, confirm);    
   }
 
   voltar() {

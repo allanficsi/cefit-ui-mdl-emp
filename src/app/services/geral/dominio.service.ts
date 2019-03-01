@@ -5,7 +5,7 @@ import { Dominio } from '../../model/geral/dominio';
 @Injectable()
 export class DominioService extends AptareCrudService<Dominio> {
     
-    artefato(): string {    
+    artefato(): string {
         return "dominio";
     }
 

@@ -22,6 +22,7 @@ import { ProfissionalService } from '../../../services/profissional/profissional
 import { QualificacaoService } from '../../../services/profissional/qualificacao.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { ModalQualificacaoComponent } from '../../geral/modal-qualificacao/modal-qualificacao.component';
+import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-profissional-atualizar',
@@ -42,6 +43,11 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
   qualificacao: Qualificacao;
   //profissionalQualificacao = [];
 
+  isLogradouroReadOnly: boolean;
+  isBairroReadOnly: boolean;
+  isLocalidadeReadOnly: boolean;
+  isUfReadOnly: boolean;
+
   constructor(router: Router,
               dialogService: DialogService,
               route: ActivatedRoute,  
@@ -50,8 +56,9 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
               private dominioService: DominioService,
               private qualificacaoService: QualificacaoService,
               private correioService: CorreioService,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Profissional, service, mensagem);    
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Profissional, service, mensagem, confirm);    
   }
 
   setListasStaticas() {
@@ -235,20 +242,36 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
           this.endereco.extensaoEndereco.bairro = correio.bairro;
           this.endereco.extensaoEndereco.localidade = correio.localidade;
           this.endereco.extensaoEndereco.uf = correio.uf;
+
+          this.endereco.extensaoEndereco.logradouro == "" ? this.isLogradouroReadOnly = false : this.isLogradouroReadOnly = true;
+          this.endereco.extensaoEndereco.bairro == "" ? this.isBairroReadOnly = false : this.isBairroReadOnly = true;
+          this.endereco.extensaoEndereco.localidade == "" ? this.isLocalidadeReadOnly = false : this.isLocalidadeReadOnly = true;
+          this.endereco.extensaoEndereco.uf == "" ? this.isUfReadOnly = false : this.isUfReadOnly = true;
+          
         } else {
           this.endereco.extensaoEndereco.logradouro = null;
           this.endereco.extensaoEndereco.bairro = null;
           this.endereco.extensaoEndereco.localidade = null;
           this.endereco.extensaoEndereco.uf = 'AC';
+
+          this.isLogradouroReadOnly = false;
+          this.isBairroReadOnly = false;
+          this.isLocalidadeReadOnly = false;
+          this.isUfReadOnly = false;
         }
       } , err => {
         this.mensagem.tratarErro(err);
       });
     } else {
       this.endereco.extensaoEndereco.logradouro = null;
-          this.endereco.extensaoEndereco.bairro = null;
-          this.endereco.extensaoEndereco.localidade = null;
-          this.endereco.extensaoEndereco.uf = "AC";
+      this.endereco.extensaoEndereco.bairro = null;
+      this.endereco.extensaoEndereco.localidade = null;
+      this.endereco.extensaoEndereco.uf = "AC";
+
+      this.isLogradouroReadOnly = false;
+      this.isBairroReadOnly = false;
+      this.isLocalidadeReadOnly = false;
+      this.isUfReadOnly = false;
     }
   }
 
@@ -536,4 +559,19 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
     return this.validarInserir();
   }
 
+
+  inserir() {
+    if(this.objetoAtualiza.flagPsicologo == "S") {
+      this.confirmDialogService.openConfirmDialog('Você confirma que este profissional possui a formação exigida?')
+      .afterClosed().subscribe(res =>{
+        if(res){
+          super.inserir();
+        } else {
+          this.objetoAtualiza.flagPsicologo = "N";
+        }
+      });
+    } else {
+      super.inserir();
+    }
+  }
 }

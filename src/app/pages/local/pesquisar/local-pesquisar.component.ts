@@ -6,6 +6,7 @@ import { DialogService } from '../../../dialog-service';
 import { Local } from '../../../model/espaco/local';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { LocalService } from '../../../services/espaco/local.service';
+import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-local-pesquisar',
@@ -19,8 +20,9 @@ export class LocalPesquisarComponent extends AptareCrudController<Local, {new():
               service: LocalService,
               dialog: MatDialog,
               dialogService: DialogService,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Local, service, mensagem);
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Local, service, mensagem, confirm);
   }
 
   inativarItemEspaco(codigo) {

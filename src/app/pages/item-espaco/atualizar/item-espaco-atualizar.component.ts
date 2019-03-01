@@ -10,6 +10,7 @@ import { ResponseApi } from '../../../model/response-api';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { ItemEspaco } from '../../../model/espaco/item-espaco';
 import { ItemEspacoService } from '../../../services/espaco/item-espaco.service';
+import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-item-espaco-atualizar',
@@ -24,8 +25,9 @@ export class ItemEspacoAtualizarComponent extends AptareCrudController<ItemEspac
               dialog: MatDialog,                   
               service: ItemEspacoService,
               private _location: Location,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, ItemEspaco, service, mensagem);    
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, ItemEspaco, service, mensagem, confirm);    
   }
 
   voltar() {

@@ -8,6 +8,7 @@ import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { ItemEspaco } from '../../../model/espaco/item-espaco';
 import { ItemEspacoService } from '../../../services/espaco/item-espaco.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
+import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-modal-item-espaco',
@@ -23,8 +24,9 @@ export class ModalItemEspacoComponent extends AptareCrudController<ItemEspaco, {
               dialogService: DialogService,
               public dialogRef: MatDialogRef<ModalItemEspacoComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Cargo, service, mensagem);   
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Cargo, service, mensagem, confirm);   
   }
 
   completarInserir() {

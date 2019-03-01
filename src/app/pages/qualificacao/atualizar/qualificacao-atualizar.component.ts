@@ -11,6 +11,7 @@ import { CargoService } from '../../../services/cadastro-unico/cargo.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { Qualificacao } from '../../../model/profissional/qualificacao';
 import { QualificacaoService } from '../../../services/profissional/qualificacao.service';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 
 @Component({
@@ -26,8 +27,9 @@ export class QualificacaoAtualizarComponent extends AptareCrudController<Qualifi
               dialog: MatDialog,                   
               service: QualificacaoService,
               private _location: Location,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Qualificacao, service, mensagem);    
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Qualificacao, service, mensagem, confirm);    
   }
 
   voltar() {

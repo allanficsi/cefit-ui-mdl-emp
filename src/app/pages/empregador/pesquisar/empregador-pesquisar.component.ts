@@ -12,6 +12,7 @@ import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
 import { Dominio } from '../../../model/geral/dominio';
 import { DominioService } from '../../../services/geral/dominio.service';
 import { ResponseApi } from 'src/app/model/response-api';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-empregador-pesquisar',
@@ -29,8 +30,9 @@ export class EmpregadorPesquisarComponent extends AptareCrudController<Empregado
               dialog: MatDialog,
               dialogService: DialogService,
               private dominioService: DominioService,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Empregador, service, mensagem);   
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Empregador, service, mensagem, confirm);   
   }
 
   iniciarPaginaPesquisar() {

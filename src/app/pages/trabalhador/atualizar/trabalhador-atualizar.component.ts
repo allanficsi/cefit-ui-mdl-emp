@@ -22,6 +22,7 @@ import { DominioService } from '../../../services/geral/dominio.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { CboService } from '../../../services/trabalhador/cbo.service';
 import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
+import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-trabalhador-atualizar',
@@ -44,6 +45,11 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   trabalhadorCbo: TrabalhadorCbo;
   trabalhadorDeficiencia: TrabalhadorDeficiencia;
 
+  isLogradouroReadOnly: boolean;
+  isBairroReadOnly: boolean;
+  isLocalidadeReadOnly: boolean;
+  isUfReadOnly: boolean;
+
   constructor(router: Router,
               dialogService: DialogService,
               route: ActivatedRoute,  
@@ -52,8 +58,9 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
               private dominioService: DominioService,
               private correioService: CorreioService,
               private cboService: CboService,
-              mensagem: MensagemService) {
-    super(router, route, dialogService, dialog, Trabalhador, service, mensagem);    
+              mensagem: MensagemService,
+              confirm: ConfirmDialogService) {
+    super(router, route, dialogService, dialog, Trabalhador, service, mensagem, confirm);    
   }
 
   setListasStaticas() {
@@ -239,20 +246,36 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
           this.endereco.extensaoEndereco.bairro = correio.bairro;
           this.endereco.extensaoEndereco.localidade = correio.localidade;
           this.endereco.extensaoEndereco.uf = correio.uf;
+
+          this.endereco.extensaoEndereco.logradouro == "" ? this.isLogradouroReadOnly = false : this.isLogradouroReadOnly = true;
+          this.endereco.extensaoEndereco.bairro == "" ? this.isBairroReadOnly = false : this.isBairroReadOnly = true;
+          this.endereco.extensaoEndereco.localidade == "" ? this.isLocalidadeReadOnly = false : this.isLocalidadeReadOnly = true;
+          this.endereco.extensaoEndereco.uf == "" ? this.isUfReadOnly = false : this.isUfReadOnly = true;
+
         } else {
           this.endereco.extensaoEndereco.logradouro = null;
           this.endereco.extensaoEndereco.bairro = null;
           this.endereco.extensaoEndereco.localidade = null;
           this.endereco.extensaoEndereco.uf = 'AC';
+
+          this.isLogradouroReadOnly = false;
+          this.isBairroReadOnly = false;
+          this.isLocalidadeReadOnly = false;
+          this.isUfReadOnly = false;
         }
       } , err => {
         this.mensagem.tratarErro(err);
       });
     } else {
       this.endereco.extensaoEndereco.logradouro = null;
-          this.endereco.extensaoEndereco.bairro = null;
-          this.endereco.extensaoEndereco.localidade = null;
-          this.endereco.extensaoEndereco.uf = "AC";
+        this.endereco.extensaoEndereco.bairro = null;
+        this.endereco.extensaoEndereco.localidade = null;
+        this.endereco.extensaoEndereco.uf = "AC";
+
+        this.isLogradouroReadOnly = false;
+        this.isBairroReadOnly = false;
+        this.isLocalidadeReadOnly = false;
+        this.isUfReadOnly = false;
     }
   }
 
