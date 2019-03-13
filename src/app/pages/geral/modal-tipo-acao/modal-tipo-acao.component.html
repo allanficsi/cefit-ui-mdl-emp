@@ -1,0 +1,41 @@
+
+<!-- BEGIN BASICDATION -->
+<div class="row">     
+
+    <div class="col-lg-12">
+      
+        <div class="card-head card-head-sm">
+          <header><b>Adicionar Tipo de Ação</b></header>
+        </div>
+    
+        <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
+          
+          <div class="card-body" style="display: block;">          
+            
+            <div class="row">
+
+              <div class="col-sm-12">
+                  <div class="form-group">
+                    <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.descricao" autocomplete="off"
+                           name="descricao" class="form-control">
+                    <label>Nome</label>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="card-actionbar">
+              <div class="card-actionbar-row">
+                  <button type="button" (click)="inserir()" class="btn ink-reaction btn-raised btn-success" accesskey="F">
+                    Cadastrar
+                  </button> 
+                  &nbsp;
+                  <button class="btn btn-default" (click)="fechar()" data-dismiss="modal" type="button">Fechar</button>
+              </div>
+          </div>
+        </form>
+
+      
+    </div>
+
+  </div>

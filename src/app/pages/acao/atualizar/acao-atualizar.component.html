@@ -19,7 +19,9 @@
               <!-- ESPACO -->
               <div class="card card-outlined style-primary" id="divEspaco">
                 <div class="card-head">
-                  <header>Espaço</header>
+                  <header>Espaço
+                    <small>  (Selecione um espaço)</small>
+                  </header>
                 </div>
                 
                 <div class="card-body" style="display: block;">          
@@ -27,10 +29,10 @@
                   <div class="row">
                     <div class="col-sm-7">
                       <div class="form-group">
-                        <input type="text" (blur)="selecionarEspaco()" autocomplete="off" [formControl]="myControlEspaco" matInput class="form-control" [(ngModel)]="objetoAtualiza.espaco" name="codigoEspaco" [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                {{option.nome}}
+                        <input type="text" (blur)="selecionarEspaco()" autocomplete="off" [formControl]="myControlEspaco" matInput class="form-control" [(ngModel)]="objetoAtualiza.espaco" name="espaco" [matAutocomplete]="autoEsp">
+                        <mat-autocomplete #autoEsp="matAutocomplete" [displayWith]="displayFnEspaco">
+                            <mat-option *ngFor="let optEsp of filteredOptionsEspaco | async" [value]="optEsp">
+                                {{optEsp.nome}}
                             </mat-option>
                         </mat-autocomplete>
                         <label>Nome *</label>
@@ -39,7 +41,7 @@
                   </div>
 
                   <div class="row" *ngIf='(endereco != null) && (endereco != "")'>
-                    <div class="col-sm-7">
+                    <div class="col-sm-4">
                       <div class="form-group">
                         <label>Endereço</label>
                         {{endereco.cepFormatado}} - {{endereco.extensaoEndereco.logradouro}}, {{endereco.numero}} <br/>
@@ -48,16 +50,14 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                       <div class="form-group">
                         <label>Capacidade</label>
                         {{capacidade}} pessoa(s)
                       </div>
                     </div>
-                  </div>
 
-                  <div class="row" *ngIf='(endereco != null) && (endereco != "")'>
-                    <div class="col-sm-7">
+                    <div class="col-sm-4">
                       <div class="form-group">
                         <label>Itens</label>
                         <span *ngFor="let item of listaItens">
@@ -81,15 +81,15 @@
                   <div class="row">
                     <div class="col-sm-9">
                       <div class="form-group">
-                        <input type="text" maxlength="150" autocomplete="offNomeAc" [(ngModel)]="objetoAtualiza.nome" 
-                              name="nomeAcao" class="form-control" required>  
+                        <input type="text" maxlength="150" autocomplete="off" [(ngModel)]="objetoAtualiza.nome" 
+                              name="nomeAc" class="form-control" required>  
                         <label>Nome *</label>
                       </div>
                     </div>
 
                     <div class="col-sm-3">
                       <div class="form-group">
-                        <input type="text" mask="0000" autocomplete="offVgAc" [(ngModel)]="objetoAtualiza.numeroVagas" 
+                        <input type="text" mask="0000" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroVagas" 
                               name="numeroVagas" class="form-control" required>  
                         <label>Nº Vagas *</label>
                       </div>
@@ -168,17 +168,17 @@
                                 <thead class="style-default-dark">
                                   <tr>
                                     <th style="width: 30%;" class="text-center" >Data</th>
-                                    <th style="width: 16%;" class="text-center">Horario 1</th>
-                                    <th style="width: 16%;" class="text-center">Horario 2</th>
-                                    <th style="width: 16%;" class="text-center">Horario 3</th>
-                                    <th style="width: 16%;" class="text-center">Horario 4</th>
+                                    <th style="width: 16%;" class="text-center">Horário 1</th>
+                                    <th style="width: 16%;" class="text-center">Horário 2</th>
+                                    <th style="width: 16%;" class="text-center">Horário 3</th>
+                                    <th style="width: 16%;" class="text-center">Horário 4</th>
                                     <th class="text-center" style="width: 3%;"></th>
                                     <th class="text-center" style="width: 3%;" title="Apagar todos os horários"><i class="fa fa-eraser" (click)="limparAllHorario()" style="width:18px; height: 18px; cursor: pointer;"></i></th>
                                   </tr>
                                 </thead>
               
                                 <tr *ngFor="let item of listaAgenda; let i = index"  style.background = "{{item.fgFds ? '#f1f1f1' : (item.fgFeriado ? '#FFBF00' : 'white')}}">
-                                  <td class="text-center"><b>{{item.dataAgenda | date: 'dd/MM/yyyy'}} <span *ngIf="item.fgFds || item.fgFeriado">( {{item.nomeDia}} )</span></b></td>
+                                  <td class="text-center"><b>{{item.dataAgenda | date: 'dd/MM/yyyy'}} <span *ngIf="item.fgFds || item.fgFeriado">({{item.nomeDia}})</span></b></td>
                                   <td class="text-center">
                                     <input type="text" [(ngModel)]="item.nrHor1" mask="00:00" name="nrHor1{{i}}" class="form-control" style="text-align: center">
                                   </td>
@@ -209,30 +209,61 @@
 
 
 
-                <!-- PROFISSIONAIS -->
-                <div class="card card-outlined style-primary" id="divProfissionais">
-                    <div class="card-head">
-                      <header>PROFISSIONAIS</header>
-                    </div>
-                    
-                    <div class="card-body" style="display: block;">  
-                      <div class="row">
-                        <div class="col-sm-7">
-                          <div class="form-group">
-                            <input type="text" (blur)="selecionarProfissional()" autocomplete="off" [formControl]="myControlProfissional" matInput class="form-control" [(ngModel)]="objetoAtualiza.profissional" name="codigoProfissional" [matAutocomplete]="auto">
-                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                    {{option.nome}}
-                                </mat-option>
-                            </mat-autocomplete>
-                            <label>Nome *</label>
-                          </div>
-                        </div>
+            <!-- PROFISSIONAIS -->
+            <div class="card card-outlined style-primary" id="divProfissionais">
+                <div class="card-head">
+                  <header>PROFISSIONAIS</header>
+                </div>
+                
+                <div class="card-body" style="display: block;">  
+                  <div class="row">
+                    <div class="col-sm-7">
+                      <div class="form-group">
+                        <input type="text" autocomplete="off" [formControl]="myControlProfissional" matInput class="form-control" [(ngModel)]="profissional" name="profissional" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnProfissional">
+                            <mat-option *ngFor="let option of filteredOptionsProfissional | async" [value]="option">
+                                {{option.cadastroUnico.nome}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <label>Nome</label>
                       </div>
                     </div>
                   </div>
 
+                  <div class="row small-padding">
+                    <div class="pull-left">
+                        <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarProfissional()">
+                          Adicionar Profissional
+                        </button>
+                    </div>
+                  </div>
 
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th style="width: 70%;">Nome</th>
+                            <th>Cpf</th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let acaoProfissional of objetoAtualiza.listaAcaoProfissional; let i = index" [attr.data-index]="i">
+                            <td>{{acaoProfissional.profissional.cadastroUnico.nome}}</td>
+                            <td>{{acaoProfissional.profissional.cadastroUnico.cpf}}</td>
+                            
+                            <td style="width: 3%;">
+                              <i class="fa fa-trash" (click)="excluirProfissional(i)" style="cursor: pointer;" title="Inativar"></i>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
 
               <div class="card-actionbar">
                   <div class="card-actionbar-row">

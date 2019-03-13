@@ -39,7 +39,6 @@ export class ModalItemManutencaoComponent extends AptareCrudController<Espaco, {
                 .subscribe((responseApi:ResponseApi) => {
       this.objetoAtualiza = responseApi['data']; 
 
-      console.log(this.objetoAtualiza);
     } , err => {
       this.mensagem.tratarErro(err);
     });
