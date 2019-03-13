@@ -32,6 +32,7 @@ import { TipoAcaoPesquisarComponent } from '../../pages/tipo-acao/pesquisar/tipo
 import { TipoAcaoAtualizarComponent } from '../../pages/tipo-acao/atualizar/tipo-acao-atualizar.component';
 import { AcaoPesquisarComponent } from '../../pages/acao/pesquisar/acao-pesquisar.component';
 import { AcaoAtualizarComponent } from '../../pages/acao/atualizar/acao-atualizar.component';
+import { ModalTipoAcaoComponent } from '../../pages/geral/modal-tipo-acao/modal-tipo-acao.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -88,6 +89,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'modal-editar-item-espaco', component: ModalEditarItemEspacoComponent, canActivate: [AuthGuard] },
     { path : 'modal-manutencao-item', component: ModalItemManutencaoComponent, canActivate: [AuthGuard] },
     { path : 'modal-local-item', component: ModalLocalComponent, canActivate: [AuthGuard] },
+    { path : 'modal-tipo-acao-item', component: ModalTipoAcaoComponent, canActivate: [AuthGuard] },
 
     { path : 'layout-pesquisar', component: LayoutComponent, canActivate: [AuthGuard] },
 

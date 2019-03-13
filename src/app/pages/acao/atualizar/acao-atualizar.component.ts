@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
@@ -21,12 +21,17 @@ import { TipoAcao } from '../../../model/acao/tipo-acao';
 import { TipoAcaoService } from '../../../services/acao/tipo-acao.service';
 import { Agenda } from 'src/app/model/acao/agenda';
 import { IMyDateRangeModel } from 'mydaterangepicker';
-import { UtilService } from 'src/app/services/util.service';
-import { FeriadoService } from 'src/app/services/geral/feriado.service';
-import { Feriado } from 'src/app/model/geral/feriado';
-import { FeriadoFiltro } from 'src/app/model/geral/filtro/feriado-filtro';
-import { Parametro } from 'src/app/model/geral/parametro';
-import { ParametroService } from 'src/app/services/geral/parametro.service';
+import { UtilService } from '../../../services/util.service';
+import { FeriadoService } from '../../../services/geral/feriado.service';
+import { Feriado } from '../../../model/geral/feriado';
+import { FeriadoFiltro } from '../../../model/geral/filtro/feriado-filtro';
+import { Parametro } from '../../../model/geral/parametro';
+import { ParametroService } from '../../../services/geral/parametro.service';
+import { Profissional } from '../../../model/profissional/profissional';
+import { ModalTipoAcaoComponent } from '../../geral/modal-tipo-acao/modal-tipo-acao.component';
+import { ProfissionalService } from 'src/app/services/profissional/profissional.service';
+import { AcaoProfissional } from 'src/app/model/acao/acao-profissional';
+import { CadastroUnico } from 'src/app/model/cadastro-unico/cadastro-unico';
 
 
 @Component({
@@ -40,14 +45,21 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
   agenda: Agenda;
   listaAgenda = [];
 
+  profissional: Profissional;
+
   endereco: Endereco;
   capacidade: Number;
   listaEspaco = [];
+  listaProfissional = [];
   listaItens = [];
   listaTipoAcao = [];
   listaFeriado = [];
+
   myControlEspaco: FormControl = new FormControl();
-  filteredOptions: Observable<Espaco[]>;
+  filteredOptionsEspaco: Observable<Espaco[]>;
+
+  myControlProfissional: FormControl = new FormControl();
+  filteredOptionsProfissional: Observable<Profissional[]>;
 
   constructor(router: Router,
               dialogService: DialogService,
@@ -55,6 +67,7 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
               dialog: MatDialog,
               service: AcaoService,
               private espacoService: EspacoService,
+              private profissionalService: ProfissionalService,
               private feriadoService: FeriadoService,
               private tipoAcaoService: TipoAcaoService,
               private parametroService: ParametroService,
@@ -66,22 +79,45 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.filteredOptions = this.myControlEspaco.valueChanges
+
+    this.objetoAtualiza.listaAcaoProfissional = [];
+
+    // Autocomplete espaco
+    this.filteredOptionsEspaco = this.myControlEspaco.valueChanges
       .pipe(
         startWith<string | Espaco>(''),
         map(value => typeof value === 'string' ? value : value.nome),
-        map(nome => nome ? this._filter(nome) : this.listaEspaco.slice())
+        map(nome => nome ? this._filterEspaco(nome) : this.listaEspaco.slice())
+      );
+
+
+    // Autocomplete profissional
+    this.filteredOptionsProfissional = this.myControlProfissional.valueChanges
+      .pipe(
+        startWith<string | Profissional>(''),
+        map(value => typeof value === 'string' ? value : value.cadastroUnico.nome),
+        map(nome => nome ? this._filterProfissional(nome) : this.listaProfissional.slice())
       );
   }
 
-  displayFn(espaco?: Espaco): string | undefined {
+  displayFnEspaco(espaco?: Espaco): string | undefined {
     return espaco ? espaco.nome : undefined;
   }
 
-  private _filter(nome: string): Espaco[] {
+  displayFnProfissional(profissional?: Profissional): string | undefined {
+    return profissional ? profissional.cadastroUnico.nome : undefined;
+  }
+
+  private _filterEspaco(nome: string): Espaco[] {
     const filterValue = nome.toLowerCase();
 
-    return this.listaEspaco.filter(option => option.nome.toLowerCase().indexOf(filterValue) === 0);
+    return this.listaEspaco.filter(option => option.nome.toLowerCase().indexOf(filterValue) > -1);
+  }
+
+  private _filterProfissional(nome: string): Profissional[] {
+    const filterValue = nome.toLowerCase();
+
+    return this.listaProfissional.filter(option => option.cadastroUnico.nome.toLowerCase().indexOf(filterValue) > -1);
   }
 
   selecionarEspaco() {
@@ -134,15 +170,29 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
 
   setListasStaticas() {
     this.popularEspaco();
+    this.popularProfissional();
     this.popularTipoAcao(null);
   }
 
   popularEspaco() {
     let espaco: Espaco = new Espaco();
+    //espaco.flagAtivo = 'S';
 
     this.espacoService.pesquisar(espaco)
                 .subscribe((responseApi:ResponseApi) => {
       this.listaEspaco = responseApi['data']; 
+    } , err => {
+      this.mensagem.tratarErro(err);
+    });
+  }
+
+  popularProfissional() {
+    let profissional: Profissional = new Profissional();
+    profissional.flagAtivo = "S";
+
+    this.profissionalService.pesquisar(profissional)
+                .subscribe((responseApi:ResponseApi) => {
+      this.listaProfissional = responseApi['data'];
     } , err => {
       this.mensagem.tratarErro(err);
     });
@@ -168,11 +218,24 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
     });
   }
 
+  preparaAddTipoAcao() {
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '710px';
+    dialogConfig.height = '250px';
+
+    this.dialog.open(ModalTipoAcaoComponent, dialogConfig)
+                            .afterClosed().subscribe((data) => {
+      this.popularTipoAcao(data.codigo);
+    });
+
+  }
+
   iniciarPaginaAlterar() {
     let acao: Acao = new Acao();
     acao.codigo = +this.codigo;
 
-    // GET EMPREGADOR COM O CODIGO
+    // GET ACAO COM O CODIGO
     this.service.get(acao).subscribe((responseApi:ResponseApi) => {              
       this.objetoAtualiza = responseApi.data;
     } , err => {
@@ -182,9 +245,17 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
 
   completarInserir() {
     //this.objetoAtualiza.flagAtivo = 'S';
+    this.objetoAtualiza.flagValeRefeicao == null || typeof this.objetoAtualiza.flagValeRefeicao === 'undefined' ? this.objetoAtualiza.flagValeRefeicao = false : ''; 
+    this.objetoAtualiza.flagValeTransporte == null || typeof this.objetoAtualiza.flagValeTransporte === 'undefined' ? this.objetoAtualiza.flagValeTransporte = false : ''; 
+    this.objetoAtualiza.codigoTipoAcao = this.objetoAtualiza.tipoAcao.codigo;
+    this.objetoAtualiza.codigoEspaco = this.objetoAtualiza.espaco.codigo;
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
     this.objetoAtualiza.auditoria.dataInclusao = new Date();
+
+    if(this.listaAgenda != null && this.listaAgenda.length > 0) {
+      this.objetoAtualiza.listaAgenda = this.listaAgenda;
+    }
   }
 
   completarAlterar() {
@@ -203,8 +274,23 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
 
   validarInserir() {
     //VALIDACAO DE CAMPOS OBRIGATORIOS
+    if(this.objetoAtualiza.espaco == null || (typeof this.objetoAtualiza.espaco.codigo == 'undefined')) {
+      this.mensagem.tratarErroPersonalizado("", "O campo Espaço é obrigatório.");
+      return false;
+    }
+
     if(this.objetoAtualiza.nome == null || this.objetoAtualiza.nome == '') {
       this.mensagem.tratarErroPersonalizado("", "O campo Nome é obrigatório.");
+      return false;
+    }
+
+    if(this.objetoAtualiza.numeroVagas == null || this.objetoAtualiza.numeroVagas <= 0) {
+      this.mensagem.tratarErroPersonalizado("", "O campo Número de Vagas é obrigatório.");
+      return false;
+    }
+
+    if(this.objetoAtualiza.tipoAcao == null || this.objetoAtualiza.tipoAcao.codigo <= 0) {
+      this.mensagem.tratarErroPersonalizado("", "O campo Tipo de Ação é obrigatório.");
       return false;
     }
 
@@ -213,6 +299,13 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
 
   gerarGridHorarios(event: IMyDateRangeModel) {
     
+    if(event.beginDate.year == 0 && event.beginDate.month == 0 && event.beginDate.day == 0
+        && event.endDate.year == 0 && event.endDate.month == 0 && event.endDate.day == 0)
+    {
+      this.listaAgenda = [];
+      return;
+    }
+
     // Datas inicio e fim selecionadas
     let dataInicio = new Date(event.beginDate.year, event.beginDate.month-1, event.beginDate.day);
     let dataFim = new Date(event.endDate.year, event.endDate.month-1, event.endDate.day);
@@ -256,7 +349,7 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
           // verificando fim de semana
           if(agenda.dataAgenda.getDay() == 6) {
             agenda.fgFds = true;
-            agenda.nomeDia = "Sabado";
+            agenda.nomeDia = "Sábado";
             agenda.nrHor1 = null;
             agenda.nrHor2 = null;
             agenda.nrHor3 = null;
@@ -288,7 +381,10 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
             }
           });
 
-          console.log(agenda);
+          agenda.auditoria = new Auditoria();
+          agenda.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
+          agenda.auditoria.dataInclusao = new Date();
+
           this.listaAgenda.push(agenda);
         });
       } , err => {
@@ -314,6 +410,40 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
         element.nrHor4 = hor4;
       }
     });
+  }
+
+  excluirProfissional(index) {
+    this.objetoAtualiza.listaAcaoProfissional.splice(index,1);
+  }
+
+  adicionarProfissional() {
+    if(this.profissional == null || this.profissional.codigo == null) {
+      this.mensagem.tratarErroPersonalizado("","O campo Profissional é obrigatório.");
+      return false;
+    }
+
+    //VERIFICANDO SE O ITEM JA FOI ADICIONADO
+    if(this.objetoAtualiza.listaAcaoProfissional != null
+       && this.objetoAtualiza.listaAcaoProfissional.length > 0) {
+      for(let i = 0; i < this.objetoAtualiza.listaAcaoProfissional.length; i++) {
+        if(this.profissional.codigo === this.objetoAtualiza.listaAcaoProfissional[i].profissional.codigo) {
+          this.mensagem.tratarErroPersonalizado("","Este item já foi adicionado.");
+          return false;
+        }
+      }
+    }
+
+    let obj = new AcaoProfissional();
+    obj.codigoProfissional = this.profissional.codigo;
+    obj.profissional = this.profissional;
+    
+    this.objetoAtualiza.listaAcaoProfissional.push(obj);
+    this.resetAcaoProfissional();
+  }
+
+  resetAcaoProfissional() {
+    this.profissional = new Profissional();
+    this.profissional.cadastroUnico = new CadastroUnico();
   }
 
   limparAllHorario() {

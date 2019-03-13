@@ -32,10 +32,12 @@
                     
                     <div class="col-sm-3">
                       <div class="form-group">
-                        <input *ngIf="codigo == undefined" type="text" maxlength="18" aptValidaCpf #cpf="ngModel" autocomplete="off"
+                          <apt-cpf *ngIf="codigo == undefined" [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" name="cpf" [isReadOnly]="false"></apt-cpf>
+                          <apt-cpf *ngIf="codigo != undefined" [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" name="cpf" [isReadOnly]="true"></apt-cpf>
+                        <!-- <input *ngIf="codigo == undefined" type="text" maxlength="18" aptValidaCpf #cpf="ngModel" autocomplete="off"
                          [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00' name="cpf" class="form-control" required>
                         <input *ngIf="codigo != undefined" type="text" [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'
-                              name="cpf" class="form-control" required readonly="true">  
+                              name="cpf" class="form-control" required readonly="true">   -->
                         <label>CPF *</label>
                       </div>
                     </div>
@@ -208,7 +210,7 @@
                             </div>
 
                             <div class="input-group-btn">
-                              <button class="btn btn-default" (click)="preparaAddQualificacao()" type="button">Adicionar Qualificaçao</button>
+                              <button class="btn btn-default" (click)="preparaAddQualificacao()" type="button">Nova Qualificação</button>
                             </div>
                           </div>
                         </div>
@@ -218,7 +220,7 @@
                   <div class="row small-padding">
                     <div class="pull-left">
                         <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarQualificacao()">
-                          Adicionar Qualificacao
+                          Adicionar Qualificação
                         </button> 
                     </div>
                   </div>
@@ -335,7 +337,7 @@
                     </div>
                   </div>
 
-                  <div class="row s`ll-padding">
+                  <div class="row small-padding">
                     <div class="pull-left">
                         <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarEndereco()">
                           Adicionar Endereço
@@ -349,7 +351,7 @@
                         <thead class="style-primary-light">	
                           <tr>
                             <th>Tipo de Endereço</th>
-                            <th>Cep</th>
+                            <th>CEP</th>
                             <th>Logradouro</th>
                             <th>Número</th>
                             <th>Complemento</th>

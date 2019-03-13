@@ -17,9 +17,11 @@ export class ConfirmDialogService {
         disableClose: true,
         position: { top: "10px" },
         data :{
-          message : msg
+          message : msg,
+          fgAlert : false
         }
       });
     }
+
 
 }

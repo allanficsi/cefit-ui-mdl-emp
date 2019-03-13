@@ -13,12 +13,13 @@ import { TemplateComponent } from './components/shared/template/template.compone
 import { LoginComponent } from './pages/login/login.component';
 import { TokenService } from './services/token/token.service';
 import { UsuarioService } from './services/usuario/usuario.service';
+import { AptCpfComponent } from './components/shared/cpf/apt-cpf.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    TemplateComponent
+    TemplateComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +37,11 @@ import { UsuarioService } from './services/usuario/usuario.service';
     AuthGuard,
     {provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => LovComponent),
-      multi: true}    
+      multi: true},
+      {provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => AptCpfComponent),
+        multi: true},
+          
   ],
   bootstrap: [AppComponent]
 })

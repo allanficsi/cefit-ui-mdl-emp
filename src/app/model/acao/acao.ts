@@ -1,6 +1,8 @@
 import { Auditoria } from "../auditoria";
 import { Espaco } from "../espaco/espaco";
 import { TipoAcao } from "./tipo-acao";
+import { AcaoProfissional } from "./acao-profissional";
+import { Agenda } from "./agenda";
 
 export class Acao {
     
@@ -18,5 +20,7 @@ export class Acao {
    auditoria: Auditoria;
    espaco: Espaco;
    tipoAcao: TipoAcao;
+   listaAcaoProfissional: AcaoProfissional[];
+   listaAgenda: Agenda[];
 
 }

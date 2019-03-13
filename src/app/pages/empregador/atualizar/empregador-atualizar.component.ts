@@ -95,7 +95,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   private _filter(descricao: string): Cnae[] {
     const filterValue = descricao.toLowerCase();
 
-    return this.listaCnae.filter(option => option.descricao.toLowerCase().indexOf(filterValue) === 0);
+    return this.listaCnae.filter(option => option.descricao.toLowerCase().indexOf(filterValue) > -1);
   }
 
   setListasStaticas() {

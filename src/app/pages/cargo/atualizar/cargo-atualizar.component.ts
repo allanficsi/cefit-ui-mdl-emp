@@ -47,6 +47,7 @@ export class CargoAtualizarComponent extends AptareCrudController<Cargo, {new():
   }
 
   completarInserir() {
+    this.objetoAtualiza.descricao = this.objetoAtualiza.descricao.toUpperCase();
     this.objetoAtualiza.flagAtivo = 'S';
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();

@@ -456,6 +456,8 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
 
   validarInserir() {
 
+    console.log(this.objetoAtualiza);
+
     //VALIDACAO DE CAMPOS OBRIGATORIOS PF
     if(this.objetoAtualiza.cadastroUnico.cpf == null || this.objetoAtualiza.cadastroUnico.cpf == '') {
       this.mensagem.tratarErroPersonalizado("", "O campo CPF é obrigatório.");
