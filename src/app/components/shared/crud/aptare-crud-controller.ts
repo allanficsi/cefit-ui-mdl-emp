@@ -245,4 +245,15 @@ export class AptareCrudController <Entity,
     }
   }
 
+  limparCampos() {
+    this.dialogService.openConfirmDialog('Você deseja apagar todos os campos preenchidos?')
+      .afterClosed().subscribe(res =>{
+        if(res){
+          this.objetoAtualiza = this.getNewEntityInstance();
+          this.setListasStaticas();
+          this.iniciarPaginaInserir();
+        } 
+      });
+  }
+
 }
