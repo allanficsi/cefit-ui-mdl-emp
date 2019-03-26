@@ -14,6 +14,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { TokenService } from './services/token/token.service';
 import { UsuarioService } from './services/usuario/usuario.service';
 import { AptCpfComponent } from './components/shared/cpf/apt-cpf.component';
+import { AptEmailComponent } from './components/shared/email/apt-email.component';
 
 @NgModule({
   declarations: [
@@ -38,9 +39,12 @@ import { AptCpfComponent } from './components/shared/cpf/apt-cpf.component';
     {provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => LovComponent),
       multi: true},
-      {provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => AptCpfComponent),
-        multi: true},
+    {provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => AptCpfComponent),
+      multi: true},
+    {provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => AptEmailComponent),
+      multi: true}
           
   ],
   bootstrap: [AppComponent]

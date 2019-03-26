@@ -3,11 +3,11 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TipoAcao } from 'src/app/model/acao/tipo-acao';
 import { TipoAcaoService } from 'src/app/services/acao/tipo-acao.service';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
+import { DialogService } from 'src/app/services/shared/dialog.service';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
 import { MensagemService } from '../../../services/shared/mensagem.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 @Component({
   selector: 'app-modal-tipo-acao',
@@ -20,15 +20,15 @@ export class ModalTipoAcaoComponent extends AptareCrudController<TipoAcao, {new(
               route: ActivatedRoute,             
               service: TipoAcaoService,
               dialog: MatDialog,
-              dialogService: DialogService,
               public dialogRef: MatDialogRef<ModalTipoAcaoComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, TipoAcao, service, mensagem, confirm);   
+              dialogService: DialogService) {
+    super(router, route, dialog, TipoAcao, service, mensagem, dialogService);   
   }
 
   completarInserir() {
+    this.objetoAtualiza.descricao = this.objetoAtualiza.descricao.toUpperCase();
     this.objetoAtualiza.flagAtivo = 'S';
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();

@@ -2,13 +2,13 @@ import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
 import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { ItemEspaco } from '../../../model/espaco/item-espaco';
 import { ItemEspacoService } from '../../../services/espaco/item-espaco.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
-import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 @Component({
   selector: 'app-modal-item-espaco',
@@ -21,15 +21,15 @@ export class ModalItemEspacoComponent extends AptareCrudController<ItemEspaco, {
               route: ActivatedRoute,             
               service: ItemEspacoService,
               dialog: MatDialog,
-              dialogService: DialogService,
               public dialogRef: MatDialogRef<ModalItemEspacoComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Cargo, service, mensagem, confirm);   
+              dialogService: DialogService) {
+    super(router, route, dialog, Cargo, service, mensagem, dialogService);   
   }
 
   completarInserir() {
+    this.objetoAtualiza.descricao = this.objetoAtualiza.descricao.toUpperCase();
     this.objetoAtualiza.flagAtivo = 'S';
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();

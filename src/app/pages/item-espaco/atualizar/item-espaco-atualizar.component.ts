@@ -1,16 +1,15 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-
-import {Location} from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
-import { ResponseApi } from '../../../model/response-api';
-import { MensagemService } from '../../../services/shared/mensagem.service';
 import { ItemEspaco } from '../../../model/espaco/item-espaco';
+import { ResponseApi } from '../../../model/response-api';
 import { ItemEspacoService } from '../../../services/espaco/item-espaco.service';
-import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { MensagemService } from '../../../services/shared/mensagem.service';
+
 
 @Component({
   selector: 'app-item-espaco-atualizar',
@@ -20,14 +19,13 @@ import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.se
 export class ItemEspacoAtualizarComponent extends AptareCrudController<ItemEspaco, {new(): ItemEspaco}>{ 
 
   constructor(router: Router,
-              dialogService: DialogService,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
               service: ItemEspacoService,
               private _location: Location,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, ItemEspaco, service, mensagem, confirm);    
+              dialogService: DialogService) {
+    super(router, route, dialog, ItemEspaco, service, mensagem, dialogService);    
   }
 
   voltar() {
@@ -47,6 +45,7 @@ export class ItemEspacoAtualizarComponent extends AptareCrudController<ItemEspac
   }
 
   completarInserir() {
+    this.objetoAtualiza.descricao = this.objetoAtualiza.descricao.toUpperCase();
     this.objetoAtualiza.flagAtivo = 'S';
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
@@ -54,6 +53,7 @@ export class ItemEspacoAtualizarComponent extends AptareCrudController<ItemEspac
   }
 
   completarAlterar() {
+    this.objetoAtualiza.descricao = this.objetoAtualiza.descricao.toUpperCase();
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
     this.objetoAtualiza.auditoria.dataAlteracao = new Date();

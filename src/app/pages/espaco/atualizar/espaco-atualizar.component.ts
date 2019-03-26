@@ -9,7 +9,6 @@ import { Dominio } from 'src/app/model/geral/dominio';
 import { CorreioService } from 'src/app/services/correio/correio.service';
 import { DominioService } from 'src/app/services/geral/dominio.service';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
 import { Espaco } from '../../../model/espaco/espaco';
 import { ResponseApi } from '../../../model/response-api';
@@ -23,7 +22,8 @@ import { ModalEditarItemEspacoComponent } from '../../geral/modal-editar-item-es
 import { LocalService } from '../../../services/espaco/local.service';
 import { Local } from '../../../model/espaco/local';
 import { ModalLocalComponent } from '../../geral/modal-local/modal-local.component';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 
 @Component({
@@ -46,7 +46,6 @@ export class EspacoAtualizarComponent extends AptareCrudController<Espaco, {new(
   espacoItemEspaco: EspacoItemEspaco;
 
   constructor(router: Router,
-              dialogService: DialogService,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
               service: EspacoService,
@@ -56,8 +55,8 @@ export class EspacoAtualizarComponent extends AptareCrudController<Espaco, {new(
               private itemEspacoService: ItemEspacoService,
               private _location: Location,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Espaco, service, mensagem, confirm);
+              dialogService: DialogService) {
+    super(router, route, dialog, Espaco, service, mensagem, dialogService);
   }
 
   voltar() {

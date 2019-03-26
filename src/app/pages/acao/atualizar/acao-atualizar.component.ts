@@ -1,37 +1,36 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
-import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
-import { Acao } from '../../../model/acao/acao';
-import { Auditoria } from '../../../model/auditoria';
-import { ResponseApi } from '../../../model/response-api';
-import { AcaoService } from '../../../services/acao/acao.service';
-import { MensagemService } from '../../../services/shared/mensagem.service';
-import { FormControl } from '@angular/forms';
-import { Espaco } from '../../../model/espaco/espaco';
-import { Observable } from 'rxjs/Observable';
-import { EspacoService } from 'src/app/services/espaco/espaco.service';
-import { startWith, map } from 'rxjs/operators';
-import { ExtensaoEndereco } from 'src/app/model/cadastro-unico/extensao-endereco';
-import { Endereco } from '../../../model/cadastro-unico/endereco';
-import { TipoAcao } from '../../../model/acao/tipo-acao';
-import { TipoAcaoService } from '../../../services/acao/tipo-acao.service';
-import { Agenda } from 'src/app/model/acao/agenda';
 import { IMyDateRangeModel } from 'mydaterangepicker';
-import { UtilService } from '../../../services/util.service';
-import { FeriadoService } from '../../../services/geral/feriado.service';
+import { Observable } from 'rxjs/Observable';
+import { map, startWith } from 'rxjs/operators';
+import { AcaoProfissional } from 'src/app/model/acao/acao-profissional';
+import { Agenda } from 'src/app/model/acao/agenda';
+import { CadastroUnico } from 'src/app/model/cadastro-unico/cadastro-unico';
+import { ExtensaoEndereco } from 'src/app/model/cadastro-unico/extensao-endereco';
+import { EspacoService } from 'src/app/services/espaco/espaco.service';
+import { ProfissionalService } from 'src/app/services/profissional/profissional.service';
+import { DialogService } from 'src/app/services/shared/dialog.service';
+import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
+import { Acao } from '../../../model/acao/acao';
+import { TipoAcao } from '../../../model/acao/tipo-acao';
+import { Auditoria } from '../../../model/auditoria';
+import { Endereco } from '../../../model/cadastro-unico/endereco';
+import { Espaco } from '../../../model/espaco/espaco';
 import { Feriado } from '../../../model/geral/feriado';
 import { FeriadoFiltro } from '../../../model/geral/filtro/feriado-filtro';
 import { Parametro } from '../../../model/geral/parametro';
-import { ParametroService } from '../../../services/geral/parametro.service';
 import { Profissional } from '../../../model/profissional/profissional';
+import { ResponseApi } from '../../../model/response-api';
+import { AcaoService } from '../../../services/acao/acao.service';
+import { TipoAcaoService } from '../../../services/acao/tipo-acao.service';
+import { FeriadoService } from '../../../services/geral/feriado.service';
+import { ParametroService } from '../../../services/geral/parametro.service';
+import { MensagemService } from '../../../services/shared/mensagem.service';
+import { UtilService } from '../../../services/util.service';
 import { ModalTipoAcaoComponent } from '../../geral/modal-tipo-acao/modal-tipo-acao.component';
-import { ProfissionalService } from 'src/app/services/profissional/profissional.service';
-import { AcaoProfissional } from 'src/app/model/acao/acao-profissional';
-import { CadastroUnico } from 'src/app/model/cadastro-unico/cadastro-unico';
 
 
 @Component({
@@ -62,7 +61,6 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
   filteredOptionsProfissional: Observable<Profissional[]>;
 
   constructor(router: Router,
-              dialogService: DialogService,
               route: ActivatedRoute,
               dialog: MatDialog,
               service: AcaoService,
@@ -73,8 +71,8 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
               private parametroService: ParametroService,
               private _location: Location,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Acao, service, mensagem, confirm);    
+              dialogService: DialogService) {
+    super(router, route, dialog, Acao, service, mensagem, dialogService);    
   }
 
   ngOnInit(): void {

@@ -4,11 +4,13 @@ import { OnInit, AfterViewInit, AfterContentInit, OnDestroy, AfterViewChecked, R
 import { Router, ActivatedRoute } from '@angular/router';
 import { ResponseApi } from '../../../model/response-api';
 import { MensagemService } from '../../../services/shared/mensagem.service';
-import { DialogService } from '../../../dialog-service';
 import { MatDialog } from '@angular/material';
 import { AptareUtilController } from '../util/aptare-util-controller';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 import { IMyDrpOptions } from 'mydaterangepicker';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { CadastroUnico } from 'src/app/model/cadastro-unico/cadastro-unico';
+import { PessoaFisica } from 'src/app/model/cadastro-unico/pessoa-fisica';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 export class AptareCrudController <Entity, 
                                   CT extends { new(itemEntity?: any): Entity },>
@@ -27,15 +29,15 @@ export class AptareCrudController <Entity,
 
   listaUf = [];
 
+  cadastroUnico: CadastroUnico;
             
   constructor(public router: Router, 
               public route: ActivatedRoute,          
-              public dialogService: DialogService,
               public dialog: MatDialog,
               public typeEntity: CT, 
               public service: AptareCrudService<Entity>,
               public mensagem: MensagemService,
-              public confirmDialogService: ConfirmDialogService) {
+              public dialogService: DialogService) {
                  super(null,router);
               }            
 
@@ -129,7 +131,7 @@ export class AptareCrudController <Entity,
   completarPosAlterar() {}
 
   inativar(obj: Entity){
-    this.confirmDialogService.openConfirmDialog('Deseja realmente inativar este registro?')
+    this.dialogService.openConfirmDialog('Deseja realmente inativar este registro?')
       .afterClosed().subscribe(res =>{
         if(res){
           this.service.inativar(obj).subscribe((responseApi:ResponseApi) => {
@@ -144,7 +146,7 @@ export class AptareCrudController <Entity,
   }
 
   ativar(obj: Entity){
-    this.confirmDialogService.openConfirmDialog('Deseja realmente ativar este registro?')
+    this.dialogService.openConfirmDialog('Deseja realmente ativar este registro?')
     .afterClosed().subscribe(res =>{
       if(res){
         this.service.ativar(obj).subscribe((responseApi:ResponseApi) => {

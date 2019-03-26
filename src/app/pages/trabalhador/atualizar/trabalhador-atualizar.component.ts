@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
 import { Endereco } from '../../../model/cadastro-unico/endereco';
@@ -19,10 +18,10 @@ import { TrabalhadorCbo } from '../../../model/trabalhador/trabalhador-cbo';
 import { TrabalhadorDeficiencia } from '../../../model/trabalhador/trabalhador-deficiencia';
 import { CorreioService } from '../../../services/correio/correio.service';
 import { DominioService } from '../../../services/geral/dominio.service';
+import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { CboService } from '../../../services/trabalhador/cbo.service';
 import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-trabalhador-atualizar',
@@ -30,6 +29,8 @@ import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.ser
   styleUrls: ['./trabalhador-atualizar.component.css']
 })
 export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalhador, {new(): Trabalhador}>{ 
+
+  cadastroUnico: CadastroUnico;
 
   listaTipoEndereco = [];
   listaTipoTelefone = [];
@@ -51,7 +52,6 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   isUfReadOnly: boolean;
 
   constructor(router: Router,
-              dialogService: DialogService,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
               service: TrabalhadorService,
@@ -59,8 +59,8 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
               private correioService: CorreioService,
               private cboService: CboService,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Trabalhador, service, mensagem, confirm);    
+              dialogService: DialogService) {
+    super(router, route, dialog, Trabalhador, service, mensagem, dialogService);    
   }
 
   setListasStaticas() {
@@ -89,6 +89,105 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     this.objetoAtualiza.cadastroUnico.pessoaFisica.ufOrgaoEmissorRg = 'AC';
     this.objetoAtualiza.cadastroUnico.pessoaFisica.sexo = 'M';
     this.objetoAtualiza.cadastroUnico.pessoaFisica.estadoCivil = 1; 
+
+  }
+
+  carregarCadastroUnico(event) {
+
+    // Verificando se existe trabalhador com o cdcun
+    if(event.codigo !== null && typeof event.codigo !== 'undefined'){
+      
+      let objTrb: Trabalhador = new Trabalhador();
+      objTrb.codigoCadastroUnico = event.codigo;
+
+       this.service.get(objTrb).subscribe((responseApi:ResponseApi) => {
+         
+        this.objetoAtualiza = new Trabalhador();
+        this.iniciarPaginaInserir();
+
+        if(responseApi['data'] !== null && typeof responseApi['data'] !== 'undefined') {
+          this.objetoAtualiza = responseApi['data'];
+          this.objetoAtualiza.dataEmissaoCtps = new Date(this.objetoAtualiza.dataEmissaoCtps);
+          this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg);
+          this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento);
+
+          // Carregando dados do trabalhador
+          this.listaTrabalhadorCbo = [];
+          if(typeof this.objetoAtualiza.listaTrabalhadorCbo !== 'undefined') {
+            for(let i = 0; i < this.objetoAtualiza.listaTrabalhadorCbo.length; i++) {
+              //console.log(this.objetoAtualiza);
+              this.objetoAtualiza.listaTrabalhadorCbo[i].descricaoCbo = this.objetoAtualiza.listaTrabalhadorCbo[i].cbo.nome;
+              this.listaTrabalhadorCbo.push(this.objetoAtualiza.listaTrabalhadorCbo[i]);
+            }
+          }
+    
+          this.listaTrabalhadorDeficiencia = [];
+          if(typeof this.objetoAtualiza.listaTrabalhadorDeficiencia !== 'undefined') {
+            for(let i = 0; i < this.objetoAtualiza.listaTrabalhadorDeficiencia.length; i++) {
+              this.listaTrabalhadorDeficiencia.push(this.objetoAtualiza.listaTrabalhadorDeficiencia[i]);
+            }
+          }
+
+          this.mensagem.tratarErroPersonalizado("", "Já existe um trabalhador cadastrado com este cpf.");
+
+        } else {
+
+          this.listaTrabalhadorCbo = [];
+          this.listaTrabalhadorDeficiencia = [];
+
+        }
+
+        this.objetoAtualiza.cadastroUnico = event;
+        this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg);
+        this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento);
+
+        //populando endereco
+        this.listaEndereco = [];
+    
+          if(typeof this.objetoAtualiza.cadastroUnico.listaEndereco !== 'undefined') {
+            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.listaEndereco.length; i++) {
+    
+              let eex: ExtensaoEndereco = new ExtensaoEndereco();
+    
+              if(this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio != null) {
+                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.logradouro;
+                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.bairro;
+                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.localidade;
+                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.uf;
+              } else {
+                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.logradouro;
+                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.bairro;
+                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.localidade;
+                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.uf;
+              }
+    
+              this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco = eex;
+              this.listaEndereco.push(this.objetoAtualiza.cadastroUnico.listaEndereco[i]);
+    
+            }
+          }
+    
+          // populando telefone
+          this.listaTelefonePf = [];
+          if(typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone !== 'undefined') {
+            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone.length; i++) {
+              this.listaTelefonePf.push(this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i]);
+            }
+          }
+        //}
+
+       } , err => {
+         this.mensagem.tratarErro(err);
+       });
+    } else {
+      this.objetoAtualiza = new Trabalhador();
+      this.iniciarPaginaInserir();
+      this.listaTrabalhadorDeficiencia = [];
+      this.listaTrabalhadorCbo = [];
+      this.listaEndereco = [];
+      this.listaTelefonePf = [];
+      this.objetoAtualiza.cadastroUnico.cpf = event.cpf;
+    }
 
   }
 
@@ -149,6 +248,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       this.objetoAtualiza.dataEmissaoCtps = new Date(this.objetoAtualiza.dataEmissaoCtps);
       this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg);
       this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento);
+
       this.listaTelefonePf = [];
       if(typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone !== 'undefined') {
         for(let i = 0; i < this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone.length; i++) {
@@ -320,9 +420,10 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       telefoneAdicionar.auditoria.dataInclusao = new Date();
       telefoneAdicionar.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
       telefoneAdicionar.flagAtivo = 'S';
+      telefoneAdicionar.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false ;
 
       this.listaTelefonePf.push(telefoneAdicionar);
-      //console.log(this.listaTelefonePf);
+      console.log(this.listaTelefonePf);
       this.resetTelefonePf();
     }
 
@@ -441,6 +542,12 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     this.objetoAtualiza.cadastroUnico.auditoria.dataInclusao = new Date();
     this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
 
+    if(this.objetoAtualiza.cadastroUnico !== null
+      && this.objetoAtualiza.cadastroUnico.codigo !== null && typeof this.objetoAtualiza.cadastroUnico.codigo !== 'undefined') {
+        this.objetoAtualiza.cadastroUnico.auditoria.dataAlteracao = new Date();
+        this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+    }
+
   }
 
   completarAlterar() {
@@ -513,6 +620,8 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
   validarInserir() {
 
+    console.log(this.cadastroUnico);
+
     //VALIDACAO DE CAMPOS OBRIGATORIOS PF
     if(this.objetoAtualiza.cadastroUnico.cpf == null || this.objetoAtualiza.cadastroUnico.cpf == '') {
       this.mensagem.tratarErroPersonalizado("", "O campo CPF é obrigatório.");
@@ -541,6 +650,11 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
     if(this.objetoAtualiza.cadastroUnico.pessoaFisica.nomeMae == null || this.objetoAtualiza.cadastroUnico.pessoaFisica.nomeMae == '') {
       this.mensagem.tratarErroPersonalizado("", "O campo Nome da Mãe é obrigatório.");
+      return false;
+    }
+
+    if(this.objetoAtualiza.cadastroUnico.email == null || this.objetoAtualiza.cadastroUnico.email == '') {
+      this.mensagem.tratarErroPersonalizado("", "O campo E-mail é obrigatório.");
       return false;
     }
 

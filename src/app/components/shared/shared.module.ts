@@ -58,18 +58,16 @@ import { DominioService } from '../../services/geral/dominio.service';
 import { ProfissionalService } from '../../services/profissional/profissional.service';
 import { QualificacaoService } from '../../services/profissional/qualificacao.service';
 import { AptareCrudService } from '../../services/shared/aptare-crud.service';
-import { ConfirmDialogService } from "../../services/shared/confirm-dialog.service";
+import { DialogService } from "../../services/shared/dialog.service";
 import { LovService } from '../../services/shared/lov.service';
 import { MensagemService } from '../../services/shared/mensagem.service';
 import { CboService } from '../../services/trabalhador/cbo.service';
 import { TrabalhadorService } from '../../services/trabalhador/trabalhador.service';
 import { VariaveisLovService } from '../../services/variaveis-lov.service';
 import { AuthInterceptor } from '../security/auth.interceptor';
-import { DialogService } from './../../dialog-service';
 import { AptSoNumeroDirective } from './../../diretivas/sonumero/apt-so-numero.directive';
 import { AptValidaCnpjDirective } from './../../diretivas/validaCnpj/apt-valida-cnpj.directive';
 import { ValidaCpfDirective } from './../../diretivas/validaCpf/apt-valida-cpf.directive';
-import { ConfirmDialogComponent } from "./confirm-dialog/confirm-dialog.component";
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout/layout.component';
@@ -80,6 +78,9 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { DateFormat } from './util/date-format';
 import { AptCpfComponent } from "./cpf/apt-cpf.component";
 import { ModalTipoAcaoComponent } from "../../pages/geral/modal-tipo-acao/modal-tipo-acao.component";
+import { CadastroUnicoService } from "src/app/services/cadastro-unico/cadastro-unico.service";
+import { DialogComponent } from "./confirm-dialog/dialog.component";
+import { AptEmailComponent } from "./email/apt-email.component";
 
 
 @NgModule({
@@ -120,7 +121,7 @@ import { ModalTipoAcaoComponent } from "../../pages/geral/modal-tipo-acao/modal-
         NotfoundComponent,
         LovComponent,
         LovModalComponent,
-        ConfirmDialogComponent,
+        DialogComponent,
         AptSoNumeroDirective,
         ValidaCpfDirective,
         AptValidaCnpjDirective,
@@ -169,6 +170,8 @@ import { ModalTipoAcaoComponent } from "../../pages/geral/modal-tipo-acao/modal-
         ModalTipoAcaoComponent,
         
         LayoutComponent,
+        AptCpfComponent,
+        AptEmailComponent,
     ],
     providers: [
       LovService,
@@ -177,7 +180,7 @@ import { ModalTipoAcaoComponent } from "../../pages/geral/modal-tipo-acao/modal-
       DialogService,
       VariaveisLovService,
       CorreioService,
-      ConfirmDialogService,
+      DialogService,
 
       DominioService,
       EmpregadorService,
@@ -195,6 +198,7 @@ import { ModalTipoAcaoComponent } from "../../pages/geral/modal-tipo-acao/modal-
       AcaoService,
       FeriadoService,
       ParametroService,
+      CadastroUnicoService,
       EspacoItemEspacoService,
       {
         provide: HTTP_INTERCEPTORS,
@@ -206,6 +210,6 @@ import { ModalTipoAcaoComponent } from "../../pages/geral/modal-tipo-acao/modal-
       
     ],
 
-    entryComponents: [ ConfirmDialogComponent ],
+    entryComponents: [ DialogComponent ],
 })
 export class SharedModule { }

@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { CargoService } from '../../../services/cadastro-unico/cargo.service';
+import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-cargo-pesquisar',
@@ -19,10 +18,9 @@ export class CargoPesquisarComponent extends AptareCrudController<Cargo, {new():
               route: ActivatedRoute,             
               service: CargoService,
               dialog: MatDialog,
-              dialogService: DialogService,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Cargo, service, mensagem, confirm);
+              dialogService: DialogService) {
+    super(router, route, dialog, Cargo, service, mensagem, dialogService);
   }
 
   inativarCargo(codigo) {

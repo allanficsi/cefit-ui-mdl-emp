@@ -3,11 +3,11 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalService } from '../../../services/espaco/local.service';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
 import { Local } from '../../../model/espaco/local';
 import { MensagemService } from '../../../services/shared/mensagem.service';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 @Component({
   selector: 'app-modal-local',
@@ -20,15 +20,15 @@ export class ModalLocalComponent extends AptareCrudController<Local, {new(): Loc
               route: ActivatedRoute,             
               service: LocalService,
               dialog: MatDialog,
-              dialogService: DialogService,
               public dialogRef: MatDialogRef<ModalLocalComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Local, service, mensagem, confirm);   
+              dialogService: DialogService) {
+    super(router, route, dialog, Local, service, mensagem, dialogService);   
   }
 
   completarInserir() {
+    this.objetoAtualiza.nome = this.objetoAtualiza.nome.toUpperCase();
     this.objetoAtualiza.flagAtivo = 'S';
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();

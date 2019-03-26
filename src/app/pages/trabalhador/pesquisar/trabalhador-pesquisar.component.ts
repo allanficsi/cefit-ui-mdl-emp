@@ -1,20 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Empregador } from '../../../model/empregador/empregador';
-import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { Router, ActivatedRoute } from '@angular/router';
-import { EmpregadorService } from '../../../services/empregador/empregador.service';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { DialogService } from '../../../dialog-service';
-import { MensagemService } from '../../../services/shared/mensagem.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
-import { PessoaJuridica } from '../../../model/cadastro-unico/pessoa-juridica';
 import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
 import { Dominio } from '../../../model/geral/dominio';
-import { DominioService } from '../../../services/geral/dominio.service';
 import { ResponseApi } from '../../../model/response-api';
 import { Trabalhador } from '../../../model/trabalhador/trabalhador';
+import { DominioService } from '../../../services/geral/dominio.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { MensagemService } from '../../../services/shared/mensagem.service';
 import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-trabalhador-pesquisar',
@@ -29,11 +25,10 @@ export class TrabalhadorPesquisarComponent extends AptareCrudController<Trabalha
               route: ActivatedRoute,             
               service: TrabalhadorService,
               dialog: MatDialog,
-              dialogService: DialogService,
               private dominioService: DominioService,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Trabalhador, service, mensagem, confirm);   
+              dialogService: DialogService) {
+    super(router, route, dialog, Trabalhador, service, mensagem, dialogService);   
   }
 
   iniciarPaginaPesquisar() {

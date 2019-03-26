@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
 import { Qualificacao } from '../../../model/profissional/qualificacao';
 import { QualificacaoService } from '../../../services/profissional/qualificacao.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 @Component({
   selector: 'app-modal-qualificacao',
@@ -20,15 +20,15 @@ export class ModalQualificacaoComponent extends AptareCrudController<Qualificaca
               route: ActivatedRoute,             
               service: QualificacaoService,
               dialog: MatDialog,
-              dialogService: DialogService,
               public dialogRef: MatDialogRef<ModalQualificacaoComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Qualificacao, service, mensagem, confirm);   
+              dialogService: DialogService) {
+    super(router, route, dialog, Qualificacao, service, mensagem, dialogService);   
   }
 
   completarInserir() {
+    this.objetoAtualiza.descricao = this.objetoAtualiza.descricao.toUpperCase();
     this.objetoAtualiza.flagAtivo = 'S';
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();

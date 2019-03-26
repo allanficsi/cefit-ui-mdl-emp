@@ -26,18 +26,13 @@
                   <header>Dados Gerais</header>
                 </div>
                 
-                <div class="card-body" style="display: block;">          
+                <div class="card-body" style="display: block;">
 
                   <div class="row">
                     
                     <div class="col-sm-3">
                       <div class="form-group">
-                          <apt-cpf *ngIf="codigo == undefined" [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" name="cpf" [isReadOnly]="false"></apt-cpf>
-                          <apt-cpf *ngIf="codigo != undefined" [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" name="cpf" [isReadOnly]="true"></apt-cpf>
-                        <!-- <input *ngIf="codigo == undefined" type="text" maxlength="18" aptValidaCpf #cpf="ngModel" autocomplete="off"
-                         [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00' name="cpf" class="form-control" required>
-                        <input *ngIf="codigo != undefined" type="text" [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'
-                              name="cpf" class="form-control" required readonly="true">   -->
+                        <apt-cpf [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" name="cpf" #cpf="ngModel" [isReadOnly]="codigo != undefined" (cadastroUnicoChange)="carregarCadastroUnico($event)"></apt-cpf>
                         <label>CPF *</label>
                       </div>
                     </div>
@@ -92,31 +87,39 @@
                         <label>Nome *</label>
                       </div>
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="80" autocomplete="offNomeMae" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.nomeMae"
                                 name="nomeMae" class="form-control" required>  
                         <label>Nome da Mãe *</label>
                       </div>
                     </div>
+                    
                   </div>
                   
                   <div class="row">
-                    <div class="col-sm-3">
-                      <div class="form-group control-width-normal">
-                        <div class="input-group date" id="textDataNascimentoContato">
-                          <div class="input-group-content">
-                            <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
-                                  class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="offDtNasc">
-                            <label>Data de Nascimento *</label>
-                          </div>
-                          
-                          <span class="input-group-addon cal" (click)="picker.open()"><i class="fa fa-calendar"></i></span>
-                          <mat-datepicker-toggle style="display: none;" matSuffix [for]="picker" class="input-group-addon cal"></mat-datepicker-toggle>
-                          <mat-datepicker #picker></mat-datepicker>
-                        </div>                        
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <apt-email [(ngModel)]="objetoAtualiza.cadastroUnico.email" name="email" #email="ngModel"></apt-email>
+                        <label>E-mail *</label>
                       </div>
                     </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group control-width-normal">
+                          <div class="input-group date" id="textDataNascimentoContato">
+                            <div class="input-group-content">
+                              <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
+                                    class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="offDtNasc">
+                              <label>Data de Nascimento *</label>
+                            </div>
+                            
+                            <span class="input-group-addon cal" (click)="picker.open()"><i class="fa fa-calendar"></i></span>
+                            <mat-datepicker-toggle style="display: none;" matSuffix [for]="picker" class="input-group-addon cal"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                          </div>                        
+                        </div>
+                      </div>
 
                     <div class="col-sm-3">
                       <div class="form-group">
@@ -388,7 +391,7 @@
               <!-- CONTATO -->
               <div class="card card-outlined style-primary" id="divContato">
                 <div class="card-head">
-                  <header>Contato
+                  <header>Telefone
                       <small>  (Adicione pelo menos um contato)</small>
                   </header>
                 </div>
@@ -421,6 +424,17 @@
                           <label>Telefone *</label>
                         </div>
                       </div>
+
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <div style="margin-top: 10px;">
+                            <label class="checkbox-inline checkbox-styled">
+                              <input type="checkbox" [(ngModel)]="telefonePf.flagWhats" name="flagWhats" #flagWhats="ngModel" >
+                              <span><img src="assets/img/wapp.png" style="width: 24px; height: 24px;">WhatsApp</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
                   </div>
 
                   <div class="row small-padding">
@@ -438,6 +452,7 @@
                           <tr>
                             <th>Tipo</th>
                             <th>Número</th>
+                            <th>WhatsApp</th>
                             <th style="width: 3%;"></th>
                           </tr>
                         </thead>
@@ -445,6 +460,10 @@
                           <tr *ngFor="let telefonePf of listaTelefonePf; let i = index" [attr.data-index]="i">
                             <td style="width: 25%;">{{telefonePf.descricaoTipo}}</td>
                             <td style="width: 25%;">({{telefonePf.ddd}}) {{telefonePf.numero | mask: '00000-0000'}}</td>
+                            <td style="width: 25%;"> 
+                                <span *ngIf="telefonePf.flagWhats">SIM</span>
+                                <span *ngIf="!telefonePf.flagWhats">NÃO</span>
+                              </td>
                             <td style="width: 3%;">
                               <i class="glyphicon glyphicon-trash" (click)="excluirTelefonePf(i)" style="cursor: pointer;" title="Inativar"></i>
                             </td>

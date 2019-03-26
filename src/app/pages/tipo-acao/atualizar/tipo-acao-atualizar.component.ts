@@ -3,17 +3,13 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
-import { Auditoria } from '../../../model/auditoria';
-import { Cargo } from '../../../model/cadastro-unico/cargo';
-import { ResponseApi } from '../../../model/response-api';
-import { CargoService } from '../../../services/cadastro-unico/cargo.service';
-import { MensagemService } from '../../../services/shared/mensagem.service';
-import { Qualificacao } from '../../../model/profissional/qualificacao';
-import { QualificacaoService } from '../../../services/profissional/qualificacao.service';
-import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
 import { TipoAcao } from '../../../model/acao/tipo-acao';
+import { Auditoria } from '../../../model/auditoria';
+import { ResponseApi } from '../../../model/response-api';
 import { TipoAcaoService } from '../../../services/acao/tipo-acao.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { MensagemService } from '../../../services/shared/mensagem.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 
 @Component({
@@ -24,14 +20,13 @@ import { TipoAcaoService } from '../../../services/acao/tipo-acao.service';
 export class TipoAcaoAtualizarComponent extends AptareCrudController<TipoAcao, {new(): TipoAcao}>{ 
 
   constructor(router: Router,
-              dialogService: DialogService,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
               service: TipoAcaoService,
               private _location: Location,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, TipoAcao, service, mensagem, confirm);    
+              dialogService: DialogService) {
+    super(router, route, dialog, TipoAcao, service, mensagem, dialogService);    
   }
 
   voltar() {
@@ -50,6 +45,7 @@ export class TipoAcaoAtualizarComponent extends AptareCrudController<TipoAcao, {
   }
 
   completarInserir() {
+    this.objetoAtualiza.descricao = this.objetoAtualiza.descricao.toUpperCase();
     this.objetoAtualiza.flagAtivo = 'S';
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
@@ -57,6 +53,7 @@ export class TipoAcaoAtualizarComponent extends AptareCrudController<TipoAcao, {
   }
 
   completarAlterar() {
+    this.objetoAtualiza.descricao = this.objetoAtualiza.descricao.toUpperCase();
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
     this.objetoAtualiza.auditoria.dataAlteracao = new Date();

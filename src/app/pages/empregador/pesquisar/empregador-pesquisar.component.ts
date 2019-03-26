@@ -4,7 +4,6 @@ import { AptareCrudController } from '../../../components/shared/crud/aptare-cru
 import { Router, ActivatedRoute } from '@angular/router';
 import { EmpregadorService } from '../../../services/empregador/empregador.service';
 import { MatDialog } from '@angular/material';
-import { DialogService } from '../../../dialog-service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
 import { PessoaJuridica } from '../../../model/cadastro-unico/pessoa-juridica';
@@ -12,7 +11,8 @@ import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
 import { Dominio } from '../../../model/geral/dominio';
 import { DominioService } from '../../../services/geral/dominio.service';
 import { ResponseApi } from 'src/app/model/response-api';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
+import { DialogService } from 'src/app/services/shared/dialog.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 @Component({
   selector: 'app-empregador-pesquisar',
@@ -28,11 +28,10 @@ export class EmpregadorPesquisarComponent extends AptareCrudController<Empregado
               route: ActivatedRoute,             
               service: EmpregadorService,
               dialog: MatDialog,
-              dialogService: DialogService,
               private dominioService: DominioService,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Empregador, service, mensagem, confirm);   
+              dialogService: DialogService) {
+    super(router, route, dialog, Empregador, service, mensagem, dialogService);   
   }
 
   iniciarPaginaPesquisar() {

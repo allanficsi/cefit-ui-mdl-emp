@@ -5,12 +5,12 @@ import { AptareCrudController } from '../../../components/shared/crud/aptare-cru
 import { Router, ActivatedRoute } from '@angular/router';
 import { EmpregadorService } from '../../../services/empregador/empregador.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { DialogService } from '../../../dialog-service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { DominioService } from '../../../services/geral/dominio.service';
 import { ResponseApi } from '../../../model/response-api';
 import { Telefone } from '../../../model/cadastro-unico/telefone';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 @Component({
   selector: 'app-modal-telefone',
@@ -26,13 +26,12 @@ export class ModalTelefoneComponent extends AptareCrudController<Empregador, {ne
               route: ActivatedRoute,             
               service: EmpregadorService,
               dialog: MatDialog,
-              dialogService: DialogService,
               private dominioService: DominioService,
               public dialogRef: MatDialogRef<ModalTelefoneComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Empregador, service, mensagem, confirm);
+              dialogService: DialogService) {
+    super(router, route, dialog, Empregador, service, mensagem, dialogService);
   }
 
   ngOnInit() {

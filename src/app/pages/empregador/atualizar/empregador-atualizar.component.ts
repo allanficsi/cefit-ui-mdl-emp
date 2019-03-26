@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
 import { Cargo } from '../../../model/cadastro-unico/cargo';
@@ -26,11 +25,11 @@ import { CorreioService } from '../../../services/correio/correio.service';
 import { CnaeService } from '../../../services/empregador/cnae.service';
 import { EmpregadorService } from '../../../services/empregador/empregador.service';
 import { DominioService } from '../../../services/geral/dominio.service';
+import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { ModalCargoComponent } from '../../geral/modal-cargo/modal-cargo.component';
 import { ModalEditarContatoComponent } from '../../geral/modal-editar-contato/modal-editar-contato.component';
 import { ModalTelefoneComponent } from '../../geral/modal-telefone/modal-telefone.component';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 
 @Component({
@@ -65,7 +64,6 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   filteredOptions: Observable<Cnae[]>;
 
   constructor(router: Router,
-              dialogService: DialogService,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
               service: EmpregadorService,
@@ -74,8 +72,8 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
               private cargoService: CargoService,
               private cnaeService: CnaeService,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Empregador, service, mensagem, confirm);
+              dialogService: DialogService) {
+    super(router, route, dialog, Empregador, service, mensagem, dialogService);
  }
 
  ngOnInit(): void {
@@ -86,7 +84,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
         map(value => typeof value === 'string' ? value : value.descricao),
         map(descricao => descricao ? this._filter(descricao) : this.listaCnae.slice())
       );
- }
+  }
 
   displayFn(cnae?: Cnae): string | undefined {
     return cnae ? cnae.descricao : undefined;
@@ -198,7 +196,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       	 	this.objetoAtualiza.cnae = this.listaCnae[i];
       	 }
       }
-      //console.log(this.objetoAtualiza);
+      console.log(this.objetoAtualiza);
     } , err => {
       this.mensagem.tratarErro(err);  
     });
@@ -223,6 +221,8 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
 
     
     this.objetoAtualiza.cadastroUnico.tipoPessoa = tipoPessoa;
+    this.listaTelefonePf = [];
+    this.listaContato = [];
     
   }
 
@@ -419,7 +419,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.height = '280px';
-    dialogConfig.width = '550px';
+    dialogConfig.width = '750px';
     dialogConfig.data = {index: index};    
 
     //this.abrirModal(ModalTelefoneComponent, dialogConfig);
@@ -445,6 +445,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
         telefone.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
         telefone.auditoria.dataInclusao = new Date();
         telefone.flagAtivo = 'S';
+        telefone.flagWhats = (typeof telefone.flagWhats !== 'undefined') ? true : false ;
         this.listaContato[i].listaTelefone.push(telefone);
       }
     }
@@ -463,6 +464,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     telefoneAdicionar.auditoria.dataInclusao = new Date();
     telefoneAdicionar.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
     telefoneAdicionar.flagAtivo = 'S';
+    telefoneAdicionar.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false ;
 
     this.listaTelefonePf.push(telefoneAdicionar);
     this.resetTelefonePf();
@@ -560,8 +562,12 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   completarInserir() {
     
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J") {
-      this.objetoAtualiza.cadastroUnico.cpfCnpj = Number(this.objetoAtualiza.cadastroUnico.cnpj);
+      if(this.objetoAtualiza.cadastroUnico.cnpj != null && typeof this.objetoAtualiza.cadastroUnico.cnpj !== 'undefined') {
+        this.objetoAtualiza.cadastroUnico.cpfCnpj = Number(this.objetoAtualiza.cadastroUnico.cnpj);
+      }
+
       this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato = this.listaContato;
+      this.objetoAtualiza.codigoCnae = this.objetoAtualiza.cnae.codigo;
 
       // AUDITORIA CONTATO
       if(this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato.length > 0) {
@@ -596,15 +602,16 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     this.objetoAtualiza.cadastroUnico.auditoria.dataInclusao = new Date();
     this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
 
-    //LISTA CNAE
-    this.objetoAtualiza.codigoCnae = this.objetoAtualiza.cnae.codigo;
   }
 
   completarAlterar() {
 
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J") {
-      this.objetoAtualiza.cadastroUnico.cpfCnpj = Number(this.objetoAtualiza.cadastroUnico.cnpj);
+      if(this.objetoAtualiza.cadastroUnico.cnpj != null && typeof this.objetoAtualiza.cadastroUnico.cnpj !== 'undefined') {
+        this.objetoAtualiza.cadastroUnico.cpfCnpj = Number(this.objetoAtualiza.cadastroUnico.cnpj);
+      }
       this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato = this.listaContato;
+      this.objetoAtualiza.codigoCnae = this.objetoAtualiza.cnae.codigo;
 
       // AUDITORIA CONTATO
       if(this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato.length > 0) {
@@ -628,16 +635,6 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       this.objetoAtualiza.cadastroUnico.listaEndereco.push(this.listaEndereco[i]);
     }
 
-    //his.objetoAtualiza.cadastroUnico.cpfCnpj = Number(this.objetoAtualiza.cadastroUnico.cnpj.replace(".","").replace("/","").replace("-",""));
-    // this.objetoAtualiza.cadastroUnico.listaEndereco = [];
-    // this.endereco.cep = Number(this.endereco.cepFormatado.replace(".","").replace("-",""));
-    // this.endereco.flagAtivo = 'S';
-    // this.endereco.auditoria = new Auditoria();
-    // this.endereco.auditoria.dataInclusao = new Date();
-    // this.endereco.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
-    // this.objetoAtualiza.cadastroUnico.listaEndereco.push(this.endereco);
-    // this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato = this.listaContato;
-
     //AUDITORIA
     //this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.dataAlteracao = new Date();
@@ -657,10 +654,6 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       }
     }
 
-    //LISTA CNAE
-    this.objetoAtualiza.codigoCnae = this.objetoAtualiza.cnae.codigo;
-    //console.log(this.objetoAtualiza);
-
   }
 
   completarPosInserir() {
@@ -675,13 +668,9 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     
     //VALIDACAO DE CAMPOS OBRIGATORIOS PJ
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J") {
-      if(this.objetoAtualiza.cadastroUnico.cnpj == null || this.objetoAtualiza.cadastroUnico.cnpj == '') {
-        this.mensagem.tratarErroPersonalizado("", "O campo CNPJ é obrigatório.");
-        return false;
-      }
-
-      if(this.objetoAtualiza.numeroCei == null || this.objetoAtualiza.numeroCei <=0) {
-        this.mensagem.tratarErroPersonalizado("", "O campo CEI é obrigatório.");
+      if((this.objetoAtualiza.cadastroUnico.cnpj == null || this.objetoAtualiza.cadastroUnico.cnpj == '')
+            && (this.objetoAtualiza.numeroCei == null || this.objetoAtualiza.numeroCei <= 0)) {
+        this.mensagem.tratarErroPersonalizado("", "Pelo menos um dos campos CNPJ ou CEI é obrigatório.");
         return false;
       }
 
@@ -753,7 +742,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
 
     //SE PJ, CNAE E QTD DE FUNCIONARIOS OBRIGATORIOS
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J") {
-      if(this.objetoAtualiza.codigoCnae == null || this.objetoAtualiza.codigoCnae <= 0) {
+      if(this.objetoAtualiza.cnae == null || typeof this.objetoAtualiza.cnae === 'undefined') {
         this.mensagem.tratarErroPersonalizado("", "O campo CNAE é obrigatório.");
         return false;
       }
@@ -802,6 +791,12 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
 
   validarAlterar() {
     return this.validarInserir();
+  }
+
+  carregarCadastroUnico(event) {
+
+    // Verificando se existe trabalhador com o cdcun
+    
   }
 
 }

@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
-import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { ItemEspaco } from '../../../model/espaco/item-espaco';
 import { ItemEspacoService } from '../../../services/espaco/item-espaco.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 @Component({
   selector: 'app-item-espaco-pesquisar',
@@ -20,10 +19,9 @@ export class ItemEspacoPesquisarComponent extends AptareCrudController<ItemEspac
               route: ActivatedRoute,             
               service: ItemEspacoService,
               dialog: MatDialog,
-              dialogService: DialogService,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, ItemEspaco, service, mensagem, confirm);
+              dialogService: DialogService) {
+    super(router, route, dialog, ItemEspaco, service, mensagem, dialogService);
   }
 
   inativarItemEspaco(codigo) {

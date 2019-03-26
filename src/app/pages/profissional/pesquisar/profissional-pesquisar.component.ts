@@ -4,12 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Profissional } from 'src/app/model/profissional/profissional';
 import { ProfissionalService } from 'src/app/services/profissional/profissional.service';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
 import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
-import { DominioService } from '../../../services/geral/dominio.service';
+import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
-import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
 
 @Component({
   selector: 'app-profissional-pesquisar',
@@ -24,10 +22,9 @@ export class ProfissionalPesquisarComponent extends AptareCrudController<Profiss
               route: ActivatedRoute,             
               service: ProfissionalService,
               dialog: MatDialog,
-              dialogService: DialogService,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Profissional, service, mensagem, confirm);   
+              dialogService: DialogService) {
+    super(router, route, dialog, Profissional, service, mensagem, dialogService);   
   }
 
   iniciarPaginaPesquisar() {

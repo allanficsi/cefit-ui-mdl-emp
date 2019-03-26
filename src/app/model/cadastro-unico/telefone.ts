@@ -9,6 +9,7 @@ export class Telefone {
     tipo: Number;
     nsuOrigem: Number;
     flagAtivo: string;
+    flagWhats: boolean;
     descricaoTipo: string;
     auditoria: Auditoria;
 

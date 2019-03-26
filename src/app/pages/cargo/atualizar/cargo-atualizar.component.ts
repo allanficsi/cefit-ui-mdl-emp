@@ -1,16 +1,15 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-
-import {Location} from '@angular/common';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DialogService } from 'src/app/services/shared/dialog.service';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
 import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { ResponseApi } from '../../../model/response-api';
 import { CargoService } from '../../../services/cadastro-unico/cargo.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
+
 
 @Component({
   selector: 'app-cargo-atualizar',
@@ -20,14 +19,13 @@ import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.ser
 export class CargoAtualizarComponent extends AptareCrudController<Cargo, {new(): Cargo}>{ 
 
   constructor(router: Router,
-              dialogService: DialogService,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
               service: CargoService,
               private _location: Location,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Cargo, service, mensagem, confirm);    
+              dialogService: DialogService) {
+    super(router, route, dialog, Cargo, service, mensagem, dialogService);    
   }
 
   voltar() {

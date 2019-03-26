@@ -2,17 +2,16 @@ import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
-import { Auditoria } from '../../../model/auditoria';
 import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { Contato } from '../../../model/cadastro-unico/contato';
-import { MensagemService } from '../../../services/shared/mensagem.service';
-import { ContatoService } from '../../../services/cadastro-unico/contato.service';
-import { CargoService } from '../../../services/cadastro-unico/cargo.service';
-import { DominioService } from '../../../services/geral/dominio.service';
-import { ResponseApi } from '../../../model/response-api';
 import { Dominio } from '../../../model/geral/dominio';
-import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
+import { ResponseApi } from '../../../model/response-api';
+import { CargoService } from '../../../services/cadastro-unico/cargo.service';
+import { ContatoService } from '../../../services/cadastro-unico/contato.service';
+import { DominioService } from '../../../services/geral/dominio.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { MensagemService } from '../../../services/shared/mensagem.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 @Component({
   selector: 'app-modal-editar-contato',
@@ -30,12 +29,11 @@ export class ModalEditarContatoComponent extends AptareCrudController<Contato, {
               private cargoService: CargoService,
               private dominioService: DominioService,
               dialog: MatDialog,
-              dialogService: DialogService,
               public dialogRef: MatDialogRef<ModalEditarContatoComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Contato, service, mensagem, confirm);   
+              dialogService: DialogService) {
+    super(router, route, dialog, Contato, service, mensagem, dialogService);   
   }
 
   ngOnInit() {

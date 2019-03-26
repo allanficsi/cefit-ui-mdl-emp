@@ -3,13 +3,12 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
 import { Local } from '../../../model/espaco/local';
 import { ResponseApi } from '../../../model/response-api';
 import { LocalService } from '../../../services/espaco/local.service';
+import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 
 
 @Component({
@@ -20,14 +19,13 @@ import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.ser
 export class LocalAtualizarComponent extends AptareCrudController<Local, {new(): Local}>{ 
 
   constructor(router: Router,
-              dialogService: DialogService,
               route: ActivatedRoute,  
-              dialog: MatDialog,                   
+              dialog: MatDialog,
               service: LocalService,
               private _location: Location,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Local, service, mensagem, confirm);    
+              dialogService: DialogService) {
+    super(router, route, dialog, Local, service, mensagem, dialogService);    
   }
 
   voltar() {
@@ -47,6 +45,7 @@ export class LocalAtualizarComponent extends AptareCrudController<Local, {new():
   }
 
   completarInserir() {
+    this.objetoAtualiza.nome = this.objetoAtualiza.nome.toUpperCase();
     this.objetoAtualiza.flagAtivo = 'S';
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();

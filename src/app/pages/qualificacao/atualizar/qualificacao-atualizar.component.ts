@@ -3,15 +3,13 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
-import { Cargo } from '../../../model/cadastro-unico/cargo';
-import { ResponseApi } from '../../../model/response-api';
-import { CargoService } from '../../../services/cadastro-unico/cargo.service';
-import { MensagemService } from '../../../services/shared/mensagem.service';
 import { Qualificacao } from '../../../model/profissional/qualificacao';
+import { ResponseApi } from '../../../model/response-api';
 import { QualificacaoService } from '../../../services/profissional/qualificacao.service';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
+import { MensagemService } from '../../../services/shared/mensagem.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 
 @Component({
@@ -22,14 +20,13 @@ import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.ser
 export class QualificacaoAtualizarComponent extends AptareCrudController<Qualificacao, {new(): Qualificacao}>{ 
 
   constructor(router: Router,
-              dialogService: DialogService,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
               service: QualificacaoService,
               private _location: Location,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Qualificacao, service, mensagem, confirm);    
+              dialogService: DialogService) {
+    super(router, route, dialog, Qualificacao, service, mensagem, dialogService);    
   }
 
   voltar() {
@@ -48,6 +45,7 @@ export class QualificacaoAtualizarComponent extends AptareCrudController<Qualifi
   }
 
   completarInserir() {
+    this.objetoAtualiza.descricao = this.objetoAtualiza.descricao.toUpperCase();
     this.objetoAtualiza.flagAtivo = 'S';
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
@@ -55,6 +53,7 @@ export class QualificacaoAtualizarComponent extends AptareCrudController<Qualifi
   }
 
   completarAlterar() {
+    this.objetoAtualiza.descricao = this.objetoAtualiza.descricao.toUpperCase();
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
     this.objetoAtualiza.auditoria.dataAlteracao = new Date();

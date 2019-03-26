@@ -4,12 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EspacoItemEspaco } from 'src/app/model/espaco/espaco-item-espaco';
 import { ItemEspaco } from 'src/app/model/espaco/item-espaco';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { ResponseApi } from '../../../model/response-api';
 import { EspacoItemEspacoService } from '../../../services/espaco/espaco-item-espaco.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { ItemEspacoService } from '../../../services/espaco/item-espaco.service';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
+import { DialogService } from 'src/app/services/shared/dialog.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 @Component({
   selector: 'app-modal-editar-item-espaco',
@@ -26,12 +26,11 @@ export class ModalEditarItemEspacoComponent extends AptareCrudController<EspacoI
               service: EspacoItemEspacoService,
               private itemEspacoService: ItemEspacoService,
               dialog: MatDialog,
-              dialogService: DialogService,
               public dialogRef: MatDialogRef<ModalEditarItemEspacoComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, EspacoItemEspaco, service, mensagem, confirm);   
+              dialogService: DialogService) {
+    super(router, route, dialog, EspacoItemEspaco, service, mensagem, dialogService);   
   }
 
   ngOnInit() {

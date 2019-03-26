@@ -1,5 +1,6 @@
 import { ToastrService } from 'ngx-toastr';
 import { Injectable } from '@angular/core';
+import { CadastroUnico } from '../model/cadastro-unico/cadastro-unico';
 
 @Injectable()
 export class UtilService {
@@ -65,6 +66,5 @@ export class UtilService {
       ('0' + (date.getMonth() + 1)).slice(-2) + '/' +
       date.getFullYear();
   }
-
 
 }

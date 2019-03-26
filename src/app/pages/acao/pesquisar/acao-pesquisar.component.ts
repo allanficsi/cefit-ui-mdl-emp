@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmDialogService } from 'src/app/services/shared/confirm-dialog.service';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Acao } from '../../../model/acao/acao';
-import { Cargo } from '../../../model/cadastro-unico/cargo';
 import { AcaoService } from '../../../services/acao/acao.service';
+import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 
 @Component({
@@ -20,10 +18,10 @@ export class AcaoPesquisarComponent extends AptareCrudController<Acao, {new(): A
               route: ActivatedRoute,             
               service: AcaoService,
               dialog: MatDialog,
-              dialogService: DialogService,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Acao, service, mensagem, confirm);
+              dialogService: DialogService
+              ) {
+    super(router, route, dialog, Acao, service, mensagem, dialogService);
   }
 
   inativarAcao(codigo) {

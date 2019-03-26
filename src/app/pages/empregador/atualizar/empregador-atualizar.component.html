@@ -12,6 +12,14 @@
         <div class="card card-underline">
           <div class="card-head card-head-sm">
             <header><b>Empregador - Cadastrar</b></header>
+
+            <div class="tools">
+              <div class="btn-group" title="Apagar todos os campos">
+                <a class="btn btn-icon-toggle btn-close">
+                  <i class="fa fa-eraser"></i>
+                </a>
+              </div>
+            </div>
           </div>
           
           <div class="card-body">
@@ -23,7 +31,8 @@
               <!-- DADOS GERAIS -->
               <div class="card card-outlined style-primary" id="divDadosGeraisUsuario">
                 <div class="card-head">
-                  <header>Dados Gerais</header>
+                  <header>Dados Gerais 
+                    <small>(É obrigatório preencher o campo CNPJ ou o campo CEI)</small></header>
                 </div>
                 
                 <div class="card-body" style="display: block;">          
@@ -49,22 +58,21 @@
                     
                     <div class="col-sm-3" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
                       <div class="form-group">
-                        <input *ngIf="codigo == undefined" type="text" maxlength="18" aptValidaCnpj autocomplete="offCnpj"
+                        <input type="text" maxlength="18" aptValidaCnpj autocomplete="offCnpj"
                         [(ngModel)]="objetoAtualiza.cadastroUnico.cnpj" mask='00.000.000/0000-00'
                               name="cnpj" class="form-control" required>
-                        <input *ngIf="codigo != undefined" type="text" [(ngModel)]="objetoAtualiza.cadastroUnico.cnpj" mask='00.000.000/0000-00'
-                                    name="cnpj" class="form-control" required readonly="true">  
-                        <label>CNPJ *</label>
+                        <label>CNPJ</label>
                       </div>
                     </div>
 
                     <div class="col-sm-3" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "F"'>
                       <div class="form-group">
-                        <input *ngIf="codigo == undefined" type="text" maxlength="18" aptValidaCpf autocomplete="offCpf"
+                        <!-- <input *ngIf="codigo == undefined" type="text" maxlength="18" aptValidaCpf autocomplete="offCpf"
                         [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'
                               name="cpf" class="form-control" required> 
                         <input *ngIf="codigo != undefined" type="text" [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'
-                              name="cpf" class="form-control" required readonly="true">
+                              name="cpf" class="form-control" required readonly="true"> -->
+                        <apt-cpf [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" name="cpf" #cpf="ngModel" [isReadOnly]="codigo != undefined" (cadastroUnicoChange)="carregarCadastroUnico($event)"></apt-cpf>
                         <label>CPF *</label>
                       </div>
                     </div>
@@ -97,8 +105,8 @@
                     <div class="col-sm-3" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
                       <div class="form-group">
                         <input type="text" maxlength="7" autocomplete="offCei" [(ngModel)]="objetoAtualiza.numeroCei" mask='0000000'
-                                name="numeroCei" class="form-control" required>  
-                        <label>CEI *</label>
+                                name="numeroCei" class="form-control" required>
+                        <label>CEI</label>
                       </div>
                     </div>
                   </div>
@@ -340,7 +348,8 @@
               <!-- CONTATO -->
               <div class="card card-outlined style-primary" id="divContato">
                 <div class="card-head">
-                  <header>Contato
+                  <header><span *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "F"'>Telefone</span>
+                          <span *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>Contato</span>
                       <small>  (Adicione pelo menos um contato)</small>
                   </header>
                 </div>
@@ -373,6 +382,17 @@
                           <label>Telefone</label>
                         </div>
                       </div>
+
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <div style="margin-top: 10px;">
+                            <label class="checkbox-inline checkbox-styled">
+                              <input type="checkbox" [(ngModel)]="telefonePf.flagWhats" name="flagWhats" #flagWhats="ngModel" >
+                              <span><img src="assets/img/wapp.png" style="width: 24px; height: 24px;">WhatsApp</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
                   </div>
 
                   <div class="row small-padding">
@@ -390,6 +410,7 @@
                           <tr>
                             <th>Tipo</th>
                             <th>Número</th>
+                            <th>WhatsApp</th>
                             <th style="width: 3%;"></th>
                           </tr>
                         </thead>
@@ -397,6 +418,10 @@
                           <tr *ngFor="let telefonePf of listaTelefonePf; let i = index" [attr.data-index]="i">
                             <td style="width: 25%;">{{telefonePf.descricaoTipo}}</td>
                             <td style="width: 25%;">{{telefonePf.ddd}} - {{telefonePf.numero}}</td>
+                            <td style="width: 25%;"> 
+                              <span *ngIf="telefonePf.flagWhats">SIM</span>
+                              <span *ngIf="!telefonePf.flagWhats">NÃO</span>
+                            </td>
                             <td style="width: 3%;">
                               <i class="glyphicon glyphicon-trash" (click)="excluirTelefonePf(i)" style="cursor: pointer;" title="Inativar"></i>
                             </td>
@@ -501,6 +526,7 @@
                                   <tr *ngFor="let telefone of contato.listaTelefone; let j = index" [attr.data-index]="i">
                                     <td>{{telefone.descricaoTipo}}</td>
                                     <td>({{telefone.ddd}}) {{telefone.numero | mask: '00000-0000'}}</td>
+                                    <td *ngIf="telefone.flagWhats">(WhatsApp)</td>
                                   </tr>
                                 </table>
                               </td>

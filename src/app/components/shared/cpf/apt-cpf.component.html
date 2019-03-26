@@ -1,6 +1,6 @@
 <!-- CPF ATIVO -->
 <input *ngIf="!isReadOnly" 
-       type="text" (blur)="validarCpf()"
+       type="text" (blur)="validarCpf(); getCadastroUnico()"
        autocomplete="offCpf"
        [(ngModel)]="cpfValor" 
        mask='000.000.000-00' name="cpf" class="form-control" required> 

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { DialogService } from '../../../dialog-service';
 import { Auditoria } from '../../../model/auditoria';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
 import { Endereco } from '../../../model/cadastro-unico/endereco';
@@ -22,7 +21,9 @@ import { ProfissionalService } from '../../../services/profissional/profissional
 import { QualificacaoService } from '../../../services/profissional/qualificacao.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { ModalQualificacaoComponent } from '../../geral/modal-qualificacao/modal-qualificacao.component';
-import { ConfirmDialogService } from '../../../services/shared/confirm-dialog.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
+
 
 @Component({
   selector: 'app-profissional-atualizar',
@@ -49,7 +50,6 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
   isUfReadOnly: boolean;
 
   constructor(router: Router,
-              dialogService: DialogService,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
               service: ProfissionalService,
@@ -57,8 +57,8 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
               private qualificacaoService: QualificacaoService,
               private correioService: CorreioService,
               mensagem: MensagemService,
-              confirm: ConfirmDialogService) {
-    super(router, route, dialogService, dialog, Profissional, service, mensagem, confirm);    
+              dialogService: DialogService) {
+    super(router, route, dialog, Profissional, service, mensagem, dialogService);    
   }
 
   setListasStaticas() {
@@ -327,6 +327,7 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
       telefoneAdicionar.auditoria.dataInclusao = new Date();
       telefoneAdicionar.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
       telefoneAdicionar.flagAtivo = 'S';
+      telefoneAdicionar.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false ;
 
       this.listaTelefonePf.push(telefoneAdicionar);
       this.resetTelefonePf();
@@ -391,6 +392,12 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
     this.objetoAtualiza.cadastroUnico.auditoria = new Auditoria();
     this.objetoAtualiza.cadastroUnico.auditoria.dataInclusao = new Date();
     this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
+
+    if(this.objetoAtualiza.cadastroUnico !== null
+      && this.objetoAtualiza.cadastroUnico.codigo !== null && typeof this.objetoAtualiza.cadastroUnico.codigo !== 'undefined') {
+        this.objetoAtualiza.cadastroUnico.auditoria.dataAlteracao = new Date();
+        this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+    }
 
   }
 
@@ -492,6 +499,11 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
       return false;
     }
 
+    if(this.objetoAtualiza.cadastroUnico.email == null || this.objetoAtualiza.cadastroUnico.email == '') {
+      this.mensagem.tratarErroPersonalizado("", "O campo E-mail é obrigatório.");
+      return false;
+    }
+
     if(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento == null || typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento === 'undefined') {
       this.mensagem.tratarErroPersonalizado("", "O campo Data de Nascimento é obrigatório.");
       return false;
@@ -561,10 +573,96 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
     return this.validarInserir();
   }
 
+  carregarCadastroUnico(event) {
+
+    // Verificando se existe profissional com o cdcun
+    if(event.codigo !== null && typeof event.codigo !== 'undefined'){
+      
+      let objPrf: Profissional = new Profissional();
+      objPrf.codigoCadastroUnico = event.codigo;
+
+       this.service.get(objPrf).subscribe((responseApi:ResponseApi) => {
+         
+        this.objetoAtualiza = new Profissional();
+        this.iniciarPaginaInserir();
+
+        if(responseApi['data'] !== null && typeof responseApi['data'] !== 'undefined') {
+          this.objetoAtualiza = responseApi['data'];
+          this.objetoAtualiza.dataEmissaoCtps = new Date(this.objetoAtualiza.dataEmissaoCtps);
+          this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg);
+          this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento);
+
+          this.listaProfissionalQualificacao = [];
+          if(typeof this.objetoAtualiza.listaProfissionalQualificacao !== 'undefined') {
+            for(let i = 0; i < this.objetoAtualiza.listaProfissionalQualificacao.length; i++) {
+              this.listaProfissionalQualificacao.push(this.objetoAtualiza.listaProfissionalQualificacao[i]);
+            }
+          }
+
+          this.mensagem.tratarErroPersonalizado("", "Já existe um trabalhador cadastrado com este cpf.");
+
+        } else {
+
+          this.listaProfissionalQualificacao = [];
+
+        }
+
+        this.objetoAtualiza.cadastroUnico = event;
+        this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg);
+        this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento);
+
+        //populando endereco
+        this.listaEndereco = [];
+    
+          if(typeof this.objetoAtualiza.cadastroUnico.listaEndereco !== 'undefined') {
+            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.listaEndereco.length; i++) {
+    
+              let eex: ExtensaoEndereco = new ExtensaoEndereco();
+    
+              if(this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio != null) {
+                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.logradouro;
+                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.bairro;
+                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.localidade;
+                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.uf;
+              } else {
+                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.logradouro;
+                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.bairro;
+                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.localidade;
+                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.uf;
+              }
+    
+              this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco = eex;
+              this.listaEndereco.push(this.objetoAtualiza.cadastroUnico.listaEndereco[i]);
+    
+            }
+          }
+    
+          // populando telefone
+          this.listaTelefonePf = [];
+          if(typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone !== 'undefined') {
+            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone.length; i++) {
+              this.listaTelefonePf.push(this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i]);
+            }
+          }
+        //}
+
+       } , err => {
+         this.mensagem.tratarErro(err);
+       });
+    } else {
+      this.objetoAtualiza = new Profissional();
+      this.iniciarPaginaInserir();
+      this.listaProfissionalQualificacao = [];
+      this.listaEndereco = [];
+      this.listaTelefonePf = [];
+      this.objetoAtualiza.cadastroUnico.cpf = event.cpf;
+    }
+  }
+
 
   inserir() {
     if(this.objetoAtualiza.flagPsicologo == "S") {
-      this.confirmDialogService.openConfirmDialog('Você confirma que este profissional possui a formação exigida?')
+      this.dialogService.openConfirmDialog('Você confirma que este profissional possui a formação exigida?')
       .afterClosed().subscribe(res =>{
         if(res){
           super.inserir();
