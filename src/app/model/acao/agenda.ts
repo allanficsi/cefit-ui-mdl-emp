@@ -14,6 +14,4 @@ export class Agenda {
     flagAtivo: string;
     nomeDia: string;
     
-    auditoria: Auditoria;
-
 }

@@ -172,11 +172,11 @@
                         <label>É Psicólogo? *</label>
                         <div style="margin-top: 10px;">
                         <label class="radio-inline radio-styled">
-                          <input type="radio" value="S" [(ngModel)]="objetoAtualiza.flagPsicologo" name="flagPsicologo" #flagPsicologo="ngModel" >
+                          <input type="radio" value="S" [(ngModel)]="objetoAtualiza.flagPsicologo" (change)="confirmarQualificacao()" name="flagPsicologo" #flagPsicologo="ngModel" >
                           <span>Sim</span>
                         </label>
                         <label class="radio-inline radio-styled">
-                          <input type="radio" value="N" [(ngModel)]="objetoAtualiza.flagPsicologo" name="flagPsicologo" #flagPsicologo="ngModel" >
+                          <input type="radio" value="N" [(ngModel)]="objetoAtualiza.flagPsicologo" (change)="confirmarQualificacao()" name="flagPsicologo" #flagPsicologo="ngModel" >
                           <span>Não</span>
                         </label>
                         </div>

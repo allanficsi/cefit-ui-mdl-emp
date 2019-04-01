@@ -20,6 +20,23 @@
                     <label>Nome</label>
                   </div>
                 </div>
+
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <div class="input-group" style="width: 75%">
+                      <div class="input-group-content">
+                        <select class="form-control" [(ngModel)]="objetoPesquisa.codigoLocal" name="codigoLocal" required>
+                          <option [ngValue]="null">- Selecione o Local -</option>
+                          <option *ngFor="let local of listaLocal" [ngValue]="local.codigo">{{local.nome}}</option>
+                        </select>   
+                        <label>Local</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
               </div>
 
             </form>
@@ -51,6 +68,7 @@
                   <tr>
                     <th class="text-left">Nome</th>
                     <th class="text-left">Descrição</th>
+                    <th class="text-left">Local</th>
                     <th class="text-center">Data de Inclusão</th>
                     <th class="text-left">Situação</th>
                     <!-- <th class="text-center" style="width: 3%;"></th> -->
@@ -62,6 +80,7 @@
                 <tr *ngFor="let item of listaResultado">
                     <td class="text-left">{{item.nome}}</td>
                   <td class="text-left">{{item.descricao}}</td>
+                  <td class="text-left">{{item.local.nome}}</td>
                   <td class="text-center">{{item.auditoria.dataInclusao | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                   <td class="text-left" *ngIf='item.flagAtivo != "N"'>ATIVO</td>
                   <td class="text-left" *ngIf='item.flagAtivo == "N"'>INATIVO</td>
