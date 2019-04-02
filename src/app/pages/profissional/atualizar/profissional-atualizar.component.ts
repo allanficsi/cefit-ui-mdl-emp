@@ -463,8 +463,6 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
 
   validarInserir() {
 
-    console.log(this.objetoAtualiza);
-
     //VALIDACAO DE CAMPOS OBRIGATORIOS PF
     if(this.objetoAtualiza.cadastroUnico.cpf == null || this.objetoAtualiza.cadastroUnico.cpf == '') {
       this.mensagem.tratarErroPersonalizado("", "O campo CPF é obrigatório.");
@@ -659,19 +657,15 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
     }
   }
 
-
-  inserir() {
+  confirmarQualificacao() {
     if(this.objetoAtualiza.flagPsicologo == "S") {
       this.dialogService.openConfirmDialog('Você confirma que este profissional possui a formação exigida?')
       .afterClosed().subscribe(res =>{
-        if(res){
-          super.inserir();
-        } else {
+        if(!res){
           this.objetoAtualiza.flagPsicologo = "N";
         }
       });
-    } else {
-      super.inserir();
     }
   }
+  
 }

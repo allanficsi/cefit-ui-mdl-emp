@@ -37,8 +37,8 @@
                   <div class="row">
                     <div class="col-sm-7">
                       <div class="form-group">
-                        <input type="text" (blur)="selecionarEspaco()" autocomplete="off" [formControl]="myControlEspaco" matInput class="form-control" [(ngModel)]="objetoAtualiza.espaco" name="espaco" [matAutocomplete]="autoEsp">
-                        <mat-autocomplete #autoEsp="matAutocomplete" [displayWith]="displayFnEspaco">
+                        <input type="text" autocomplete="off" [formControl]="myControlEspaco" matInput class="form-control" [(ngModel)]="objetoAtualiza.espaco" name="espaco" [matAutocomplete]="autoEsp">
+                        <mat-autocomplete #autoEsp="matAutocomplete" [displayWith]="displayFnEspaco" (optionSelected)="selecionarEspaco()">
                             <mat-option *ngFor="let optEsp of filteredOptionsEspaco | async" [value]="optEsp">
                                 {{optEsp.nome}}
                             </mat-option>
@@ -142,7 +142,7 @@
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <input type="text" maxlength="80" [(ngModel)]="objetoAtualiza.observacao"
+                        <input type="text" maxlength="80" [(ngModel)]="objetoAtualiza.observacao" placeholder="Informe como chegar ou outras informações."
                                name="observacao" class="form-control" autocomplete="off" required>   
                         <label>Observação</label>
                       </div>
@@ -161,12 +161,33 @@
                 <div class="card-body" style="display: block;"> 
                   <div class="row">
                     <div class="col-sm-4">
+                      <div class="row">
                         <label>Selecione o Período:</label>
-                      <div class="form-group">
-                        <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
-                        [(ngModel)]="periodo" (dateRangeChanged)="gerarGridHorarios($event)"></my-date-range-picker>
+                        <div class="form-group">
+                          <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                          [(ngModel)]="periodo" (dateRangeChanged)="gerarGridHorarios($event)"></my-date-range-picker>
+                        </div>
                       </div>
-                    </div> 
+
+                      <div class="row" *ngIf="listaAgenda.length > 0">
+                        <!-- <div class="col-sm-8" style="text-align: left;"> -->
+                          <div class="card card-underline" style="width: 62%">
+                            <div class="card-head card-head-sm">
+                              <header>
+                                Legenda
+                              </header>
+                            </div>
+
+                            <div class="card-body">
+                              <i class="fa fa-circle" style="color: #f1f1f1; padding: 5px;"></i>Fim de Semana <br/>
+                              <i class="fa fa-circle" style="color: #FFBF00; padding: 5px;"></i>Feriado
+                            </div>
+                          </div>
+                        <!-- </div> -->
+                         
+                      </div>
+                    </div>
+                      
 
                     <div class="col-sm-7" *ngIf="listaAgenda.length > 0">
                         <div class="card">
@@ -185,8 +206,8 @@
                                   </tr>
                                 </thead>
               
-                                <tr *ngFor="let item of listaAgenda; let i = index"  style.background = "{{item.fgFds ? '#f1f1f1' : (item.fgFeriado ? '#FFBF00' : 'white')}}">
-                                  <td class="text-center"><b>{{item.dataAgenda | date: 'dd/MM/yyyy'}} <span *ngIf="item.fgFds || item.fgFeriado">({{item.nomeDia}})</span></b></td>
+                                <tr *ngFor="let item of listaAgenda; let i = index"  style.background = "{{item.fgFds ? '#f1f1f1' : (item.fgFeriado ? '#FFED82' : 'white')}}">
+                                  <td class="text-left"><b>{{item.dataAgenda | date: 'dd/MM/yyyy'}} <span>({{item.nomeDia}})</span></b></td>
                                   <td class="text-center">
                                     <input type="text" [(ngModel)]="item.nrHor1" mask="00:00" name="nrHor1{{i}}" class="form-control" style="text-align: center">
                                   </td>

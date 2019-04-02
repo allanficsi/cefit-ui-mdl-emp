@@ -14,12 +14,24 @@
             <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
                 
               <div class="row">
+                
                 <div class="col-sm-6">
                   <div class="form-group">
                     <input type="text" maxlength="50" autocomplete="off" [(ngModel)]="objetoPesquisa.nome" name="nome" class="form-control" required>  
                     <label>Nome</label>
                   </div>
                 </div>
+
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <select class="form-control" [(ngModel)]="objetoPesquisa.tipoAcao" name="tipoAcao" required>
+                      <option [ngValue]="null">- Selecione o Tipo de Ação -</option>
+                      <option *ngFor="let tipoAcao of listaTipoAcao" [ngValue]="tipoAcao">{{tipoAcao.descricao}}</option>
+                    </select>   
+                    <label>Tipo de Ação *</label>
+                  </div>
+                </div>
+                
               </div>
 
             </form>
@@ -62,8 +74,7 @@
                   <td class="text-left">{{item.nome}}</td>
                   <td class="text-left">{{item.tipoAcao.descricao}}</td>
                   <td class="text-center">{{item.auditoria.dataInclusao | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-                  <td class="text-left" *ngIf='item.flagAtivo != "N"'>ATIVO</td>
-                  <td class="text-left" *ngIf='item.flagAtivo == "N"'>INATIVO</td>
+                  <td class="text-left">{{item.descricaoSituacao}}</td>
                   <td> <i class="fa fa-edit" (click)="editar(item.codigo)" title="Editar" style="width:18px; height: 18px; cursor: pointer;"></i></td>
                 </tr>
               </table>

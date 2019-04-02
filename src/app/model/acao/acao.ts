@@ -7,14 +7,15 @@ import { Agenda } from "./agenda";
 export class Acao {
     
    codigo: Number;
-   codigoEspaco: Number;
+   codigoEsp: Number;
    nome: string;
-   codigoTipoAcao: Number;
+   codigoTac: Number;
    numeroVagas: Number;
    flagValeTransporte: boolean;
    flagValeRefeicao: boolean;
    observacao: string;
    codigoAgendamento: Number;
+   descricaoSituacao: string;
    situacao: Number;
 
    auditoria: Auditoria;
@@ -22,5 +23,6 @@ export class Acao {
    tipoAcao: TipoAcao;
    listaAcaoProfissional: AcaoProfissional[];
    listaAgenda: Agenda[];
+   listaAgendaOrdenada: Agenda[];
 
 }
