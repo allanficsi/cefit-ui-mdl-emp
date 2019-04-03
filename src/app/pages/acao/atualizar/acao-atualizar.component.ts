@@ -233,22 +233,25 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
   }
 
   iniciarPaginaAlterar() {
+
     let acao: Acao = new Acao();
     acao.codigo = +this.codigo;
 
     // GET ACAO COM O CODIGO
-    this.service.get(acao).subscribe((responseApi:ResponseApi) => {              
+    this.service.get(acao).subscribe((responseApi:ResponseApi) => {      
       this.objetoAtualiza = responseApi.data;
       this.popularTipoAcao(this.objetoAtualiza.codigoTac);
-      this.listaAgenda = this.objetoAtualiza.listaAgendaOrdenada;
+      this.listaAgenda = (this.objetoAtualiza.listaAgendaOrdenada == null) ? [] : this.objetoAtualiza.listaAgendaOrdenada;
 
-      this.periodo = {beginDate: {year: new Date(this.listaAgenda[0].dataAgenda).getFullYear(), month: new Date(this.listaAgenda[0].dataAgenda).getMonth() + 1, day: new Date(this.listaAgenda[0].dataAgenda).getDate()},
-                      endDate: {year: new Date(this.listaAgenda[this.listaAgenda.length-1].dataAgenda).getFullYear(), month: new Date(this.listaAgenda[this.listaAgenda.length-1].dataAgenda).getMonth() + 1, day: new Date(this.listaAgenda[this.listaAgenda.length-1].dataAgenda).getDate()}};
+      if(this.objetoAtualiza.listaAgenda.length > 0) {
+        this.periodo = {beginDate: {year: new Date(this.listaAgenda[0].dataAgenda).getFullYear(), month: new Date(this.listaAgenda[0].dataAgenda).getMonth() + 1, day: new Date(this.listaAgenda[0].dataAgenda).getDate()},
+                        endDate: {year: new Date(this.listaAgenda[this.listaAgenda.length-1].dataAgenda).getFullYear(), month: new Date(this.listaAgenda[this.listaAgenda.length-1].dataAgenda).getMonth() + 1, day: new Date(this.listaAgenda[this.listaAgenda.length-1].dataAgenda).getDate()}};
 
-      let dataInicio = new Date(this.periodo.beginDate.year, this.periodo.beginDate.month-1, this.periodo.beginDate.day);
-      let dataFim = new Date(this.periodo.endDate.year, this.periodo.endDate.month-1, this.periodo.endDate.day);
+        let dataInicio = new Date(this.periodo.beginDate.year, this.periodo.beginDate.month-1, this.periodo.beginDate.day);
+        let dataFim = new Date(this.periodo.endDate.year, this.periodo.endDate.month-1, this.periodo.endDate.day);
 
-      this.formatarHorarios(dataInicio, dataFim);
+        this.formatarHorarios(dataInicio, dataFim);
+      }
 
     } , err => {
       this.mensagem.tratarErro(err);  

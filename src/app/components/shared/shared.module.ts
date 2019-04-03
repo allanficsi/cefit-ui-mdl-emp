@@ -81,6 +81,7 @@ import { ModalTipoAcaoComponent } from "../../pages/geral/modal-tipo-acao/modal-
 import { CadastroUnicoService } from "src/app/services/cadastro-unico/cadastro-unico.service";
 import { DialogComponent } from "./confirm-dialog/dialog.component";
 import { AptEmailComponent } from "./email/apt-email.component";
+import { AcaoGerenciarComponent } from "src/app/pages/acao/gerenciar/acao-gerenciar.component";
 
 
 @NgModule({
@@ -154,6 +155,7 @@ import { AptEmailComponent } from "./email/apt-email.component";
 
         AcaoAtualizarComponent,
         AcaoPesquisarComponent,
+        AcaoGerenciarComponent,
 
         EspacoAtualizarComponent,
         EspacoPesquisarComponent,
