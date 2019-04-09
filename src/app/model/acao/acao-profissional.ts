@@ -4,8 +4,8 @@ import { Acao } from "./acao";
 export class AcaoProfissional {
     
    codigo: Number;
-   codigoAcao: Number;
-   codigoProfissional: Number;
+   codigoAca: Number;
+   codigoPrf: Number;
 
    acao: Acao;
    profissional: Profissional;

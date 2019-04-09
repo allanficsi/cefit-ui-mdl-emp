@@ -240,6 +240,9 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
     // GET ACAO COM O CODIGO
     this.service.get(acao).subscribe((responseApi:ResponseApi) => {      
       this.objetoAtualiza = responseApi.data;
+
+      this.selecionarEspaco();
+
       this.popularTipoAcao(this.objetoAtualiza.codigoTac);
       this.listaAgenda = (this.objetoAtualiza.listaAgendaOrdenada == null) ? [] : this.objetoAtualiza.listaAgendaOrdenada;
 
@@ -460,7 +463,7 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
     }
 
     let obj = new AcaoProfissional();
-    obj.codigoProfissional = this.profissional.codigo;
+    obj.codigoPrf = this.profissional.codigo;
     obj.profissional = this.profissional;
     
     this.objetoAtualiza.listaAcaoProfissional.push(obj);

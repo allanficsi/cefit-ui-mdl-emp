@@ -76,18 +76,18 @@
                     <button *ngIf="item.situacao == situacaoPendente" type="button" class="btn btn-icon-toggle" (click)="editar(item.codigo)">
                       <i class="fa fa-edit" title="Editar Ação"></i>
                     </button> 
-                    <button *ngIf="item.situacao == situacaoAtiva" type="button" class="btn btn-icon-toggle" (click)="alterarStatusAcao(item.codigo, situacaoAbertaInscricao)">
+                    <button *ngIf="item.situacao == situacaoAtiva" type="button" class="btn btn-icon-toggle" (click)="alterarStatusAcao(item.codigo, situacaoAbertaInscricao, item.codigoEsp)">
                       <i class="fa fa-file-text-o" title="Abrir Inscrição"></i>
                     </button>
-                    <button *ngIf="item.situacao == situacaoAbertaInscricao" type="button" class="btn btn-icon-toggle" (click)="alterarStatusAcao(item.codigo, situacaoConfirmada)">
+                    <button *ngIf="item.situacao == situacaoAbertaInscricao" type="button" class="btn btn-icon-toggle" (click)="alterarStatusAcao(item.codigo, situacaoConfirmada, item.codigoEsp)">
                       <i class="fa fa-thumbs-up" title="Confirmar Ação"></i>
                     </button>
-                    <button *ngIf="item.situacao == situacaoConfirmada" type="button" class="btn btn-icon-toggle" (click)="alterarStatusAcao(item.codigo, situacaoRealizada)">
+                    <button *ngIf="item.situacao == situacaoConfirmada" type="button" class="btn btn-icon-toggle" (click)="alterarStatusAcao(item.codigo, situacaoRealizada, item.codigoEsp)">
                       <i class="fa fa-check" title="Marcar como Realizada"></i>
                     </button>
                   </td>
                   <td> 
-                    <button *ngIf="item.situacao != situacaoRealizada && item.situacao != situacaoCancelada" type="button" class="btn btn-icon-toggle" (click)="alterarStatusAcao(item.codigo, situacaoCancelada)">
+                    <button *ngIf="item.situacao != situacaoRealizada && item.situacao != situacaoCancelada" type="button" class="btn btn-icon-toggle" (click)="alterarStatusAcao(item.codigo, situacaoCancelada, item.codigoEsp)">
                       <i class="fa fa-remove" title="Cancelar Ação"></i>
                     </button>
                   </td>

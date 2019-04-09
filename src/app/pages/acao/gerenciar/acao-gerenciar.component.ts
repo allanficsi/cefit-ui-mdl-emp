@@ -59,10 +59,11 @@ export class AcaoGerenciarComponent extends AptareCrudController<Acao, {new(): A
     });
   }
 
-  alterarStatusAcao(codigo, situacao) {
+  alterarStatusAcao(codigo, situacao, codigoEspaco) {
     let acao: Acao = new Acao();
     acao.codigo = codigo;
     acao.situacao = situacao;
+    acao.codigoEsp = codigoEspaco;
     acao.auditoria = new Auditoria();
     acao.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
 
