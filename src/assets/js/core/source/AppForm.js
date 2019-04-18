@@ -79,8 +79,8 @@
 		$(parentSelector + ' .floating-label .form-control').each(function () {
 			var input = $(this);
 
-			if ($.trim(input.val()) !== '') {
-				input.addClass('static').addClass('dirty');
+			if (typeof input.context.attributes['ng-reflect-model'] !== 'undefined' && $.trim(input.context.attributes['ng-reflect-model'].value) !== "" ) {
+				input.addClass('dirty').removeClass('static');
 			}
 		});
 

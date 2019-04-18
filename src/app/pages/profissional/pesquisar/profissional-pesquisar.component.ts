@@ -65,7 +65,7 @@ export class ProfissionalPesquisarComponent extends AptareCrudController<Profiss
   }
 
   editar(id:string){   
-    this.router.navigate(['/profissional-atualizar',id]);
+    super.editar('/profissional-atualizar', id);
   }
 
 }

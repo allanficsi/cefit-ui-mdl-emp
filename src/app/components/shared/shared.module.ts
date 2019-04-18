@@ -82,6 +82,7 @@ import { CadastroUnicoService } from "src/app/services/cadastro-unico/cadastro-u
 import { DialogComponent } from "./confirm-dialog/dialog.component";
 import { AptEmailComponent } from "./email/apt-email.component";
 import { AcaoGerenciarComponent } from "src/app/pages/acao/gerenciar/acao-gerenciar.component";
+import { AptCnpjComponent } from "./cnpj/apt-cnpj.component";
 
 
 @NgModule({
@@ -128,6 +129,7 @@ import { AcaoGerenciarComponent } from "src/app/pages/acao/gerenciar/acao-gerenc
         AptValidaCnpjDirective,
         AptValidaEmailDirective,
         AptCpfComponent,
+        AptCnpjComponent,
 
         EmpregadorPesquisarComponent,
         EmpregadorAtualizarComponent,
@@ -173,6 +175,7 @@ import { AcaoGerenciarComponent } from "src/app/pages/acao/gerenciar/acao-gerenc
         
         LayoutComponent,
         AptCpfComponent,
+        AptCnpjComponent,
         AptEmailComponent,
     ],
     providers: [

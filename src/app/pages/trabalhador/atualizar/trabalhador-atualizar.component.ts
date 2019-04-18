@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { Auditoria } from '../../../model/auditoria';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
@@ -51,6 +51,8 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   isLocalidadeReadOnly: boolean;
   isUfReadOnly: boolean;
 
+  obj;
+
   constructor(router: Router,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
@@ -75,7 +77,6 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   }
 
   iniciarPaginaInserir() {
-
     this.objetoAtualiza.ufCtps = 'AC';
 
     this.endereco = new Endereco();
@@ -414,8 +415,8 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
       telefoneAdicionar.descricaoTipo = this.telefonePf.objTipo.nomeValor;
       telefoneAdicionar.tipo = this.telefonePf.objTipo.valorCampo;
-      telefoneAdicionar.ddd = this.telefonePf.ddd;
-      telefoneAdicionar.numero = this.telefonePf.numero;
+      telefoneAdicionar.ddd = Number(this.telefonePf.nrTelefoneExtenso.substring(0,2));
+      telefoneAdicionar.numero = Number(this.telefonePf.nrTelefoneExtenso.substring(2,this.telefonePf.nrTelefoneExtenso.length));
       telefoneAdicionar.auditoria = new Auditoria();
       telefoneAdicionar.auditoria.dataInclusao = new Date();
       telefoneAdicionar.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
@@ -423,7 +424,6 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       telefoneAdicionar.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false ;
 
       this.listaTelefonePf.push(telefoneAdicionar);
-      console.log(this.listaTelefonePf);
       this.resetTelefonePf();
     }
 
@@ -605,13 +605,10 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   }
 
   validarTelefonePf() {
-    if((typeof this.telefonePf.ddd === "undefined") || this.telefonePf.ddd <= 0) {
-      this.mensagem.tratarErroPersonalizado("", "O campo DDD é obrigatório.");
-      return false;
-    }
-
-    if((typeof this.telefonePf.numero === "undefined") || this.telefonePf.numero <= 0) {
-      this.mensagem.tratarErroPersonalizado("", "O campo Telefone é obrigatório.");
+    if((typeof this.telefonePf.nrTelefoneExtenso === "undefined") 
+            || this.telefonePf.nrTelefoneExtenso === ''
+            || Number(this.telefonePf.nrTelefoneExtenso.length) < 11) {
+      this.mensagem.tratarErroPersonalizado("", "Informe um telefone com no mínimo 11 dígitos.");
       return false;
     }
 
@@ -619,8 +616,6 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   }
 
   validarInserir() {
-
-    console.log(this.cadastroUnico);
 
     //VALIDACAO DE CAMPOS OBRIGATORIOS PF
     if(this.objetoAtualiza.cadastroUnico.cpf == null || this.objetoAtualiza.cadastroUnico.cpf == '') {
@@ -733,6 +728,9 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     return true;
   }
   
+  voltar() {
+    this.back('trabalhador-pesquisar');
+  }
 
   validarAlterar() {
     return this.validarInserir();

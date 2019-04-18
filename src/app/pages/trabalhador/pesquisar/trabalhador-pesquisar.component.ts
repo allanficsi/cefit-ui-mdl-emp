@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
 import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
@@ -28,7 +28,7 @@ export class TrabalhadorPesquisarComponent extends AptareCrudController<Trabalha
               private dominioService: DominioService,
               mensagem: MensagemService,
               dialogService: DialogService) {
-    super(router, route, dialog, Trabalhador, service, mensagem, dialogService);   
+    super(router, route, dialog, Trabalhador, service, mensagem, dialogService);
   }
 
   iniciarPaginaPesquisar() {
@@ -84,8 +84,12 @@ export class TrabalhadorPesquisarComponent extends AptareCrudController<Trabalha
     });
   }
 
+  novo() {
+    this.router.navigate(['/trabalhador-atualizar']);
+  }
+
   editar(id:string){   
-    this.router.navigate(['/trabalhador-atualizar',id]);
+    super.editar('/trabalhador-atualizar', id);
   }
 
 }

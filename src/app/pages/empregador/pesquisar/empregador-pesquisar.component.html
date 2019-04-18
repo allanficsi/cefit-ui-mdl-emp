@@ -17,50 +17,31 @@
                 
               <div class="row">
                 
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                   <div class="form-group">
-                    <label>Tipo de Pessoa *</label>
-                    <div style="margin-top: 10px;">
-                    <label class="radio-inline radio-styled">
-                      <input type="radio" value="F" [(ngModel)]="objetoPesquisa.cadastroUnico.tipoPessoa" (change)="selecionarTipoPessoa()" name="tipoPessoa" #tipoPessoa="ngModel" >
-                      <span>Física</span>
-                    </label>
-                    <label class="radio-inline radio-styled">
-                      <input type="radio" value="J" [(ngModel)]="objetoPesquisa.cadastroUnico.tipoPessoa" (change)="selecionarTipoPessoa()" name="tipoPessoa" #tipoPessoa="ngModel" >
-                      <span>Jurídica</span>
-                    </label>
-                    </div>
+                    <input type="text" maxlength="18" autocomplete="off" [(ngModel)]="objetoPesquisa.cadastroUnico.cpfCnpj"
+                          name="cnpj" class="form-control" required mask='00000000000000'>
+                    <label>CPF/CNPJ</label>
                   </div>
                 </div>
 
-
-                <div class="col-sm-3" *ngIf='objetoPesquisa.cadastroUnico.tipoPessoa == "J"'>
+                <div class="col-sm-3">
                   <div class="form-group">
-                    <input type="text" maxlength="18" aptValidaCnpj autocomplete="off"
-                    [(ngModel)]="objetoPesquisa.cadastroUnico.cpfCnpj" mask='00.000.000/0000-00'
-                          name="cnpj" class="form-control" required>  
-                    <label>CNPJ *</label>
-                  </div>
-                </div>
-
-                <div class="col-sm-3" *ngIf='objetoPesquisa.cadastroUnico.tipoPessoa == "F"'>
-                  <div class="form-group">
-                    <input type="text" maxlength="18" aptValidaCpf autocomplete="off"
-                    [(ngModel)]="objetoPesquisa.cadastroUnico.cpfCnpj" mask='000.000.000-00'
-                          name="cpf" class="form-control" required>  
-                    <label>CPF *</label>
+                    <input type="text" maxlength="7" autocomplete="offCei" [(ngModel)]="objetoPesquisa.numeroCei" mask='0000000'
+                                name="numeroCei" class="form-control" required>
+                    <label>CEI</label>
                   </div>
                 </div>
 
               </div>
 
-              <div class="row" *ngIf='objetoPesquisa.cadastroUnico.tipoPessoa == "J"'>
+              <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <input type="text" maxlength="80" 
                     [(ngModel)]="objetoPesquisa.cadastroUnico.nome" 
                           name="razaoSocial" class="form-control" required>  
-                    <label>Razão Social *</label>
+                    <label>Nome/Razão Social *</label>
                   </div>
                 </div>
 
@@ -74,18 +55,6 @@
                 </div>
               </div>
 
-
-              <div class="row" *ngIf='objetoPesquisa.cadastroUnico.tipoPessoa == "F"'>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <input type="text" maxlength="80" 
-                    [(ngModel)]="objetoPesquisa.cadastroUnico.nome" 
-                          name="razaoSocial" class="form-control" required>  
-                    <label>Nome *</label>
-                  </div>
-                </div>
-              </div>
-
             </form>
           </div>
 
@@ -94,7 +63,7 @@
                   <a class="btn ink-reaction btn-raised btn-success" (click)="pesquisar()" accesskey="P">
                   Pesquisar  
                   </a> 
-                  <a class="btn ink-reaction btn-raised btn-default" [routerLink]="['/empregador-atualizar']" accesskey="N">
+                  <a class="btn ink-reaction btn-raised btn-default" (click)="novo()" accesskey="N">
                   Novo  
                   </a>                  
               </div>
@@ -113,9 +82,11 @@
                <table id="datatable1" class="table table-hover no-margin">
                 <thead class="style-default-dark">
                   <tr>
-                    <th class="text-center" style="width: 15%;">CNPJ</th>
-                    <th class="text-left">Nome Fantasia</th>
-                    <th class="text-center">Tipo Pessoa</th>
+                    <th class="text-center" style="width: 15%;">CPF/CNPJ</th>
+                    <th class="text-center" style="width: 15%;">CEI</th>
+                    <th class="text-left">Nome/Razão Social</th>
+                    <th class="text-center">Nome Fantasia</th>
+                    <th class="text-center">Tipo</th>
                     <th class="text-center">Data de Cadastro</th>
                     <th class="text-left">Situação</th>
                     <th class="text-center" style="width: 3%;"></th>
@@ -126,7 +97,11 @@
                 <tr *ngFor="let item of listaResultado">
                   <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "J"'>{{item.cadastroUnico.cnpj}}</td>
                   <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "F"'>{{item.cadastroUnico.cpf}}</td>
+                  <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "J"'>{{item.numeroCei}}</td>
+                  <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "F"'>-</td>
                   <td>{{item.cadastroUnico.nome}}</td>
+                  <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "J"'>{{item.cadastroUnico.pessoaJuridica.nomeFantasia}}</td>
+                  <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "F"'>-</td>
                   <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "F"'>PESSOA FÍSICA</td>
                   <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "J"'>PESSOA JURÍDICA</td>
                   <td class="text-center">{{item.auditoria.dataInclusao | date: 'dd/MM/yyyy HH:mm:ss'}}</td>

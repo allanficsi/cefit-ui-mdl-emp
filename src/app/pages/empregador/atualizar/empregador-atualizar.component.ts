@@ -196,7 +196,8 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       	 	this.objetoAtualiza.cnae = this.listaCnae[i];
       	 }
       }
-      console.log(this.objetoAtualiza);
+
+      //console.log(this.objetoAtualiza);
     } , err => {
       this.mensagem.tratarErro(err);  
     });
@@ -422,9 +423,6 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     dialogConfig.width = '750px';
     dialogConfig.data = {index: index};    
 
-    //this.abrirModal(ModalTelefoneComponent, dialogConfig);
-   
-    
     this.dialog.open(ModalTelefoneComponent, dialogConfig)
                .afterClosed().subscribe((data) => {
       if(typeof data !== "undefined") {
@@ -454,21 +452,34 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
 
   adicionarTelefonePf() {
 
-    let telefoneAdicionar: Telefone = new Telefone();
+    if(this.validarTelefonePf()) {
+      let telefoneAdicionar: Telefone = new Telefone();
 
-    telefoneAdicionar.descricaoTipo = this.telefonePf.objTipo.nomeValor;
-    telefoneAdicionar.tipo = this.telefonePf.objTipo.valorCampo;
-    telefoneAdicionar.ddd = this.telefonePf.ddd;
-    telefoneAdicionar.numero = this.telefonePf.numero;
-    telefoneAdicionar.auditoria = new Auditoria();
-    telefoneAdicionar.auditoria.dataInclusao = new Date();
-    telefoneAdicionar.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
-    telefoneAdicionar.flagAtivo = 'S';
-    telefoneAdicionar.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false ;
+      telefoneAdicionar.descricaoTipo = this.telefonePf.objTipo.nomeValor;
+      telefoneAdicionar.tipo = this.telefonePf.objTipo.valorCampo;
+      telefoneAdicionar.ddd = Number(this.telefonePf.nrTelefoneExtenso.substring(0,2));
+      telefoneAdicionar.numero = Number(this.telefonePf.nrTelefoneExtenso.substring(2,this.telefonePf.nrTelefoneExtenso.length));
+      telefoneAdicionar.auditoria = new Auditoria();
+      telefoneAdicionar.auditoria.dataInclusao = new Date();
+      telefoneAdicionar.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
+      telefoneAdicionar.flagAtivo = 'S';
+      telefoneAdicionar.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false ;
 
-    this.listaTelefonePf.push(telefoneAdicionar);
-    this.resetTelefonePf();
+      this.listaTelefonePf.push(telefoneAdicionar);
+      this.resetTelefonePf();
+    }
 
+  }
+
+  validarTelefonePf() {
+    if((typeof this.telefonePf.nrTelefoneExtenso === "undefined") 
+            || this.telefonePf.nrTelefoneExtenso === ''
+            || Number(this.telefonePf.nrTelefoneExtenso.length) < 11) {
+      this.mensagem.tratarErroPersonalizado("", "Informe um telefone com no mínimo 11 dígitos.");
+      return false;
+    }
+
+    return true;
   }
 
   resetTelefonePf() {
@@ -601,6 +612,12 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     this.objetoAtualiza.cadastroUnico.auditoria = new Auditoria();
     this.objetoAtualiza.cadastroUnico.auditoria.dataInclusao = new Date();
     this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
+
+    if(this.objetoAtualiza.cadastroUnico !== null
+      && this.objetoAtualiza.cadastroUnico.codigo !== null && typeof this.objetoAtualiza.cadastroUnico.codigo !== 'undefined') {
+        this.objetoAtualiza.cadastroUnico.auditoria.dataAlteracao = new Date();
+        this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+    }
 
   }
 
@@ -794,9 +811,162 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   }
 
   carregarCadastroUnico(event) {
+    // Verificando se existe empregador (pf) com o cdcun
+    if(event.codigo !== null && typeof event.codigo !== 'undefined'){
+      
+      let objEmp: Empregador = new Empregador();
+      objEmp.codigoCadastroUnico = event.codigo;
 
-    // Verificando se existe trabalhador com o cdcun
+       this.service.get(objEmp).subscribe((responseApi:ResponseApi) => {
+         
+        this.objetoAtualiza = new Empregador();
+        this.iniciarPaginaInserir();
+
+        if(responseApi['data'] !== null && typeof responseApi['data'] !== 'undefined') {
+          this.objetoAtualiza = responseApi['data'];
+          this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg);
+          this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento);
+
+          this.mensagem.tratarErroPersonalizado("", "Já existe um empregador cadastrado com este cpf.");
+        }
+
+        this.objetoAtualiza.cadastroUnico = event;
+        this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg);
+        this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento = new Date(this.objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento);
+
+        //populando endereco
+        this.listaEndereco = [];
     
+          if(typeof this.objetoAtualiza.cadastroUnico.listaEndereco !== 'undefined') {
+            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.listaEndereco.length; i++) {
+    
+              let eex: ExtensaoEndereco = new ExtensaoEndereco();
+    
+              if(this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio != null) {
+                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.logradouro;
+                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.bairro;
+                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.localidade;
+                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.uf;
+              } else {
+                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.logradouro;
+                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.bairro;
+                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.localidade;
+                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.uf;
+              }
+    
+              this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco = eex;
+              this.listaEndereco.push(this.objetoAtualiza.cadastroUnico.listaEndereco[i]);
+    
+            }
+          }
+    
+          // populando telefone
+          this.listaTelefonePf = [];
+          if(typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone !== 'undefined') {
+            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone.length; i++) {
+              this.listaTelefonePf.push(this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i]);
+            }
+          }
+        //}
+
+       } , err => {
+         this.mensagem.tratarErro(err);
+       });
+    } else {
+      this.objetoAtualiza = new Empregador();
+      this.iniciarPaginaInserir();
+      this.listaEndereco = [];
+      this.listaTelefonePf = [];
+      this.objetoAtualiza.cadastroUnico.cpf = event.cpf;
+    }
+    
+  }
+
+
+
+  carregarCadastroUnicoPJ(event) {
+    // Verificando se existe empregador (pj) com o cdcun
+    if(event.codigo !== null && typeof event.codigo !== 'undefined'){
+      
+      let objEmp: Empregador = new Empregador();
+      objEmp.codigoCadastroUnico = event.codigo;
+
+       this.service.get(objEmp).subscribe((responseApi:ResponseApi) => {
+         
+        this.objetoAtualiza = new Empregador();
+        this.iniciarPaginaInserir();
+
+        if(responseApi['data'] !== null && typeof responseApi['data'] !== 'undefined') {
+          this.objetoAtualiza = responseApi['data'];
+          
+          this.mensagem.tratarErroPersonalizado("", "Já existe um empregador cadastrado com este cnpj.");
+        }
+
+        this.objetoAtualiza.cadastroUnico = event;
+
+        //populando endereco
+        this.listaEndereco = [];
+    
+          if(typeof this.objetoAtualiza.cadastroUnico.listaEndereco !== 'undefined') {
+            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.listaEndereco.length; i++) {
+    
+              let eex: ExtensaoEndereco = new ExtensaoEndereco();
+    
+              if(this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio != null) {
+                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.logradouro;
+                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.bairro;
+                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.localidade;
+                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.uf;
+              } else {
+                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.logradouro;
+                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.bairro;
+                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.localidade;
+                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.uf;
+              }
+    
+              this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco = eex;
+              this.listaEndereco.push(this.objetoAtualiza.cadastroUnico.listaEndereco[i]);
+    
+            }
+          }
+    
+          // populando contato
+          this.listaContato = [];
+          if(this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato != null && typeof this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato !== 'undefined') {
+            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato.length; i++) {
+              this.listaContato.push(this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato[i]);
+            }
+          }
+
+          if(typeof this.listaCnae !== 'undefined') {
+            for(var i=0; i < this.listaCnae.length;i++)
+            {
+              //console.log(this.listaCnae[i].codigo);
+              if(this.listaCnae[i].codigo == this.objetoAtualiza.codigoCnae)
+              {
+                this.objetoAtualiza.cnae = this.listaCnae[i];
+              }
+            }
+          }
+
+       } , err => {
+         this.mensagem.tratarErro(err);
+       });
+    } else {
+      this.objetoAtualiza = new Empregador();
+      this.iniciarPaginaInserir();
+      this.listaEndereco = [];
+      this.listaContato = [];
+      this.objetoAtualiza.cadastroUnico.cnpj = event.cnpj;
+    }
+
+    this.endereco.objTipo = this.listaTipoEndereco[0];
+    this.contato.objTipoContato = this.listaTipoContato[0];
+    this.contato.cargo = this.listaCargo[0];
+  }
+
+  voltar() {
+    this.back('empregador-pesquisar');
   }
 
 }

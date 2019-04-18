@@ -144,7 +144,7 @@ export class AcaoAtualizarComponent extends AptareCrudController<Acao, {new(): A
   }
 
   voltar() {
-    this._location.back();
+    this.back('acao-pesquisar');
   }
 
   setListasStaticas() {

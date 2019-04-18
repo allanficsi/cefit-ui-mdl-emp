@@ -142,6 +142,7 @@ export class AptCpfComponent implements ControlValueAccessor, OnInit {
     }
 
     getCadastroUnico() {
+
       if(this.cpfValor != null
           && this.cpfValor != '') {
 

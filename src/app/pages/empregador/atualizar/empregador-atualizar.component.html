@@ -58,9 +58,10 @@
                     
                     <div class="col-sm-3" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
                       <div class="form-group">
-                        <input type="text" maxlength="18" aptValidaCnpj autocomplete="offCnpj"
+                        <!-- <input type="text" maxlength="18" aptValidaCnpj autocomplete="offCnpj"
                         [(ngModel)]="objetoAtualiza.cadastroUnico.cnpj" mask='00.000.000/0000-00'
-                              name="cnpj" class="form-control" required>
+                              name="cnpj" class="form-control" required> -->
+                        <apt-cnpj [(ngModel)]="objetoAtualiza.cadastroUnico.cnpj" name="cnpj" #cnpj="ngModel" [isReadOnly]="codigo != undefined" (cadastroUnicoChange)="carregarCadastroUnicoPJ($event)"></apt-cnpj>
                         <label>CNPJ</label>
                       </div>
                     </div>
@@ -80,7 +81,7 @@
                     <div class="col-sm-3" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "F"'>
                         <div class="form-group">
                           <input type="text" autocomplete="offRg" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.registroGeral" mask='00000000000000'
-                                  name="cnpj" class="form-control" required>  
+                                  name="registroGeral" class="form-control" required>  
                           <label>RG *</label>
                         </div>
                       </div>
@@ -367,7 +368,15 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                          <input type="text" [(ngModel)]="telefonePf.nrTelefoneExtenso" autocomplete="offTel"
+                                  mask='(00) 00000-0000' name="nrTelefoneExtensoPf" class="form-control" required>
+                        <label>Telefone *</label>
+                      </div>
+                    </div>
+
+                    <!-- <div class="col-sm-2">
                       <div class="form-group">
                           <input type="text" [(ngModel)]="telefonePf.ddd" autocomplete="offDDD"
                                   mask='(00)' name="dddPf" class="form-control" required>
@@ -381,7 +390,7 @@
                                     mask='00000-0000' name="telefonePf" class="form-control" required>
                           <label>Telefone</label>
                         </div>
-                      </div>
+                      </div> -->
 
                       <div class="col-sm-2">
                         <div class="form-group">
@@ -417,7 +426,7 @@
                         <tbody>
                           <tr *ngFor="let telefonePf of listaTelefonePf; let i = index" [attr.data-index]="i">
                             <td style="width: 25%;">{{telefonePf.descricaoTipo}}</td>
-                            <td style="width: 25%;">{{telefonePf.ddd}} - {{telefonePf.numero}}</td>
+                            <td style="width: 25%;">({{telefonePf.ddd}}) - {{telefonePf.numero}}</td>
                             <td style="width: 25%;"> 
                               <span *ngIf="telefonePf.flagWhats">SIM</span>
                               <span *ngIf="!telefonePf.flagWhats">NÃO</span>
@@ -608,7 +617,7 @@
                         Alterar
                       </button>  
                     
-                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" [routerLink]="['/empregador-pesquisar']">
+                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" (click)="voltar()">
                     Voltar 
                     </a>
                   </div>

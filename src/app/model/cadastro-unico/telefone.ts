@@ -12,6 +12,7 @@ export class Telefone {
     flagWhats: boolean;
     descricaoTipo: string;
     auditoria: Auditoria;
+    nrTelefoneExtenso: string;
 
     objTipo: Dominio;
 

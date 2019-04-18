@@ -22,7 +22,15 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                          <input type="text" [(ngModel)]="telefone.nrTelefoneExtenso" autocomplete="offTel"
+                                  mask='(00) 00000-0000' name="nrTelefoneExtensoPf" class="form-control" required>
+                        <label>Telefone *</label>
+                      </div>
+                    </div>
+
+                    <!-- <div class="col-sm-2">
                       <div class="form-group">
                           <input type="text" [(ngModel)]="telefone.ddd" autocomplete="off"
                                  mask='(00)' name="ddd" class="form-control" required>
@@ -35,8 +43,8 @@
                             <input type="text" [(ngModel)]="telefone.numero" autocomplete="off"
                                    mask='00000-0000' name="numera" class="form-control" required>
                           <label>Número *</label>
-                        </div>
-                      </div>
+                        </div> 
+                      </div> -->
 
                       <div class="col-sm-3">
                         <div class="form-group">

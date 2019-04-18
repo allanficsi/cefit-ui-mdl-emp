@@ -39,8 +39,6 @@ export class EmpregadorPesquisarComponent extends AptareCrudController<Empregado
     this.objetoPesquisa.cadastroUnico.pessoaJuridica = new PessoaJuridica();
     this.objetoPesquisa.cadastroUnico.pessoaFisica = new PessoaFisica();
 
-    this.objetoPesquisa.cadastroUnico.tipoPessoa = 'J';
-
     this.popularSituacao();
   }
 
@@ -100,7 +98,11 @@ export class EmpregadorPesquisarComponent extends AptareCrudController<Empregado
   }
 
   editar(id:string){    
-    this.router.navigate(['/empregador-atualizar',id]);
+    super.editar('/empregador-atualizar', id);
+  }
+
+  novo() {
+    this.router.navigate(['/empregador-atualizar']);
   }
 
 }

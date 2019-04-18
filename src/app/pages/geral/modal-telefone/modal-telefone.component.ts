@@ -52,13 +52,10 @@ export class ModalTelefoneComponent extends AptareCrudController<Empregador, {ne
 
   adicionarTelefone() {
 
-    if(this.telefone.ddd == null || this.telefone.ddd <= 0) {
-      this.mensagem.tratarErroPersonalizado("", "O campo DDD é obrigatório.");
-      return false;
-    }
-
-    if(this.telefone.numero == null || this.telefone.numero <= 0) {
-      this.mensagem.tratarErroPersonalizado("", "O campo Número é obrigatório.");
+    if((typeof this.telefone.nrTelefoneExtenso === "undefined") 
+            || this.telefone.nrTelefoneExtenso === ''
+            || Number(this.telefone.nrTelefoneExtenso.length) < 11) {
+      this.mensagem.tratarErroPersonalizado("", "Informe um telefone com no mínimo 11 dígitos.");
       return false;
     }
 
@@ -67,6 +64,9 @@ export class ModalTelefoneComponent extends AptareCrudController<Empregador, {ne
         this.telefone.descricaoTipo = this.listaTipoTelefone[i].nomeValor;
       }
     }
+
+    this.telefone.ddd = Number(this.telefone.nrTelefoneExtenso.substring(0,2));
+    this.telefone.numero = Number(this.telefone.nrTelefoneExtenso.substring(2,this.telefone.nrTelefoneExtenso.length));
 
     this.dialogRef.close(this.telefone);
   }

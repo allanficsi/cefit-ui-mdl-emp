@@ -45,32 +45,38 @@ export class ModalItemManutencaoComponent extends AptareCrudController<Espaco, {
 
   salvar() {
 
-    let flag: boolean = true;
+    this.dialogService.openConfirmDialog('Deseja realmente atualizar os itens?')
+    .afterClosed().subscribe(res =>{
+      if(res){
+        let flag: boolean = true;
 
-    this.objetoAtualiza.listaEspacoItemEspaco.forEach(element => {
+        this.objetoAtualiza.listaEspacoItemEspaco.forEach(element => {
 
-      let qtdAtivos = element.quantidadeAtivos;
-      let qtdManut = element.quantidadeManutencao;
-      let total = element.totalItens;
+          let qtdAtivos = element.quantidadeAtivos;
+          let qtdManut = element.quantidadeManutencao;
+          let total = element.totalItens;
 
-      if(parseInt(qtdAtivos.toString()) + parseInt(qtdManut.toString()) !== parseInt(total.toString())) {
-        flag = false;
+          if(parseInt(qtdAtivos.toString()) + parseInt(qtdManut.toString()) !== parseInt(total.toString())) {
+            flag = false;
+          }
+          
+        });
+
+        // Salvando alterações
+        if(flag) {
+          this.service.salvarManutencao(this.objetoAtualiza).subscribe((responseApi:ResponseApi) => {
+            this.mensagem.msgSucesso('O registro foi inserido com sucesso.');
+            this.fechar();
+          } , err => {
+            this.mensagem.tratarErro(err);
+          });
+        } else {
+          this.mensagem.tratarErroPersonalizado("", "O valor total do item deve ser igual ao somatório dos itens ativos com os itens inativos.");
+          return false;
+        }
       }
-      
     });
 
-    // Salvando alterações
-    if(flag) {
-      this.service.salvarManutencao(this.objetoAtualiza).subscribe((responseApi:ResponseApi) => {
-        this.mensagem.msgSucesso('O registro foi inserido com sucesso.');
-        this.fechar();
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
-    } else {
-      this.mensagem.tratarErroPersonalizado("", "O valor total do item deve ser igual ao somatório dos itens ativos com os itens inativos.");
-      return false;
-    }
   }
 
   fechar() {
