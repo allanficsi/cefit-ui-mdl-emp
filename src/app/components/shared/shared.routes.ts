@@ -33,6 +33,7 @@ import { TipoAcaoAtualizarComponent } from '../../pages/tipo-acao/atualizar/tipo
 import { AcaoPesquisarComponent } from '../../pages/acao/pesquisar/acao-pesquisar.component';
 import { AcaoAtualizarComponent } from '../../pages/acao/atualizar/acao-atualizar.component';
 import { ModalTipoAcaoComponent } from '../../pages/geral/modal-tipo-acao/modal-tipo-acao.component';
+import { AcaoGerenciarComponent } from 'src/app/pages/acao/gerenciar/acao-gerenciar.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -72,6 +73,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'acao-pesquisar', component: AcaoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'acao-atualizar', component: AcaoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'acao-atualizar/:id', component: AcaoAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'acao-gerenciar', component: AcaoGerenciarComponent, canActivate: [AuthGuard] },
 
     { path : 'qualificacao-pesquisar', component: QualificacaoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'qualificacao-atualizar', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },

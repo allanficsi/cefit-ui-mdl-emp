@@ -534,7 +534,15 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                          <input type="text" [(ngModel)]="telefonePf.nrTelefoneExtenso" autocomplete="offTel"
+                                  mask='(00) 00000-0000' name="nrTelefoneExtensoPf" class="form-control" required>
+                        <label>Telefone *</label>
+                      </div>
+                    </div>
+
+                    <!-- <div class="col-sm-2">
                       <div class="form-group">
                           <input type="text" [(ngModel)]="telefonePf.ddd" autocomplete="offDDD"
                                   mask='(00)' name="dddPf" class="form-control" required>
@@ -548,7 +556,7 @@
                                   mask='00000-0000' name="telefonePf" class="form-control" required>
                         <label>Telefone *</label>
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="col-sm-2">
                       <div class="form-group">
@@ -611,7 +619,7 @@
                         Alterar
                       </button>  
                     
-                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" [routerLink]="['/trabalhador-pesquisar']">
+                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" (click)="voltar()">
                     Voltar 
                     </a>
                   </div>

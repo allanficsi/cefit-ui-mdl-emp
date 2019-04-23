@@ -80,7 +80,11 @@ export class AcaoPesquisarComponent extends AptareCrudController<Acao, {new(): A
   }
 
   editar(id:string) {
-    this.router.navigate(['/acao-atualizar', id]);
+    super.editar('/acao-atualizar', id);
+  }
+
+  novo() {
+    this.router.navigate(['/acao-atualizar']);
   }
 
 }

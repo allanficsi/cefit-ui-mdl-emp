@@ -1,7 +1,7 @@
 import { UtilService } from './../../../services/util.service';
 import { AptareCrudService } from './../../../services/shared/aptare-crud.service';
 import { OnInit, AfterViewInit, AfterContentInit, OnDestroy, AfterViewChecked, Renderer2 } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ResponseApi } from '../../../model/response-api';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { MatDialog } from '@angular/material';
@@ -24,6 +24,7 @@ export class AptareCrudController <Entity,
   classCss : {};
 
   codigo: string;
+  fgVoltar: string;
 
   util: UtilService;
 
@@ -54,9 +55,11 @@ export class AptareCrudController <Entity,
     if(this.codigo == undefined) {
        this.iniciarPaginaInserir();
        this.iniciarPaginaPesquisar();
+       this.preencherFiltros();
     } else {
        this.iniciarPaginaAlterar();
     }
+
   }
 
   pesquisar() {    
@@ -168,6 +171,22 @@ export class AptareCrudController <Entity,
 
   id<T>(x: T) { return x; }
 
+  back(url) {
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+          "back": "T"
+      }
+    };
+
+    this.router.navigate([url], navigationExtras);
+  }
+
+  editar(url, id) {
+    localStorage.setItem("objFiltro", JSON.stringify(this.objetoPesquisa));
+    this.router.navigate([url,id]);
+  }
+
   logout() {
     localStorage.removeItem("usuario");
     localStorage.removeItem("token");
@@ -177,11 +196,27 @@ export class AptareCrudController <Entity,
   protected executarPosGet(obj){ return obj }
   protected setListaPesquisar(){}
   protected iniciarPaginaInserir() {}  
-  protected iniciarPaginaPesquisar() {}  
   protected iniciarPaginaAlterar() {}  
   protected statusInativar(obj: Entity) {}
   protected statusAtivar(obj: Entity) {}
   protected validaPesquisar(): boolean{ return true }
+  protected iniciarPaginaPesquisar() {}
+
+  preencherFiltros() {
+    this.route.queryParams.subscribe(params => {
+      
+      let back = params['back'];""
+      if(typeof back !== 'undefined' && back == 'T' 
+            && localStorage.getItem("objFiltro") != null 
+            && typeof localStorage.getItem("objFiltro") !== 'undefined') {
+        this.objetoPesquisa = JSON.parse(localStorage.getItem("objFiltro"));
+        this.pesquisar();
+      } else {
+        localStorage.removeItem("objFiltro");
+      }
+          
+    });
+  }
 
   getCodigoUsuarioLogado()
   {

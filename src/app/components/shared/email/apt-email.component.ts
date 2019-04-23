@@ -35,6 +35,8 @@ export class AptEmailComponent implements ControlValueAccessor, OnInit {
   validarEmail() {
     let email = this.emailValor;
 
+    console.log(email);
+
     if(email == '') {
       return;
     }

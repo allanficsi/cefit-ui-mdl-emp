@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { Auditoria } from '../../../model/auditoria';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
@@ -19,10 +22,9 @@ import { CorreioService } from '../../../services/correio/correio.service';
 import { DominioService } from '../../../services/geral/dominio.service';
 import { ProfissionalService } from '../../../services/profissional/profissional.service';
 import { QualificacaoService } from '../../../services/profissional/qualificacao.service';
+import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { ModalQualificacaoComponent } from '../../geral/modal-qualificacao/modal-qualificacao.component';
-import { DialogService } from '../../../services/shared/dialog.service';
-import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
 
 
 @Component({
@@ -49,6 +51,9 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
   isLocalidadeReadOnly: boolean;
   isUfReadOnly: boolean;
 
+  myControlQualificacao: FormControl = new FormControl();
+  filteredOptionsQualificacao: Observable<Qualificacao[]>;
+
   constructor(router: Router,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
@@ -61,6 +66,16 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
     super(router, route, dialog, Profissional, service, mensagem, dialogService);    
   }
 
+  displayFnQualificacao(qualificacao?: Qualificacao): string | undefined {
+    return qualificacao ? qualificacao.descricao : undefined;
+  }
+
+  private _filterQualificacao(descricao: string): Qualificacao[] {
+    const filterValue = descricao.toLowerCase();
+
+    return this.listaQualificacao.filter(option => option.descricao.toLowerCase().indexOf(filterValue) > -1);
+  }
+
   setListasStaticas() {
 
     super.setListasStaticas();
@@ -68,6 +83,14 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
     this.popularEstadoCivil();
     this.popularTipoTelefone();
     this.popularQualificacao(null);
+
+    // Autocomplete qualificacao
+    this.filteredOptionsQualificacao = this.myControlQualificacao.valueChanges
+    .pipe(
+      startWith<string | Qualificacao>(''),
+      map(value => typeof value === 'string' ? value : value.descricao),
+      map(descricao => descricao ? this._filterQualificacao(descricao) : this.listaQualificacao.slice())
+    );
   
   }
 
@@ -164,7 +187,7 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
           }
         }
       } else {
-        this.qualificacao = null;
+        this.qualificacao = new Qualificacao();
       }
     } , err => {
       this.mensagem.tratarErro(err);
@@ -321,8 +344,8 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
 
       telefoneAdicionar.descricaoTipo = this.telefonePf.objTipo.nomeValor;
       telefoneAdicionar.tipo = this.telefonePf.objTipo.valorCampo;
-      telefoneAdicionar.ddd = this.telefonePf.ddd;
-      telefoneAdicionar.numero = this.telefonePf.numero;
+      telefoneAdicionar.ddd = Number(this.telefonePf.nrTelefoneExtenso.substring(0,2));
+      telefoneAdicionar.numero = Number(this.telefonePf.nrTelefoneExtenso.substring(2,this.telefonePf.nrTelefoneExtenso.length));
       telefoneAdicionar.auditoria = new Auditoria();
       telefoneAdicionar.auditoria.dataInclusao = new Date();
       telefoneAdicionar.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
@@ -448,13 +471,10 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
   }
 
   validarTelefonePf() {
-    if((typeof this.telefonePf.ddd === "undefined") || this.telefonePf.ddd <= 0) {
-      this.mensagem.tratarErroPersonalizado("", "O campo DDD é obrigatório.");
-      return false;
-    }
-
-    if((typeof this.telefonePf.numero === "undefined") || this.telefonePf.numero <= 0) {
-      this.mensagem.tratarErroPersonalizado("", "O campo Telefone é obrigatório.");
+    if((typeof this.telefonePf.nrTelefoneExtenso === "undefined") 
+            || this.telefonePf.nrTelefoneExtenso === ''
+            || Number(this.telefonePf.nrTelefoneExtenso.length) < 11) {
+      this.mensagem.tratarErroPersonalizado("", "Informe um telefone com no mínimo 11 dígitos.");
       return false;
     }
 
@@ -597,7 +617,7 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
             }
           }
 
-          this.mensagem.tratarErroPersonalizado("", "Já existe um trabalhador cadastrado com este cpf.");
+          this.mensagem.tratarErroPersonalizado("", "Já existe um profisional cadastrado com este cpf.");
 
         } else {
 
@@ -666,6 +686,10 @@ export class ProfissionalAtualizarComponent extends AptareCrudController<Profiss
         }
       });
     }
+  }
+
+  voltar() {
+    this.back('profissional-pesquisar');
   }
   
 }

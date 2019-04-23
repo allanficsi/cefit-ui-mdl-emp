@@ -1,8 +1,8 @@
-import { OnInit, Optional } from '@angular/core';
+import { OnInit, Optional, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
 
-export class AptareUtilController implements OnInit {
+export class AptareUtilController implements OnInit, AfterViewInit {
   
   constructor(private parentSelector : string, 
               public router : Router) 

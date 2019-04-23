@@ -213,11 +213,19 @@
                       <div class="form-group">
                           <div class="input-group">
                             <div class="input-group-content">
-                              <select class="form-control" [(ngModel)]="qualificacao" name="qualificacao" required>
+
+                                <input type="text" autocomplete="off" [formControl]="myControlQualificacao" matInput class="form-control" [(ngModel)]="qualificacao" name="qualificacao" [matAutocomplete]="autoQua">
+                                <mat-autocomplete #autoQua="matAutocomplete" [displayWith]="displayFnQualificacao">
+                                    <mat-option *ngFor="let optQua of filteredOptionsQualificacao | async" [value]="optQua">
+                                        {{optQua.descricao}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <label>Qualificação *</label>
+                              <!-- <select class="form-control" [(ngModel)]="qualificacao" name="qualificacao" required>
                                 <option [ngValue]="null">- Selecione a Qualificação -</option>
                                 <option *ngFor="let qual of listaQualificacao" [ngValue]="qual">{{qual.descricao}}</option>
                               </select>   
-                              <label>Qualificação *</label>
+                              <label>Qualificação *</label> -->
                             </div>
 
                             <div class="input-group-btn">
@@ -417,7 +425,15 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                          <input type="text" [(ngModel)]="telefonePf.nrTelefoneExtenso" autocomplete="offTel"
+                                  mask='(00) 00000-0000' name="nrTelefoneExtensoPf" class="form-control" required>
+                        <label>Telefone *</label>
+                      </div>
+                    </div>
+
+                    <!-- <div class="col-sm-2">
                       <div class="form-group">
                           <input type="text" [(ngModel)]="telefonePf.ddd" autocomplete="offDDD"
                                   mask='(00)' name="dddPf" class="form-control" required>
@@ -431,7 +447,7 @@
                                     mask='00000-0000' name="telefonePf" class="form-control" required>
                           <label>Telefone *</label>
                         </div>
-                      </div>
+                      </div> -->
 
                       <div class="col-sm-2">
                         <div class="form-group">
@@ -494,7 +510,7 @@
                         Alterar
                       </button>  
                     
-                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" [routerLink]="['/profissional-pesquisar']">
+                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" (click)="voltar()">
                     Voltar 
                     </a>
                   </div>

@@ -60,7 +60,7 @@ export class EspacoAtualizarComponent extends AptareCrudController<Espaco, {new(
   }
 
   voltar() {
-    this._location.back();
+    this.back('espaco-pesquisar');
   }
 
   setListasStaticas() {

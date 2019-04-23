@@ -25,7 +25,7 @@
             <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8" (ngSubmit)="inserir()">
               <div class="row">
                 <div class="col-sm-8">
-                  <div class="form-group">
+                  <div class="form-group floating-label">
                     <input type="text" autocomplete="off" [(ngModel)]="objetoAtualiza.descricao" style="text-transform: uppercase;"
                            name="descricao" #descricao="ngModel" class="form-control">  
                     <label>Nome *</label>
