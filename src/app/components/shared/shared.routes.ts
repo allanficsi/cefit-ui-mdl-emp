@@ -33,7 +33,8 @@ import { TipoAcaoAtualizarComponent } from '../../pages/tipo-acao/atualizar/tipo
 import { AcaoPesquisarComponent } from '../../pages/acao/pesquisar/acao-pesquisar.component';
 import { AcaoAtualizarComponent } from '../../pages/acao/atualizar/acao-atualizar.component';
 import { ModalTipoAcaoComponent } from '../../pages/geral/modal-tipo-acao/modal-tipo-acao.component';
-import { AcaoGerenciarComponent } from 'src/app/pages/acao/gerenciar/acao-gerenciar.component';
+import { AcaoGerenciarComponent } from '../../pages/acao/gerenciar/acao-gerenciar.component';
+import { ProfissionalVisualizarComponent } from '../../pages/profissional/visualizar/profissional-visualizar.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -52,6 +53,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'profissional-pesquisar', component: ProfissionalPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'profissional-atualizar', component: ProfissionalAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'profissional-atualizar/:id', component: ProfissionalAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'profissional-visualizar/:id', component: ProfissionalVisualizarComponent, canActivate: [AuthGuard] },
 
     { path : 'cargo-pesquisar', component: CargoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'cargo-atualizar', component: CargoAtualizarComponent, canActivate: [AuthGuard] },

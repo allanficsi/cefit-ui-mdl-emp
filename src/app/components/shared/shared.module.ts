@@ -83,6 +83,7 @@ import { DialogComponent } from "./confirm-dialog/dialog.component";
 import { AptEmailComponent } from "./email/apt-email.component";
 import { AcaoGerenciarComponent } from "src/app/pages/acao/gerenciar/acao-gerenciar.component";
 import { AptCnpjComponent } from "./cnpj/apt-cnpj.component";
+import { ProfissionalVisualizarComponent } from "../../pages/profissional/visualizar/profissional-visualizar.component";
 
 
 @NgModule({
@@ -139,6 +140,7 @@ import { AptCnpjComponent } from "./cnpj/apt-cnpj.component";
 
         ProfissionalPesquisarComponent,
         ProfissionalAtualizarComponent,
+        ProfissionalVisualizarComponent,
 
         CargoPesquisarComponent,
         CargoAtualizarComponent,

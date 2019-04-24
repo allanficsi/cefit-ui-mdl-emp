@@ -68,4 +68,7 @@ export class ProfissionalPesquisarComponent extends AptareCrudController<Profiss
     super.editar('/profissional-atualizar', id);
   }
 
+  visualizar(id:string){   
+    super.editar('/profissional-visualizar', id);
+  }
 }
