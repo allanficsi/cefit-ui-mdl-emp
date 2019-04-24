@@ -22,3 +22,5 @@
 .over {
     background: #FBF8EF !important;
 }
+.ng-invalid.ng-touched:not(form){
+  border-bottom: #a94442 1px solid; }

@@ -81,6 +81,8 @@ import { ModalTipoAcaoComponent } from "../../pages/geral/modal-tipo-acao/modal-
 import { CadastroUnicoService } from "src/app/services/cadastro-unico/cadastro-unico.service";
 import { DialogComponent } from "./confirm-dialog/dialog.component";
 import { AptEmailComponent } from "./email/apt-email.component";
+import { ErrorMessageComponent } from './error-message/error-message.component';
+import {TrabalhadorVisualizarComponent} from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
 
 
 @NgModule({
@@ -133,6 +135,7 @@ import { AptEmailComponent } from "./email/apt-email.component";
 
         TrabalhadorPesquisarComponent,
         TrabalhadorAtualizarComponent,
+        TrabalhadorVisualizarComponent,
 
         ProfissionalPesquisarComponent,
         ProfissionalAtualizarComponent,
@@ -172,6 +175,7 @@ import { AptEmailComponent } from "./email/apt-email.component";
         LayoutComponent,
         AptCpfComponent,
         AptEmailComponent,
+        ErrorMessageComponent,
     ],
     providers: [
       LovService,

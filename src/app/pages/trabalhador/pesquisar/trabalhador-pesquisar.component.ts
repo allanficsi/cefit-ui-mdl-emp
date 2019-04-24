@@ -88,4 +88,7 @@ export class TrabalhadorPesquisarComponent extends AptareCrudController<Trabalha
     this.router.navigate(['/trabalhador-atualizar',id]);
   }
 
+  visualizar(id: string) {
+    this.router.navigate(['trabalhador-visualizar',id]);
+  }
 }

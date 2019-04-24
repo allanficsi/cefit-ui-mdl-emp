@@ -1,0 +1,411 @@
+<section>    
+  <div class="section-body">
+
+    <!-- <div *ngIf="mensagem">      
+      {{mensagem.text}}
+    </div> -->
+
+    <!-- BEGIN BASICDATION -->
+    <div class="row">     
+
+      <div class="col-lg-12">
+        <div class="card card-underline">
+          <div class="card-head card-head-sm">
+            <header><b>Trabalhador - Visualizar</b></header>
+
+            <div class="tools" *ngIf="codigo == undefined">
+              <div class="btn-group" title="Apagar todos os campos">
+                <a href="javascript:void(0);" class="btn btn-icon-toggle" (click)="limparCampos()">
+                  <i class="fa fa-eraser"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-body">
+            <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8"  (ngSubmit)="inserir()">
+              
+
+              <!-- DADOS GERAIS -->
+              <div class="card card-outlined style-primary" id="divDadosGeraisUsuario">
+                <div class="card-head">
+                  <header>Dados Gerais</header>
+                </div>
+                
+                <div class="card-body" style="display: block;">
+
+                  <div class="row">
+                    
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <apt-cpf [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" name="cpf" #cpf="ngModel" [isReadOnly]="codigo != undefined" [disabled]="true" (cadastroUnicoChange)="carregarCadastroUnico($event)"></apt-cpf>
+                        <label>CPF *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" autocomplete="offRg"  [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.registroGeral" mask='00000000000000'
+                                name="cnpj" class="form-control" required readonly>
+                        <label>RG *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataExpedicaoContato">
+                          <div class="input-group-content">
+                            <input matInput [matDatepicker]="picker1" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg" name="dataEmissaoRg"
+                                  class="form-control" maxlength="10" #dataEmissaoRg="ngModel" autocomplete="offDtExp" readonly>
+                            <label>Data de Expedição *</label>
+                          </div>
+                          
+                          <span class="input-group-addon cal" ><i class="fa fa-calendar"></i></span>
+                          <mat-datepicker-toggle style="display: none;" matSuffix [for]="picker1"  class="input-group-addon cal"></mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker>
+                        </div>                        
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <input type="text" autocomplete="offOrgEms" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.orgaoEmissorRg"
+                                name="orgaoEmissorRg"  maxlength="20" class="form-control" required readonly>
+                        <label>Org. Emissor *</label>
+                      </div>
+                    </div>
+    
+                    <div class="col-sm-1">
+                      <div class="form-group">
+                        <select class="form-control"   [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.ufOrgaoEmissorRg" name="ufRg" #ufRg="ngModel" required disabled>
+                          <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
+                        </select>
+                        <label>UF *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" maxlength="80" autocomplete="offNome" [(ngModel)]="objetoAtualiza.cadastroUnico.nome"
+                                name="nome1"  class="form-control" required readonly>
+                        <label>Nome *</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-5">
+                      <div class="form-group">
+                        <input type="text" maxlength="80" autocomplete="offNomeMae" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.nomeMae"
+                                name="nomeMae" class="form-control" required readonly>
+                        <label>Nome da Mãe *</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <apt-email [(ngModel)]="objetoAtualiza.cadastroUnico.email" [isReadOnly]="true"   name="email" #email="ngModel"></apt-email>
+                        <label>E-mail *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataNascimentoContato">
+                          <div class="input-group-content">
+                            <input matInput readonly [matDatepicker]="picker" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
+                                  class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="offDtNasc">
+                            <label>Data de Nascimento *</label>
+                          </div>
+                          
+                          <span class="input-group-addon cal" ><i class="fa fa-calendar"></i></span>
+                          <mat-datepicker-toggle style="display: none;" matSuffix readonly [for]="picker" class="input-group-addon cal"></mat-datepicker-toggle>
+                          <mat-datepicker readonly="true" #picker></mat-datepicker>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label>Sexo *</label>
+                        <div style="margin-top: 10px;">
+                        <label class="radio-inline radio-styled">
+                          <input type="radio" value="M"  [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.sexo" name="sexo" #sexo="ngModel" disabled >
+                          <span>Masculino</span>
+                        </label>
+                        <label class="radio-inline radio-styled">
+                          <input type="radio" value="F"  [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.sexo" name="sexo" #sexo="ngModel" disabled>
+                          <span>Feminino</span>
+                        </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <select  class="form-control" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.estadoCivil" name="estadoCivil" #estadoCivil="ngModel" required disabled>
+                          <option *ngFor="let estadoCivil of listaEstadoCivil" [ngValue]="estadoCivil.valorCampo">{{estadoCivil.nomeValor}}</option>
+                        </select>
+                        <label>Estado Civil *</label>
+                      </div>
+                    </div>
+
+                  </div>
+                                
+                </div>
+              </div>
+
+              <!-- OUTRAS INFORMACOES -->
+              <div class="card card-outlined style-primary" id="divEndereco">
+                <div class="card-head">
+                  <header>Outras Informações</header>
+                </div>
+              
+                <div class="card-body" style="display: block;">          
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input  type="text" autocomplete="offInss" [(ngModel)]="objetoAtualiza.numeroInss" mask='00.000.00000/00'
+                                name="numeroInss" class="form-control"  readonly>
+                        <label>INSS</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input   type="text" autocomplete="offPis" [(ngModel)]="objetoAtualiza.numeroPis" mask='000.00000.00-0'
+                                name="numeroPis" class="form-control" required readonly>
+                        <label>PIS *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input disabled type="text" maxlength="7" autocomplete="offIP" [(ngModel)]="objetoAtualiza.numeroInscricaoPrefeitura" mask='00000000000'
+                                name="numeroInscricaoPrefeitura" class="form-control" required readonly>
+                        <label>Inscrição Prefeitura</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input  type="text" maxlength="8" autocomplete="offCTPS" [(ngModel)]="objetoAtualiza.numeroCtps" mask='00000000'
+                                name="numeroCtps" class="form-control" required readonly>
+                        <label>CTPS *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input  type="text" maxlength="7" autocomplete="offSCTPS" [(ngModel)]="objetoAtualiza.numeroSerieCtps" mask='00000000000'
+                                name="numeroSerieCtps" class="form-control" required readonly>
+                        <label>Série CTPS *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataExpedicaoCtps">
+                          <div class="input-group-content">
+                            <input  matInput [matDatepicker]="dtExpCtps" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.dataEmissaoCtps" name="dataExpedicaoCtps"
+                                  class="form-control" maxlength="10" #dataEmissaoCtps="ngModel" autocomplete="offDTCTPS" readonly>
+                            <label>Data de Emissão CTPS *</label>
+                          </div>
+                          
+                          <span class="input-group-addon cal"><i class="fa fa-calendar"></i></span>
+                          <mat-datepicker #dtExpCtps></mat-datepicker>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <select  class="form-control" [(ngModel)]="objetoAtualiza.ufCtps" name="ufCtps" #ufCtps="ngModel" required disabled>
+                          <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
+                        </select>
+                        <label>Estado de Emissão CTPS *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <input  type="text" maxlength="80" [(ngModel)]="objetoAtualiza.observacao" placeholder="Informe aqui dados como fumante ou não fumante e outras observações relevantes sobre o perfil do trabalhador"
+                                 name="observacao" class="form-control" autocomplete="offObs" readonly>
+                          <label>Observações</label>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+
+
+              <!-- CBO -->
+              <div class="card card-outlined style-primary" id="divEndereco">
+                <div class="card-head">
+                  <header>CBO</header>
+                </div>
+                <div class="card-body" style="display: block;">
+
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th>CBO</th>
+                            <th>Descrição</th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let trabalhadorCbo of listaTrabalhadorCbo; let i = index" [attr.data-index]="i">
+                            <td style="width: 25%;">{{trabalhadorCbo.descricaoCbo}}</td>
+                            <td style="width: 25%;">{{trabalhadorCbo.nome}}</td>
+                            <td style="width: 3%;">
+                            </td>
+                          </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- DEFICIENCIAS -->
+              <div class="card card-outlined style-primary" id="divEndereco">
+                <div class="card-head">
+                  <header>Deficiências</header>
+                </div>
+
+                <div class="card-body" style="display: block;">
+
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th>Deficiência</th>
+                            <th>Descrição</th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let trabalhadorDeficiencia of listaTrabalhadorDeficiencia; let i = index" [attr.data-index]="i">
+                            <td style="width: 25%;">{{trabalhadorDeficiencia.descricaoDeficiencia}}</td>
+                            <td style="width: 25%;">{{trabalhadorDeficiencia.nome}}</td>
+                            <td style="width: 3%;">
+                            </td>
+                          </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <!-- ENDERECO -->
+              <div class="card card-outlined style-primary" id="divEndereco">
+                <div class="card-head">
+                  <header>Endereço</header>
+                </div>
+              
+                <div class="card-body" style="display: block;">          
+
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th>Tipo de Endereço</th>
+                            <th>CEP</th>
+                            <th>Logradouro</th>
+                            <th>Número</th>
+                            <th>Complemento</th>
+                            <th>Ponto de Referência</th>
+                            <th>Bairro</th>
+                            <th>Cidade</th>
+                            <th>Estado</th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let endereco of listaEndereco; let i = index" [attr.data-index]="i">
+                            <td>{{endereco.descricaoTipo}}</td>
+                            <td>{{endereco.cepFormatado | mask: '00.000-000'}}</td>
+                            <td>{{endereco.extensaoEndereco.logradouro}}</td>
+                            <td >{{endereco.numero}}</td>
+                            <td>{{endereco.complemento}}</td>
+                            <td>{{endereco.pontoReferencia}}</td>
+                            <td>{{endereco.extensaoEndereco.bairro}}</td>
+                            <td>{{endereco.extensaoEndereco.localidade}}</td>
+                            <td>{{endereco.extensaoEndereco.uf}}</td>
+                          </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+    
+              <!-- CONTATO -->
+              <div class="card card-outlined style-primary" id="divContato">
+                <div class="card-head">
+                  <header>Telefone</header>
+                </div>
+              
+                <!-- Telefones PF -->
+                <div class="card-body" style="display: block;">          
+
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th>Tipo</th>
+                            <th>Número</th>
+                            <th>WhatsApp</th>
+                            <th style="width: 3%;"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let telefonePf of listaTelefonePf; let i = index" [attr.data-index]="i">
+                            <td style="width: 25%;">{{telefonePf.descricaoTipo}}</td>
+                            <td style="width: 25%;">({{telefonePf.ddd}}) {{telefonePf.numero | mask: '00000-0000'}}</td>
+                            <td style="width: 25%;"> 
+                              <span *ngIf="telefonePf.flagWhats">SIM</span>
+                              <span *ngIf="!telefonePf.flagWhats">NÃO</span>
+                            </td>
+                            <td style="width: 3%;">
+                            </td>
+                          </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-actionbar">
+                  <div class="card-actionbar-row">
+                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V"  >
+                    Voltar 
+                    </a>
+                  </div>
+              </div>
+            </form>
+          </div>
+
+        </div>      
+      </div>
+
+    </div>    
+
+  </div>
+  
+</section>
