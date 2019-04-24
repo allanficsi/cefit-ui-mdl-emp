@@ -1,0 +1,250 @@
+<section>    
+  <div class="section-body">
+
+    <!-- BEGIN BASICDATION -->
+    <div class="row">     
+
+      <div class="col-lg-12">
+        <div class="card card-underline">
+          <div class="card-head card-head-sm">
+            <header><b>Ação - Visualizar</b></header>
+          </div>
+          
+          <div class="card-body">
+              
+            <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8" (ngSubmit)="inserir()">
+              
+              <!-- ESPACO -->
+              <div class="card card-outlined style-primary" id="divEspaco">
+                <div class="card-head">
+                  <header>Espaço</header>
+                </div>
+                
+                <div class="card-body" style="display: block;">          
+
+                  <div class="row">
+                    <div class="col-sm-7">
+                      <div class="form-group">
+                        <input type="text" class="form-control" [(ngModel)]="objetoAtualiza.espaco.nome" name="espaco" readonly>
+                        <label>Nome *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf='(endereco != null) && (endereco != "")'>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label>Endereço</label>
+                        {{endereco.cepFormatado}} - {{endereco.extensaoEndereco.logradouro}}, {{endereco.numero}} <br/>
+                        {{endereco.extensaoEndereco.bairro}}, {{endereco.extensaoEndereco.localidade}} - {{endereco.extensaoEndereco.uf}} <br/>
+                        {{endereco.complemento}} &nbsp; &nbsp; {{endereco.pontoReferencia}}
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label>Capacidade</label>
+                        {{capacidade}} pessoa(s)
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label>Itens</label>
+                        <span *ngFor="let item of listaItens">
+                          - {{item.itemEspaco.descricao}} ({{item.quantidadeAtivos}} Ativos / {{item.quantidadeManutencao}} em Manutenção) <br/>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <!-- DADOS GERAIS -->
+              <div class="card card-outlined style-primary" id="divDadosGeraisUsuario">
+                <div class="card-head">
+                  <header>DADOS GERAIS</header>
+                </div>
+                
+                <div class="card-body" style="display: block;">  
+                  <div class="row">
+                    <div class="col-sm-9">
+                      <div class="form-group">
+                        <input type="text" maxlength="150" autocomplete="off" [(ngModel)]="objetoAtualiza.nome" 
+                              name="nomeAc" class="form-control" required readonly>  
+                        <label>Nome *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <input type="text" mask="0000" autocomplete="off" [(ngModel)]="objetoAtualiza.numeroVagas" 
+                              name="numeroVagas" class="form-control" required readonly>  
+                        <label>Nº Vagas *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div class="form-group">
+                          <div class="input-group">
+                            <div class="input-group-content">
+                              <select class="form-control" [(ngModel)]="objetoAtualiza.tipoAcao" name="tipoAcao" required disabled>
+                                <option [ngValue]="null">- Selecione o Tipo de Ação -</option>
+                                <option *ngFor="let tipoAcao of listaTipoAcao" [ngValue]="tipoAcao">{{tipoAcao.descricao}}</option>
+                              </select>   
+                              <label>Tipo de Ação *</label>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <div style="margin-top: 10px;">
+                        <label class="checkbox-inline checkbox-styled">
+                          <input type="checkbox" [(ngModel)]="objetoAtualiza.flagValeTransporte" name="flagValeTransporte" #flagValeTransporte="ngModel" disabled>
+                          <span>Vale Transporte</span>
+                        </label>
+                        <label class="checkbox-inline checkbox-styled">
+                          <input type="checkbox" [(ngModel)]="objetoAtualiza.flagValeRefeicao" name="flagValeRefeicao" #flagValeRefeicao="ngModel" disabled>
+                          <span>Vale Refeição</span>
+                        </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <input type="text" maxlength="80" [(ngModel)]="objetoAtualiza.observacao" name="observacao" class="form-control" autocomplete="off" required readonly>   
+                        <label>Observação</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- AGENDA -->
+              <div class="card card-outlined style-primary" id="divAgenda">
+                <div class="card-head">
+                  <header>AGENDA</header>
+                </div>
+                
+                <div class="card-body" style="display: block;"> 
+                  <div class="row">
+                    <div class="col-sm-4">
+
+                      <div class="row" *ngIf="listaAgenda.length > 0">
+                        <!-- <div class="col-sm-8" style="text-align: left;"> -->
+                          <div class="card card-underline" style="width: 62%">
+                            <div class="card-head card-head-sm">
+                              <header>
+                                Legenda
+                              </header>
+                            </div>
+
+                            <div class="card-body">
+                              <i class="fa fa-circle" style="color: #f1f1f1; padding: 5px;"></i>Fim de Semana <br/>
+                              <i class="fa fa-circle" style="color: #FFBF00; padding: 5px;"></i>Feriado
+                            </div>
+                          </div>
+                        <!-- </div> -->
+                         
+                      </div>
+                    </div>
+                      
+
+                    <div class="col-sm-7" *ngIf="listaAgenda.length > 0">
+                        <div class="card">
+                          <div class="card-body no-padding">
+                            <div class="table-responsive no-margin">
+                              <table id="datatable1" class="table table-hover no-margin">
+                                <thead class="style-default-dark">
+                                  <tr>
+                                    <th style="width: 30%;" class="text-center" >Data</th>
+                                    <th style="width: 16%;" class="text-center">Horário 1</th>
+                                    <th style="width: 16%;" class="text-center">Horário 2</th>
+                                    <th style="width: 16%;" class="text-center">Horário 3</th>
+                                    <th style="width: 16%;" class="text-center">Horário 4</th>
+                                  </tr>
+                                </thead>
+              
+                                <tr *ngFor="let item of listaAgenda; let i = index"  style.background = "{{item.fgFds ? '#f1f1f1' : (item.fgFeriado ? '#FFED82' : 'white')}}">
+                                  <td class="text-left"><b>{{item.dataAgenda | date: 'dd/MM/yyyy'}} <span>({{item.nomeDia}})</span></b></td>
+                                  <td class="text-center">
+                                    <input type="text" [(ngModel)]="item.nrHor1" mask="00:00" name="nrHor1{{i}}" class="form-control" style="text-align: center" readonly>
+                                  </td>
+                                  <td class="text-center">
+                                    <input type="text" [(ngModel)]="item.nrHor2" mask="00:00" name="nrHor2{{i}}" class="form-control" style="text-align: center" readonly>
+                                  </td>
+                                  <td class="text-center">
+                                      <input type="text" [(ngModel)]="item.nrHor3" mask="00:00" name="nrHor3{{i}}" class="form-control" style="text-align: center" readonly>  
+                                  </td>
+                                  <td class="text-center">
+                                      <input type="text" [(ngModel)]="item.nrHor4" mask="00:00" name="nrHor4{{i}}" class="form-control" style="text-align: center" readonly>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+            <!-- PROFISSIONAIS -->
+            <div class="card card-outlined style-primary" id="divProfissionais">
+                <div class="card-head">
+                  <header>PROFISSIONAIS</header>
+                </div>
+                
+                <div class="card-body" style="display: block;">  
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">	
+                          <tr>
+                            <th style="width: 70%;">Nome</th>
+                            <th>Cpf</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let acaoProfissional of objetoAtualiza.listaAcaoProfissional; let i = index" [attr.data-index]="i">
+                            <td>{{acaoProfissional.profissional.cadastroUnico.nome}}</td>
+                            <td>{{acaoProfissional.profissional.cadastroUnico.cpf}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-actionbar">
+                  <div class="card-actionbar-row">
+                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" (click)="voltar()">
+                      Voltar 
+                    </a>
+                  </div>
+              </div>
+
+            </form>
+          </div>
+
+        </div>      
+      </div>
+
+    </div>    
+
+  </div>
+  
+</section>
