@@ -35,6 +35,8 @@ import { AcaoAtualizarComponent } from '../../pages/acao/atualizar/acao-atualiza
 import { ModalTipoAcaoComponent } from '../../pages/geral/modal-tipo-acao/modal-tipo-acao.component';
 import { AcaoGerenciarComponent } from '../../pages/acao/gerenciar/acao-gerenciar.component';
 import { ProfissionalVisualizarComponent } from '../../pages/profissional/visualizar/profissional-visualizar.component';
+import { AcaoVisualizarComponent } from '../../pages/acao/visualizar/acao-visualizar.component';
+import { EmpregadorVisualizarComponent } from '../../pages/empregador/visualizar/empregador-visualizar.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -45,6 +47,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'empregador-pesquisar', component: EmpregadorPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'empregador-atualizar', component: EmpregadorAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'empregador-atualizar/:id', component: EmpregadorAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'empregador-visualizar/:id', component: EmpregadorVisualizarComponent, canActivate: [AuthGuard] },
 
     { path : 'trabalhador-pesquisar', component: TrabalhadorPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'trabalhador-atualizar', component: TrabalhadorAtualizarComponent, canActivate: [AuthGuard] },
@@ -75,6 +78,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'acao-pesquisar', component: AcaoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'acao-atualizar', component: AcaoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'acao-atualizar/:id', component: AcaoAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'acao-visualizar/:id', component: AcaoVisualizarComponent, canActivate: [AuthGuard] },
     { path : 'acao-gerenciar', component: AcaoGerenciarComponent, canActivate: [AuthGuard] },
 
     { path : 'qualificacao-pesquisar', component: QualificacaoPesquisarComponent, canActivate: [AuthGuard] },
