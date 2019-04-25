@@ -101,6 +101,10 @@ export class EmpregadorPesquisarComponent extends AptareCrudController<Empregado
     super.editar('/empregador-atualizar', id);
   }
 
+  visualizar(id:string){    
+    super.editar('/empregador-visualizar', id);
+  }
+
   novo() {
     this.router.navigate(['/empregador-atualizar']);
   }

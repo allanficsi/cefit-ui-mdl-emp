@@ -22,6 +22,9 @@ import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { CboService } from '../../../services/trabalhador/cbo.service';
 import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-trabalhador-atualizar',
@@ -53,6 +56,9 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
   obj;
 
+  myControlCbo: FormControl = new FormControl();
+  filteredOptionsCbo: Observable<Cbo[]>;
+
   constructor(router: Router,
               route: ActivatedRoute,  
               dialog: MatDialog,                   
@@ -65,6 +71,16 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     super(router, route, dialog, Trabalhador, service, mensagem, dialogService);    
   }
 
+  displayFnCbo(cbo?: Cbo): string | undefined {
+    return cbo ? cbo.nome : undefined;
+  }
+
+  private _filterCbo(nome: string): Cbo[] {
+    const filterValue = nome.toLowerCase();
+
+    return this.listaCbo.filter(option => option.nome.toLowerCase().indexOf(filterValue) > -1);
+  }
+
   setListasStaticas() {
 
     super.setListasStaticas();
@@ -73,6 +89,14 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     this.popularCbo();
     this.popularDeficiencia();
     this.popularTipoTelefone();
+
+    // Autocomplete cbo
+    this.filteredOptionsCbo = this.myControlCbo.valueChanges
+    .pipe(
+      startWith<string | Cbo>(''),
+      map(value => typeof value === 'string' ? value : value.nome),
+      map(nome => nome ? this._filterCbo(nome) : this.listaCbo.slice())
+    );
 
   }
 
@@ -269,7 +293,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     this.cboService.pesquisar(cbo)
                 .subscribe((responseApi:ResponseApi) => {
       this.listaCbo = responseApi['data'];
-      this.trabalhadorCbo.cbo = null;
+      //this.trabalhadorCbo.cbo = null;
     } , err => {
       this.mensagem.tratarErro(err);
     });
@@ -431,10 +455,21 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
   adicionarCbo() {
 
-    if(this.trabalhadorCbo.cbo === null) {
+    if(typeof this.trabalhadorCbo.cbo.codigo === 'undefined' || this.trabalhadorCbo.cbo.codigo === null) {
       this.mensagem.tratarErroPersonalizado("", "Selecione o CBO antes de adicionar.");
       return false;
     }
+
+    //VERIFICANDO SE O ITEM JA FOI ADICIONADO
+    if(this.listaTrabalhadorCbo != null
+      && this.listaTrabalhadorCbo.length > 0) {
+     for(let i = 0; i < this.listaTrabalhadorCbo.length; i++) {
+       if(this.trabalhadorCbo.cbo.codigo === this.listaTrabalhadorCbo[i].codigoCbo) {
+         this.mensagem.tratarErroPersonalizado("","Este item já foi adicionado.");
+         return false;
+       }
+     }
+   }
 
     let trabalhadorCbo: TrabalhadorCbo = new TrabalhadorCbo();
 
@@ -472,7 +507,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
   resetTrabalhadorCbo() {
     this.trabalhadorCbo = new TrabalhadorCbo();
-    this.trabalhadorCbo.cbo = null;
+    this.trabalhadorCbo.cbo = new Cbo();
   }
 
   resetTelefonePf() {

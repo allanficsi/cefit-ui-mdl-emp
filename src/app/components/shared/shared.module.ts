@@ -85,6 +85,7 @@ import { AptEmailComponent } from "./email/apt-email.component";
 import { AcaoGerenciarComponent } from "src/app/pages/acao/gerenciar/acao-gerenciar.component";
 import { AptCnpjComponent } from "./cnpj/apt-cnpj.component";
 import { ProfissionalVisualizarComponent } from "../../pages/profissional/visualizar/profissional-visualizar.component";
+import { EmpregadorVisualizarComponent } from "../../pages/empregador/visualizar/empregador-visualizar.component";
 
 
 @NgModule({
@@ -135,6 +136,7 @@ import { ProfissionalVisualizarComponent } from "../../pages/profissional/visual
 
         EmpregadorPesquisarComponent,
         EmpregadorAtualizarComponent,
+        EmpregadorVisualizarComponent,
 
         TrabalhadorPesquisarComponent,
         TrabalhadorAtualizarComponent,

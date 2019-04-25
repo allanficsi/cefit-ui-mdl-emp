@@ -36,6 +36,7 @@ import { ModalTipoAcaoComponent } from '../../pages/geral/modal-tipo-acao/modal-
 import { AcaoGerenciarComponent } from '../../pages/acao/gerenciar/acao-gerenciar.component';
 import { ProfissionalVisualizarComponent } from '../../pages/profissional/visualizar/profissional-visualizar.component';
 import { AcaoVisualizarComponent } from '../../pages/acao/visualizar/acao-visualizar.component';
+import { EmpregadorVisualizarComponent } from '../../pages/empregador/visualizar/empregador-visualizar.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -46,6 +47,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'empregador-pesquisar', component: EmpregadorPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'empregador-atualizar', component: EmpregadorAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'empregador-atualizar/:id', component: EmpregadorAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'empregador-visualizar/:id', component: EmpregadorVisualizarComponent, canActivate: [AuthGuard] },
 
     { path : 'trabalhador-pesquisar', component: TrabalhadorPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'trabalhador-atualizar', component: TrabalhadorAtualizarComponent, canActivate: [AuthGuard] },

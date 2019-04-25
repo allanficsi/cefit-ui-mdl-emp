@@ -31,6 +31,7 @@ import { ParametroService } from '../../../services/geral/parametro.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { UtilService } from '../../../services/util.service';
 import { ModalTipoAcaoComponent } from '../../geral/modal-tipo-acao/modal-tipo-acao.component';
+import { EspacoItemEspaco } from 'src/app/model/espaco/espaco-item-espaco';
 
 
 @Component({
@@ -182,6 +183,8 @@ export class AcaoVisualizarComponent extends AptareCrudController<Acao, {new(): 
 
     let acao: Acao = new Acao();
     acao.codigo = +this.codigo;
+
+    this.objetoAtualiza.espaco = new Espaco();
 
     // GET ACAO COM O CODIGO
     this.service.get(acao).subscribe((responseApi:ResponseApi) => {      
