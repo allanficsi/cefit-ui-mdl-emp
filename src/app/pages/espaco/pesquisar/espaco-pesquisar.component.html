@@ -74,6 +74,7 @@
                     <!-- <th class="text-center" style="width: 3%;"></th> -->
                     <th class="text-center" style="width: 3%;"></th>
                     <th class="text-center" style="width: 3%;"></th>
+                    <th class="text-center" style="width: 3%;"></th>
                   </tr>
                 </thead>
 
@@ -86,7 +87,10 @@
                   <td class="text-left" *ngIf='item.flagAtivo == "N"'>INATIVO</td>
                   <!-- <td> <i class="fa fa-search" (click)="visualizar(item.codigo)" title="Visualizar" style="width:18px; height: 18px; cursor: pointer;"></i></td> -->
                   <td> <i class="fa fa-edit" (click)="editar(item.codigo)" title="Editar" style="width:18px; height: 18px; cursor: pointer;"></i></td>
-                  <td> 
+                  <td>
+                    <i *ngIf='item.flagAtivo == "S"' class="fa fa-search" title="Inativar" (click)="visualizar(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
+                  </td>
+                  <td>
                     <i *ngIf='item.flagAtivo == "N"' class="fa fa-check" title="Ativar" (click)="ativarItemEspaco(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
                     <i *ngIf='item.flagAtivo == "S"' class="fa fa-remove" title="Inativar" (click)="inativarItemEspaco(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
                   </td>

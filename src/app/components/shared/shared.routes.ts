@@ -34,6 +34,7 @@ import { AcaoPesquisarComponent } from '../../pages/acao/pesquisar/acao-pesquisa
 import { AcaoAtualizarComponent } from '../../pages/acao/atualizar/acao-atualizar.component';
 import { ModalTipoAcaoComponent } from '../../pages/geral/modal-tipo-acao/modal-tipo-acao.component';
 import {TrabalhadorVisualizarComponent} from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
+import {EspacoVisualizarComponent} from '../../pages/espaco/visualizar/espaco-visualizar.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -69,6 +70,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'espaco-pesquisar', component: EspacoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'espaco-atualizar', component: EspacoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'espaco-atualizar/:id', component: EspacoAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'espaco-visualizar/:id', component: EspacoVisualizarComponent, canActivate: [AuthGuard] },
     { path : 'espaco-manutencao', component: EspacoManutencaoComponent, canActivate: [AuthGuard] },
 
     { path : 'acao-pesquisar', component: AcaoPesquisarComponent, canActivate: [AuthGuard] },

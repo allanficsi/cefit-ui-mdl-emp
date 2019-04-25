@@ -83,6 +83,7 @@ import { DialogComponent } from "./confirm-dialog/dialog.component";
 import { AptEmailComponent } from "./email/apt-email.component";
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import {TrabalhadorVisualizarComponent} from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
+import {EspacoVisualizarComponent} from '../../pages/espaco/visualizar/espaco-visualizar.component';
 
 
 @NgModule({
@@ -161,6 +162,7 @@ import {TrabalhadorVisualizarComponent} from '../../pages/trabalhador/visualizar
         EspacoAtualizarComponent,
         EspacoPesquisarComponent,
         EspacoManutencaoComponent,
+        EspacoVisualizarComponent,
 
         ModalTelefoneComponent,
         ModalCargoComponent,
