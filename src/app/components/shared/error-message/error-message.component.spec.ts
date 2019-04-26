@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EspacoAtualizarComponent } from './espaco-atualizar.component';
+import { ErrorMessageComponent } from './error-message.component';
 
-describe('EspacoVisualizarComponent', () => {
-  let component: EspacoAtualizarComponent;
-  let fixture: ComponentFixture<EspacoAtualizarComponent>;
+describe('ErrorMessageComponent', () => {
+  let component: ErrorMessageComponent;
+  let fixture: ComponentFixture<ErrorMessageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EspacoAtualizarComponent ]
+      declarations: [ ErrorMessageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EspacoAtualizarComponent);
+    fixture = TestBed.createComponent(ErrorMessageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

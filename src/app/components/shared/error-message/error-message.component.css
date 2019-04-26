@@ -1,0 +1,12 @@
+.cal {
+  cursor: pointer !important;
+}
+
+.errospan {
+  float: right;
+  margin-right: -6px;
+  margin-top: -50px;
+  position: relative;
+  z-index: 2;
+  color: #a94442;
+}

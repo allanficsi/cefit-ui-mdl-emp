@@ -86,4 +86,7 @@ export class EspacoPesquisarComponent extends AptareCrudController<Espaco, {new(
     this.router.navigate(['/espaco-atualizar']);
   }
 
+  visualizar(id: string) {
+    this.router.navigate(['/espaco-visualizar',id]);
+  }
 }

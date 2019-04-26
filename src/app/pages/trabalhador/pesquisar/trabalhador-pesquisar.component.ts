@@ -92,4 +92,7 @@ export class TrabalhadorPesquisarComponent extends AptareCrudController<Trabalha
     super.editar('/trabalhador-atualizar', id);
   }
 
+  visualizar(id: string) {
+    this.router.navigate(['trabalhador-visualizar',id]);
+  }
 }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EspacoAtualizarComponent } from './espaco-atualizar.component';
+import { EspacoVisualizarComponent } from './espaco-visualizar.component';
 
 describe('EspacoVisualizarComponent', () => {
-  let component: EspacoAtualizarComponent;
-  let fixture: ComponentFixture<EspacoAtualizarComponent>;
+  let component: EspacoVisualizarComponent;
+  let fixture: ComponentFixture<EspacoVisualizarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EspacoAtualizarComponent ]
+      declarations: [ EspacoVisualizarComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EspacoAtualizarComponent);
+    fixture = TestBed.createComponent(EspacoVisualizarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

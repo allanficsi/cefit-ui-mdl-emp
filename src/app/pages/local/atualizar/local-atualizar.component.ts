@@ -69,7 +69,6 @@ export class LocalAtualizarComponent extends AptareCrudController<Local, {new():
   validarInserir() {
     //VALIDACAO DE CAMPOS OBRIGATORIOS
     if(this.objetoAtualiza.nome == null || this.objetoAtualiza.nome == '') {
-      this.mensagem.tratarErroPersonalizado("", "O campo Nome é obrigatório.");
       return false;
     }
 

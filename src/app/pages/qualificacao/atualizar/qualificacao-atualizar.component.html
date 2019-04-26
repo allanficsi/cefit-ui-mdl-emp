@@ -27,9 +27,10 @@
                 <div class="col-sm-8">
                   <div class="form-group floating-label">
                     <input type="text" autocomplete="off" [(ngModel)]="objetoAtualiza.descricao" style="text-transform: uppercase;"
-                           name="descricao" #descricao="ngModel" class="form-control">  
+                           name="descricao" #descricao="ngModel" class="form-control" required>
                     <label>Nome *</label>
                   </div>
+                  <app-error-message [form]="form" [input]="descricao"></app-error-message>
                 </div>
               </div>
 

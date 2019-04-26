@@ -2961,6 +2961,7 @@ textarea.no-resize {
 }
 span.help-block {
   right: auto;
+  bottom: -5px;//aptare
 }
 .form-horizontal span.help-block {
   right: auto;
@@ -3065,7 +3066,7 @@ fieldset[disabled] .form-inverse .form-group .form-control {
   opacity: 1;
 }
 .has-error .help-block {
-  color: #f44336;
+  color: #a94442;//aptare
   opacity: 1;
 }
 .has-error .form-control {
