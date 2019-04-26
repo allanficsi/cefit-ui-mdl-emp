@@ -37,6 +37,8 @@ import { AcaoGerenciarComponent } from '../../pages/acao/gerenciar/acao-gerencia
 import { ProfissionalVisualizarComponent } from '../../pages/profissional/visualizar/profissional-visualizar.component';
 import { AcaoVisualizarComponent } from '../../pages/acao/visualizar/acao-visualizar.component';
 import { EmpregadorVisualizarComponent } from '../../pages/empregador/visualizar/empregador-visualizar.component';
+import { TrabalhadorVisualizarComponent } from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
+import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-visualizar.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -52,6 +54,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'trabalhador-pesquisar', component: TrabalhadorPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'trabalhador-atualizar', component: TrabalhadorAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'trabalhador-atualizar/:id', component: TrabalhadorAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'trabalhador-visualizar/:id', component: TrabalhadorVisualizarComponent, canActivate: [AuthGuard] },
 
     { path : 'profissional-pesquisar', component: ProfissionalPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'profissional-atualizar', component: ProfissionalAtualizarComponent, canActivate: [AuthGuard] },
@@ -74,6 +77,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'espaco-atualizar', component: EspacoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'espaco-atualizar/:id', component: EspacoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'espaco-manutencao', component: EspacoManutencaoComponent, canActivate: [AuthGuard] },
+    { path : 'espaco-visualizar/:id', component: EspacoVisualizarComponent, canActivate: [AuthGuard] },
 
     { path : 'acao-pesquisar', component: AcaoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'acao-atualizar', component: AcaoAtualizarComponent, canActivate: [AuthGuard] },
