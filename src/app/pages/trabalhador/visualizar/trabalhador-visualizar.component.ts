@@ -739,6 +739,6 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
   }
 
   voltar() {
-    //this.back('/trabalhador-pesquisar');
+    this.back('trabalhador-pesquisar');
   }
 }
