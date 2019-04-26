@@ -87,8 +87,8 @@ import { AptCnpjComponent } from "./cnpj/apt-cnpj.component";
 import { ProfissionalVisualizarComponent } from "../../pages/profissional/visualizar/profissional-visualizar.component";
 import { EmpregadorVisualizarComponent } from "../../pages/empregador/visualizar/empregador-visualizar.component";
 import { ErrorMessageComponent } from './error-message/error-message.component';
-import {TrabalhadorVisualizarComponent} from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
-import {EspacoVisualizarComponent} from '../../pages/espaco/visualizar/espaco-visualizar.component';
+import { TrabalhadorVisualizarComponent } from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
+import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-visualizar.component';
 
 @NgModule({
     exports: [
