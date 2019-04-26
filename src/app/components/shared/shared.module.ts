@@ -86,7 +86,9 @@ import { AcaoGerenciarComponent } from "src/app/pages/acao/gerenciar/acao-gerenc
 import { AptCnpjComponent } from "./cnpj/apt-cnpj.component";
 import { ProfissionalVisualizarComponent } from "../../pages/profissional/visualizar/profissional-visualizar.component";
 import { EmpregadorVisualizarComponent } from "../../pages/empregador/visualizar/empregador-visualizar.component";
-
+import { ErrorMessageComponent } from './error-message/error-message.component';
+import {TrabalhadorVisualizarComponent} from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
+import {EspacoVisualizarComponent} from '../../pages/espaco/visualizar/espaco-visualizar.component';
 
 @NgModule({
     exports: [
@@ -140,6 +142,7 @@ import { EmpregadorVisualizarComponent } from "../../pages/empregador/visualizar
 
         TrabalhadorPesquisarComponent,
         TrabalhadorAtualizarComponent,
+        TrabalhadorVisualizarComponent,
 
         ProfissionalPesquisarComponent,
         ProfissionalAtualizarComponent,
@@ -168,6 +171,7 @@ import { EmpregadorVisualizarComponent } from "../../pages/empregador/visualizar
         EspacoAtualizarComponent,
         EspacoPesquisarComponent,
         EspacoManutencaoComponent,
+        EspacoVisualizarComponent,
 
         ModalTelefoneComponent,
         ModalCargoComponent,
@@ -183,6 +187,7 @@ import { EmpregadorVisualizarComponent } from "../../pages/empregador/visualizar
         AptCpfComponent,
         AptCnpjComponent,
         AptEmailComponent,
+        ErrorMessageComponent,
     ],
     providers: [
       LovService,
