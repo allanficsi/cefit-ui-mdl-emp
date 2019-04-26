@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {NgForm, NgModel} from '@angular/forms';
 
 @Component({
   selector: 'app-error-message',
@@ -7,9 +8,11 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class ErrorMessageComponent implements OnInit {
 
-  @Input() mensagemDeErro = 'Entrada inválida';
+  @Input() input:NgModel;
+  @Input() form:NgForm;
+  @Input() mensagemDeErro: string = 'Entrada inválida';
 
-  constructor() {
+   constructor() {
   }
 
   ngOnInit() {

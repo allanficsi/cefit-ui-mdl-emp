@@ -70,7 +70,6 @@ export class ItemEspacoAtualizarComponent extends AptareCrudController<ItemEspac
   validarInserir() {
     //VALIDACAO DE CAMPOS OBRIGATORIOS
     if(this.objetoAtualiza.descricao == null || this.objetoAtualiza.descricao == '') {
-      this.mensagem.tratarErroPersonalizado("", "O campo Descrição é obrigatório.");
       return false;
     }
 

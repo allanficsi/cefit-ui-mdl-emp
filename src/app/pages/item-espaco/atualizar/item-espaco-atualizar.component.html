@@ -30,7 +30,7 @@
                            name="descricao" #descricao="ngModel" class="form-control" style="text-transform: uppercase;" required>
                     <label>Nome *</label>
                   </div>
-                  <app-error-message *ngIf="descricao.invalid && descricao.touched"></app-error-message>
+                  <app-error-message [form]="form" [input]="descricao"></app-error-message>
                 </div>
               </div>
 
