@@ -15,6 +15,7 @@ import { ParametroService } from "src/app/services/geral/parametro.service";
 import { AptValidaEmailDirective } from '../../diretivas/validaEmail/apt-valida-email.directive';
 import { AcaoAtualizarComponent } from "../../pages/acao/atualizar/acao-atualizar.component";
 import { AcaoPesquisarComponent } from "../../pages/acao/pesquisar/acao-pesquisar.component";
+import { AcaoVisualizarComponent } from "../../pages/acao/visualizar/acao-visualizar.component";
 import { CargoAtualizarComponent } from '../../pages/cargo/atualizar/cargo-atualizar.component';
 import { CargoPesquisarComponent } from '../../pages/cargo/pesquisar/cargo-pesquisar.component';
 import { EmpregadorAtualizarComponent } from '../../pages/empregador/atualizar/empregador-atualizar.component';
@@ -78,13 +79,16 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { DateFormat } from './util/date-format';
 import { AptCpfComponent } from "./cpf/apt-cpf.component";
 import { ModalTipoAcaoComponent } from "../../pages/geral/modal-tipo-acao/modal-tipo-acao.component";
-import { CadastroUnicoService } from "src/app/services/cadastro-unico/cadastro-unico.service";
+import { CadastroUnicoService } from "../../services/cadastro-unico/cadastro-unico.service";
 import { DialogComponent } from "./confirm-dialog/dialog.component";
 import { AptEmailComponent } from "./email/apt-email.component";
+import { AcaoGerenciarComponent } from "src/app/pages/acao/gerenciar/acao-gerenciar.component";
+import { AptCnpjComponent } from "./cnpj/apt-cnpj.component";
+import { ProfissionalVisualizarComponent } from "../../pages/profissional/visualizar/profissional-visualizar.component";
+import { EmpregadorVisualizarComponent } from "../../pages/empregador/visualizar/empregador-visualizar.component";
 import { ErrorMessageComponent } from './error-message/error-message.component';
-import {TrabalhadorVisualizarComponent} from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
-import {EspacoVisualizarComponent} from '../../pages/espaco/visualizar/espaco-visualizar.component';
-
+import { TrabalhadorVisualizarComponent } from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
+import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-visualizar.component';
 
 @NgModule({
     exports: [
@@ -130,9 +134,11 @@ import {EspacoVisualizarComponent} from '../../pages/espaco/visualizar/espaco-vi
         AptValidaCnpjDirective,
         AptValidaEmailDirective,
         AptCpfComponent,
+        AptCnpjComponent,
 
         EmpregadorPesquisarComponent,
         EmpregadorAtualizarComponent,
+        EmpregadorVisualizarComponent,
 
         TrabalhadorPesquisarComponent,
         TrabalhadorAtualizarComponent,
@@ -140,6 +146,7 @@ import {EspacoVisualizarComponent} from '../../pages/espaco/visualizar/espaco-vi
 
         ProfissionalPesquisarComponent,
         ProfissionalAtualizarComponent,
+        ProfissionalVisualizarComponent,
 
         CargoPesquisarComponent,
         CargoAtualizarComponent,
@@ -158,6 +165,8 @@ import {EspacoVisualizarComponent} from '../../pages/espaco/visualizar/espaco-vi
 
         AcaoAtualizarComponent,
         AcaoPesquisarComponent,
+        AcaoGerenciarComponent,
+        AcaoVisualizarComponent,
 
         EspacoAtualizarComponent,
         EspacoPesquisarComponent,
@@ -176,6 +185,7 @@ import {EspacoVisualizarComponent} from '../../pages/espaco/visualizar/espaco-vi
         
         LayoutComponent,
         AptCpfComponent,
+        AptCnpjComponent,
         AptEmailComponent,
         ErrorMessageComponent,
     ],
