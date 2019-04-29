@@ -29,7 +29,7 @@
                     
                     <div class="col-sm-3">
                       <div class="form-group">
-                        <apt-cpf [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" name="cpf" #cpf="ngModel" [isReadOnly]="codigo != undefined" (cadastroUnicoChange)="carregarCadastroUnico($event)"></apt-cpf>
+                        <apt-cpf [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" name="cpf" #cpf="ngModel" [isReadOnly]="codigo != undefined"></apt-cpf>
                         <label>CPF *</label>
                       </div>
                     </div>
@@ -161,11 +161,11 @@
                         <label>É Psicólogo? *</label>
                         <div style="margin-top: 10px;">
                         <label class="radio-inline radio-styled">
-                          <input type="radio" value="S" [(ngModel)]="objetoAtualiza.flagPsicologo" (change)="confirmarQualificacao()" name="flagPsicologo" #flagPsicologo="ngModel" disabled>
+                          <input type="radio" value="S" [(ngModel)]="objetoAtualiza.flagPsicologo" name="flagPsicologo" #flagPsicologo="ngModel" disabled>
                           <span>Sim</span>
                         </label>
                         <label class="radio-inline radio-styled">
-                          <input type="radio" value="N" [(ngModel)]="objetoAtualiza.flagPsicologo" (change)="confirmarQualificacao()" name="flagPsicologo" #flagPsicologo="ngModel" disabled>
+                          <input type="radio" value="N" [(ngModel)]="objetoAtualiza.flagPsicologo" name="flagPsicologo" #flagPsicologo="ngModel" disabled>
                           <span>Não</span>
                         </label>
                         </div>
