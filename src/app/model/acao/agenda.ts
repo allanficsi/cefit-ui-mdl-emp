@@ -4,7 +4,7 @@ export class Agenda {
     
     codigo: Number;
     codigoEspaco: Number;
-    dataAgenda: Date;;
+    dataAgenda: Date;
     fgFeriado: boolean;
     fgFds: boolean;
     nrHor1: string;
