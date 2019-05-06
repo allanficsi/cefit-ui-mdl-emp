@@ -619,48 +619,29 @@
                               </thead>
 
                               <tr *ngFor="let item of listaTrabalhadorAgenda; let i = index" >
-                                {{item.fgAtivo}}
                                 <td class="text-left">
 
-                                  <div class="checkbox checkbox-inline checkbox-styled" >
-                                    <label>
-                                      <input type="checkbox"  [(ngModel)]="item.fgAtivo" name="gfgf"><span></span>
-                                    </label>
-                                  </div>
-
-
+                                  <label class="checkbox-inline checkbox-styled checkbox-success">
+                                    <input type="checkbox" [(ngModel)]="item.fgSel"  name="fgAtivo{{i}}"><span>{{listaDia[i].nome}}</span>
+                                  </label>
                                 </td>
                                 <td class="text-center">
-                                  <input type="text"
-                                         [disabled]="!item.fgAtivo"
-                                         [(ngModel)]="item.nrHor1"
-                                         mask="Hh:m0"
-                                         name="nrHor1{{i}}"
+                                   <input type="text" [disabled]="!item.fgSel" [(ngModel)]="item.nrHor1" mask="Hh:m0" name="nrHor1{{i}}"
                                          class="form-control"
                                          style="text-align: center">
                                 </td>
                                 <td class="text-center">
-                                  <input type="text"
-                                         [disabled]="!item.fgAtivo"
-                                         [(ngModel)]="item.nrHor2"
-                                         mask="Hh:m0"
-                                         name="nrHor2{{i}}"
+                                  <input type="text" [disabled]="!item.fgSel" [(ngModel)]="item.nrHor2" mask="Hh:m0"  name="nrHor2{{i}}"
                                          class="form-control"
                                          style="text-align: center">
                                 </td>
                                 <td class="text-center">
-                                  <input type="text"
-                                         [disabled]="!item.fgAtivo"
-                                         [(ngModel)]="item.nrHor3"
-                                         mask="Hh:m0" name="nrHor3{{i}}"
+                                  <input type="text" [disabled]="!item.fgSel" [(ngModel)]="item.nrHor3"  mask="Hh:m0" name="nrHor3{{i}}"
                                          class="form-control"
                                          style="text-align: center">
                                 </td>
                                 <td class="text-center">
-                                  <input type="text"
-                                         [disabled]="!item.fgAtivo"
-                                         [(ngModel)]="item.nrHor4"
-                                         mask="Hh:m0" name="nrHor4{{i}}"
+                                  <input type="text" [disabled]="!item.fgSel" [(ngModel)]="item.nrHor4" mask="Hh:m0" name="nrHor4{{i}}"
                                          class="form-control"
                                          style="text-align: center">
                                 </td>

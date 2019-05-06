@@ -3,9 +3,9 @@ import {Trabalhador} from './trabalhador';
 export class AgendaTrabalhador {
 
   codigo: Number;
-  diaSemana: Number;
+  fgDia: Number;
   codigoTrabalhador: Number;
-  fgAtivo:boolean;
+  fgSel:boolean;
   nrHor1: string;
   nrHor2: string;
   nrHor3: string;

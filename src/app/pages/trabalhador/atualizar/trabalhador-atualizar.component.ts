@@ -117,8 +117,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     this.objetoAtualiza.cadastroUnico.pessoaFisica.sexo = 'M';
     this.objetoAtualiza.cadastroUnico.pessoaFisica.estadoCivil = 1;
 
-    console.log(this.listaTrabalhadorAgenda.length);
-  }
+   }
 
   carregarCadastroUnico(event) {
 
@@ -226,7 +225,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     this.objetoAtualiza.cadastroUnico.pessoaFisica = new PessoaFisica();
     this.endereco = new Endereco();
     this.endereco.extensaoEndereco = new ExtensaoEndereco();
-this.setAgendamento();
+
     //this.contato = new Contato();
 
     let trabalhador: Trabalhador = new Trabalhador();
@@ -257,8 +256,8 @@ this.setAgendamento();
       if (typeof this.objetoAtualiza.listaTrabalhadorAgenda !== 'undefined') {
         for (let i = 0; i < this.objetoAtualiza.listaTrabalhadorAgenda.length; i++) {
           this.listaTrabalhadorAgenda.push(this.objetoAtualiza.listaTrabalhadorAgenda[i]);
-         }
-
+        }
+          this.listaTrabalhadorAgenda.sort((a, b) => (a.fgDia>b.fgDia?1:-1));
       }
 
       this.listaEndereco = [];
@@ -585,10 +584,10 @@ this.setAgendamento();
       }
     }
     this.listaTrabalhadorAgenda.forEach(value => {
-      console.log(value.nrHor1);
-      console.log(value.nrHor2);
-      console.log(value.nrHor3);
-      console.log(value.nrHor4);
+      console.log(value.fgSel);
+       console.log(value.fgDia);
+      // console.log(value.nrHor3);
+      // console.log(value.nrHor4);
 
     });
 
@@ -800,34 +799,27 @@ this.setAgendamento();
     return this.validarInserir();
   }
 
-  setDia($event, i) {
-    if ($event.target.checked) {
-      this.listaTrabalhadorAgenda[i].diaSemana = $event.target.value;
-      return;
-    }
-    this.listaTrabalhadorAgenda[i].nrHor1 = null;
-    this.listaTrabalhadorAgenda[i].nrHor2 = null;
-    this.listaTrabalhadorAgenda[i].nrHor3 = null;
-    this.listaTrabalhadorAgenda[i].nrHor4 = null;
-    this.listaTrabalhadorAgenda[i].fgAtivo = false;
-  }
+  // setDia($event, i) {
+  //   if ($event.target.checked) {
+  //     this.listaTrabalhadorAgenda[i].diaSemana = $event.target.value;
+  //     return;
+  //   }
+  //   this.listaTrabalhadorAgenda[i].nrHor1 = null;
+  //   this.listaTrabalhadorAgenda[i].nrHor2 = null;
+  //   this.listaTrabalhadorAgenda[i].nrHor3 = null;
+  //   this.listaTrabalhadorAgenda[i].nrHor4 = null;
+  //   this.listaTrabalhadorAgenda[i].fgAtv = false;
+  // }
 
   replicarHorario(i) {
     this.listaTrabalhadorAgenda.forEach((element, index) => {
-      if (index != i && element.fgAtivo) {
+      if (index != i && element.fgSel) {
         element.nrHor1 = this.listaTrabalhadorAgenda[i].nrHor1;
         element.nrHor2 = this.listaTrabalhadorAgenda[i].nrHor2;
         element.nrHor3 = this.listaTrabalhadorAgenda[i].nrHor3;
         element.nrHor4 = this.listaTrabalhadorAgenda[i].nrHor4;
       }
     });
-  }
-
-  limparHorario(i) {
-    this.listaTrabalhadorAgenda[i].nrHor1 = null;
-    this.listaTrabalhadorAgenda[i].nrHor2 = null;
-    this.listaTrabalhadorAgenda[i].nrHor3 = null;
-    this.listaTrabalhadorAgenda[i].nrHor4 = null;
   }
 
   limparAllHorario() {
@@ -841,13 +833,14 @@ this.setAgendamento();
 
   private setAgendamento() {
 
-    this.listaDia.forEach(value => {
-      let agendamento:AgendaTrabalhador = new AgendaTrabalhador();
-      agendamento.fgAtivo=null;
-      agendamento.nrHor1=null;
-      agendamento.nrHor2=null;
-      agendamento.nrHor3=null;
-      agendamento.nrHor4=null;
+    this.listaDia.forEach((element,index) => {
+      let agendamento: AgendaTrabalhador = new AgendaTrabalhador();
+      agendamento.fgSel = null;
+      agendamento.nrHor1 = null;
+      agendamento.nrHor2 = null;
+      agendamento.nrHor3 = null;
+      agendamento.nrHor4 = null;
+      agendamento.fgDia=index;
       this.listaTrabalhadorAgenda.push(agendamento);
     });
 
