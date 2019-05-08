@@ -1,40 +1,40 @@
-import {Component} from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {ActivatedRoute, Router, NavigationExtras} from '@angular/router';
-import {AptareCrudController} from '../../../components/shared/crud/aptare-crud-controller';
-import {Auditoria} from '../../../model/auditoria';
-import {CadastroUnico} from '../../../model/cadastro-unico/cadastro-unico';
-import {Endereco} from '../../../model/cadastro-unico/endereco';
-import {ExtensaoEndereco} from '../../../model/cadastro-unico/extensao-endereco';
-import {PessoaFisica} from '../../../model/cadastro-unico/pessoa-fisica';
-import {PessoaJuridica} from '../../../model/cadastro-unico/pessoa-juridica';
-import {Telefone} from '../../../model/cadastro-unico/telefone';
-import {Correio} from '../../../model/correio/correio';
-import {Dominio} from '../../../model/geral/dominio';
-import {ResponseApi} from '../../../model/response-api';
-import {Cbo} from '../../../model/trabalhador/cbo';
-import {Trabalhador} from '../../../model/trabalhador/trabalhador';
-import {TrabalhadorCbo} from '../../../model/trabalhador/trabalhador-cbo';
-import {TrabalhadorDeficiencia} from '../../../model/trabalhador/trabalhador-deficiencia';
-import {CorreioService} from '../../../services/correio/correio.service';
-import {DominioService} from '../../../services/geral/dominio.service';
-import {DialogService} from '../../../services/shared/dialog.service';
-import {MensagemService} from '../../../services/shared/mensagem.service';
-import {CboService} from '../../../services/trabalhador/cbo.service';
-import {TrabalhadorService} from '../../../services/trabalhador/trabalhador.service';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {startWith, map} from 'rxjs/operators';
-import {TrabalhadorAgenda} from '../../../model/trabalhador/trabalhador-agenda';
-import {EspacoItemEspaco} from '../../../model/espaco/espaco-item-espaco';
-import {ModalEditarItemEspacoComponent} from '../../geral/modal-editar-item-espaco/modal-editar-item-espaco.component';
+import { Component } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
+import { Auditoria } from '../../../model/auditoria';
+import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
+import { Endereco } from '../../../model/cadastro-unico/endereco';
+import { ExtensaoEndereco } from '../../../model/cadastro-unico/extensao-endereco';
+import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
+import { PessoaJuridica } from '../../../model/cadastro-unico/pessoa-juridica';
+import { Telefone } from '../../../model/cadastro-unico/telefone';
+import { Correio } from '../../../model/correio/correio';
+import { Dominio } from '../../../model/geral/dominio';
+import { ResponseApi } from '../../../model/response-api';
+import { Cbo } from '../../../model/trabalhador/cbo';
+import { Trabalhador } from '../../../model/trabalhador/trabalhador';
+import { TrabalhadorCbo } from '../../../model/trabalhador/trabalhador-cbo';
+import { TrabalhadorDeficiencia } from '../../../model/trabalhador/trabalhador-deficiencia';
+import { CorreioService } from '../../../services/correio/correio.service';
+import { DominioService } from '../../../services/geral/dominio.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { MensagemService } from '../../../services/shared/mensagem.service';
+import { CboService } from '../../../services/trabalhador/cbo.service';
+import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
+import { TrabalhadorAgenda } from '../../../model/trabalhador/trabalhador-agenda';
+import { EspacoItemEspaco } from '../../../model/espaco/espaco-item-espaco';
+import { ModalEditarItemEspacoComponent } from '../../geral/modal-editar-item-espaco/modal-editar-item-espaco.component';
 
 @Component({
   selector: 'app-trabalhador-atualizar',
   templateUrl: './trabalhador-atualizar.component.html',
   styleUrls: ['./trabalhador-atualizar.component.css']
 })
-export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalhador, { new(): Trabalhador }> {
+export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalhador, {new(): Trabalhador}>{
 
   cadastroUnico: CadastroUnico;
 
