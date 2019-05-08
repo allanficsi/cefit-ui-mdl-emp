@@ -39,6 +39,7 @@ import { AcaoVisualizarComponent } from '../../pages/acao/visualizar/acao-visual
 import { EmpregadorVisualizarComponent } from '../../pages/empregador/visualizar/empregador-visualizar.component';
 import { TrabalhadorVisualizarComponent } from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
 import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-visualizar.component';
+import {ModalEditarAgendaComponent} from '../../pages/geral/modal-editar-agenda/modal-editar-agenda.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -102,6 +103,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'modal-manutencao-item', component: ModalItemManutencaoComponent, canActivate: [AuthGuard] },
     { path : 'modal-local-item', component: ModalLocalComponent, canActivate: [AuthGuard] },
     { path : 'modal-tipo-acao-item', component: ModalTipoAcaoComponent, canActivate: [AuthGuard] },
+    { path : 'modal-editar-agenda', component: ModalEditarAgendaComponent, canActivate: [AuthGuard] },
 
     { path : 'layout-pesquisar', component: LayoutComponent, canActivate: [AuthGuard] },
 

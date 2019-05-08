@@ -89,6 +89,8 @@ import { EmpregadorVisualizarComponent } from "../../pages/empregador/visualizar
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { TrabalhadorVisualizarComponent } from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
 import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-visualizar.component';
+import {AgendaTrabalhadorService} from '../../services/trabalhador/agenda-trabalhador.service';
+import {ModalEditarAgendaComponent} from '../../pages/geral/modal-editar-agenda/modal-editar-agenda.component';
 
 @NgModule({
     exports: [
@@ -182,6 +184,7 @@ import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-
         ModalItemManutencaoComponent,
         ModalLocalComponent,
         ModalTipoAcaoComponent,
+        ModalEditarAgendaComponent,
         
         LayoutComponent,
         AptCpfComponent,
@@ -216,6 +219,7 @@ import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-
       ParametroService,
       CadastroUnicoService,
       EspacoItemEspacoService,
+      AgendaTrabalhadorService,
       {
         provide: HTTP_INTERCEPTORS,
         useClass: AuthInterceptor,
