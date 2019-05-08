@@ -17,14 +17,14 @@
                 
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <input type="text" maxlength="50" autocomplete="off" [(ngModel)]="objetoPesquisa.nome" name="nome" class="form-control" required>  
+                    <input type="text" maxlength="50" autocomplete="off" [(ngModel)]="objetoPesquisa.nome" name="nome" class="form-control">  
                     <label>Nome</label>
                   </div>
                 </div>
 
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <select class="form-control" [(ngModel)]="objetoPesquisa.tipoAcao" name="tipoAcao" required>
+                    <select class="form-control" [(ngModel)]="objetoPesquisa.tipoAcao" name="tipoAcao">
                       <option [ngValue]="null">- Selecione o Tipo de Ação -</option>
                       <option *ngFor="let tipoAcao of listaTipoAcao" [ngValue]="tipoAcao">{{tipoAcao.descricao}}</option>
                     </select>   

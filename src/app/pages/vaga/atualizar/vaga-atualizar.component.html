@@ -1,0 +1,344 @@
+<section>    
+  <div class="section-body">
+
+    <!-- BEGIN BASICDATION -->
+    <div class="row">     
+
+      <div class="col-lg-12">
+        <div class="card card-underline">
+          <div class="card-head card-head-sm">
+            <header><b>Vaga - Cadastrar</b></header>
+
+            <div class="tools" *ngIf="codigo == undefined">
+              <div class="btn-group" title="Apagar todos os campos">
+                <a href="javascript:void(0);" class="btn btn-icon-toggle" (click)="limparCampos()">
+                  <i class="fa fa-eraser"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-body">
+              
+            <h5>Os campos com * são obrigatórios.</h5>
+
+            <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8" (ngSubmit)="inserir()">
+              
+              <div class="card card-outlined style-primary" id="divDadosGeraisEspaco">
+                <div class="card-head">
+                  <header>Dados Gerais</header>
+                </div>
+                
+                <div class="card-body" style="display: block;">          
+              
+                  <div class="row">
+                    <div class="col-sm-9">
+                      <div class="form-group">
+                        <input type="text" autocomplete="off" maxlength="200" [(ngModel)]="objetoAtualiza.descricao" placeholder='Por exemplo, "Vaga para auxiliar administrativo".' 
+                              name="nome" #nome="ngModel" class="form-control">  
+                        <label>Descrição *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-sm-9">
+                        <div class="form-group">
+                          <input type="text" autocomplete="off" [formControl]="myControlCbo" matInput class="form-control" [(ngModel)]="cbo" name="cbo" [matAutocomplete]="auto" placeholder='Informe o CBO da vaga.'>
+                          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCbo">
+                              <mat-option *ngFor="let option of filteredOptionsCbo | async" [value]="option">
+                                  {{option.nome}}
+                              </mat-option>
+                          </mat-autocomplete>
+                          <label>CBO *</label>
+                        </div>
+                      </div>
+                    </div>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label>Tipo da Vaga *</label>
+                        <div style="margin-top: 10px;">
+                        <label class="radio-inline radio-styled">
+                          <input *ngIf="codigo == undefined" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" disabled="true">
+                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" >
+                          <span>Formal</span>
+                        </label>
+                        <label class="radio-inline radio-styled">
+                          <input *ngIf="codigo == undefined" type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" disabled="true">
+                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" >
+                          <span>Informal</span>
+                        </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label>Característica da Vaga *</label>
+                        <div style="margin-top: 10px;">
+                        <label class="radio-inline radio-styled">
+                          <input *ngIf="codigo == undefined" type="radio" value="G" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
+                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="G" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" (change)="selecionarCaracteristica()" #tipoDescricaoVaga="ngModel" >
+                          <span>Geral</span>
+                        </label>
+                        <label class="radio-inline radio-styled">
+                          <input *ngIf="codigo == undefined" type="radio" value="N" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
+                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="N" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" (change)="selecionarCaracteristica()" #tipoDescricaoVaga="ngModel" >
+                          <span>Nominal</span>
+                        </label>
+                        <label class="radio-inline radio-styled">
+                          <input *ngIf="codigo == undefined" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
+                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
+                          <span>Freguesia</span>
+                        </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf='objetoAtualiza.tipoDescricaoVaga == "N"'>
+                    <div class="col-sm-9">
+                      <div class="form-group">
+                        <input type="text" autocomplete="off" [formControl]="myControlTrabalhador" matInput class="form-control" [(ngModel)]="trabalhador" name="trabalhador" [matAutocomplete]="auto" placeholder='Informe o funcionário indicado pelo empregador para a vaga.'>
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnTrabalhador">
+                            <mat-option *ngFor="let option of filteredOptionsTrabalhador | async" [value]="option">
+                                {{option.cadastroUnico.nome}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <label>Funcionário *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf='objetoAtualiza.tipoDescricaoVaga == "F"'>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                          <label>Dias *</label>
+                          <div style="margin-top: 10px;">
+                            <label class="checkbox-inline checkbox-styled" *ngFor="let dia of listaDia; let i = index">
+                              <input type="checkbox"
+                                     name="fgSelecionada"
+                                    [(ngModel)]="dia.fgSelecionada"/>
+                              <span>{{dia.nomeReduzido}}</span> 
+                            </label>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataInicio">
+                          <div class="input-group-content">
+                            <input matInput [matDatepicker]="pickerInicio" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.dataInicio" name="dataInicio"
+                            class="form-control" maxlength="10" #dataInicio="ngModel" autocomplete="off"> 
+                            <label>Data Início *</label>
+                          </div>
+                          
+                          <span class="input-group-addon cal" (click)="pickerInicio.open()"><i class="fa fa-calendar"></i></span>
+                          <mat-datepicker-toggle style="display: none;" matSuffix [for]="pickerInicio" class="input-group-addon cal"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerInicio></mat-datepicker>
+                        </div>                        
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataFim">
+                          <div class="input-group-content">
+                            <input matInput [matDatepicker]="pickerFim" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.dataFim" name="dataFim"
+                            class="form-control" maxlength="10" #dataFim="ngModel" autocomplete="off"> 
+                            <label>Data Fim</label>
+                          </div>
+                          
+                          <span class="input-group-addon cal" (click)="pickerFim.open()"><i class="fa fa-calendar"></i></span>
+                          <mat-datepicker-toggle style="display: none;" matSuffix [for]="pickerFim" class="input-group-addon cal"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerFim></mat-datepicker>
+                        </div>                        
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <input type="text" autocomplete="offNmEsp" maxlength="200" [(ngModel)]="objetoAtualiza.observacao" placeholder='Informe observações relevantes' 
+                              name="observacao" #observacao="ngModel" class="form-control">  
+                        <label>Observação</label>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- EMPREGADOR -->
+              <div class="card card-outlined style-primary" id="divEndereco">
+                <div class="card-head">
+                  <header>Empregador</header>
+                </div>
+
+                <div class="card-body" style="display: block;"> 
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" autocomplete="off" maxlength="100" [(ngModel)]="filtroEmpregador" placeholder='Informe o CPF, CNPJ, CEI ou parte do nome do empregador' 
+                              name="filtroEmpregador" class="form-control">  
+                        <label>CPF/CNPJ/CEI ou NOME</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-1" style="width: 5%; padding-top: 1%;" *ngIf="visualizar != 'sim'">
+                      <div class="form-group">
+                        <i class="fa fa-search" style="cursor: pointer;" title="Pesquisar empregador" (click)="pesquisarEmpregador()"> </i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf="empregador != null">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label>Tipo</label>
+                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>PESSOA JURÍDICA</span>
+                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>PESSOA FÍSICA</span>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>CNPJ</label>
+                        <label *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>CPF</label>
+                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>{{empregador.cadastroUnico.cnpj}}</span>
+                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>{{empregador.cadastroUnico.cpf}}</span>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3" *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>
+                        <div class="form-group">
+                          <label>CEI</label>
+                          <span>{{empregador.numeroCei}}</span>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="row" *ngIf="empregador != null">
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label>Nome/Razão Social</label>
+                          <span>{{empregador.cadastroUnico.nome}}</span>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+
+              <!-- AGENDA -->
+              <div class="card card-outlined style-primary" id="divAgenda">
+                <div class="card-head">
+                  <header>AGENDA SEMANAL</header>
+                </div>
+                  
+                <div class="card-body" style="display: block;"> 
+                  <div class="row">
+                    <div class="col-sm-12" *ngIf="listaDia.length > 0">
+                        <div class="card">
+                          <div class="card-body no-padding">
+                            <div class="table-responsive no-margin">
+                              <table id="datatable" class="table table-hover no-margin">
+                                <thead class="style-default-dark">
+                                  <tr>
+                                    <th class="text-center" style="width: 3%;">
+                                      <div style="margin-top: 10px;">
+                                        <label class="checkbox-inline checkbox-styled">
+                                          <input type="checkbox" (change)="selecionarTodosAgenda()" [(ngModel)]="flagSelecionarTodosAgenda" name="flagSelecionarTodosAgenda">
+                                          <span></span>
+                                        </label>
+                                      </div>
+                                    </th>
+                                    <th style="width: 20%;" class="text-center" >Data</th>
+                                    <th class="text-center">Horário 1</th>
+                                    <th class="text-center">Horário 2</th>
+                                    <th class="text-center">Horário 3</th>
+                                    <th class="text-center">Horário 4</th>
+                                    <th class="text-center" style="width: 3%;" title="Apagar todos os horários"><i class="fa fa-eraser" (click)="limparAllHorario()" style="width:18px; height: 18px; cursor: pointer;"></i></th>
+                                  </tr>
+                                </thead>
+              
+                                <tr *ngFor="let item of listaVagaAgendamento; let i = index">
+                                  <td class="text-left">
+                                    <div style="margin-top: 10px;">
+                                      <label class="checkbox-inline checkbox-styled">
+                                        <input type="checkbox" [(ngModel)]="item.flagAtivo" name="item.flagAtivo" (change)="selecionarDiaAgenda(i)">
+                                        <span></span>
+                                      </label>
+                                    </div>
+                                  </td>
+                                  <td class="text-left">
+                                    <b><span>{{item.nomeDia}}</span></b>
+                                  </td>
+                                  <td class="text-center">
+                                    <input type="text" [(ngModel)]="item.numeroHora1" mask="Hh:m0" name="numeroHora1{{i}}" class="form-control" style="text-align: center" *ngIf="item.flagAtivo">
+                                    <input type="text" class="form-control" style="text-align: center" disabled *ngIf="!item.flagAtivo">
+                                  </td>
+                                  <td class="text-center">
+                                    <input type="text" [(ngModel)]="item.numeroHora2" mask="Hh:m0" name="numeroHora2{{i}}" class="form-control" style="text-align: center" *ngIf="item.flagAtivo">
+                                    <input type="text" class="form-control" style="text-align: center" disabled *ngIf="!item.flagAtivo">
+                                  </td>
+                                  <td class="text-center">
+                                      <input type="text" [(ngModel)]="item.numeroHora3" mask="Hh:m0" name="numeroHora3{{i}}" class="form-control" style="text-align: center" *ngIf="item.flagAtivo">
+                                      <input type="text" class="form-control" style="text-align: center" disabled *ngIf="!item.flagAtivo">
+                                  </td>
+                                  <td class="text-center">
+                                      <input type="text" [(ngModel)]="item.numeroHora4" mask="Hh:m0" name="numeroHora4{{i}}" class="form-control" style="text-align: center" *ngIf="item.flagAtivo">
+                                      <input type="text" class="form-control" style="text-align: center" disabled *ngIf="!item.flagAtivo">
+                                  </td>
+                                  <td class="text-center">
+                                      <i class="fa fa-thumb-tack" title="Replicar para todos os horários" (click)="replicarHorario(i)" style="width:18px; height: 18px; cursor: pointer;" *ngIf="item.flagAtivo"></i>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              <div class="card-actionbar">
+                <div class="card-actionbar-row">
+                  
+                    <button *ngIf="codigo == undefined" type="submit" class="btn ink-reaction btn-raised btn-success"  accesskey="C">
+                      Cadastrar
+                    </button>  
+                  
+                    <button *ngIf="codigo != undefined" type="button" (click)="alterar()" class="btn ink-reaction btn-raised btn-success"  accesskey="A">
+                      Alterar
+                    </button>  
+                  
+                  <a class="btn ink-reaction btn-raised btn-default" accesskey="V" (click)="voltar()">
+                    Voltar 
+                  </a>
+                </div>
+              </div>
+  
+
+            </form>
+
+            
+          </div>
+
+        </div>      
+      </div>
+
+    </div>    
+
+  </div>
+  
+</section>

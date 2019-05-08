@@ -1,0 +1,44 @@
+<div class="row">     
+
+    <div class="col-lg-12">
+      <div class="card card-underline">
+        <div class="card-head card-head-sm">
+          <header><b>Selecionar Empregador</b></header>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row" style="padding: 5px;">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body no-padding">
+        <div class="table-responsive no-margin">
+            <table id="datatable1" class="table table-hover no-margin">
+            <thead class="style-default-dark">
+              <tr>
+                <th class="text-center" style="width: 15%;">CPF/CNPJ</th>
+                <th class="text-center" style="width: 15%;">CEI</th>
+                <th class="text-left">Nome/Razão Social</th>
+                <th class="text-center">Nome Fantasia</th>
+                <th class="text-center">Tipo</th>
+              </tr>
+            </thead>
+
+            <tr *ngFor="let item of listaResultado; let i = index" (click)="selecionarEmpregador(i)" style="cursor: pointer;">
+              <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "J"'>{{item.cadastroUnico.cnpj}}</td>
+              <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "F"'>{{item.cadastroUnico.cpf}}</td>
+              <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "J"'>{{item.numeroCei}}</td>
+              <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "F"'>-</td>
+              <td>{{item.cadastroUnico.nome}}</td>
+              <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "J"'>{{item.cadastroUnico.pessoaJuridica.nomeFantasia}}</td>
+              <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "F"'>-</td>
+              <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "F"'>PESSOA FÍSICA</td>
+              <td class="text-center" *ngIf='item.cadastroUnico.tipoPessoa == "J"'>PESSOA JURÍDICA</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

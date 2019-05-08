@@ -39,6 +39,9 @@ import { AcaoVisualizarComponent } from '../../pages/acao/visualizar/acao-visual
 import { EmpregadorVisualizarComponent } from '../../pages/empregador/visualizar/empregador-visualizar.component';
 import { TrabalhadorVisualizarComponent } from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
 import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-visualizar.component';
+import { VagaPesquisarComponent } from '../../pages/vaga/pesquisar/vaga-pesquisar.component';
+import { VagaAtualizarComponent } from '../../pages/vaga/atualizar/vaga-atualizar.component';
+import { ModalEmpregadorComponent } from '../../pages/geral/modal-empregador/modal-empregador.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -85,6 +88,12 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'acao-visualizar/:id', component: AcaoVisualizarComponent, canActivate: [AuthGuard] },
     { path : 'acao-gerenciar', component: AcaoGerenciarComponent, canActivate: [AuthGuard] },
 
+    { path : 'vaga-pesquisar', component: VagaPesquisarComponent, canActivate: [AuthGuard] },
+    { path : 'vaga-atualizar', component: VagaAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'vaga-atualizar/:id', component: VagaAtualizarComponent, canActivate: [AuthGuard] },
+    // { path : 'vaga-visualizar/:id', component: VagaVisualizarComponent, canActivate: [AuthGuard] },
+    // { path : 'vaga-gerenciar', component: VagaGerenciarComponent, canActivate: [AuthGuard] },
+
     { path : 'qualificacao-pesquisar', component: QualificacaoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'qualificacao-atualizar', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'qualificacao-atualizar/:id', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },
@@ -102,6 +111,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'modal-manutencao-item', component: ModalItemManutencaoComponent, canActivate: [AuthGuard] },
     { path : 'modal-local-item', component: ModalLocalComponent, canActivate: [AuthGuard] },
     { path : 'modal-tipo-acao-item', component: ModalTipoAcaoComponent, canActivate: [AuthGuard] },
+    { path : 'modal-empregador', component: ModalEmpregadorComponent, canActivate: [AuthGuard] },
 
     { path : 'layout-pesquisar', component: LayoutComponent, canActivate: [AuthGuard] },
 
