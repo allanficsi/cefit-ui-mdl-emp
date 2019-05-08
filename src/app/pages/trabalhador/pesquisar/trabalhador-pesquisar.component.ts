@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
@@ -11,10 +11,10 @@ import { DominioService } from '../../../services/geral/dominio.service';
 import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
-import {TrabalhadorAgenda} from '../../../model/trabalhador/trabalhador-agenda';
-import {ModalEditarItemEspacoComponent} from '../../geral/modal-editar-item-espaco/modal-editar-item-espaco.component';
-import {ModalEditarAgendaComponent} from '../../geral/modal-editar-agenda/modal-editar-agenda.component';
-import {AgendaTrabalhadorService} from '../../../services/trabalhador/agenda-trabalhador.service';
+import { TrabalhadorAgenda } from '../../../model/trabalhador/trabalhador-agenda';
+import { ModalEditarItemEspacoComponent } from '../../geral/modal-editar-item-espaco/modal-editar-item-espaco.component';
+import { ModalEditarAgendaComponent } from '../../geral/modal-editar-agenda/modal-editar-agenda.component';
+import { AgendaTrabalhadorService } from '../../../services/trabalhador/agenda-trabalhador.service';
 
 @Component({
   selector: 'app-trabalhador-pesquisar',
