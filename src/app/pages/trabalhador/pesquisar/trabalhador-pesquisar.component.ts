@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
@@ -11,6 +11,10 @@ import { DominioService } from '../../../services/geral/dominio.service';
 import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
+import {TrabalhadorAgenda} from '../../../model/trabalhador/trabalhador-agenda';
+import {ModalEditarItemEspacoComponent} from '../../geral/modal-editar-item-espaco/modal-editar-item-espaco.component';
+import {ModalEditarAgendaComponent} from '../../geral/modal-editar-agenda/modal-editar-agenda.component';
+import {AgendaTrabalhadorService} from '../../../services/trabalhador/agenda-trabalhador.service';
 
 @Component({
   selector: 'app-trabalhador-pesquisar',
@@ -94,5 +98,22 @@ export class TrabalhadorPesquisarComponent extends AptareCrudController<Trabalha
 
   visualizar(id: string) {
     super.editar('/trabalhador-visualizar',id);
+  }
+
+  preparaEditarAgenda(index) {
+
+    let agendaTrabalhador = new TrabalhadorAgenda();
+    agendaTrabalhador.codigoTrabalhador = index;
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '540px';
+    dialogConfig.width = '700px';
+    dialogConfig.data = agendaTrabalhador;
+
+    this.dialog.open(ModalEditarAgendaComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(value => {});
   }
 }

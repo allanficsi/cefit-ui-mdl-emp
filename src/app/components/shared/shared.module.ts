@@ -90,6 +90,7 @@ import { ErrorMessageComponent } from './error-message/error-message.component';
 import { TrabalhadorVisualizarComponent } from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
 import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-visualizar.component';
 import {AgendaTrabalhadorService} from '../../services/trabalhador/agenda-trabalhador.service';
+import {ModalEditarAgendaComponent} from '../../pages/geral/modal-editar-agenda/modal-editar-agenda.component';
 
 @NgModule({
     exports: [
@@ -183,6 +184,7 @@ import {AgendaTrabalhadorService} from '../../services/trabalhador/agenda-trabal
         ModalItemManutencaoComponent,
         ModalLocalComponent,
         ModalTipoAcaoComponent,
+        ModalEditarAgendaComponent,
         
         LayoutComponent,
         AptCpfComponent,

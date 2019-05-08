@@ -1,11 +1,11 @@
 import {Trabalhador} from './trabalhador';
 
-export class AgendaTrabalhador {
+export class TrabalhadorAgenda {
 
   codigo: Number;
-  fgDia: Number;
+  nrDia: Number;
   codigoTrabalhador: Number;
-  fgSel:boolean;
+  flagSel: boolean;
   nrHor1: string;
   nrHor2: string;
   nrHor3: string;

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogConfig} from '@angular/material';
 import {ActivatedRoute, Router, NavigationExtras} from '@angular/router';
 import {AptareCrudController} from '../../../components/shared/crud/aptare-crud-controller';
 import {Auditoria} from '../../../model/auditoria';
@@ -25,7 +25,9 @@ import {TrabalhadorService} from '../../../services/trabalhador/trabalhador.serv
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {startWith, map} from 'rxjs/operators';
-import {AgendaTrabalhador} from '../../../model/trabalhador/agenda-trabalhador';
+import {TrabalhadorAgenda} from '../../../model/trabalhador/trabalhador-agenda';
+import {EspacoItemEspaco} from '../../../model/espaco/espaco-item-espaco';
+import {ModalEditarItemEspacoComponent} from '../../geral/modal-editar-item-espaco/modal-editar-item-espaco.component';
 
 @Component({
   selector: 'app-trabalhador-atualizar',
@@ -36,6 +38,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
   cadastroUnico: CadastroUnico;
 
+  listaHorarioPadrao=[];
   listaTipoEndereco = [];
   listaTipoTelefone = [];
   listaEstadoCivil = [];
@@ -257,7 +260,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
         for (let i = 0; i < this.objetoAtualiza.listaTrabalhadorAgenda.length; i++) {
           this.listaTrabalhadorAgenda.push(this.objetoAtualiza.listaTrabalhadorAgenda[i]);
         }
-          this.listaTrabalhadorAgenda.sort((a, b) => (a.fgDia>b.fgDia?1:-1));
+          this.listaTrabalhadorAgenda.sort((a, b) => (a.nrDia>b.nrDia?1:-1));
       }
 
       this.listaEndereco = [];
@@ -578,19 +581,12 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
     //AGENDA
     this.objetoAtualiza.listaTrabalhadorAgenda = [];
+
     if (typeof this.listaTrabalhadorAgenda !== 'undefined' && this.listaTrabalhadorAgenda.length > 0) {
       for (let i = 0; i < this.listaTrabalhadorAgenda.length; i++) {
         this.objetoAtualiza.listaTrabalhadorAgenda.push(this.listaTrabalhadorAgenda[i]);
       }
     }
-    this.listaTrabalhadorAgenda.forEach(value => {
-      console.log(value.fgSel);
-       console.log(value.fgDia);
-      // console.log(value.nrHor3);
-      // console.log(value.nrHor4);
-
-    });
-
 
     //AUDITORIA
     this.objetoAtualiza.situacao = 2;  //ATIVO
@@ -609,6 +605,8 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       this.objetoAtualiza.cadastroUnico.auditoria.dataAlteracao = new Date();
       this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
     }
+
+
 
   }
 
@@ -799,21 +797,10 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     return this.validarInserir();
   }
 
-  // setDia($event, i) {
-  //   if ($event.target.checked) {
-  //     this.listaTrabalhadorAgenda[i].diaSemana = $event.target.value;
-  //     return;
-  //   }
-  //   this.listaTrabalhadorAgenda[i].nrHor1 = null;
-  //   this.listaTrabalhadorAgenda[i].nrHor2 = null;
-  //   this.listaTrabalhadorAgenda[i].nrHor3 = null;
-  //   this.listaTrabalhadorAgenda[i].nrHor4 = null;
-  //   this.listaTrabalhadorAgenda[i].fgAtv = false;
-  // }
-
-  replicarHorario(i) {
+  replicarHorario(i,item) {
     this.listaTrabalhadorAgenda.forEach((element, index) => {
-      if (index != i && element.fgSel) {
+      if (index != i && element.flagSel && item.flagSel) {
+        console.log(element.flagSel);
         element.nrHor1 = this.listaTrabalhadorAgenda[i].nrHor1;
         element.nrHor2 = this.listaTrabalhadorAgenda[i].nrHor2;
         element.nrHor3 = this.listaTrabalhadorAgenda[i].nrHor3;
@@ -831,18 +818,37 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     });
   }
 
-  private setAgendamento() {
+  limparHorario(item) {
+    if(item.flagSel==false){
+      item.nrHor1=null;
+      item.nrHor2=null;
+      item.nrHor3=null;
+      item.nrHor4=null;
+    }
+  }
+
+  setAgendamento() {
+
+    let dominio:Dominio = new Dominio();
+    dominio.nomeCampo='HORARIO_AGENDA_ACAO';
+
+    this.dominioService.pesquisar(dominio)
+      .subscribe((responseApi: ResponseApi) => {
+        this.listaHorarioPadrao = responseApi['data'];
+      }, err => {
+        this.mensagem.tratarErro(err);
+      });
 
     this.listaDia.forEach((element,index) => {
-      let agendamento: AgendaTrabalhador = new AgendaTrabalhador();
-      agendamento.fgSel = null;
-      agendamento.nrHor1 = null;
-      agendamento.nrHor2 = null;
-      agendamento.nrHor3 = null;
-      agendamento.nrHor4 = null;
-      agendamento.fgDia=index;
+      let agendamento: TrabalhadorAgenda = new TrabalhadorAgenda();
+      agendamento.flagSel = true;
+      agendamento.nrHor1 = '08:00';
+      agendamento.nrHor2 = '12:00';
+      agendamento.nrHor3 = '13:00';
+      agendamento.nrHor4 = '17:00';
+      agendamento.nrDia = index;
       this.listaTrabalhadorAgenda.push(agendamento);
     });
-
   }
+
 }
