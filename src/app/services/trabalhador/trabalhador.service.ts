@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {AptareCrudService} from '../shared/aptare-crud.service';
-import {Trabalhador} from '../../model/trabalhador/trabalhador';
-import {Espaco} from '../../model/espaco/espaco';
-import {HOST_CEFIT} from '../cefit.api';
-import {HttpClient} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AptareCrudService } from '../shared/aptare-crud.service';
+import { Trabalhador } from '../../model/trabalhador/trabalhador';
+import { Espaco } from '../../model/espaco/espaco';
+import { HOST_CEFIT } from '../cefit.api';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class TrabalhadorService extends AptareCrudService<Trabalhador> {
