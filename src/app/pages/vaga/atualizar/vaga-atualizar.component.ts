@@ -69,6 +69,46 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     this.flagSelecionarTodosAgenda = true;
   }
 
+  iniciarPaginaAlterar() {
+    let vaga: Vaga = new Vaga();
+    vaga.codigo = +this.codigo;
+
+    // GET VAGA COM O CODIGO
+    this.service.get(vaga).subscribe((responseApi:ResponseApi) => {      
+      this.objetoAtualiza = responseApi.data;
+      this.objetoAtualiza.dataInicio = new Date(this.objetoAtualiza.dataInicio);
+
+      if(this.objetoAtualiza.dataFim != null) {
+        this.objetoAtualiza.dataFim = new Date(this.objetoAtualiza.dataFim);
+      } else {
+        this.objetoAtualiza.dataFim = null;
+      }
+      
+      // Nominal
+      if(this.objetoAtualiza.tipoDescricaoVaga == 'N') {
+        this.trabalhador = this.objetoAtualiza.trabalhador;
+      }
+      
+      // Freguesia
+      if(this.objetoAtualiza.tipoDescricaoVaga == 'F') {
+        this.objetoAtualiza.listaVagaDia.forEach(elementVagaDia => {
+          this.listaDia.forEach(elementDia => {
+            if(elementVagaDia.codigoDia == elementDia.valor) {
+              elementDia.fgSelecionada = true;
+            }
+          });
+        });
+      }
+
+      this.cbo = this.objetoAtualiza.cboEntity;
+      this.empregador = this.objetoAtualiza.empregador;
+      this.listaVagaAgendamento = this.objetoAtualiza.listaVagaAgendamento;
+      console.log(this.objetoAtualiza);
+    } , err => {
+      this.mensagem.tratarErro(err);  
+    });
+  }
+
   displayFnTrabalhador(trabalhador?: Trabalhador): string | undefined {
     return trabalhador ? trabalhador.cadastroUnico.nome : undefined;
   }
@@ -255,6 +295,12 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
   selecionarCaracteristica() {
     this.trabalhador = new Trabalhador();
     this.trabalhador.cadastroUnico = new CadastroUnico();
+
+    this.trabalhador = new Trabalhador();
+
+    this.listaDia.forEach(element => {
+      element.fgSelecionada = false;
+    });
   }
 
   completarInserir() {
@@ -289,7 +335,37 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     });
 
     console.log(this.objetoAtualiza);
-    debugger;
+  }
+
+  completarAlterar() {
+    
+    this.objetoAtualiza.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+    this.objetoAtualiza.auditoria.dataAlteracao = new Date();
+
+    if(this.listaVagaAgendamento != null && this.listaVagaAgendamento.length > 0) {
+      this.objetoAtualiza.listaVagaAgendamento = this.listaVagaAgendamento;
+    }
+
+    if(this.trabalhador != null || typeof this.trabalhador.codigo != 'undefined') {
+      this.objetoAtualiza.codigoTrabalhador = this.trabalhador.codigo;
+    }
+
+    if(this.cbo != null || typeof this.cbo.codigo != 'undefined') {
+      this.objetoAtualiza.codigoCbo = this.cbo.codigo;
+    }
+
+    if(this.empregador != null || typeof this.empregador.codigo != 'undefined') {
+      this.objetoAtualiza.codigoEmpregador = this.empregador.codigo;
+    }
+
+    this.objetoAtualiza.listaVagaDia = [];
+    this.listaDia.forEach(element => {
+      if(typeof element.fgSelecionada != 'undefined' && element.fgSelecionada) {
+        let vagaDia = new VagaDia();
+        vagaDia.codigoDia = element.valor;
+        this.objetoAtualiza.listaVagaDia.push(vagaDia);
+      }
+    });
   }
 
   validarInserir() {
@@ -325,6 +401,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       }
     }
 
+
     if(this.objetoAtualiza.dataInicio == null || (this.objetoAtualiza.dataInicio.toString() == '')) {
       this.mensagem.tratarErroPersonalizado("", "O campo Data Início é obrigatório.");
       return false;
@@ -336,6 +413,10 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     }
 
     return true;
+  }
+
+  validarAlterar() {
+    return this.validarInserir();
   }
 
   voltar() {

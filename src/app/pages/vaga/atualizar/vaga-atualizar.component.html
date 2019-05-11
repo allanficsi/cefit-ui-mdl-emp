@@ -81,18 +81,15 @@
                         <label>Característica da Vaga *</label>
                         <div style="margin-top: 10px;">
                         <label class="radio-inline radio-styled">
-                          <input *ngIf="codigo == undefined" type="radio" value="G" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
-                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="G" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" (change)="selecionarCaracteristica()" #tipoDescricaoVaga="ngModel" >
+                          <input type="radio" value="G" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
                           <span>Geral</span>
                         </label>
                         <label class="radio-inline radio-styled">
-                          <input *ngIf="codigo == undefined" type="radio" value="N" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
-                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="N" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" (change)="selecionarCaracteristica()" #tipoDescricaoVaga="ngModel" >
+                          <input type="radio" value="N" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
                           <span>Nominal</span>
                         </label>
                         <label class="radio-inline radio-styled">
-                          <input *ngIf="codigo == undefined" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
-                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
+                          <input type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
                           <span>Freguesia</span>
                         </label>
                         </div>
@@ -121,7 +118,7 @@
                           <div style="margin-top: 10px;">
                             <label class="checkbox-inline checkbox-styled" *ngFor="let dia of listaDia; let i = index">
                               <input type="checkbox"
-                                     name="fgSelecionada"
+                                     name="fgSelecionada{{i}}"
                                     [(ngModel)]="dia.fgSelecionada"/>
                               <span>{{dia.nomeReduzido}}</span> 
                             </label>
@@ -193,7 +190,7 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-1" style="width: 5%; padding-top: 1%;" *ngIf="visualizar != 'sim'">
+                    <div class="col-sm-1" style="width: 5%; padding-top: 1%;">
                       <div class="form-group">
                         <i class="fa fa-search" style="cursor: pointer;" title="Pesquisar empregador" (click)="pesquisarEmpregador()"> </i>
                       </div>
@@ -273,7 +270,7 @@
                                   <td class="text-left">
                                     <div style="margin-top: 10px;">
                                       <label class="checkbox-inline checkbox-styled">
-                                        <input type="checkbox" [(ngModel)]="item.flagAtivo" name="item.flagAtivo" (change)="selecionarDiaAgenda(i)">
+                                        <input type="checkbox" [(ngModel)]="item.flagAtivo" name="item.flagAtivo{{i}}" (change)="selecionarDiaAgenda(i)">
                                         <span></span>
                                       </label>
                                     </div>

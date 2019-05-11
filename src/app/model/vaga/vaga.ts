@@ -3,6 +3,8 @@ import { Trabalhador } from "../trabalhador/trabalhador";
 import { VagaAgendamento } from "./vaga-agendamento";
 import { VagaDia } from "./vaga-dia";
 import { FiltroVaga } from "./filtro/filtro-vaga";
+import { Cbo } from "../trabalhador/cbo";
+import { Empregador } from "../empregador/empregador";
 
 export class Vaga {
     
@@ -21,6 +23,8 @@ export class Vaga {
     auditoria: Auditoria;
     filtro: FiltroVaga;
 
+    empregador: Empregador;
+    cboEntity: Cbo;
     trabalhador: Trabalhador;
     listaVagaAgendamento: VagaAgendamento[];
     listaVagaDia: VagaDia[];
