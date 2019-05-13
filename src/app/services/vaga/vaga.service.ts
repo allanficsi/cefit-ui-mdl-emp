@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
+import { Vaga } from '../../model/vaga/vaga';
 import { AptareCrudService } from '../shared/aptare-crud.service';
-import { Empregador } from '../../model/empregador/empregador';
 
 @Injectable()
-export class EmpregadorService extends AptareCrudService<Empregador> {
+export class VagaService extends AptareCrudService<Vaga> {
 
     public static SITUACAO_PENDENTE = 1;
     public static SITUACAO_ATIVA = 2;
-    public static SITUACAO_INATIVA = 3;
 
     artefato(): string {    
-        return "empregador";
+        return "vaga";
     }
 
 }

@@ -16,6 +16,7 @@ export class Empregador {
     descricaoSituacao: string;
     numeroCei: Number;
     observacao: string;
+    filtroGenerico: string;
 
     cadastroUnico: CadastroUnico;
     cnae: Cnae;

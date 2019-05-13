@@ -9,8 +9,6 @@
           <div class="card-head card-head-sm">
             <header><b>Trabalhador - Pesquisar</b></header>
           </div>
-
-        
       
           <div class="card-body" style="display: block;">
             <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
@@ -21,7 +19,7 @@
                   <div class="form-group">
                     <input type="text" maxlength="18" aptValidaCpf autocomplete="off"
                            [(ngModel)]="objetoPesquisa.cadastroUnico.cpfCnpj" mask='000.000.000-00'
-                           name="cpf" class="form-control" required>  
+                           name="cpf" class="form-control">  
                     <label>CPF</label>
                   </div>
                 </div>
@@ -30,7 +28,7 @@
                   <div class="form-group">
                     <input type="text" maxlength="80" autocomplete="off"
                            [(ngModel)]="objetoPesquisa.cadastroUnico.nome" 
-                           name="nome" class="form-control" required>  
+                           name="nome" class="form-control">  
                     <label>Nome</label>
                   </div>
                 </div>

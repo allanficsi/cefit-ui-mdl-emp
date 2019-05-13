@@ -32,7 +32,7 @@
                 </thead>
 
                 <tr *ngFor="let item of listaResultado">
-                    <td class="text-left">{{item.nome}}</td>
+                  <td class="text-left">{{item.nome}}</td>
                   <td class="text-left">{{item.descricao}}</td>
                   <td class="text-left" *ngIf='item.flagAtivo != "N"'>ATIVO</td>
                   <td class="text-left" *ngIf='item.flagAtivo == "N"'>INATIVO</td>
