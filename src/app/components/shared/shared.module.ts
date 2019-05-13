@@ -93,6 +93,7 @@ import { LovComponent } from './lov/lov.component';
 import { MenuComponent } from './menu/menu.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { DateFormat } from './util/date-format';
+import { VagaVisualizarComponent } from "../../pages/vaga/visualizar/vaga-visualizar.component";
 
 @NgModule({
     exports: [
@@ -175,6 +176,7 @@ import { DateFormat } from './util/date-format';
 
         VagaPesquisarComponent,
         VagaAtualizarComponent,
+        VagaVisualizarComponent,
 
         EspacoAtualizarComponent,
         EspacoPesquisarComponent,
