@@ -23,9 +23,10 @@ export class Vaga {
     auditoria: Auditoria;
     filtro: FiltroVaga;
 
-    empregador: Empregador;
+    empregadorEntity: Empregador;
     cboEntity: Cbo;
-    trabalhador: Trabalhador;
+    trabalhadorEntity: Trabalhador;
     listaVagaAgendamento: VagaAgendamento[];
+    listaVagaAgendamentoOrdenada: VagaAgendamento[];
     listaVagaDia: VagaDia[];
 }

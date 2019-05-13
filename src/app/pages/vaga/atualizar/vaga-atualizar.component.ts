@@ -23,6 +23,7 @@ import { Auditoria } from '../../../model/auditoria';
 import { Trabalhador } from '../../../model/trabalhador/trabalhador';
 import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
 import { VagaDia } from 'src/app/model/vaga/vaga-dia';
+import { element } from '@angular/core/src/render3/instructions';
 
 
 @Component({
@@ -86,7 +87,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       
       // Nominal
       if(this.objetoAtualiza.tipoDescricaoVaga == 'N') {
-        this.trabalhador = this.objetoAtualiza.trabalhador;
+        this.trabalhador = this.objetoAtualiza.trabalhadorEntity;
       }
       
       // Freguesia
@@ -101,9 +102,11 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       }
 
       this.cbo = this.objetoAtualiza.cboEntity;
-      this.empregador = this.objetoAtualiza.empregador;
-      this.listaVagaAgendamento = this.objetoAtualiza.listaVagaAgendamento;
-      console.log(this.objetoAtualiza);
+      this.empregador = this.objetoAtualiza.empregadorEntity;
+      this.listaVagaAgendamento = this.objetoAtualiza.listaVagaAgendamentoOrdenada;
+
+      this.carregarVagaAgendamento();
+
     } , err => {
       this.mensagem.tratarErro(err);  
     });
@@ -185,6 +188,18 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     });
   }
 
+  carregarVagaAgendamento() {
+    if(this.listaVagaAgendamento != null && typeof this.listaVagaAgendamento !== 'undefined') {
+      for (let i = 0; i < this.listaVagaAgendamento.length; i++) {
+        for (let j = 0; j < this.listaDia.length; j++) {
+          if(this.listaVagaAgendamento[i].numeroDia == this.listaDia[j].valor) {
+            this.listaVagaAgendamento[i].nomeDia = this.listaDia[j].nome;
+          }
+        }
+      }
+    }
+  }
+
   popularCbo() {
     let cbo = new Cbo();
 
@@ -209,7 +224,6 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
   }
 
   selecionarDiaAgenda(index) {
-    console.log(this.listaVagaAgendamento[index]);
     if(!this.listaVagaAgendamento[index].flagAtivo) {
       this.listaVagaAgendamento[index].numeroHora1 = null;
       this.listaVagaAgendamento[index].numeroHora2 = null;
@@ -296,8 +310,6 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     this.trabalhador = new Trabalhador();
     this.trabalhador.cadastroUnico = new CadastroUnico();
 
-    this.trabalhador = new Trabalhador();
-
     this.listaDia.forEach(element => {
       element.fgSelecionada = false;
     });
@@ -313,15 +325,46 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       this.objetoAtualiza.listaVagaAgendamento = this.listaVagaAgendamento;
     }
 
-    if(this.trabalhador != null || typeof this.trabalhador.codigo != 'undefined') {
+    if(this.trabalhador != null && typeof this.trabalhador.codigo != 'undefined') {
       this.objetoAtualiza.codigoTrabalhador = this.trabalhador.codigo;
     }
 
-    if(this.cbo != null || typeof this.cbo.codigo != 'undefined') {
+    if(this.cbo != null && typeof this.cbo.codigo != 'undefined') {
       this.objetoAtualiza.codigoCbo = this.cbo.codigo;
     }
 
-    if(this.empregador != null || typeof this.empregador.codigo != 'undefined') {
+    if(this.empregador != null && typeof this.empregador.codigo != 'undefined') {
+      this.objetoAtualiza.codigoEmpregador = this.empregador.codigo;
+    }
+
+    this.objetoAtualiza.listaVagaDia = [];
+    this.listaDia.forEach(element => {
+      if(typeof element.fgSelecionada != 'undefined' && element.fgSelecionada) {
+        let vagaDia = new VagaDia();
+        vagaDia.codigoDia = element.valor;
+        this.objetoAtualiza.listaVagaDia.push(vagaDia);
+      }
+    });
+  }
+
+  completarAlterar() {
+    
+    this.objetoAtualiza.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+    this.objetoAtualiza.auditoria.dataAlteracao = new Date();
+
+    if(this.listaVagaAgendamento != null && this.listaVagaAgendamento.length > 0) {
+      this.objetoAtualiza.listaVagaAgendamento = this.listaVagaAgendamento;
+    }
+
+    if(this.trabalhador != null && typeof this.trabalhador.codigo != 'undefined') {
+      this.objetoAtualiza.codigoTrabalhador = this.trabalhador.codigo;
+    }
+
+    if(this.cbo != null && typeof this.cbo.codigo != 'undefined') {
+      this.objetoAtualiza.codigoCbo = this.cbo.codigo;
+    }
+
+    if(this.empregador != null && typeof this.empregador.codigo != 'undefined') {
       this.objetoAtualiza.codigoEmpregador = this.empregador.codigo;
     }
 
@@ -335,37 +378,6 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     });
 
     console.log(this.objetoAtualiza);
-  }
-
-  completarAlterar() {
-    
-    this.objetoAtualiza.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
-    this.objetoAtualiza.auditoria.dataAlteracao = new Date();
-
-    if(this.listaVagaAgendamento != null && this.listaVagaAgendamento.length > 0) {
-      this.objetoAtualiza.listaVagaAgendamento = this.listaVagaAgendamento;
-    }
-
-    if(this.trabalhador != null || typeof this.trabalhador.codigo != 'undefined') {
-      this.objetoAtualiza.codigoTrabalhador = this.trabalhador.codigo;
-    }
-
-    if(this.cbo != null || typeof this.cbo.codigo != 'undefined') {
-      this.objetoAtualiza.codigoCbo = this.cbo.codigo;
-    }
-
-    if(this.empregador != null || typeof this.empregador.codigo != 'undefined') {
-      this.objetoAtualiza.codigoEmpregador = this.empregador.codigo;
-    }
-
-    this.objetoAtualiza.listaVagaDia = [];
-    this.listaDia.forEach(element => {
-      if(typeof element.fgSelecionada != 'undefined' && element.fgSelecionada) {
-        let vagaDia = new VagaDia();
-        vagaDia.codigoDia = element.valor;
-        this.objetoAtualiza.listaVagaDia.push(vagaDia);
-      }
-    });
   }
 
   validarInserir() {
