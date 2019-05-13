@@ -41,7 +41,7 @@ import { TrabalhadorVisualizarComponent } from '../../pages/trabalhador/visualiz
 import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-visualizar.component';
 import { VagaPesquisarComponent } from '../../pages/vaga/pesquisar/vaga-pesquisar.component';
 import { VagaAtualizarComponent } from '../../pages/vaga/atualizar/vaga-atualizar.component';
-import { ModalEmpregadorComponent } from '../../pages/geral/modal-empregador/modal-empregador.component';
+import { ModalEditarAgendaComponent } from '../../pages/geral/modal-editar-agenda/modal-editar-agenda.component';
 import { VagaVisualizarComponent } from '../../pages/vaga/visualizar/vaga-visualizar.component';
 
 
@@ -88,7 +88,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'acao-atualizar/:id', component: AcaoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'acao-visualizar/:id', component: AcaoVisualizarComponent, canActivate: [AuthGuard] },
     { path : 'acao-gerenciar', component: AcaoGerenciarComponent, canActivate: [AuthGuard] },
-
+    
     { path : 'vaga-pesquisar', component: VagaPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'vaga-atualizar', component: VagaAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'vaga-atualizar/:id', component: VagaAtualizarComponent, canActivate: [AuthGuard] },
@@ -112,7 +112,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'modal-manutencao-item', component: ModalItemManutencaoComponent, canActivate: [AuthGuard] },
     { path : 'modal-local-item', component: ModalLocalComponent, canActivate: [AuthGuard] },
     { path : 'modal-tipo-acao-item', component: ModalTipoAcaoComponent, canActivate: [AuthGuard] },
-    { path : 'modal-empregador', component: ModalEmpregadorComponent, canActivate: [AuthGuard] },
+    { path : 'modal-editar-agenda', component: ModalEditarAgendaComponent, canActivate: [AuthGuard] },
 
     { path : 'layout-pesquisar', component: LayoutComponent, canActivate: [AuthGuard] },
 
