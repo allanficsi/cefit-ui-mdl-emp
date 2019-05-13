@@ -8,6 +8,10 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class TrabalhadorService extends AptareCrudService<Trabalhador> {
 
+  public static SITUACAO_PENDENTE = 1;
+  public static SITUACAO_ATIVA = 2;
+  public static SITUACAO_INATIVA = 3;
+
   constructor(public http: HttpClient) {
     super(http);
   }
