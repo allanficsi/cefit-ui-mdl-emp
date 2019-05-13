@@ -88,9 +88,13 @@ import { ProfissionalVisualizarComponent } from "../../pages/profissional/visual
 import { EmpregadorVisualizarComponent } from "../../pages/empregador/visualizar/empregador-visualizar.component";
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { TrabalhadorVisualizarComponent } from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
+import { VagaAtualizarComponent } from "../../pages/vaga/atualizar/vaga-atualizar.component";
+import { VagaPesquisarComponent } from "../../pages/vaga/pesquisar/vaga-pesquisar.component";
 import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-visualizar.component';
-import {AgendaTrabalhadorService} from '../../services/trabalhador/agenda-trabalhador.service';
-import {ModalEditarAgendaComponent} from '../../pages/geral/modal-editar-agenda/modal-editar-agenda.component';
+import { AgendaTrabalhadorService } from '../../services/trabalhador/agenda-trabalhador.service';
+import { VagaService } from "../../services/vaga/vaga.service";
+import { ModalEditarAgendaComponent } from '../../pages/geral/modal-editar-agenda/modal-editar-agenda.component';
+import { VagaVisualizarComponent } from "../../pages/vaga/visualizar/vaga-visualizar.component";
 
 @NgModule({
     exports: [
@@ -169,6 +173,10 @@ import {ModalEditarAgendaComponent} from '../../pages/geral/modal-editar-agenda/
         AcaoPesquisarComponent,
         AcaoGerenciarComponent,
         AcaoVisualizarComponent,
+        
+        VagaPesquisarComponent,
+        VagaAtualizarComponent,
+        VagaVisualizarComponent,
 
         EspacoAtualizarComponent,
         EspacoPesquisarComponent,
@@ -219,6 +227,7 @@ import {ModalEditarAgendaComponent} from '../../pages/geral/modal-editar-agenda/
       ParametroService,
       CadastroUnicoService,
       EspacoItemEspacoService,
+      VagaService,
       AgendaTrabalhadorService,
       {
         provide: HTTP_INTERCEPTORS,
