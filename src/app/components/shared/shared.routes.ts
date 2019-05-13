@@ -39,7 +39,10 @@ import { AcaoVisualizarComponent } from '../../pages/acao/visualizar/acao-visual
 import { EmpregadorVisualizarComponent } from '../../pages/empregador/visualizar/empregador-visualizar.component';
 import { TrabalhadorVisualizarComponent } from '../../pages/trabalhador/visualizar/trabalhador-visualizar.component';
 import { EspacoVisualizarComponent } from '../../pages/espaco/visualizar/espaco-visualizar.component';
-import {ModalEditarAgendaComponent} from '../../pages/geral/modal-editar-agenda/modal-editar-agenda.component';
+import { VagaPesquisarComponent } from '../../pages/vaga/pesquisar/vaga-pesquisar.component';
+import { VagaAtualizarComponent } from '../../pages/vaga/atualizar/vaga-atualizar.component';
+import { ModalEditarAgendaComponent } from '../../pages/geral/modal-editar-agenda/modal-editar-agenda.component';
+import { VagaVisualizarComponent } from '../../pages/vaga/visualizar/vaga-visualizar.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -85,6 +88,12 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'acao-atualizar/:id', component: AcaoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'acao-visualizar/:id', component: AcaoVisualizarComponent, canActivate: [AuthGuard] },
     { path : 'acao-gerenciar', component: AcaoGerenciarComponent, canActivate: [AuthGuard] },
+    
+    { path : 'vaga-pesquisar', component: VagaPesquisarComponent, canActivate: [AuthGuard] },
+    { path : 'vaga-atualizar', component: VagaAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'vaga-atualizar/:id', component: VagaAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'vaga-visualizar/:id', component: VagaVisualizarComponent, canActivate: [AuthGuard] },
+    // { path : 'vaga-gerenciar', component: VagaGerenciarComponent, canActivate: [AuthGuard] },
 
     { path : 'qualificacao-pesquisar', component: QualificacaoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'qualificacao-atualizar', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },
