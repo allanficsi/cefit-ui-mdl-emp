@@ -276,8 +276,8 @@ export class AptareCrudController <Entity,
       this.listaUf.push({nome:"SP", valor:"SP"});
       this.listaUf.push({nome:"SE", valor:"SE"});
       this.listaUf.push({nome:"TO", valor:"TO"});
-
     }
+    
     if(this.listaDia.length == 0) {
       this.listaDia.push({nome:"Domingo", valor:0, nomeReduzido: "Domingo"});
       this.listaDia.push({nome:"Segunda-Feira", valor:1, nomeReduzido: "Segunda"});
