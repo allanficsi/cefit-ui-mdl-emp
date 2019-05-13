@@ -276,21 +276,21 @@ export class AptareCrudController <Entity,
       this.listaUf.push({nome:"SP", valor:"SP"});
       this.listaUf.push({nome:"SE", valor:"SE"});
       this.listaUf.push({nome:"TO", valor:"TO"});
-
     }
+    
     if(this.listaDia.length == 0) {
-      this.listaDia.push({nome:"Domingo", valor:0});
-      this.listaDia.push({nome:"Segunda-Feira", valor:1});
-      this.listaDia.push({nome:"TerÃ§a-Feira", valor:2});
-      this.listaDia.push({nome:"Quarta-Feira", valor:3});
-      this.listaDia.push({nome:"Quinta-Feira", valor:4});
-      this.listaDia.push({nome:"Sexta-Feira", valor:5});
-      this.listaDia.push({nome:"SÃ¡bado", valor:6});
-      }
+      this.listaDia.push({nome:"Domingo", valor:0, nomeReduzido: "Domingo"});
+      this.listaDia.push({nome:"Segunda-Feira", valor:1, nomeReduzido: "Segunda"});
+      this.listaDia.push({nome:"Terça-Feira", valor:2, nomeReduzido: "Terça"});
+      this.listaDia.push({nome:"Quarta-Feira", valor:3, nomeReduzido: "Quarta"});
+      this.listaDia.push({nome:"Quinta-Feira", valor:4, nomeReduzido: "Quinta"});
+      this.listaDia.push({nome:"Sexta-Feira", valor:5, nomeReduzido: "Sexta"});
+      this.listaDia.push({nome:"Sábado", valor:6, nomeReduzido: "Sábado"});
+    }
   }
 
   limparCampos() {
-    this.dialogService.openConfirmDialog('VocÃª deseja apagar todos os campos preenchidos?')
+    this.dialogService.openConfirmDialog('Você deseja apagar todos os campos preenchidos?')
       .afterClosed().subscribe(res =>{
         if(res){
           this.objetoAtualiza = this.getNewEntityInstance();
