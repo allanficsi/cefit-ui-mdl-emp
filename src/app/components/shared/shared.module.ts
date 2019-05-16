@@ -95,6 +95,9 @@ import { AgendaTrabalhadorService } from '../../services/trabalhador/agenda-trab
 import { VagaService } from "../../services/vaga/vaga.service";
 import { ModalEditarAgendaComponent } from '../../pages/geral/modal-editar-agenda/modal-editar-agenda.component';
 import { VagaVisualizarComponent } from "../../pages/vaga/visualizar/vaga-visualizar.component";
+import { VagaGerenciarComponent } from "src/app/pages/vaga/gerenciar/vaga-gerenciar.component";
+import { ModalVagaFinalizarComponent } from "src/app/pages/geral/modal-vaga-finalizar/modal-vaga-finalizar.component";
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 @NgModule({
     exports: [
@@ -124,6 +127,7 @@ import { VagaVisualizarComponent } from "../../pages/vaga/visualizar/vaga-visual
         MyDateRangePickerModule,
         ToastrModule.forRoot(),
         NgbModule.forRoot(),
+        CurrencyMaskModule,
         NgxMaskModule.forRoot()
     ],
     declarations: [
@@ -177,6 +181,7 @@ import { VagaVisualizarComponent } from "../../pages/vaga/visualizar/vaga-visual
         VagaPesquisarComponent,
         VagaAtualizarComponent,
         VagaVisualizarComponent,
+        VagaGerenciarComponent,
 
         EspacoAtualizarComponent,
         EspacoPesquisarComponent,
@@ -193,6 +198,7 @@ import { VagaVisualizarComponent } from "../../pages/vaga/visualizar/vaga-visual
         ModalLocalComponent,
         ModalTipoAcaoComponent,
         ModalEditarAgendaComponent,
+        ModalVagaFinalizarComponent,
         
         LayoutComponent,
         AptCpfComponent,
