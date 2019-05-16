@@ -319,7 +319,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
     this.objetoAtualiza.auditoria.dataInclusao = new Date();
-    this.objetoAtualiza.situacao = VagaService.SITUACAO_ATIVA;
+    this.objetoAtualiza.situacao = VagaService.SITUACAO_ABERTA;
 
     if(this.listaVagaAgendamento != null && this.listaVagaAgendamento.length > 0) {
       this.objetoAtualiza.listaVagaAgendamento = this.listaVagaAgendamento;

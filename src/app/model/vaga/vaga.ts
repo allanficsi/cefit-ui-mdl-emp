@@ -20,6 +20,9 @@ export class Vaga {
     dataFim: Date;
     situacao: Number;
     descricaoSituacao: string;
+    observacao: string;
+    flagRealizada: boolean;
+    valorPago: number;
     auditoria: Auditoria;
     filtro: FiltroVaga;
 

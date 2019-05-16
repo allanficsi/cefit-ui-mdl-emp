@@ -1,0 +1,77 @@
+
+<!-- BEGIN BASICDATION -->
+<div class="row">     
+
+    <div class="col-lg-12">
+      
+        <div class="card-head card-head-sm">
+          <header><b>Finalizar Vaga</b></header>
+        </div>
+    
+        <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
+          
+          <div class="card-body" style="display: block;">          
+            
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  {{objetoAtualiza.descricao}}
+                  <label>Vaga </label>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Serviço Realizado?</label>
+                    <div style="margin-top: 10px;">
+                    <label class="radio-inline radio-styled">
+                      <input type="radio" [value]="true" [(ngModel)]="objetoAtualiza.flagRealizada" name="flagRealizada" #flagRealizada="ngModel">
+                      <span>Sim</span>
+                    </label>
+                    <label class="radio-inline radio-styled">
+                      <input type="radio" [value]="false" [(ngModel)]="objetoAtualiza.flagRealizada" name="flagRealizada" #flagRealizada="ngModel">
+                      <span>Não</span>
+                    </label>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    {{objetoAtualiza.empregadorEntity.cadastroUnico.nome}}
+                    <label>Empregador </label>
+                  </div>
+                </div>
+
+                <div class="col-sm-6" *ngIf="objetoAtualiza.flagRealizada == true">
+                    <div class="form-group">
+                      <input type="text" autocomplete="off" [(ngModel)]="objetoAtualiza.valorPago" name="valorPago"
+                             class="form-control" id="inputValorPago" placeholder="R$ 00,00" #valorPago="ngModel" currencyMask
+                             maxlength="14" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }" required/>  
+                      <label>Valor Pago * </label>
+                    </div>
+                  </div>
+              </div>
+
+
+            <div class="card-actionbar">
+                <div class="card-actionbar-row">
+                  
+                    <button type="button" (click)="concluir()" class="btn ink-reaction btn-raised btn-success"  accesskey="C">
+                      Finalizar
+                    </button>  
+                  
+                    <a class="btn ink-reaction btn-raised btn-default" accesskey="V" (click)="fechar()">
+                      Fechar 
+                    </a>  
+                  
+                </div>
+              </div>
+          </div>
+        </form>
+
+    </div>
+
+  </div>
