@@ -16,6 +16,8 @@ export class Trabalhador {
     descricaoSituacao: string;
     situacaoIngresso: Number;
     descricaoSituacaoIngresso: string;
+    motivoInativacao: string;
+    motivoAtivacao: string;
     observacao: string;
     ufCtps: string;
     numeroSerieCtps: Number;
