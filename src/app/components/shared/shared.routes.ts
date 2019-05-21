@@ -45,7 +45,8 @@ import { ModalEditarAgendaComponent } from '../../pages/geral/modal-editar-agend
 import { VagaVisualizarComponent } from '../../pages/vaga/visualizar/vaga-visualizar.component';
 import { VagaGerenciarComponent } from '../../pages/vaga/gerenciar/vaga-gerenciar.component';
 import { ModalVagaFinalizarComponent } from '../../pages/geral/modal-vaga-finalizar/modal-vaga-finalizar.component';
-
+import { TrabalhadorGerenciarComponent } from '../../pages/trabalhador/gerenciar/trabalhador-gerenciar.component';
+import {ModalAtivarInativarTrabalhadorComponent} from '../../pages/geral/modal-situacao-trabalhador/modal-ativar-inativar-trabalhador.component';
 
 export const CONTENT_ROUTES: Routes = [
 
@@ -116,6 +117,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'modal-tipo-acao-item', component: ModalTipoAcaoComponent, canActivate: [AuthGuard] },
     { path : 'modal-editar-agenda', component: ModalEditarAgendaComponent, canActivate: [AuthGuard] },
     { path : 'modal-vaga-finalizar', component: ModalVagaFinalizarComponent, canActivate: [AuthGuard] },
+    { path : 'modal-editar-situacao', component: ModalAtivarInativarTrabalhadorComponent, canActivate: [AuthGuard] },
 
     { path : 'layout-pesquisar', component: LayoutComponent, canActivate: [AuthGuard] },
 
