@@ -28,6 +28,8 @@ import { startWith, map } from 'rxjs/operators';
 import { TrabalhadorAgenda } from '../../../model/trabalhador/trabalhador-agenda';
 import { EspacoItemEspaco } from '../../../model/espaco/espaco-item-espaco';
 import { ModalEditarItemEspacoComponent } from '../../geral/modal-editar-item-espaco/modal-editar-item-espaco.component';
+import { Parametro } from '../../../model/geral/parametro';
+import { ParametroService } from '../../../services/geral/parametro.service';
 
 @Component({
   selector: 'app-trabalhador-atualizar',
@@ -69,6 +71,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
               dialog: MatDialog,
               service: TrabalhadorService,
               private dominioService: DominioService,
+              private parametroService: ParametroService,
               private correioService: CorreioService,
               private cboService: CboService,
               mensagem: MensagemService,
@@ -260,7 +263,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
         for (let i = 0; i < this.objetoAtualiza.listaTrabalhadorAgenda.length; i++) {
           this.listaTrabalhadorAgenda.push(this.objetoAtualiza.listaTrabalhadorAgenda[i]);
         }
-          this.listaTrabalhadorAgenda.sort((a, b) => (a.nrDia>b.nrDia?1:-1));
+          this.listaTrabalhadorAgenda.sort((a, b) => (a.nrDia > b.nrDia ? 1 : -1));
       }
 
       this.listaEndereco = [];
@@ -829,26 +832,26 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
   setAgendamento() {
 
-    let dominio:Dominio = new Dominio();
-    dominio.nomeCampo='HORARIO_AGENDA_ACAO';
+    let parametro: Parametro = new Parametro();
+    parametro.nome = 'HORARIO_AGENDA_ACAO';
 
-    this.dominioService.pesquisar(dominio)
+    this.parametroService.get(parametro)
       .subscribe((responseApi: ResponseApi) => {
-        this.listaHorarioPadrao = responseApi['data'];
+        parametro = responseApi['data'];
+
+        this.listaDia.forEach((element, index) => {
+         let agendamento: TrabalhadorAgenda = new TrabalhadorAgenda();
+          agendamento.flagSel = true;
+          agendamento.nrHor1 = parametro.valor.split(',')[0];
+          agendamento.nrHor2 = parametro.valor.split(',')[1];
+          agendamento.nrHor3 = parametro.valor.split(',')[2];
+          agendamento.nrHor4 = parametro.valor.split(',')[3];
+          agendamento.nrDia = index;
+          this.listaTrabalhadorAgenda.push(agendamento);
+        });
       }, err => {
         this.mensagem.tratarErro(err);
       });
 
-    this.listaDia.forEach((element,index) => {
-      let agendamento: TrabalhadorAgenda = new TrabalhadorAgenda();
-      agendamento.flagSel = true;
-      agendamento.nrHor1 = '08:00';
-      agendamento.nrHor2 = '12:00';
-      agendamento.nrHor3 = '13:00';
-      agendamento.nrHor4 = '17:00';
-      agendamento.nrDia = index;
-      this.listaTrabalhadorAgenda.push(agendamento);
-    });
   }
-
 }

@@ -62,6 +62,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'trabalhador-atualizar', component: TrabalhadorAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'trabalhador-atualizar/:id', component: TrabalhadorAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'trabalhador-visualizar/:id', component: TrabalhadorVisualizarComponent, canActivate: [AuthGuard] },
+    { path : 'trabalhador-gerenciar', component: TrabalhadorGerenciarComponent, canActivate: [AuthGuard] },
 
     { path : 'profissional-pesquisar', component: ProfissionalPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'profissional-atualizar', component: ProfissionalAtualizarComponent, canActivate: [AuthGuard] },

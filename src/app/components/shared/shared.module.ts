@@ -155,6 +155,7 @@ import { ModalAtivarInativarTrabalhadorComponent } from '../../pages/geral/modal
         TrabalhadorPesquisarComponent,
         TrabalhadorAtualizarComponent,
         TrabalhadorVisualizarComponent,
+        TrabalhadorGerenciarComponent,
 
         ProfissionalPesquisarComponent,
         ProfissionalAtualizarComponent,

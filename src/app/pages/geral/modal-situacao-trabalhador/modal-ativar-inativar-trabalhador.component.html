@@ -1,0 +1,57 @@
+
+<!-- BEGIN BASICDATION -->
+<div class="row">     
+    <div class="col-lg-12">
+        <div class="card-head card-head-sm">
+          <header><b>Informações Complementares</b></header>
+        </div>
+    
+        <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
+          
+          <div class="card-body" style="display: block;">
+            <div *ngIf="objetoAtualiza.situacao == 2 ; else ativacao" class="col-sm-12">
+                  <div class="form-group">
+                    <input  type="text" maxlength="50" [(ngModel)]="objetoAtualiza.motivoInativacao" autocomplete="off"
+                           name="motivoInativacao" class="form-control" #inativacao="ngModel" style="text-transform: uppercase;"  required>
+                      <label>Motivo *</label>
+                  </div>
+              <app-error-message [form]="form" [input]="inativacao"></app-error-message>
+            </div>
+
+            <ng-template #ativacao >
+            <div class="col-sm-12">
+              <div class="form-group">
+                <input  type="text" maxlength="50" [(ngModel)]="objetoAtualiza.motivoAtivacao" autocomplete="off"
+                        name="motivoAtivacao" class="form-control" #ativivacao="ngModel" style="text-transform: uppercase;"  required>
+                <label>Motivo *</label>
+              </div>
+              <app-error-message [form]="form" [input]="ativivacao"></app-error-message>
+            </div>
+            </ng-template>
+
+            <div class="col-sm-12">
+              <div class="form-group">
+                <input type="text" maxlength="50"  autocomplete="off" [(ngModel)]="objetoAtualiza.observacao"
+                       name="observacao" #situacao="ngModel" class="form-control" style="text-transform: uppercase;" required>
+                <label>Observação *</label>
+              </div>
+              <app-error-message [form]="form" [input]="situacao"></app-error-message>
+            </div>
+          </div>
+
+          <div class="card-actionbar">
+              <div class="card-actionbar-row">
+                  <button *ngIf="objetoAtualiza.situacao == 2" type="button" (click)="concluir(true)" class="btn ink-reaction btn-raised btn-success" accesskey="F">
+                    Inativar
+                  </button>
+                  <button *ngIf="objetoAtualiza.situacao == 3" type="button" (click)="concluir(false)" class="btn ink-reaction btn-raised btn-success" accesskey="F">
+                    Ativar
+                  </button>
+                   &nbsp;
+                  <button class="btn btn-default" (click)="fechar()" data-dismiss="modal" type="button">Fechar</button>
+              </div>
+          </div>
+
+        </form>
+    </div>
+  </div>
