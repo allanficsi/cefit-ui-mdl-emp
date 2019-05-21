@@ -48,7 +48,6 @@ import { ModalVagaFinalizarComponent } from '../../pages/geral/modal-vaga-finali
 import { TrabalhadorGerenciarComponent } from '../../pages/trabalhador/gerenciar/trabalhador-gerenciar.component';
 import {ModalAtivarInativarTrabalhadorComponent} from '../../pages/geral/modal-situacao-trabalhador/modal-ativar-inativar-trabalhador.component';
 
-
 export const CONTENT_ROUTES: Routes = [
 
     { path : '', component: HomeComponent, canActivate: [AuthGuard] },
