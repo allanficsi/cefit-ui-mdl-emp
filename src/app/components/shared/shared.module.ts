@@ -199,10 +199,9 @@ import { ModalAtivarInativarTrabalhadorComponent } from '../../pages/geral/modal
         ModalLocalComponent,
         ModalTipoAcaoComponent,
         ModalEditarAgendaComponent,
-		ModalVagaFinalizarComponent,
-		ModalAtivarInativarTrabalhadorComponent,
+        ModalVagaFinalizarComponent,
 		
-        LayoutComponent,
+		LayoutComponent,
         AptCpfComponent,
         AptCnpjComponent,
         AptEmailComponent,
