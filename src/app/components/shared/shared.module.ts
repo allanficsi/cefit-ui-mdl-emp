@@ -202,7 +202,7 @@ import {ModalAtivarInativarTrabalhadorComponent} from '../../pages/geral/modal-s
         ModalEditarAgendaComponent,
         ModalVagaFinalizarComponent,
 		ModalAtivarInativarTrabalhadorComponent,
-        
+		
         LayoutComponent,
         AptCpfComponent,
         AptCnpjComponent,
