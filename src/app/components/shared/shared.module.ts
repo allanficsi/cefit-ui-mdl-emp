@@ -201,6 +201,7 @@ import {ModalAtivarInativarTrabalhadorComponent} from '../../pages/geral/modal-s
         ModalTipoAcaoComponent,
         ModalEditarAgendaComponent,
         ModalVagaFinalizarComponent,
+		ModalAtivarInativarTrabalhadorComponent,
         
         LayoutComponent,
         AptCpfComponent,
