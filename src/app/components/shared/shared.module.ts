@@ -200,7 +200,7 @@ import { ModalAtivarInativarTrabalhadorComponent } from '../../pages/geral/modal
         ModalTipoAcaoComponent,
         ModalEditarAgendaComponent,
         ModalVagaFinalizarComponent,
-		
+
 		LayoutComponent,
         AptCpfComponent,
         AptCnpjComponent,
