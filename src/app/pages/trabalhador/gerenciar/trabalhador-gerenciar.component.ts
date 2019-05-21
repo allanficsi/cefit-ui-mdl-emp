@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import {AptareCrudController} from '../../../components/shared/crud/aptare-crud-controller';
-import {Trabalhador} from '../../../model/trabalhador/trabalhador';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TrabalhadorService} from '../../../services/trabalhador/trabalhador.service';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {DominioService} from '../../../services/geral/dominio.service';
-import {MensagemService} from '../../../services/shared/mensagem.service';
-import {DialogService} from '../../../services/shared/dialog.service';
-import {CadastroUnico} from '../../../model/cadastro-unico/cadastro-unico';
-import {PessoaFisica} from '../../../model/cadastro-unico/pessoa-fisica';
-import {Dominio} from '../../../model/geral/dominio';
-import {ResponseApi} from '../../../model/response-api';
-import {Acao} from '../../../model/acao/acao';
-import {Auditoria} from '../../../model/auditoria';
-import {ModalAtivarInativarTrabalhadorComponent} from '../../geral/modal-situacao-trabalhador/modal-ativar-inativar-trabalhador.component';
+import { Component } from '@angular/core';
+import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
+import { Trabalhador } from '../../../model/trabalhador/trabalhador';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { DominioService } from '../../../services/geral/dominio.service';
+import { MensagemService } from '../../../services/shared/mensagem.service';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
+import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
+import { Dominio } from '../../../model/geral/dominio';
+import { ResponseApi } from '../../../model/response-api';
+import { Auditoria } from '../../../model/auditoria';
+import { ModalAtivarInativarTrabalhadorComponent } from '../../geral/modal-situacao-trabalhador/modal-ativar-inativar-trabalhador.component';
 
 @Component({
   selector: 'app-trabalhador-gerenciar',
@@ -35,6 +34,16 @@ export class TrabalhadorGerenciarComponent extends AptareCrudController<Trabalha
   restricaoEntrevistaOcupacional= TrabalhadorService.RESTRICAO_POR_ENTREVISTA_OCUPACIONAL;
   aprovado= TrabalhadorService.APROVADO;
 
+  //MENSAGENS
+  msgPendenteAvalicao=TrabalhadorService.MSG_PENDENTE_DE_AVALIACAO;
+  msgPendenteValidacao=TrabalhadorService.MSG_PENDENTE_DE_VALIDACAO;
+  msgEncaminhadoAvalicao=TrabalhadorService.MSG_ENCAMINHADO_PARA_A_AVALIACAO;
+  msgEncaminhadoCapacitacao=TrabalhadorService.MSG_ENCAMINHADO_PARA_A_CAPACITACAO;
+  msgEncaminhadoEntrevistaOcuapcional=TrabalhadorService.MSG_ENCAMINHADO_PARA_A_ENTREVISTA_OCUPACIONAL;
+  msgRestricaoAvalicao=TrabalhadorService.MSG_RESTRICAO_POR_AVALIACAO;
+  msgRestricaoCapacitacao=TrabalhadorService.MSG_RESTRICAO_POR_CAPACITACAO;
+  msgRestricaoEntrevistaOcupacional= TrabalhadorService.MSG_RESTRICAO_POR_ENTREVISTA_OCUPACIONAL;
+  msgAprovado= TrabalhadorService.MSG_APROVADO;
 
   constructor(router: Router,
               route: ActivatedRoute,
@@ -68,25 +77,32 @@ export class TrabalhadorGerenciarComponent extends AptareCrudController<Trabalha
       });
   }
 
-  alterarStatuSituacao(codigo, situacao) {
-    let trabalhador: Trabalhador = new Trabalhador();
+  alterarSituacaoIngresso(codigo, situacao,msg) {
 
-    trabalhador.codigo = codigo;
-    trabalhador.situacaoIngresso = situacao;
-    trabalhador.auditoria = new Auditoria();
-    trabalhador.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+    this.dialogService.openConfirmDialog(msg)
+      .afterClosed().subscribe(res => {
 
-    this.service.alterarSituacaoDeIngresso(trabalhador)
-      .subscribe((responseApi:ResponseApi) => {
-        this.mensagem.msgSucesso("A Situação de ingresso foi atualizada com sucesso.");
+      if (res) {
+        let trabalhador: Trabalhador = new Trabalhador();
 
-        this.pesquisar();
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
+        trabalhador.codigo = codigo;
+        trabalhador.situacaoIngresso = situacao;
+        trabalhador.auditoria = new Auditoria();
+        trabalhador.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+
+        this.service.alterarSituacaoDeIngresso(trabalhador)
+          .subscribe((responseApi: ResponseApi) => {
+            this.mensagem.msgSucesso('A Situação de ingresso foi atualizada com sucesso.');
+            this.pesquisar();
+          }, err => {
+            this.mensagem.tratarErro(err);
+          });
+      }
+    });
+
   }
 
-  mudarSitucao(codigo) {
+  ativarInativar(codigo) {
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '710px';
@@ -103,41 +119,12 @@ export class TrabalhadorGerenciarComponent extends AptareCrudController<Trabalha
 
   }
 
-  ativarTrabalhador(codigo) {
-    let trabalhador: Trabalhador = new Trabalhador();
-    trabalhador.codigo = codigo;
-
-    this.ativar(trabalhador);
-  }
-
-  statusInativar(obj: Trabalhador) {
-    this.listaResultado.forEach(function (value) {
-      if(value.codigo == obj.codigo) {
-        value.situacao = 3; //INATIVA
-        value.descricaoSituacao = "INATIVO";
-      }
+  editar(id, msg){
+    this.dialogService.openConfirmDialog(msg)
+      .afterClosed().subscribe(res => {
+        if(res)
+         super.editar('/trabalhador-atualizar', id);
     });
-  }
 
-  statusAtivar(obj: Trabalhador) {
-    this.listaResultado.forEach(function (value) {
-      if(value.codigo == obj.codigo) {
-        value.situacao = 2; //ATIVA
-        value.descricaoSituacao = "ATIVO";
-      }
-    });
   }
-
-  novo() {
-    this.router.navigate(['/trabalhador-atualizar']);
-  }
-
-  editar(id:string){
-    super.editar('/trabalhador-atualizar', id);
-  }
-
-  visualizar(id: string) {
-    super.editar('/trabalhador-visualizar',id);
-  }
-
 }

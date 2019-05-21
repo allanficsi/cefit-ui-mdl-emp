@@ -84,43 +84,43 @@
 
                   <td>
                     <!-- TRABALHADOR COM SITUÇÃO PENDENTE-->
-                    <i *ngIf='(item.situacao == 1 )' (click)="editar(item.codigo)"  class="fa fa-edit" title="Editar"  style="width:18px; height: 18px; cursor: pointer;"></i>
+                    <i *ngIf='(item.situacao == 1 )' (click)="editar(item.codigo,msgPendenteValidacao)"  class="fa fa-edit" title="Editar"  style="width:18px; height: 18px; cursor: pointer;"></i>
 
                     <!-- TRABALHADOR COM SITUÇÃO ATIVO E PENDENTE DE AVALIÇÃO-->
-                    <i *ngIf='(item.situacao == 2 && item.situacaoIngresso==1)' (click)="alterarStatuSituacao(item.codigo,encaminhadoAvalicao)" class="fa fa-arrow-right" title="Encaminhar para avaliação"  style="width:18px; height: 18px; cursor: pointer;"></i>
+                    <i *ngIf='(item.situacao == 2 && item.situacaoIngresso==1)' (click)="alterarSituacaoIngresso(item.codigo,encaminhadoAvalicao,msgEncaminhadoAvalicao)" class="fa fa-arrow-right" title="Encaminhar para avaliação" style="width:18px; height: 18px; cursor: pointer;"></i>
 
                     <!-- TRABALHADOR COM SITUÇÃO ATIVO E ENCAMINHADO PARA AVALIÇÃO-->
                     <div *ngIf='(item.situacao == 2 && item.situacaoIngresso == 3)' class="btn-group" >
-                     <button type="button" class="btn ink-reaction btn-icon-toggle"  data-toggle="dropdown" aria-expanded="false"><i class="fa fa-chevron-down" title="resposta da avalição" style="width:18px; height: 18px; cursor: pointer;"></i></button>
+                     <button type="button" class="btn ink-reaction btn-icon-toggle"  data-toggle="dropdown" aria-expanded="false"><i class="fa fa-chevron-down" title="Resposta da avalição" style="width:18px; height: 18px; cursor: pointer;"></i></button>
                      <ul class="dropdown-menu dropdown-menu-right list "  role="menu">
-                       <li class="tile"><a  (click)="alterarStatuSituacao(item.codigo,encaminhadoCapacitacao)" [routerLink]="" class="tile-content ink-reaction"  >Encaminhar para capacitação</a></li>
-                       <li class="tile"><a  (click)="alterarStatuSituacao(item.codigo,encaminhadoEntrevistaOcuapcional)" [routerLink]="" class="tile-content ink-reaction"  >Encaminhar para entrevista</a></li>
-                       <li class="tile"><a  (click)="alterarStatuSituacao(item.codigo,restricaoAvalicao)" [routerLink]="" class="tile-content ink-reaction"  >Restrição por avaliação</a></li>
+                       <li class="tile"><a (click)="alterarSituacaoIngresso(item.codigo,encaminhadoCapacitacao,msgEncaminhadoCapacitacao)" [routerLink]="" class="tile-content ink-reaction"  >Encaminhar para capacitação</a></li>
+                       <li class="tile"><a (click)="alterarSituacaoIngresso(item.codigo,encaminhadoEntrevistaOcuapcional,msgEncaminhadoEntrevistaOcuapcional)" [routerLink]="" class="tile-content ink-reaction"  >Encaminhar para entrevista</a></li>
+                       <li class="tile"><a (click)="alterarSituacaoIngresso(item.codigo,restricaoAvalicao,msgRestricaoAvalicao)" [routerLink]="" class="tile-content ink-reaction"  >Restrição por avaliação</a></li>
                      </ul>
                     </div>
 
                     <!-- TRABALHADOR COM SITUÇÃO ATIVO E ENCAMINHADO PARA CAPACITAÇÃO-->
                     <div *ngIf='(item.situacao == 2 && item.situacaoIngresso == 4)' class="btn-group" >
-                      <button type="button" class="btn ink-reaction btn-icon-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-chevron-down" title="retorno da capacitação"></i></button>
+                      <button type="button" class="btn ink-reaction btn-icon-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-chevron-down" title="Resposta da capacitação"></i></button>
                       <ul class="dropdown-menu dropdown-menu-right list" role="menu">
-                        <li class="tile"><a  (click)="alterarStatuSituacao(item.codigo,aprovado)" [routerLink]="" class="tile-content ink-reaction"  >Aprovado</a></li>
-                        <li class="tile"><a  (click)="alterarStatuSituacao(item.codigo,restricaoCapacitacao)" [routerLink]="" class="tile-content ink-reaction">Restrição por capacitção</a></li>
+                        <li class="tile"><a (click)="alterarSituacaoIngresso(item.codigo,aprovado,msgAprovado)" [routerLink]="" class="tile-content ink-reaction"  >Aprovado</a></li>
+                        <li class="tile"><a (click)="alterarSituacaoIngresso(item.codigo,restricaoCapacitacao,msgRestricaoCapacitacao)" [routerLink]="" class="tile-content ink-reaction">Restrição por capacitção</a></li>
                       </ul>
                     </div>
 
                     <!-- TRABALHADOR COM SITUÇÃO ATIVO E ENCAMINHADO PARA ENTREVISTA-->
                     <div *ngIf='(item.situacao == 2 && item.situacaoIngresso == 5)' class="btn-group" >
-                      <button type="button" class="btn ink-reaction btn-icon-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-arrow-right" title="retorno da entrevista ocupacional"></i></button>
+                      <button type="button" class="btn ink-reaction btn-icon-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-arrow-right" title="Resposta da entrevista ocupacional"></i></button>
                       <ul class="dropdown-menu dropdown-menu-right list" role="menu">
-                        <li class="tile"><a  (click)="alterarStatuSituacao(item.codigo,aprovado)" [routerLink]="" class="tile-content ink-reaction" >Aprovado</a></li>
-                        <li class="tile"><a  (click)="alterarStatuSituacao(item.codigo,restricaoEntrevistaOcupacional)" [routerLink]="" class="tile-content ink-reaction">Restrição por entrevista ocupacional</a></li>
+                        <li class="tile"><a (click)="alterarSituacaoIngresso(item.codigo,aprovado,msgAprovado)" [routerLink]="" class="tile-content ink-reaction" >Aprovado</a></li>
+                        <li class="tile"><a (click)="alterarSituacaoIngresso(item.codigo,restricaoEntrevistaOcupacional,msgRestricaoEntrevistaOcupacional)" [routerLink]="" class="tile-content ink-reaction">Restrição por entrevista ocupacional</a></li>
                       </ul>
                     </div>
                   </td>
 
                    <td>
-                     <i *ngIf='(item.situacao == 2 )' class="fa fa-remove" title="Inativar" (click)="mudarSitucao(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
-                     <i *ngIf='(item.situacao == 3 )' class="fa fa-check" title="Ativar" (click)="mudarSitucao(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
+                     <i *ngIf='(item.situacao == 2 )' class="fa fa-remove" title="Inativar" (click)="ativarInativar(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
+                     <i *ngIf='(item.situacao == 3 )' class="fa fa-check" title="Ativar" (click)="ativarInativar(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
                    </td>
                 </tr>
                <br/>

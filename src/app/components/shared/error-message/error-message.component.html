@@ -1,10 +1,5 @@
 
-<div *ngIf="input.touched && input.invalid" class="has-error">
+<div *ngIf="(input.touched && input.invalid) || (form.submitted && form.invalid && input.invalid)" class="has-error">
 <span  class="fa fa-exclamation-circle fa-2x errospan form-control-feedback"> </span>
-<span  class="help-block">Este campo é obrigatório.</span>
-</div>
-
-<div *ngIf="form.submitted && form.invalid" class="has-error">
-  <span  class="fa fa-exclamation-circle fa-2x errospan form-control-feedback"> </span>
-  <span  class="help-block">Este campo é obrigatório.</span>
+<span  class="help-block">{{mensagemDeErro}}.</span>
 </div>

@@ -1,18 +1,14 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, Inject, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { Auditoria } from '../../../model/auditoria';
-import { Cargo } from '../../../model/cadastro-unico/cargo';
-import { ItemEspaco } from '../../../model/espaco/item-espaco';
-import { ItemEspacoService } from '../../../services/espaco/item-espaco.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { DialogService } from '../../../services/shared/dialog.service';
-import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
-import {Trabalhador} from '../../../model/trabalhador/trabalhador';
-import {TrabalhadorService} from '../../../services/trabalhador/trabalhador.service';
-import {ResponseApi} from '../../../model/response-api';
-import {Espaco} from '../../../model/espaco/espaco';
+import { Trabalhador } from '../../../model/trabalhador/trabalhador';
+import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
+import { ResponseApi } from '../../../model/response-api';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-item-espaco',
@@ -32,6 +28,9 @@ export class ModalAtivarInativarTrabalhadorComponent extends AptareCrudControlle
     super(router, route, dialog, Trabalhador, service, mensagem, dialogService);
   }
 
+  @ViewChild('form')
+  formulario:NgForm;
+
   ngOnInit() {
     super.ngOnInit();
 
@@ -41,6 +40,10 @@ export class ModalAtivarInativarTrabalhadorComponent extends AptareCrudControlle
     this.service.get(trabalhador)
                 .subscribe((reposonseApi: ResponseApi) => {
           this.objetoAtualiza = reposonseApi['data'];
+          //PREPARA PARA INSERIR
+          this.objetoAtualiza.motivoInativacao=null;
+          this.objetoAtualiza.motivoAtivacao=null;
+          this.objetoAtualiza.observacao=null;
         }
     ,err => {
       this.mensagem.tratarErro(err);
@@ -48,12 +51,11 @@ export class ModalAtivarInativarTrabalhadorComponent extends AptareCrudControlle
 
   }
 
-
-
   concluir(flagInativar:boolean){
     let msg;
 
     if(!this.validarAlterar()){
+      this.formulario.onSubmit(undefined);
       return false;
     }
 
@@ -93,7 +95,7 @@ export class ModalAtivarInativarTrabalhadorComponent extends AptareCrudControlle
 
     this.service.alterarSituacaoDeIngresso(this.objetoAtualiza).subscribe((responseApi:ResponseApi) => {
       this.mensagem.msgSucesso("A situação foi atualizada com sucesso.");
-      console.log(this.objetoAtualiza);
+      // console.log(this.objetoAtualiza);
       this.fechar();
     } , err => {
       this.mensagem.tratarErro(err);
@@ -102,19 +104,17 @@ export class ModalAtivarInativarTrabalhadorComponent extends AptareCrudControlle
 
   validarAlterar() {
     //VALIDACAO DE CAMPOS OBRIGATORIOS
-    if(this.objetoAtualiza.motivoInativacao == null || this.objetoAtualiza.motivoInativacao == '') {
-      this.mensagem.tratarErroPersonalizado("", "O campo Motivo é obrigatório.");
-      return false;
+    if((this.objetoAtualiza.motivoInativacao == null || this.objetoAtualiza.motivoInativacao == '')
+      && (this.objetoAtualiza.motivoAtivacao == null || this.objetoAtualiza.motivoAtivacao == '')) {
+     return false;
     }
     if(this.objetoAtualiza.observacao == null || this.objetoAtualiza.observacao == '') {
-      this.mensagem.tratarErroPersonalizado("", "O campo Observação é obrigatório.");
       return false;
     }
-
     return true;
   }
+
   fechar() {
     this.dialogRef.close(this.objetoAtualiza);
-
   }
 }
