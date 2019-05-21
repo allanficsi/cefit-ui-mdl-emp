@@ -95,10 +95,10 @@ import { AgendaTrabalhadorService } from '../../services/trabalhador/agenda-trab
 import { VagaService } from "../../services/vaga/vaga.service";
 import { ModalEditarAgendaComponent } from '../../pages/geral/modal-editar-agenda/modal-editar-agenda.component';
 import { VagaVisualizarComponent } from "../../pages/vaga/visualizar/vaga-visualizar.component";
-import { TrabalhadorGerenciarComponent } from '../../pages/trabalhador/gerenciar/trabalhador-gerenciar.component';
 import { VagaGerenciarComponent } from "src/app/pages/vaga/gerenciar/vaga-gerenciar.component";
 import { ModalVagaFinalizarComponent } from "src/app/pages/geral/modal-vaga-finalizar/modal-vaga-finalizar.component";
 import { CurrencyMaskModule } from "ng2-currency-mask";
+import { TrabalhadorGerenciarComponent } from '../../pages/trabalhador/gerenciar/trabalhador-gerenciar.component';
 import { ModalAtivarInativarTrabalhadorComponent } from '../../pages/geral/modal-situacao-trabalhador/modal-ativar-inativar-trabalhador.component';
 
 @NgModule({
@@ -200,8 +200,7 @@ import { ModalAtivarInativarTrabalhadorComponent } from '../../pages/geral/modal
         ModalTipoAcaoComponent,
         ModalEditarAgendaComponent,
 		ModalVagaFinalizarComponent,
-        ModalAtivarInativarTrabalhadorComponent,
-        
+		
         LayoutComponent,
         AptCpfComponent,
         AptCnpjComponent,
