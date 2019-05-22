@@ -35,7 +35,7 @@
                     <div class="col-sm-9">
                       <div class="form-group">
                         <input type="text" autocomplete="off" maxlength="200" [(ngModel)]="objetoAtualiza.descricao" placeholder='Por exemplo, "Vaga para auxiliar administrativo".' 
-                              name="nome" #nome="ngModel" class="form-control">  
+                              name="nome" #nome="ngModel" class="form-control" required>
                         <label>Descrição *</label>
                       </div>
                     </div>
@@ -44,7 +44,7 @@
                   <div class="row">
                       <div class="col-sm-9">
                         <div class="form-group">
-                          <input type="text" autocomplete="off" [formControl]="myControlCbo" matInput class="form-control" [(ngModel)]="cbo" name="cbo" [matAutocomplete]="auto" placeholder='Informe o CBO da vaga.'>
+                          <input type="text" autocomplete="off" [formControl]="myControlCbo" matInput class="form-control" [(ngModel)]="cbo" name="cbo" [matAutocomplete]="auto" placeholder='Informe o CBO da vaga.' required>
                           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCbo">
                               <mat-option *ngFor="let option of filteredOptionsCbo | async" [value]="option">
                                   {{option.nome}}
@@ -133,7 +133,7 @@
                         <div class="input-group date" id="textDataInicio">
                           <div class="input-group-content">
                             <input matInput [matDatepicker]="pickerInicio" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.dataInicio" name="dataInicio"
-                            class="form-control" maxlength="10" #dataInicio="ngModel" autocomplete="off"> 
+                            class="form-control" maxlength="10" #dataInicio="ngModel" autocomplete="off" required>
                             <label>Data Início *</label>
                           </div>
                           

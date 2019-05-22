@@ -36,7 +36,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" autocomplete="offNmEsp" maxlength="200" [(ngModel)]="objetoAtualiza.nome" placeholder='Por exemplo, "Sala de reunião 01".' 
-                              name="nome" #nome="ngModel" class="form-control">  
+                              name="nome" #nome="ngModel" class="form-control" required>
                         <label>Nome *</label>
                       </div>
                     </div>
@@ -73,7 +73,7 @@
                       <div class="col-sm-4">
                         <div class="form-group">
                           <input type="text" autocomplete="offCpdEsp" mask="00000" [(ngModel)]="objetoAtualiza.capacidade"
-                                name="capacidade" #descricao="ngModel" class="form-control">  
+                                name="capacidade" #descricao="ngModel" class="form-control" required>
                           <label>Capacidade (Pessoas) *</label>
                         </div>
                       </div>
@@ -110,7 +110,7 @@
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.logradouro" 
-                                name="logradouro" class="form-control" required autocomplete="offLogEsp" [readonly]="isLogradouroReadOnly">
+                                name="logradouro" class="form-control"  autocomplete="offLogEsp" [readonly]="isLogradouroReadOnly" required>
                         <label>Logradrouro *</label>
                       </div>
                     </div>
@@ -128,7 +128,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="30" [(ngModel)]="objetoAtualiza.endereco.complemento" 
-                                name="complemento" class="form-control" required autocomplete="offCompEsp">
+                                name="complemento" class="form-control"  autocomplete="offCompEsp">
                         <label>Complemento</label>
                       </div>
                     </div>
@@ -136,7 +136,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="100" [(ngModel)]="objetoAtualiza.endereco.pontoReferencia" 
-                                name="complemento" class="form-control" required autocomplete="offPrEsp">
+                                name="complemento" class="form-control"  autocomplete="offPrEsp">
                         <label>Ponto de Referência</label>
                       </div>
                     </div>
@@ -146,14 +146,14 @@
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.bairro" 
-                                name="bairro" class="form-control" autocomplete="offBrrEsp" required [readonly]="isBairroReadOnly">
+                                name="bairro" class="form-control" autocomplete="offBrrEsp"  [readonly]="isBairroReadOnly" required>
                         <label>Bairro *</label>
                       </div>
                     </div>
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="objetoAtualiza.endereco.extensaoEndereco.localidade" 
-                                name="localidade" class="form-control" [readonly]="isLocalidadeReadOnly" autocomplete="offLocEsp" required>
+                                name="localidade" class="form-control" [readonly]="isLocalidadeReadOnly" autocomplete="offLocEsp">
                         <label>Localidade</label>
                       </div>
                     </div>
@@ -170,7 +170,7 @@
               </div>
 
 
-              <div class="card card-outlined style-primary" id="divDadosGeraisEspaco">
+              <div class="card card-outlined style-primary" id="itensDeEspaco">
                 <div class="card-head">
                   <header>Itens do Espaço</header>
                 </div>
@@ -198,7 +198,7 @@
                     <div class="col-sm-3">
                       <div class="form-group">
                         <input type="text" autocomplete="off" mask="00000" [(ngModel)]="espacoItemEspaco.quantidadeAtivos"
-                              name="quantidadeAtivos" #quantidadeAtivos="ngModel" class="form-control">  
+                              name="quantidadeAtivos" #quantidadeAtivos="ngModel" class="form-control" required>
                         <label>Quantidade Ativos *</label>
                       </div>
                     </div>

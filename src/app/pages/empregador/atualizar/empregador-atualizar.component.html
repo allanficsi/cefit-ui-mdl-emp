@@ -259,7 +259,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="30" [(ngModel)]="endereco.complemento"  
-                                name="complemento" class="form-control" required autocomplete="offCompl">
+                                name="complemento" class="form-control"  autocomplete="offCompl">
                         <label>Complemento</label>
                       </div>
                     </div>
@@ -267,7 +267,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="100" [(ngModel)]="endereco.pontoReferencia" 
-                                name="complemento" class="form-control" required autocomplete="offPtRef">
+                                name="complemento" class="form-control"  autocomplete="offPtRef">
                         <label>Ponto de Referência</label>
                       </div>
                     </div>
@@ -284,7 +284,7 @@
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.localidade" [readonly]="isLocalidadeReadOnly" 
-                                name="localidade" class="form-control" autocomplete="offLocl" required>
+                                name="localidade" class="form-control" autocomplete="offLocl" >
                         <label>Localidade</label>
                       </div>
                     </div>
@@ -361,7 +361,7 @@
                   <div class="row">
                     <div class="col-sm-4">
                       <div class="form-group">
-                          <select class="form-control" [(ngModel)]="telefonePf.objTipo" name="objtipo" #objTipo="ngModel" required>
+                          <select class="form-control" [(ngModel)]="telefonePf.objTipo" name="objtipo" #objTipo="ngModel">
                             <option *ngFor="let tipo of listaTipoTelefone" [ngValue]="tipo">{{tipo.nomeValor}}</option>
                           </select>
                         <label>Tipo</label>
@@ -485,7 +485,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="contato.email" autocomplete="offEmlCtt" aptValidaEmail
-                                name="email" class="form-control" required>
+                                name="email" class="form-control" >
                         <label>E-mail</label>
                       </div>
                     </div>
@@ -560,7 +560,7 @@
                     <div class="row" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
                       <div class="col-sm-8">
                         <div class="form-group">
-                            <input type="text" autocomplete="offCnae" [formControl]="myControlCnae" matInput class="form-control" [(ngModel)]="objetoAtualiza.cnae" name="codigoCnae" [matAutocomplete]="auto">
+                            <input type="text" autocomplete="offCnae" [formControl]="myControlCnae" matInput class="form-control" [(ngModel)]="objetoAtualiza.cnae" name="codigoCnae" [matAutocomplete]="auto" required>
                             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                                 <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                                     {{option.descricao}}
@@ -576,7 +576,7 @@
                         <div class="form-group">
                           <input type="text" maxlength="5"
                                  [(ngModel)]="objetoAtualiza.numeroFuncionarios" mask='00000'
-                                 name="numeroFuncionarios" class="form-control" autocomplete="off" required>   
+                                 name="numeroFuncionarios" class="form-control" autocomplete="off" >
                           <label>Quantidade de Funcionários</label>
                         </div>
                       </div>
@@ -595,7 +595,7 @@
                       <div class="col-sm-12">
                         <div class="form-group">
                           <input type="text" maxlength="80" [(ngModel)]="objetoAtualiza.observacao"
-                                 name="observacao" class="form-control" autocomplete="off" required>   
+                                 name="observacao" class="form-control" autocomplete="off" >
                           <label>Observação</label>
                         </div>
                       </div>

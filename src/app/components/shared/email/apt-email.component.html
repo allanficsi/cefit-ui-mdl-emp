@@ -3,7 +3,7 @@
        type="text" (blur)="validarEmail()"
        autocomplete="offMail"
        [(ngModel)]="emailValor" maxlength="255"
-       name="email" class="form-control"> 
+       name="email" class="form-control" required>
 
 <!-- EMAIL READONLY-->
 <input *ngIf="isReadOnly" 
