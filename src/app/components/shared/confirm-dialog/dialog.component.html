@@ -4,12 +4,12 @@
 
 <div class="card-actionbar">
     <div class="card-actionbar-row" *ngIf="data.fgConfirm">
-        <button  id="no-button" class="btn ink-reaction btn-raised btn-default" [mat-dialog-close]="false">NÃO</button>
-        &nbsp;
-        <button id="yes-button" class="btn ink-reaction btn-raised btn-success" [mat-dialog-close]="true">SIM</button>
+      <button id="yes-button" class="btn ink-reaction btn-raised btn-success" [mat-dialog-close]="true">SIM</button>
+      &nbsp;
+      <button  id="no-button" class="btn ink-reaction btn-raised btn-default" [mat-dialog-close]="false">NÃO</button>
     </div>
 
     <div class="card-actionbar-row" *ngIf="data.fgAlert" style="text-align: center">
-        <button id="yes-button" class="btn ink-reaction btn-raised btn-success" [mat-dialog-close]="true">OK</button>
+        <button id="ok-button" class="btn ink-reaction btn-raised btn-success" [mat-dialog-close]="true">OK</button>
     </div>
 </div>
