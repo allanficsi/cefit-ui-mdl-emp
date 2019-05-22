@@ -58,7 +58,7 @@
                         <div class="input-group date" id="textDataExpedicaoContato">
                           <div class="input-group-content">
                             <input matInput [matDatepicker]="picker1" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg" name="dataEmissaoRg"
-                                  class="form-control" maxlength="10" #dataEmissaoRg="ngModel" autocomplete="offDtExp">
+                                  class="form-control" maxlength="10" #dataEmissaoRg="ngModel" autocomplete="offDtExp" required>
                             <label>Data de Expedição *</label>
                           </div>
                           
@@ -118,7 +118,7 @@
                         <div class="input-group date" id="textDataNascimentoContato">
                           <div class="input-group-content">
                             <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
-                                  class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="offDtNasc">
+                                  class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="offDtNasc" required>
                             <label>Data de Nascimento *</label>
                           </div>
                           
@@ -160,7 +160,7 @@
               </div>
 
               <!-- OUTRAS INFORMACOES -->
-              <div class="card card-outlined style-primary" id="divEndereco">
+              <div class="card card-outlined style-primary" id="outrasInformacoes">
                 <div class="card-head">
                   <header>Outras Informações</header>
                 </div>
@@ -170,7 +170,7 @@
                     <div class="col-sm-3">
                       <div class="form-group">
                         <input type="text" autocomplete="offInss" [(ngModel)]="objetoAtualiza.numeroInss" mask='00.000.00000/00'
-                                name="numeroInss" class="form-control" required>  
+                                name="numeroInss" class="form-control">
                         <label>INSS</label>
                       </div>
                     </div>
@@ -186,7 +186,7 @@
                     <div class="col-sm-3">
                       <div class="form-group">
                         <input type="text" maxlength="7" autocomplete="offIP" [(ngModel)]="objetoAtualiza.numeroInscricaoPrefeitura" mask='00000000000'
-                                name="numeroInscricaoPrefeitura" class="form-control" required>  
+                                name="numeroInscricaoPrefeitura" class="form-control">
                         <label>Inscrição Prefeitura</label>
                       </div>
                     </div>
@@ -214,7 +214,7 @@
                         <div class="input-group date" id="textDataExpedicaoCtps">
                           <div class="input-group-content">
                             <input matInput [matDatepicker]="dtExpCtps" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.dataEmissaoCtps" name="dataExpedicaoCtps"
-                                  class="form-control" maxlength="10" #dataEmissaoCtps="ngModel" autocomplete="offDTCTPS">
+                                  class="form-control" maxlength="10" #dataEmissaoCtps="ngModel" autocomplete="offDTCTPS" required>
                             <label>Data de Emissão CTPS *</label>
                           </div>
                           
@@ -239,7 +239,7 @@
                       <div class="col-sm-12">
                         <div class="form-group">
                           <input type="text" maxlength="80" [(ngModel)]="objetoAtualiza.observacao" placeholder="Informe aqui dados como fumante ou não fumante e outras observações relevantes sobre o perfil do trabalhador"
-                                 name="observacao" class="form-control" autocomplete="offObs" required>   
+                                 name="observacao" class="form-control" autocomplete="offObs">
                           <label>Observações</label>
                         </div>
                       </div>
@@ -252,7 +252,7 @@
 
 
               <!-- CBO -->
-              <div class="card card-outlined style-primary" id="divEndereco">
+              <div class="card card-outlined style-primary" id="cbo">
                 <div class="card-head">
                   <header>CBO
                       <small>  (Adicione pelo menos um CBO)</small>
@@ -278,7 +278,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                           <input type="text" maxlength="50" [(ngModel)]="trabalhadorCbo.nome" autocomplete="offDescCbo"
-                                name="trabalhadorCbo" class="form-control" required>
+                                name="trabalhadorCbo" class="form-control">
                         <label>Descrição</label>
                       </div>
                     </div>
@@ -319,7 +319,7 @@
 
 
               <!-- DEFICIENCIAS -->
-              <div class="card card-outlined style-primary" id="divEndereco">
+              <div class="card card-outlined style-primary" id="deficiencias">
                 <div class="card-head">
                   <header>Deficiências</header>
                 </div>
@@ -340,7 +340,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                           <input type="text" maxlength="50" [(ngModel)]="trabalhadorDeficiencia.nome" autocomplete="offDescDef"
-                                name="trabalhadorDeficiencia" class="form-control" required>
+                                name="trabalhadorDeficiencia" class="form-control" >
                         <label>Descrição</label>
                       </div>
                     </div>
@@ -428,7 +428,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="100" [(ngModel)]="endereco.complemento" 
-                                name="complemento" class="form-control" required autocomplete="offComp">
+                                name="complemento" class="form-control"  autocomplete="offComp">
                         <label>Complemento</label>
                       </div>
                     </div>
@@ -436,7 +436,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="100" [(ngModel)]="endereco.pontoReferencia" 
-                                name="complemento" class="form-control" required autocomplete="offPontoRef">
+                                name="complemento" class="form-control"  autocomplete="offPontoRef">
                         <label>Ponto de Referência</label>
                       </div>
                     </div>
@@ -453,7 +453,7 @@
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.localidade" 
-                                name="localidade" class="form-control" autocomplete="offLoc" required [readonly]="isLocalidadeReadOnly">
+                                name="localidade" class="form-control" autocomplete="offLoc" [readonly]="isLocalidadeReadOnly">
                         <label>Localidade</label>
                       </div>
                     </div>

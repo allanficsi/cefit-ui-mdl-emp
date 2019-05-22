@@ -58,7 +58,7 @@
                         <div class="input-group date" id="textDataExpedicaoProfissional">
                           <div class="input-group-content">
                             <input matInput [matDatepicker]="picker1" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataEmissaoRg" name="dataEmissaoRg"
-                                  class="form-control" autocomplete="offDtExp">
+                                  class="form-control" autocomplete="offDtExp" required>
                             <label>Data de Expedição *</label>
                           </div>
                           
@@ -91,7 +91,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="80" autocomplete="off" [(ngModel)]="objetoAtualiza.cadastroUnico.nome"
-                                name="nome" class="form-control" required autocomplete="offNome">  
+                                name="nome" class="form-control" required autocomplete="offNome" required>
                         <label>Nome *</label>
                       </div>
                     </div>
@@ -118,7 +118,7 @@
                           <div class="input-group date" id="textDataNascimentoContato">
                             <div class="input-group-content">
                               <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.dataNascimento" name="dataNascimento"
-                                    class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="offDtNasc">
+                                    class="form-control" maxlength="10" #dataNascimento="ngModel" autocomplete="offDtNasc" required>
                               <label>Data de Nascimento *</label>
                             </div>
                             
@@ -160,7 +160,7 @@
               </div>
 
               <!-- OUTRAS INFORMACOES -->
-              <div class="card card-outlined style-primary" id="divEndereco">
+              <div class="card card-outlined style-primary" id="outrasInformacoes">
                 <div class="card-head">
                   <header>Outras Informações</header>
                 </div>
@@ -188,7 +188,7 @@
                     <div class="col-sm-12">
                       <div class="form-group">
                         <input type="text" maxlength="80" [(ngModel)]="objetoAtualiza.observacao" placeholder="Informe observações relevantes"
-                                name="observacao" class="form-control" autocomplete="off" required>   
+                                name="observacao" class="form-control" autocomplete="off">
                         <label>Observações</label>
                       </div>
                     </div>
@@ -199,7 +199,7 @@
 
 
               <!-- QUALIFICACOES -->
-              <div class="card card-outlined style-primary" id="divEndereco">
+              <div class="card card-outlined style-primary" id="qualificacoes">
                 <div class="card-head">
                   <header>Qualificação
                       <small>  (Adicione pelo menos uma qualificação)</small>
@@ -214,9 +214,9 @@
                           <div class="input-group">
                             <div class="input-group-content">
 
-                                <input type="text" autocomplete="off" [formControl]="myControlQualificacao" matInput class="form-control" [(ngModel)]="qualificacao" name="qualificacao" [matAutocomplete]="autoQua">
+                                <input type="text" autocomplete="off" [formControl]="myControlQualificacao" matInput class="form-control" [(ngModel)]="qualificacao" name="qualificacao" [matAutocomplete]="autoQua" required>
                                 <mat-autocomplete #autoQua="matAutocomplete" [displayWith]="displayFnQualificacao">
-                                    <mat-option *ngFor="let optQua of filteredOptionsQualificacao | async" [value]="optQua">
+                                    <mat-option *ngFor="let optQua of filteredOptionsQualificacao | async" [value]="optQua" required>
                                         {{optQua.descricao}}
                                     </mat-option>
                                 </mat-autocomplete>
@@ -317,7 +317,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="30" [(ngModel)]="endereco.complemento" 
-                                name="complemento" class="form-control" required autocomplete="offComp">
+                                name="complemento" class="form-control"  autocomplete="offComp">
                         <label>Complemento</label>
                       </div>
                     </div>
@@ -325,7 +325,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="text" maxlength="100" [(ngModel)]="endereco.pontoReferencia" 
-                                name="ptRef" class="form-control" required autocomplete="offPtRef">
+                                name="ptRef" class="form-control" autocomplete="offPtRef">
                         <label>Ponto de Referência</label>
                       </div>
                     </div>
@@ -335,14 +335,14 @@
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="50" [(ngModel)]="endereco.extensaoEndereco.bairro" 
-                                name="bairro" class="form-control" autocomplete="offBairro" required [readonly]="isBairroReadOnly">
+                                name="bairro" class="form-control" autocomplete="offBairro" required [readonly]="isBairroReadOnly" required>
                         <label>Bairro *</label>
                       </div>
                     </div>
                     <div class="col-sm-5">
                       <div class="form-group">
                         <input type="text" maxlength="100" [(ngModel)]="endereco.extensaoEndereco.localidade" 
-                                name="localidade" class="form-control" autocomplete="offLc" required [readonly]="isLocalidadeReadOnly">
+                                name="localidade" class="form-control" autocomplete="offLc"  [readonly]="isLocalidadeReadOnly">
                         <label>Localidade</label>
                       </div>
                     </div>
@@ -418,7 +418,7 @@
                   <div class="row">
                     <div class="col-sm-4">
                       <div class="form-group">
-                          <select class="form-control" [(ngModel)]="telefonePf.objTipo" name="objtipo" #objTipo="ngModel" required>
+                          <select class="form-control" [(ngModel)]="telefonePf.objTipo" name="objtipo" #objTipo="ngModel">
                             <option *ngFor="let tipo of listaTipoTelefone" [ngValue]="tipo">{{tipo.nomeValor}}</option>
                           </select>
                         <label>Tipo</label>
@@ -453,7 +453,7 @@
                         <div class="form-group">
                           <div style="margin-top: 10px;">
                             <label class="checkbox-inline checkbox-styled">
-                              <input type="checkbox" [(ngModel)]="telefonePf.flagWhats" name="flagWhats" #flagWhats="ngModel" >
+                              <input type="checkbox" [(ngModel)]="telefonePf.flagWhats" name="flagWhats" #flagWhats="ngModel">
                               <span><img src="assets/img/wapp.png" style="width: 24px; height: 24px;">WhatsApp</span>
                             </label>
                           </div>
