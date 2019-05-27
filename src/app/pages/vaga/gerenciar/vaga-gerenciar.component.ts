@@ -23,6 +23,12 @@ export class VagaGerenciarComponent extends AptareCrudController<Vaga, {new(): V
   listaSituacao = [];
   listaTipoVaga = [];
 
+  situacaoAberta      = VagaService.SITUACAO_ABERTA;
+  situacaoEmAndamento = VagaService.SITUACAO_EM_ANDAMENTO;
+  situacaoSuspensa    = VagaService.SITUACAO_SUSPENSA;
+  situacaoCancelada   = VagaService.SITUACAO_CANCELADA;
+  situacaoFinalizada  = VagaService.SITUACAO_FINALIZADA;
+
   constructor(router: Router, 
               route: ActivatedRoute,             
               public service: VagaService,

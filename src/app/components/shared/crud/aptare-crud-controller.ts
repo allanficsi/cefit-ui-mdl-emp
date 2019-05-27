@@ -1,16 +1,14 @@
-import { UtilService } from './../../../services/util.service';
-import { AptareCrudService } from './../../../services/shared/aptare-crud.service';
-import { OnInit, AfterViewInit, AfterContentInit, OnDestroy, AfterViewChecked, Renderer2 } from '@angular/core';
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import { ResponseApi } from '../../../model/response-api';
-import { MensagemService } from '../../../services/shared/mensagem.service';
+import { OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { AptareUtilController } from '../util/aptare-util-controller';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { IMyDrpOptions } from 'mydaterangepicker';
-import { DialogService } from '../../../services/shared/dialog.service';
 import { CadastroUnico } from 'src/app/model/cadastro-unico/cadastro-unico';
-import { PessoaFisica } from 'src/app/model/cadastro-unico/pessoa-fisica';
-import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
+import { ResponseApi } from '../../../model/response-api';
+import { DialogService } from '../../../services/shared/dialog.service';
+import { MensagemService } from '../../../services/shared/mensagem.service';
+import { AptareUtilController } from '../util/aptare-util-controller';
+import { AptareCrudService } from './../../../services/shared/aptare-crud.service';
+import { UtilService } from './../../../services/util.service';
 
 export class AptareCrudController <Entity, 
                                   CT extends { new(itemEntity?: any): Entity },>
@@ -206,7 +204,7 @@ export class AptareCrudController <Entity,
   preencherFiltros() {
     this.route.queryParams.subscribe(params => {
       
-      let back = params['back'];""
+      let back = params['back'];
       if(typeof back !== 'undefined' && back == 'T' 
             && localStorage.getItem("objFiltro") != null 
             && typeof localStorage.getItem("objFiltro") !== 'undefined') {
@@ -290,7 +288,7 @@ export class AptareCrudController <Entity,
   }
 
   limparCampos() {
-    this.dialogService.openConfirmDialog('Voc� deseja apagar todos os campos preenchidos?')
+    this.dialogService.openConfirmDialog('Você deseja apagar todos os campos preenchidos?')
       .afterClosed().subscribe(res =>{
         if(res){
           this.objetoAtualiza = this.getNewEntityInstance();

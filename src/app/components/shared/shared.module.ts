@@ -98,6 +98,9 @@ import { VagaVisualizarComponent } from "../../pages/vaga/visualizar/vaga-visual
 import { VagaGerenciarComponent } from "src/app/pages/vaga/gerenciar/vaga-gerenciar.component";
 import { ModalVagaFinalizarComponent } from "src/app/pages/geral/modal-vaga-finalizar/modal-vaga-finalizar.component";
 import { CurrencyMaskModule } from "ng2-currency-mask";
+import { EncaminhamentoAtualizarComponent } from "src/app/pages/encaminhamento/atualizar/encaminhamento-atualizar.component";
+import { EncaminhamentoService } from "src/app/services/vaga/encaminhamento.service";
+import { EncaminhamentoNaoAtendidoService } from "src/app/services/vaga/encaminhamento-nao-atendido.service";
 
 @NgModule({
     exports: [
@@ -182,6 +185,8 @@ import { CurrencyMaskModule } from "ng2-currency-mask";
         VagaAtualizarComponent,
         VagaVisualizarComponent,
         VagaGerenciarComponent,
+        
+        EncaminhamentoAtualizarComponent,
 
         EspacoAtualizarComponent,
         EspacoPesquisarComponent,
@@ -234,6 +239,8 @@ import { CurrencyMaskModule } from "ng2-currency-mask";
       CadastroUnicoService,
       EspacoItemEspacoService,
       VagaService,
+      EncaminhamentoService,
+      EncaminhamentoNaoAtendidoService,
       AgendaTrabalhadorService,
       {
         provide: HTTP_INTERCEPTORS,

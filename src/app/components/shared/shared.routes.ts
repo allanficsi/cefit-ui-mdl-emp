@@ -45,6 +45,7 @@ import { ModalEditarAgendaComponent } from '../../pages/geral/modal-editar-agend
 import { VagaVisualizarComponent } from '../../pages/vaga/visualizar/vaga-visualizar.component';
 import { VagaGerenciarComponent } from '../../pages/vaga/gerenciar/vaga-gerenciar.component';
 import { ModalVagaFinalizarComponent } from '../../pages/geral/modal-vaga-finalizar/modal-vaga-finalizar.component';
+import { EncaminhamentoAtualizarComponent } from '../../pages/encaminhamento/atualizar/encaminhamento-atualizar.component';
 
 
 export const CONTENT_ROUTES: Routes = [
@@ -96,6 +97,8 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'vaga-atualizar/:id', component: VagaAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'vaga-visualizar/:id', component: VagaVisualizarComponent, canActivate: [AuthGuard] },
     { path : 'vaga-gerenciar', component: VagaGerenciarComponent, canActivate: [AuthGuard] },
+    
+    { path : 'encaminhamento-atualizar', component: EncaminhamentoAtualizarComponent, canActivate: [AuthGuard] },
 
     { path : 'qualificacao-pesquisar', component: QualificacaoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'qualificacao-atualizar', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },
