@@ -111,6 +111,8 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   iniciarPaginaInserir() {
     this.objetoAtualiza.ufCtps = 'AC';
 
+    this.objetoAtualiza.tipoTrabalhador = 'F';
+
     this.endereco = new Endereco();
     this.endereco.extensaoEndereco = new ExtensaoEndereco();
     this.endereco.extensaoEndereco.uf = 'AC';
@@ -557,6 +559,8 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
   completarInserir() {
 
+
+
     if (this.objetoAtualiza.cadastroUnico.tipoPessoa == 'F') {
       this.objetoAtualiza.cadastroUnico.cpfCnpj = Number(this.objetoAtualiza.cadastroUnico.cpf);
       this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone = this.listaTelefonePf;
@@ -680,6 +684,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
   validarInserir() {
 
+
     //VALIDACAO DE CAMPOS OBRIGATORIOS PF
     if (this.objetoAtualiza.cadastroUnico.cpf == null || this.objetoAtualiza.cadastroUnico.cpf == '') {
       this.mensagem.tratarErroPersonalizado('', 'O campo CPF é obrigatório.');
@@ -741,9 +746,17 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       return false;
     }
 
-    //PELO MENOS UM CBO OBRIGATORIO
-    if (this.listaTrabalhadorCbo == null || this.listaTrabalhadorCbo.length <= 0) {
+    //PELO MENOS UM CBO PARA TRABALHADOR INFORMAL OBRIGATORIO
+    console.log( this.objetoAtualiza.tipoTrabalhador );
+    if ( (this.objetoAtualiza.tipoTrabalhador == 'I' ) && (this.listaTrabalhadorCbo == null || this.listaTrabalhadorCbo.length <= 0)) {
+      console.log( "primeifo" );
       this.mensagem.tratarErroPersonalizado('', 'Pelo menos um CBO deve ser adicionado.');
+      return false;
+    }
+
+    //PELO MENOS SEIS CBO'S PARA TRABALHADOR FORMAL OBRIGATORIO
+    if ( (this.objetoAtualiza.tipoTrabalhador == 'F') && (this.listaTrabalhadorCbo == null || this.listaTrabalhadorCbo.length <= 6)) {
+      this.mensagem.tratarErroPersonalizado('', 'Pelo menos seis CBO\'S deve ser adicionado.');
       return false;
     }
 
