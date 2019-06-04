@@ -749,14 +749,16 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     //PELO MENOS UM CBO PARA TRABALHADOR INFORMAL OBRIGATORIO
     console.log( this.objetoAtualiza.tipoTrabalhador );
     if ( (this.objetoAtualiza.tipoTrabalhador == 'I' ) && (this.listaTrabalhadorCbo == null || this.listaTrabalhadorCbo.length <= 0)) {
-      console.log( "primeifo" );
       this.mensagem.tratarErroPersonalizado('', 'Pelo menos um CBO deve ser adicionado.');
       return false;
     }
 
     //PELO MENOS SEIS CBO'S PARA TRABALHADOR FORMAL OBRIGATORIO
-    if ( (this.objetoAtualiza.tipoTrabalhador == 'F') && (this.listaTrabalhadorCbo == null || this.listaTrabalhadorCbo.length <= 6)) {
-      this.mensagem.tratarErroPersonalizado('', 'Pelo menos seis CBO\'S deve ser adicionado.');
+    if ( (this.objetoAtualiza.tipoTrabalhador == 'F') && (this.listaTrabalhadorCbo == null || this.listaTrabalhadorCbo.length <= 0 || this.listaTrabalhadorCbo.length >= 6 )) {
+          if(this.listaTrabalhadorCbo.length <= 0)
+            this.mensagem.tratarErroPersonalizado('', '\'Pelo menos um CBO deve ser adicionado');
+          if(this.listaTrabalhadorCbo.length >= 6)
+            this.mensagem.tratarErroPersonalizado('', '\'Devem ser adicionados no máximo até seis  CBO\'S.');
       return false;
     }
 
