@@ -113,7 +113,7 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                       <div class="form-group control-width-normal">
                         <div class="input-group date" id="textDataNascimentoContato">
                           <div class="input-group-content">
@@ -141,6 +141,22 @@
                           <input type="radio" value="F" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.sexo" name="sexo" #sexo="ngModel" >
                           <span>Feminino</span>
                         </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label>Tipo De Trabalhador *</label>
+                        <div style="margin-top: 10px;">
+                          <label class="radio-inline radio-styled">
+                            <input type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoTrabalhador" name="tipoTrabalhador" #tipoTrabalhador="ngModel" >
+                            <span>Formal</span>
+                          </label>
+                          <label class="radio-inline radio-styled">
+                            <input type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoTrabalhador" name="tipoTrabalhador" #tipoTrabalhador="ngModel" >
+                            <span>Informal</span>
+                          </label>
                         </div>
                       </div>
                     </div>

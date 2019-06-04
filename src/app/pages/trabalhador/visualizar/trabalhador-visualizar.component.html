@@ -97,7 +97,7 @@
                   
                   <div class="row">
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                       <div class="form-group">
                         <apt-email [(ngModel)]="objetoAtualiza.cadastroUnico.email" [isReadOnly]="true"   name="email" #email="ngModel"></apt-email>
                         <label>E-mail *</label>
@@ -116,6 +116,22 @@
                           <span class="input-group-addon cal" ><i class="fa fa-calendar"></i></span>
                           <mat-datepicker-toggle style="display: none;" matSuffix readonly [for]="picker" class="input-group-addon cal"></mat-datepicker-toggle>
                           <mat-datepicker readonly="true" #picker></mat-datepicker>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label>Tipo De Trabalhador *</label>
+                        <div style="margin-top: 10px;">
+                          <label class="radio-inline radio-styled">
+                            <input type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoTrabalhador" name="tipoTrabalhador" #tipoTrabalhador="ngModel" disabled >
+                            <span>Formal</span>
+                          </label>
+                          <label class="radio-inline radio-styled">
+                            <input type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoTrabalhador" name="tipoTrabalhador" #tipoTrabalhador="ngModel" disabled>
+                            <span>Informal</span>
+                          </label>
                         </div>
                       </div>
                     </div>
