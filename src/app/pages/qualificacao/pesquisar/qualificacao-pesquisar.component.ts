@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { Cargo } from '../../../model/cadastro-unico/cargo';
-import { MensagemService } from '../../../services/shared/mensagem.service';
 import { Qualificacao } from '../../../model/profissional/qualificacao';
 import { QualificacaoService } from '../../../services/profissional/qualificacao.service';
 import { DialogService } from '../../../services/shared/dialog.service';
-import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
+import { MensagemService } from '../../../services/shared/mensagem.service';
 
 @Component({
   selector: 'app-qualificacao-pesquisar',
@@ -22,7 +20,7 @@ export class QualificacaoPesquisarComponent extends AptareCrudController<Qualifi
               dialog: MatDialog,
               mensagem: MensagemService,
               dialogService: DialogService) {
-    super(router, route, dialog, Cargo, service, mensagem, dialogService);
+    super(router, route, dialog, Qualificacao, service, mensagem, dialogService);
   }
 
   inativarQualificacao(codigo) {

@@ -92,6 +92,19 @@
 
 						<li class="gui-folder" routerLinkActive="active expanded">
 							<a>
+								<div class="gui-icon"><i class="md md-desktop-mac"></i></div>
+								<span class="title">Painel Eletrônico</span>
+							</a>
+							<ul>
+								<li routerLinkActive="active expanded"><a [routerLink]="['/guiche-pesquisar']" routerLinkActive="active"><span class="title">Guiche</span></a></li>
+								<li routerLinkActive="active expanded"><a [routerLink]="['/tipo-senha-pesquisar']" routerLinkActive="active"><span class="title">Tipo de Senha</span></a></li>
+								<li routerLinkActive="active expanded"><a [routerLink]="['/senha']" routerLinkActive="active"><span class="title">Senha</span></a></li>
+								<li routerLinkActive="active expanded"><a [routerLink]="['/chamada']" routerLinkActive="active"><span class="title">Chamada</span></a></li>
+							</ul>
+						</li>
+
+						<li class="gui-folder" routerLinkActive="active expanded">
+							<a>
 								<div class="gui-icon"><i class="fa fa-cogs"></i></div>
 								<span class="title">Configurações</span>
 							</a>

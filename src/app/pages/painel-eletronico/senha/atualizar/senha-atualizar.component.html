@@ -1,0 +1,32 @@
+<br/>
+<section>
+  <div class="section-header" style="text-align: center">
+    <ol class="breadcrumb">
+      <li class="active">
+        <h2 class="text-primary">Bem Vindo</h2>
+        <p>Por favor, selecione uma opção</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card-body">
+      <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8" (ngSubmit)="inserir()">
+        <div class="row text-center">
+          <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+              <p *ngFor="let item of listaTipoSenha; let i = index">
+                <button type="button" class="btn btn-block ink-reaction btn-primary" style="width: 100%; font-size: 35px;" accesskey="V" (click)="gerar(item.codigo)">
+                  {{item.descricao}} 
+                </button>
+              </p>
+            </div>
+          <div class="col-sm-2"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

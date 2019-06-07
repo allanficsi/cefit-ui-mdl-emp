@@ -1,0 +1,173 @@
+<section>    
+  <div class="section-body">
+
+    <!-- BEGIN BASICDATION -->
+    <div class="row">
+      <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8" (ngSubmit)="inserir()">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card card-underline">
+              <div class="card-head">
+                <header>Última Chamada</header>
+              </div>
+
+              <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <p class="form-control-static" *ngIf="ultimaChamada != null">
+                          {{ultimaChamada.guiche.descricao}}
+                        </p>
+                        <p class="form-control-static" *ngIf="ultimaChamada == null">
+                          -
+                        </p>                 
+                        <label>Guichê</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                          <p class="form-control-static" *ngIf="ultimaChamada != null">
+                            {{ultimaChamada.senha.tipoSenha.descricao}}
+                          </p>
+                          <p class="form-control-static" *ngIf="ultimaChamada == null">
+                            -
+                          </p>                                
+                        <label>Tipo de Senha</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                          <p class="form-control-static" *ngIf="ultimaChamada != null">
+                            {{ultimaChamada.senha.descricao}}
+                          </p>
+                          <p class="form-control-static" *ngIf="ultimaChamada == null">
+                            -
+                          </p>
+                        <label>Próxima Senha</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card-actionbar">
+                      <div class="card-actionbar-row" style="text-align: center">
+                        <button type="button" class="btn ink-reaction btn-raised btn-success" (click)="repetirChamada()" accesskey="C">
+                          Repetir Chamada
+                        </button>  
+                      </div>
+                  </div>
+
+                </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="card card-underline">
+              <div class="card-head">
+                <header>Próxima Chamada</header>
+              </div>
+
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <select class="form-control" [(ngModel)]="objetoAtualiza.codigoGuiche" name="codigoGuiche" #codigoGuiche="ngModel" required>
+                        <option *ngFor="let guiche of listaGuiche" [ngValue]="guiche.codigo">{{guiche.descricao}}</option>
+                      </select>
+                      <label>Guichê</label>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <select class="form-control" [(ngModel)]="codigoTipoSenha" name="codigoTipoSenha" required (change)="retornarProximaChamada()">
+                        <option value="null">- Selecione um Tipo -</option>
+                        <option *ngFor="let tipoSenha of listaTipoSenha" [ngValue]="tipoSenha.codigo">{{tipoSenha.descricao}}</option>
+                      </select>
+                      <label>Tipo de Senha</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Próxima Senha</label>
+                      <p class="form-control-static" *ngIf="proximaChamada != null"> {{proximaChamada.senha.descricao}}</p>
+                      <p class="form-control-static" *ngIf="proximaChamada == null">  - </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-actionbar">
+                    <div class="card-actionbar-row" style="text-align: center">
+                      <button type="submit" class="btn ink-reaction btn-raised btn-success" [disabled]="proximaChamada == null">
+                        Chamar Próxima
+                      </button>
+                    </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+          <div class="col-sm-12">
+            <div class="card card-underline">
+              <div class="card-head">
+                <header>Últimas Chamadas</header>
+                <div class="tools">
+                  <button type="button" class="btn ink-reaction btn-raised btn-info" accesskey="C" (click)="resetarSenha()">
+                    Resetar Senhas
+                  </button> 
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <table class="table table-striped table-hover dataTable no-footer">
+                      <thead>
+                        <tr role="row">
+                          <th class="sorting" rowspan="1" colspan="1" style="width: 340px;">Ghichê</th>
+                          <th class="sorting" rowspan="1" colspan="1" style="width: 340px;">Tipo de Senha</th>
+                          <th class="sorting" rowspan="1" colspan="1" style="width: 340px;">Senha</th>
+                          <th class="sorting" rowspan="1" colspan="1" style="width: 340px;">Data/Hora</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let item of listaUltimasChamadas">
+                          <td>{{item.guiche.descricao}}</td>
+                          <td>{{item.senha.tipoSenha.descricao}}</td>
+                          <td>{{item.senha.descricao}}</td>
+                          <td>{{item.dataInclusao | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                        </tr>
+                      </tbody>
+  
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+
+
+      </form>
+
+    </div>    
+
+  </div>
+  
+</section>
