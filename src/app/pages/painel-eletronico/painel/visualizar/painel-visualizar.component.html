@@ -1,0 +1,85 @@
+<section>
+  <div class="section-header" style="text-align: center">
+    <ol class="breadcrumb">
+      <li class="active">
+        <h2 class="text-primary">Painel de Chamada</h2>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-head">
+                <header class="text-primary"> Senha </header>
+              </div>
+              <div class="force-padding pull-center text-default-light" style="text-align: center; padding: 50px;">
+                <h2 class="no-margin text-primary-dark">
+                  <span class="text-xxxl" *ngIf="chamadaAtual != null">{{chamadaAtual.senha.descricao}}</span>
+                  <span class="text-xxxl" *ngIf="chamadaAtual == null">-</span>
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-head">
+                <header class="text-primary"> Guichê </header>
+              </div>
+              <div class="force-padding pull-center text-default-light" style="text-align: center; padding: 50px;">
+                <h2 class="no-margin text-primary-dark">
+                  <span class="text-xxxl" *ngIf="chamadaAtual != null">{{chamadaAtual.guiche.descricao}}</span>
+                  <span class="text-xxxl" *ngIf="chamadaAtual == null">-</span>
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="col-lg-6">
+    <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-head">
+                <header class="text-primary"> Última Chamadas </header>
+              </div>
+              <div class="row" style="min-height: 450px">
+                <div class="col-sm-12">
+                  <table class="table table-striped table-hover dataTable no-footer">
+                    <thead>
+                      <tr role="row">
+                        <th class="sorting" rowspan="1" colspan="1" style="width: 340px; text-align: center">Senha</th>
+                        <th class="sorting" rowspan="1" colspan="1" style="width: 340px; text-align: center">Guichê</th>
+                        <th class="sorting" rowspan="1" colspan="1" style="width: 340px; text-align: center">Hora</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let item of listaUltimasChamadas">
+                        <td style="width: 340px; text-align: center; font-size: 19px;">{{item.senha.descricao}}</td>
+                        <td style="width: 340px; text-align: center; font-size: 19px;">{{item.guiche.descricao}}</td>
+                        <td style="width: 340px; text-align: center; font-size: 19px;">{{item.dataInclusao | date: 'HH:mm:ss'}}</td>
+                      </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+

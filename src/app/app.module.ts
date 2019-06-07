@@ -15,11 +15,16 @@ import { TokenService } from './services/token/token.service';
 import { UsuarioService } from './services/usuario/usuario.service';
 import { AptCpfComponent } from './components/shared/cpf/apt-cpf.component';
 import { AptEmailComponent } from './components/shared/email/apt-email.component';
+import { SenhaService } from './services/painel-eletronico/senha.service';
+import { SenhaAtualizarComponent } from './pages/painel-eletronico/senha/atualizar/senha-atualizar.component';
+import { PainelVisualizarComponent } from './pages/painel-eletronico/painel/visualizar/painel-visualizar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    SenhaAtualizarComponent,
+    PainelVisualizarComponent,
     TemplateComponent,
   ],
   imports: [
@@ -35,6 +40,7 @@ import { AptEmailComponent } from './components/shared/email/apt-email.component
   providers: [    
     TokenService,
     UsuarioService,
+    SenhaService,
     AuthGuard,
     {provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => LovComponent),

@@ -1,18 +1,22 @@
 import { NgModule } from '@angular/core';
-import { LoginComponent } from './pages/login/login.component';
-import { ModuleWithProviders } from '@angular/core';
-import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
-import { AuthGuard } from './components/security/auth.guard';
-import { TemplateComponent } from './components/shared/template/template.component';
-import { CONTENT_ROUTES } from './components/shared/shared.routes';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NotfoundComponent } from './components/shared/notfound/notfound.component';
+import { CONTENT_ROUTES } from './components/shared/shared.routes';
+import { TemplateComponent } from './components/shared/template/template.component';
+import { LoginComponent } from './pages/login/login.component';
+import { SenhaAtualizarComponent } from './pages/painel-eletronico/senha/atualizar/senha-atualizar.component';
+import { PainelVisualizarComponent } from './pages/painel-eletronico/painel/visualizar/painel-visualizar.component';
 
 const appRoutes : Routes = [
 
 
-    { path : 'login', component: LoginComponent },
-    { path: '', component: TemplateComponent, data: { title: 'full Views' }, children: CONTENT_ROUTES },
-    { path : '**', component: NotfoundComponent }
+  { path : 'login', component: LoginComponent },
+  { path : 'senha', component: SenhaAtualizarComponent },
+  { path : 'painel', component: PainelVisualizarComponent },
+    
+  { path: '', component: TemplateComponent, data: { title: 'full Views' }, children: CONTENT_ROUTES },
+  { path : '**', component: NotfoundComponent },
+
 
 
 ];
