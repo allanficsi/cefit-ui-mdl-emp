@@ -204,7 +204,7 @@ export class AptareCrudController <Entity,
   preencherFiltros() {
     this.route.queryParams.subscribe(params => {
       
-      let back = params['back'];""
+      let back = params['back'];
       if(typeof back !== 'undefined' && back == 'T' 
             && localStorage.getItem("objFiltro") != null 
             && typeof localStorage.getItem("objFiltro") !== 'undefined') {

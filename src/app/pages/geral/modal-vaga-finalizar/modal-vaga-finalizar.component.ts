@@ -55,7 +55,12 @@ export class ModalVagaFinalizarComponent extends AptareCrudController<Vaga, {new
         return false;
     }
 
-    this.alterarStatusVaga();
+    this.dialogService.openConfirmDialog('Você deseja finalizar a vaga?')
+      .afterClosed().subscribe(res =>{
+        if(res){
+          this.alterarStatusVaga();
+        } 
+      });
   }
 
   alterarStatusVaga() {

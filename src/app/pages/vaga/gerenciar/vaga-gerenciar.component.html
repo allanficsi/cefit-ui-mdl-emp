@@ -97,7 +97,9 @@
                   <td>{{item.dataInicio | date: 'dd/MM/yyyy'}}</td>
                   <td>{{item.dataFim | date: 'dd/MM/yyyy'}}</td>
                   <td>{{item.descricaoSituacao}}</td>
-                  <td> <i class="fa fa-check-square-o" (click)="finalizar(item.codigo)" title="Finalizar" style="width:18px; height: 18px; cursor: pointer;"></i></td>
+                  <td> 
+                    <i class="fa fa-check-square-o" *ngIf="item.situacao != situacaoFinalizada" (click)="finalizar(item.codigo)" title="Finalizar" style="width:18px; height: 18px; cursor: pointer;"></i>
+                  </td>
                 </tr>
               </table>
             </div>
