@@ -68,7 +68,9 @@ export class PainelVisualizarComponent extends AptareCrudController<Chamada, {ne
       this.mensagem.tratarErro(err);
     });
 
-    this.tocarAudio();
+    if(this.chamadaAtual != null) {
+      this.tocarAudio();
+    }
   }
 
   tocarAudio() {
