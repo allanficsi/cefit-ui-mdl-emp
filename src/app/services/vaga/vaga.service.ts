@@ -12,6 +12,9 @@ export class VagaService extends AptareCrudService<Vaga> {
     public static SITUACAO_CANCELADA = 4;
     public static SITUACAO_FINALIZADA = 5;
 
+    public static STATUS_ABERTA = true;
+    public static STATUS_OCULTA = false;
+
     artefato(): string {    
         return "vaga";
     }

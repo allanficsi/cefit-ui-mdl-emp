@@ -39,6 +39,7 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
   listaEmpregador = [];
   listaCbo = [];
   listaVagaAgendamento = [];
+  listaDirecionamento = [];
 
   constructor(router: Router,
               route: ActivatedRoute,  
@@ -61,7 +62,14 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
     // GET VAGA COM O CODIGO
     this.service.get(vaga).subscribe((responseApi:ResponseApi) => {      
       this.objetoAtualiza = responseApi.data;
+console.log(this.objetoAtualiza);
       this.objetoAtualiza.dataInicio = new Date(this.objetoAtualiza.dataInicio);
+
+      if(this.objetoAtualiza.dataLimite != null) {
+        this.objetoAtualiza.dataLimite = new Date(this.objetoAtualiza.dataLimite);
+      } else {
+        this.objetoAtualiza.dataLimite = null;
+      }
 
       if(this.objetoAtualiza.dataFim != null) {
         this.objetoAtualiza.dataFim = new Date(this.objetoAtualiza.dataFim);
@@ -98,6 +106,7 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
   setListasStaticas() {
     super.setListasStaticas();
 
+    this.popularDirecionamento();
     this.popularTrabalhador();
     this.popularCbo();
   }
@@ -125,6 +134,13 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
     });
   }
 
+  popularDirecionamento() {
+    this.listaDirecionamento = [
+      { nome:"ATENDIMENTO", valor : 1},
+      { nome:"CONVOCAÇÃO NÃO VISÍVEL AO ATENDIMENTO", valor : 2},
+      { nome:"INDIFERENTE", valor : 3}
+    ]
+  }
   popularTrabalhador() {
     let trabalhador: Trabalhador = new Trabalhador();
     trabalhador.situacao = TrabalhadorService.SITUACAO_ATIVA;

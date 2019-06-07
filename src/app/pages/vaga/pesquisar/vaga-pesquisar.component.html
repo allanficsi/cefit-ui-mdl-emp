@@ -74,6 +74,7 @@
                     <th class="text-left">Descrição</th>
                     <th class="text-left">Tipo da Vaga</th>
                     <th class="text-left">Tipo da Descrição</th>
+                    <th class="text-left">Data de Limite</th>
                     <th class="text-left">Data de Início</th>
                     <th class="text-left">Data de Fim</th>
                     <th class="text-left">Situação</th>
@@ -89,6 +90,8 @@
                   <td *ngIf="item.tipoDescricaoVaga == 'G'">Geral</td>
                   <td *ngIf="item.tipoDescricaoVaga == 'N'">Nominal</td>
                   <td *ngIf="item.tipoDescricaoVaga == 'F'">Freguesia</td>
+                  <td *ngIf="  item.tipoDescricaoVaga == null">Não Possui</td>
+                  <td>{{item.dataLimite == null ? " Não Possui" : (item.dataLimite| date: 'dd/MM/yyyy')}}</td>
                   <td>{{item.dataInicio | date: 'dd/MM/yyyy'}}</td>
                   <td>{{item.dataFim | date: 'dd/MM/yyyy'}}</td>
                   <td>{{item.descricaoSituacao}}</td>
