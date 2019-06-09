@@ -44,6 +44,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
   listaEmpregador = [];
   listaCbo = [];
   listaVagaAgendamento = [];
+  listaDirecionamento = [];
 
   myControlTrabalhador: FormControl = new FormControl();
   filteredOptionsTrabalhador: Observable<Trabalhador[]>;
@@ -65,9 +66,10 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
   }
 
   iniciarPaginaInserir() {
-    this.objetoAtualiza.tipoVaga = "I";
+    this.objetoAtualiza.tipoVaga = "F";
     this.objetoAtualiza.tipoDescricaoVaga = "G";
     this.flagSelecionarTodosAgenda = true;
+    this.objetoAtualiza.direcionamento = null;
   }
 
   iniciarPaginaAlterar() {
@@ -78,6 +80,12 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     this.service.get(vaga).subscribe((responseApi:ResponseApi) => {      
       this.objetoAtualiza = responseApi.data;
       this.objetoAtualiza.dataInicio = new Date(this.objetoAtualiza.dataInicio);
+
+      if(this.objetoAtualiza.dataLimite != null) {
+        this.objetoAtualiza.dataLimite = new Date(this.objetoAtualiza.dataLimite);
+      } else {
+        this.objetoAtualiza.dataLimite = null;
+      }
 
       if(this.objetoAtualiza.dataFim != null) {
         this.objetoAtualiza.dataFim = new Date(this.objetoAtualiza.dataFim);
@@ -135,6 +143,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
   setListasStaticas() {
     super.setListasStaticas();
 
+    this.popularDirecionamento();
     this.popularTrabalhador();
     this.popularCbo();
     this.iniciarVagaAgendamento();
@@ -198,6 +207,14 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
         }
       }
     }
+  }
+
+  popularDirecionamento() {
+    this.listaDirecionamento = [
+      { nome:"ATENDIMENTO", valor : 1},
+      { nome:"CONVOCAÇÃO NÃO VISÍVEL AO ATENDIMENTO", valor : 2},
+      { nome:"INDIFERENTE", valor : 3}
+    ]
   }
 
   popularCbo() {
@@ -320,8 +337,9 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
     this.objetoAtualiza.auditoria.dataInclusao = new Date();
     this.objetoAtualiza.situacao = VagaService.SITUACAO_ABERTA;
+    this.objetoAtualiza.flagControleExibicao = VagaService.STATUS_ABERTA;
 
-    if(this.listaVagaAgendamento != null && this.listaVagaAgendamento.length > 0) {
+    if( this.listaVagaAgendamento != null && this.listaVagaAgendamento.length > 0) {
       this.objetoAtualiza.listaVagaAgendamento = this.listaVagaAgendamento;
     }
 
@@ -329,13 +347,16 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       this.objetoAtualiza.codigoTrabalhador = this.trabalhador.codigo;
     }
 
-    if(this.cbo != null && typeof this.cbo.codigo != 'undefined') {
+    if(this.objetoAtualiza.tipoVaga == 'F'
+      && (this.cbo != null && typeof this.cbo.codigo != 'undefined')) {
       this.objetoAtualiza.codigoCbo = this.cbo.codigo;
     }
 
     if(this.empregador != null && typeof this.empregador.codigo != 'undefined') {
       this.objetoAtualiza.codigoEmpregador = this.empregador.codigo;
     }
+
+    this.completarFormalInformal();
 
     this.objetoAtualiza.listaVagaDia = [];
     this.listaDia.forEach(element => {
@@ -377,28 +398,34 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       }
     });
 
-    console.log(this.objetoAtualiza);
   }
 
   validarInserir() {
+
+    if(this.objetoAtualiza.tipoVaga == 'F'
+      && (this.objetoAtualiza.direcionamento == null || typeof this.objetoAtualiza.direcionamento == 'undefined')) {
+      this.mensagem.tratarErroPersonalizado("", "O campo Direcionamento é obrigatório.");
+      return false;
+    }
 
     if(this.objetoAtualiza.descricao == null || this.objetoAtualiza.descricao == '') {
       this.mensagem.tratarErroPersonalizado("", "O campo Descrição é obrigatório.");
       return false;
     }
 
-    if(this.cbo == null || (typeof this.cbo.codigo == 'undefined')) {
+    if(this.objetoAtualiza.tipoVaga == 'F'
+      && (this.cbo == null || (typeof this.cbo.codigo == 'undefined'))) {
       this.mensagem.tratarErroPersonalizado("", "O campo CBO é obrigatório.");
       return false;
     }
 
     // Regras nominal e freguesia
-    if(this.objetoAtualiza.tipoDescricaoVaga == 'N'
+    if(this.objetoAtualiza.tipoVaga == 'I' && this.objetoAtualiza.tipoDescricaoVaga == 'N'
             && (this.trabalhador == null || typeof this.trabalhador.codigo == 'undefined')) {
       this.mensagem.tratarErroPersonalizado("", "O campo Funcionário é obrigatório.");
       return false;
     } else {
-      if(this.objetoAtualiza.tipoDescricaoVaga == 'F') {
+      if(this.objetoAtualiza.tipoVaga == 'I' && this.objetoAtualiza.tipoDescricaoVaga == 'F') {
         let flag = false;
         this.listaDia.forEach(element => {
           if(typeof element.fgSelecionada != 'undefined' && element.fgSelecionada == true) {
@@ -413,9 +440,14 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       }
     }
 
-
-    if(this.objetoAtualiza.dataInicio == null || (this.objetoAtualiza.dataInicio.toString() == '')) {
+    if(this.objetoAtualiza.tipoVaga == 'I'
+      && (this.objetoAtualiza.dataInicio == null || (this.objetoAtualiza.dataInicio.toString() == ''))) {
       this.mensagem.tratarErroPersonalizado("", "O campo Data Início é obrigatório.");
+      return false;
+    }
+
+    if(this.objetoAtualiza.tipoVaga == 'F' && (this.objetoAtualiza.dataLimite == null || (this.objetoAtualiza.dataLimite.toString() == ''))) {
+      this.mensagem.tratarErroPersonalizado("", "O campo Data Limite é obrigatório.");
       return false;
     }
 
@@ -425,6 +457,18 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     }
 
     return true;
+  }
+
+  completarFormalInformal(){
+
+    if (this.objetoAtualiza.tipoVaga == 'F') {
+      this.objetoAtualiza.tipoDescricaoVaga = null;
+      this.objetoAtualiza.listaVagaDia = [];
+    } else {
+      //TRABALHADOR INFORMAL
+      this.objetoAtualiza.dataLimite = null;
+      this.objetoAtualiza.direcionamento = null;
+    }
   }
 
   validarAlterar() {

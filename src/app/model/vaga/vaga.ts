@@ -18,10 +18,13 @@ export class Vaga {
     codigoEmpregador: Number;
     dataInicio: Date;
     dataFim: Date;
+    dataLimite: Date;// trb_formal
+    direcionamento:Number;
     situacao: Number;
     descricaoSituacao: string;
     observacao: string;
     flagRealizada: boolean;
+    flagControleExibicao: boolean;
     valorPago: number;
     auditoria: Auditoria;
     filtro: FiltroVaga;

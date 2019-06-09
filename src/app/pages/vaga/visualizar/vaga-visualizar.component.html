@@ -31,10 +31,21 @@
                     </div>
                   </div>
 
-                  <div class="row">
+                  <div class="row"  *ngIf="objetoAtualiza.tipoVaga == 'F'">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <select class="form-control" [(ngModel)]="objetoAtualiza.direcionamento" name="direcionamento" disabled>
+                          <option *ngFor="let tipoDirecionamento of listaDirecionamento" [ngValue]="tipoDirecionamento.valor">{{tipoDirecionamento.nome}}</option>
+                        </select>
+                        <label>Direcionamento *</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf="objetoAtualiza.tipoVaga == 'F'">
                       <div class="col-sm-9">
                         <div class="form-group">
-                          <input type="text" autocomplete="off" class="form-control" [(ngModel)]="cbo.nome" name="cbo" disabled placeholder='Informe o CBO da vaga.'>
+                          <input type="text" autocomplete="off" class="form-control" [(ngModel)]="objetoAtualiza.cboEntity.nome" name="cbo" disabled placeholder='Informe o CBO da vaga.'>
                           <label>CBO *</label>
                         </div>
                       </div>
@@ -59,7 +70,7 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" *ngIf="objetoAtualiza.tipoVaga == 'I'">
                       <div class="form-group">
                         <label>Característica da Vaga *</label>
                         <div style="margin-top: 10px;">
@@ -104,8 +115,20 @@
                         </div>
                     </div>
                   </div>
-                  
-                  <div class="row">
+
+                  <div class="row" >
+                    <div class="col-sm-3" *ngIf='objetoAtualiza.tipoVaga == "F"'>
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataLimite">
+                          <div class="input-group-content">
+                            <input matInput [matDatepicker]="pickerLimite" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.dataLimite" name="dataLimite"
+                                   class="form-control" maxlength="10" #dataLimite="ngModel" autocomplete="off" disabled>
+                            <label>Data Limite *</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                     <div class="col-sm-3">
                       <div class="form-group control-width-normal">
                         <div class="input-group date" id="textDataInicio">
@@ -150,7 +173,7 @@
                   <header>Empregador</header>
                 </div>
 
-                <div class="card-body" style="display: block;"> 
+                <div class="card-body" style="display: block;">
                   <div class="row" *ngIf="empregador != null">
                     <div class="col-sm-3">
                       <div class="form-group">
@@ -218,7 +241,7 @@
                                   <td class="text-left">
                                     <div style="margin-top: 10px;">
                                       <label class="checkbox-inline checkbox-styled">
-                                        <input type="checkbox" [(ngModel)]="item.flagAtivo" name="item.flagAtivo{{i}}" (change)="selecionarDiaAgenda(i)" disabled>
+                                        <input type="checkbox" [(ngModel)]="item.flagAtivo" name="item.flagAtivo{{i}}"  disabled>
                                         <span></span>
                                       </label>
                                     </div>

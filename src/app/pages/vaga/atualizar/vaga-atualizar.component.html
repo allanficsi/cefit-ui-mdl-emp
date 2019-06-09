@@ -32,18 +32,70 @@
                 <div class="card-body" style="display: block;">          
               
                   <div class="row">
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label>Tipo da Vaga *</label>
+                          <div style="margin-top: 10px;">
+                            <label class="radio-inline radio-styled">
+                              <input *ngIf="codigo == undefined" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel">
+                              <input *ngIf="codigo != undefined" disabled="true" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" >
+                              <span>Formal</span>
+                            </label>
+                            <label class="radio-inline radio-styled">
+                              <input *ngIf="codigo == undefined" type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel">
+                              <input *ngIf="codigo != undefined" disabled="true" type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" >
+                              <span>Informal</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3" *ngIf="objetoAtualiza.tipoVaga == 'I'">
+                        <div class="form-group">
+                          <label>Característica da Vaga *</label>
+                          <div style="margin-top: 10px;">
+                            <label class="radio-inline radio-styled">
+                              <input type="radio" value="G" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
+                              <span>Geral</span>
+                            </label>
+                            <label class="radio-inline radio-styled">
+                              <input type="radio" value="N" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
+                              <span>Nominal</span>
+                            </label>
+                            <label class="radio-inline radio-styled">
+                              <input type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
+                              <span>Freguesia</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div class="col-sm-9">
                       <div class="form-group">
-                        <input type="text" autocomplete="off" maxlength="200" [(ngModel)]="objetoAtualiza.descricao" placeholder='Por exemplo, "Vaga para auxiliar administrativo".' 
+                        <input type="text" autocomplete="off" maxlength="200" [(ngModel)]="objetoAtualiza.descricao" placeholder='Por exemplo, "Vaga para auxiliar administrativo".'
                               name="nome" #nome="ngModel" class="form-control" required>
                         <label>Descrição *</label>
                       </div>
                     </div>
                   </div>
 
-                  <div class="row">
-                      <div class="col-sm-9">
-                        <div class="form-group">
+                  <div class="row"  *ngIf="objetoAtualiza.tipoVaga == 'F'">
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                      <select class="form-control" [(ngModel)]="objetoAtualiza.direcionamento" name="direcionamento">
+                        <option [ngValue]="null">- Selecione o Direcionamento -</option>
+                        <option *ngFor="let tipoDirecionamento of listaDirecionamento" [ngValue]="tipoDirecionamento.valor">{{tipoDirecionamento.nome}}</option>
+                      </select>
+                      <label>Direcionamento *</label>
+                    </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf="objetoAtualiza.tipoVaga == 'F'">
+                    <div class="col-sm-9">
+                      <div class="form-group">
                           <input type="text" autocomplete="off" [formControl]="myControlCbo" matInput class="form-control" [(ngModel)]="cbo" name="cbo" [matAutocomplete]="auto" placeholder='Informe o CBO da vaga.' required>
                           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCbo">
                               <mat-option *ngFor="let option of filteredOptionsCbo | async" [value]="option">
@@ -52,50 +104,10 @@
                           </mat-autocomplete>
                           <label>CBO *</label>
                         </div>
-                      </div>
-                    </div>
-
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                        <label>Tipo da Vaga *</label>
-                        <div style="margin-top: 10px;">
-                        <label class="radio-inline radio-styled">
-                          <input *ngIf="codigo == undefined" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" disabled="true">
-                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" >
-                          <span>Formal</span>
-                        </label>
-                        <label class="radio-inline radio-styled">
-                          <input *ngIf="codigo == undefined" type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" disabled="true">
-                          <input *ngIf="codigo != undefined" disabled="true" type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" >
-                          <span>Informal</span>
-                        </label>
-                        </div>
-                      </div>
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                        <label>Característica da Vaga *</label>
-                        <div style="margin-top: 10px;">
-                        <label class="radio-inline radio-styled">
-                          <input type="radio" value="G" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
-                          <span>Geral</span>
-                        </label>
-                        <label class="radio-inline radio-styled">
-                          <input type="radio" value="N" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
-                          <span>Nominal</span>
-                        </label>
-                        <label class="radio-inline radio-styled">
-                          <input type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" (change)="selecionarCaracteristica()">
-                          <span>Freguesia</span>
-                        </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+
 
                   <div class="row" *ngIf='objetoAtualiza.tipoDescricaoVaga == "N"'>
                     <div class="col-sm-9">
@@ -127,7 +139,23 @@
                     </div>
                   </div>
                   
-                  <div class="row">
+                  <div class="row" >
+                    <div class="col-sm-3" *ngIf='objetoAtualiza.tipoVaga == "F"'>
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataLimite">
+                          <div class="input-group-content">
+                            <input matInput [matDatepicker]="pickerLimite" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.dataLimite" name="dataLimite"
+                                   class="form-control" maxlength="10" #dataLimite="ngModel" autocomplete="off" required>
+                            <label>Data Limite *</label>
+                          </div>
+
+                          <span class="input-group-addon cal" (click)="pickerLimite.open()"><i class="fa fa-calendar"></i></span>
+                          <mat-datepicker-toggle style="display: none;" matSuffix [for]="pickerLimite" class="input-group-addon cal"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerLimite></mat-datepicker>
+                        </div>
+                      </div>
+                    </div>
+
                     <div class="col-sm-3">
                       <div class="form-group control-width-normal">
                         <div class="input-group date" id="textDataInicio">
@@ -159,6 +187,7 @@
                         </div>                        
                       </div>
                     </div>
+
                   </div>
 
                   <div class="row">
