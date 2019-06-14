@@ -82,7 +82,7 @@
                         <select class="form-control" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.ufOrgaoEmissorRg" name="ufRg" #ufRg="ngModel" required>
                           <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
                         </select>
-                        <label>UF *</label>
+                        <label>UF </label>
                       </div>
                     </div>
                   </div>
@@ -131,7 +131,7 @@
 
                     <div class="col-sm-3">
                       <div class="form-group">
-                        <label>Sexo *</label>
+                        <label>Sexo </label>
                         <div style="margin-top: 10px;">
                         <label class="radio-inline radio-styled">
                           <input type="radio" value="M" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.sexo" name="sexo" #sexo="ngModel" >
@@ -149,12 +149,12 @@
                       <div class="form-group">
                         <label>Tipo De Trabalhador *</label>
                         <div style="margin-top: 10px;">
-                          <label class="radio-inline radio-styled">
-                            <input type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoTrabalhador" name="tipoTrabalhador" #tipoTrabalhador="ngModel" >
+                          <label class="checkbox-inline checkbox-styled">
+                            <input type="checkbox"  [(ngModel)]="objetoAtualiza.flagTrabalhadorFormal" name="tipoTrabalhadorFormal" #tipoTrabalhadorFormal="ngModel" >
                             <span>Formal</span>
                           </label>
-                          <label class="radio-inline radio-styled">
-                            <input type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoTrabalhador" name="tipoTrabalhador" #tipoTrabalhador="ngModel" >
+                          <label class="checkbox-inline checkbox-styled">
+                            <input type="checkbox"  [(ngModel)]="objetoAtualiza.flagTrabalhadorInformal" name="tipoTrabalhadorInformal" #tipoTrabalhadorInformal="ngModel" >
                             <span>Informal</span>
                           </label>
                         </div>
@@ -166,7 +166,7 @@
                         <select class="form-control" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.estadoCivil" name="estadoCivil" #estadoCivil="ngModel" required>
                           <option *ngFor="let estadoCivil of listaEstadoCivil" [ngValue]="estadoCivil.valorCampo">{{estadoCivil.nomeValor}}</option>
                         </select>
-                        <label>Estado Civil *</label>
+                        <label>Estado Civil </label>
                       </div>
                     </div>
 
@@ -243,10 +243,10 @@
 
                     <div class="col-sm-2">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="objetoAtualiza.ufCtps" name="ufCtps" #ufCtps="ngModel" required>
+                        <select class="form-control" [(ngModel)]="objetoAtualiza.ufCtps" name="ufCtps" #ufCtps="ngModel" >
                           <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
                         </select>
-                        <label>Estado de Emissão CTPS *</label>
+                        <label>Estado de Emissão CTPS </label>
                       </div>
                     </div>
                   </div>
@@ -478,7 +478,7 @@
                         <select class="form-control" [(ngModel)]="endereco.extensaoEndereco.uf" name="uf" [disabled]="isUfReadOnly" #uf="ngModel" required>
                           <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
                         </select>
-                        <label>Estado *</label>
+                        <label>Estado </label>
                       </div>
                     </div>
                   </div>

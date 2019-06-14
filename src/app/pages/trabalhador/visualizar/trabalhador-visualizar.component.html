@@ -73,7 +73,7 @@
                         <select class="form-control"   [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.ufOrgaoEmissorRg" name="ufRg" #ufRg="ngModel" required disabled>
                           <option *ngFor="let uf of listaUf" [ngValue]="uf.valor">{{uf.nome}}</option>
                         </select>
-                        <label>UF *</label>
+                        <label>UF </label>
                       </div>
                     </div>
                   </div>
@@ -122,32 +122,31 @@
 
                     <div class="col-sm-3">
                       <div class="form-group">
-                        <label>Tipo De Trabalhador *</label>
+                        <label>Sexo </label>
                         <div style="margin-top: 10px;">
                           <label class="radio-inline radio-styled">
-                            <input type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoTrabalhador" name="tipoTrabalhador" #tipoTrabalhador="ngModel" disabled >
-                            <span>Formal</span>
-                          </label>
-                          <label class="radio-inline radio-styled">
-                            <input type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoTrabalhador" name="tipoTrabalhador" #tipoTrabalhador="ngModel" disabled>
-                            <span>Informal</span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                        <label>Sexo *</label>
-                        <div style="margin-top: 10px;">
-                        <label class="radio-inline radio-styled">
                           <input type="radio" value="M"  [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.sexo" name="sexo" #sexo="ngModel" disabled >
                           <span>Masculino</span>
                         </label>
-                        <label class="radio-inline radio-styled">
+                          <label class="radio-inline radio-styled">
                           <input type="radio" value="F"  [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.sexo" name="sexo" #sexo="ngModel" disabled>
                           <span>Feminino</span>
                         </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label>Tipo De Trabalhador *</label>
+                        <div style="margin-top: 10px;">
+                          <label class="checkbox-inline checkbox-styled">
+                            <input type="checkbox"  [(ngModel)]="objetoAtualiza.flagTrabalhadorFormal" name="tipoTrabalhadorFormal" #tipoTrabalhadorFormal="ngModel" disabled>
+                            <span>Formal</span>
+                          </label>
+                          <label class="checkbox-inline checkbox-styled">
+                            <input type="checkbox"  [(ngModel)]="objetoAtualiza.flagTrabalhadorInformal" name="tipoTrabalhadorInformal" #tipoTrabalhadorInformal="ngModel" disabled >
+                            <span>Informal</span>
+                          </label>
                         </div>
                       </div>
                     </div>
@@ -157,7 +156,7 @@
                         <select  class="form-control" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.estadoCivil" name="estadoCivil" #estadoCivil="ngModel" required disabled>
                           <option *ngFor="let estadoCivil of listaEstadoCivil" [ngValue]="estadoCivil.valorCampo">{{estadoCivil.nomeValor}}</option>
                         </select>
-                        <label>Estado Civil *</label>
+                        <label>Estado Civil </label>
                       </div>
                     </div>
 
@@ -167,7 +166,7 @@
               </div>
 
               <!-- OUTRAS INFORMACOES -->
-              <div class="card card-outlined style-primary" id="divEndereco">
+              <div class="card card-outlined style-primary" id="outrasInformacoes">
                 <div class="card-head">
                   <header>Outras Informações</header>
                 </div>
@@ -255,7 +254,7 @@
 
 
               <!-- CBO -->
-              <div class="card card-outlined style-primary" id="divEndereco">
+              <div class="card card-outlined style-primary" id="cbo">
                 <div class="card-head">
                   <header>CBO</header>
                 </div>
@@ -286,7 +285,7 @@
 
 
               <!-- DEFICIENCIAS -->
-              <div class="card card-outlined style-primary" id="divEndereco">
+              <div class="card card-outlined style-primary" id="deficiencia">
                 <div class="card-head">
                   <header>Deficiências</header>
                 </div>
@@ -394,6 +393,46 @@
                             <td style="width: 3%;">
                             </td>
                           </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!--  HISTORICO DA SITUAÇÃO NO PROGRAMA -->
+              <div class="card card-outlined style-primary" id="historico">
+                <div class="card-head">
+                  <header>Histórico De Ingresso No Programa</header>
+                </div>
+
+                <!-- HISTORICO -->
+                <div class="card-body" style="display: block;">
+
+                  <div class="row">
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">
+                        <tr>
+                          <th>Data Da Alteração</th>
+                          <th>Situação Atual </th>
+                          <th>Situação Anterior </th>
+                          <th style="width: 5%;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let trabalhadorHistorico of listaTrabalhadorLog; let i = index" [attr.data-index]="i">
+                          <td style="width: 25%;">{{trabalhadorHistorico.dataOperacao | date: 'dd/MM/yyyy  h:mm:ss'}}</td>
+                         <ng-container *ngFor=" let tipoSituacaoIngresso of listaTipoSituacaoDeIngresso">
+                          <td *ngIf="tipoSituacaoIngresso.valorCampo == trabalhadorHistorico.situacaoIncNova">
+                            {{ tipoSituacaoIngresso.nomeValor}}
+                          </td>
+                         </ng-container>
+                         <ng-container *ngFor=" let tipoSituacaoIngresso of listaTipoSituacaoDeIngresso">
+                            <td *ngIf="tipoSituacaoIngresso.valorCampo == trabalhadorHistorico.situacaoIncAnterior">
+                              {{ tipoSituacaoIngresso.nomeValor}}
+                            </td>
+                          </ng-container>
+                        </tr>
                       </table>
                     </div>
                   </div>

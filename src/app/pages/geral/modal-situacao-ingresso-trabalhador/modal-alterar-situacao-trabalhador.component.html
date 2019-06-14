@@ -1,0 +1,35 @@
+<!-- BEGIN BASICDATION -->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card-head card-head-sm">
+      <header><b>Informações Complementares</b></header>
+    </div>
+
+    <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
+
+      <div class="card-body" style="display: block;">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <input type="text" maxlength="50" [(ngModel)]="trabalhadorLog.observacaoSitucaoIngresso" autocomplete="off"
+                   name="motivoInativacao" class="form-control" #inativacao="ngModel"
+                   style="text-transform: uppercase;">
+            <label>Observação De Avalição </label>
+          </div>
+        </div>
+      </div>
+
+        <div class="card-actionbar">
+          <div class="card-actionbar-row">
+            <button class="btn btn-success" (click)="concluir(true)" data-dismiss="modal" type="button">Aprovar</button>
+            &nbsp;
+            <button class="btn btn-danger" (click)="concluir(false)" data-dismiss="modal" type="button">Reprovar
+            </button>
+            &nbsp;
+            <button class="btn btn-default" (click)="fecharEAtualizar(false)" data-dismiss="modal" type="button">Fechar
+            </button>
+          </div>
+        </div>
+
+    </form>
+  </div>
+</div>

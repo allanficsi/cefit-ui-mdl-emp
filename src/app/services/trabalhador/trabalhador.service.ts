@@ -23,18 +23,23 @@ export class TrabalhadorService extends AptareCrudService<Trabalhador> {
   public static  RESTRICAO_POR_ENTREVISTA_OCUPACIONAL=8;
   public static  APROVADO=9;
   public static  EXCLUIDO=10;
+  public static  APROVADO_NA_AVALIACAO=11;
 
   //MENSAGENS
   public static  MSG_PENDENTE_DE_AVALIACAO='Deseja encaminhar para avaliação ?';
-  public static  MSG_PENDENTE_DE_VALIDACAO="Deseja validar esse cadastro ?";
+  public static  MSG_PENDENTE_DE_VALIDACAO='Deseja validar esse cadastro ?';
   public static  MSG_ENCAMINHADO_PARA_A_AVALIACAO='Deseja encaminhar para avaliação ?';
+  public static  MSG_REENCAMINHADO_PARA_A_AVALIACAO='Deseja reencaminhar para avaliação ?';
   public static  MSG_ENCAMINHADO_PARA_A_CAPACITACAO='Deseja encaminhar para a capacitação ?';
+  public static  MSG_REENCAMINHADO_PARA_A_CAPACITACAO='Deseja reencaminhar para a capacitação ?';
   public static  MSG_ENCAMINHADO_PARA_A_ENTREVISTA_OCUPACIONAL='Deseja encaminhar para entrevista ocupacional ?';
+  public static  MSG_REENCAMINHADO_PARA_A_ENTREVISTA_OCUPACIONAL='Deseja reencaminhar para entrevista ocupacional ?';
   public static  MSG_RESTRICAO_POR_AVALIACAO='Deseja restringir por avaliação ?';
   public static  MSG_RESTRICAO_POR_CAPACITACAO='Deseja restringir por capacitação ?';
   public static  MSG_RESTRICAO_POR_ENTREVISTA_OCUPACIONAL='Deseja restringir por entrevista ocupacional ?';
   public static  MSG_APROVADO='Deseja aprovar o candidato ?';
-  public static  MSG_EXCLUIDO="Deseja excluir esse registro ?";
+  public static  MSG_EXCLUIDO='Deseja excluir esse registro ?';
+  public static  MSG_APROVADO_NA_AVALIACAO='Deseja aprovar esse cadastro';
 
   constructor(public http: HttpClient) {
     super(http);

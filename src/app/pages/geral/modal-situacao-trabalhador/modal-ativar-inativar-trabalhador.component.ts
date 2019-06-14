@@ -94,9 +94,7 @@ export class ModalAtivarInativarTrabalhadorComponent extends AptareCrudControlle
     this.objetoAtualiza.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
 
     this.service.alterarSituacaoDeIngresso(this.objetoAtualiza).subscribe((responseApi:ResponseApi) => {
-      this.mensagem.msgSucesso("A situação foi atualizada com sucesso.");
-      // console.log(this.objetoAtualiza);
-      this.fechar();
+      this.fecharEAtualizar(true);
     } , err => {
       this.mensagem.tratarErro(err);
     });
@@ -108,13 +106,11 @@ export class ModalAtivarInativarTrabalhadorComponent extends AptareCrudControlle
       && (this.objetoAtualiza.motivoAtivacao == null || this.objetoAtualiza.motivoAtivacao == '')) {
      return false;
     }
-    if(this.objetoAtualiza.observacao == null || this.objetoAtualiza.observacao == '') {
-      return false;
-    }
-    return true;
+    return !(this.objetoAtualiza.observacao == null || this.objetoAtualiza.observacao == '');
   }
 
-  fechar() {
-    this.dialogRef.close(this.objetoAtualiza);
+  fecharEAtualizar(flagAtulizarRegistros:boolean) {
+    this.dialogRef.close(flagAtulizarRegistros);
   }
+
 }
