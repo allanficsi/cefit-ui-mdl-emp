@@ -41,6 +41,8 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
   listaDeficiencia = [];
   listaTrabalhadorCbo = [];
   listaTrabalhadorDeficiencia = [];
+  listaTrabalhadorLog = [];
+  listaTipoSituacaoDeIngresso = [];
   endereco: Endereco;
   telefonePf: Telefone;
   trabalhadorCbo: TrabalhadorCbo;
@@ -71,6 +73,7 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
     this.popularCbo();
     this.popularDeficiencia();
     this.popularTipoTelefone();
+    this.popularTipoSituacaoIngresso();
 
   }
 
@@ -101,7 +104,7 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
       objTrb.codigoCadastroUnico = event.codigo;
 
        this.service.get(objTrb).subscribe((responseApi:ResponseApi) => {
-         
+
         this.objetoAtualiza = new Trabalhador();
         this.iniciarPaginaInserir();
 
@@ -255,6 +258,13 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
           this.listaTelefonePf.push(this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i]);
         }
       }
+
+      this.listaTrabalhadorLog = [];
+      if(typeof this.objetoAtualiza.listaTrabalhadorLogOrdenada !== 'undefined' && this.objetoAtualiza.listaTrabalhadorLogOrdenada != null) {
+        for(let i = 0; i < this.objetoAtualiza.listaTrabalhadorLogOrdenada.length; i++) {
+          this.listaTrabalhadorLog.push(this.objetoAtualiza.listaTrabalhadorLogOrdenada[i]);
+        }
+      }
       
     } , err => {
       this.mensagem.tratarErro(err);  
@@ -328,6 +338,17 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
     });
   }
 
+  popularTipoSituacaoIngresso() {
+    let dominio: Dominio = new Dominio();
+    dominio.nomeCampo = 'ST_INC_PGR';
+
+    this.dominioService.pesquisar(dominio)
+      .subscribe((responseApi:ResponseApi) => {
+        this.listaTipoSituacaoDeIngresso = responseApi['data'];
+        } , err => {
+        this.mensagem.tratarErro(err);
+      });
+  }
   pesquisarCep() {
     if(this.endereco.cepFormatado != null
         && this.endereco.cepFormatado != '') {
@@ -423,7 +444,6 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
       telefoneAdicionar.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false ;
 
       this.listaTelefonePf.push(telefoneAdicionar);
-      console.log(this.listaTelefonePf);
       this.resetTelefonePf();
     }
 

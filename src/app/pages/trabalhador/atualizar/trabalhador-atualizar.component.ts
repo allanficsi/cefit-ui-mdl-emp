@@ -111,7 +111,8 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   iniciarPaginaInserir() {
     this.objetoAtualiza.ufCtps = 'AC';
 
-    this.objetoAtualiza.tipoTrabalhador = 'F';
+    this.objetoAtualiza.flagTrabalhadorFormal = true;
+    this.objetoAtualiza.flagTrabalhadorInformal = true;
 
     this.endereco = new Endereco();
     this.endereco.extensaoEndereco = new ExtensaoEndereco();
@@ -726,8 +727,13 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       return false;
     }
 
+    if (this.objetoAtualiza.flagTrabalhadorFormal == false && this.objetoAtualiza.flagTrabalhadorInformal == false) {
+      this.mensagem.tratarErroPersonalizado('', 'Pelo menos um Tipo de Trabalhador deve ser selecionado.');
+      return false;
+    }
+
     if (this.objetoAtualiza.numeroPis == null || typeof this.objetoAtualiza.numeroPis === 'undefined') {
-      this.mensagem.tratarErroPersonalizado('', 'O campo PISS é obrigatório.');
+      this.mensagem.tratarErroPersonalizado('', 'O campo PIS é obrigatório.');
       return false;
     }
 
@@ -737,7 +743,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     }
 
     if (this.objetoAtualiza.numeroSerieCtps == null || typeof this.objetoAtualiza.numeroSerieCtps === 'undefined') {
-      this.mensagem.tratarErroPersonalizado('', 'O campo Série é obrigatório.');
+      this.mensagem.tratarErroPersonalizado('', 'O campo Série CTPS é obrigatório.');
       return false;
     }
 
@@ -747,14 +753,14 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     }
 
     //PELO MENOS UM CBO PARA TRABALHADOR INFORMAL OBRIGATORIO
-    console.log( this.objetoAtualiza.tipoTrabalhador );
-    if ( (this.objetoAtualiza.tipoTrabalhador == 'I' ) && (this.listaTrabalhadorCbo == null || this.listaTrabalhadorCbo.length <= 0)) {
+    //console.log( this.objetoAtualiza.tipoTrabalhador );
+    if ( (this.objetoAtualiza.flagTrabalhadorInformal  ) && (this.listaTrabalhadorCbo == null || this.listaTrabalhadorCbo.length <= 0)) {
       this.mensagem.tratarErroPersonalizado('', 'Pelo menos um CBO deve ser adicionado.');
       return false;
     }
 
     //PELO MENOS SEIS CBO'S PARA TRABALHADOR FORMAL OBRIGATORIO
-    if ( (this.objetoAtualiza.tipoTrabalhador == 'F') && (this.listaTrabalhadorCbo == null || this.listaTrabalhadorCbo.length <= 0 || this.listaTrabalhadorCbo.length >= 6 )) {
+    if ( (this.objetoAtualiza.flagTrabalhadorFormal) && (this.listaTrabalhadorCbo == null || this.listaTrabalhadorCbo.length <= 0 || this.listaTrabalhadorCbo.length >= 6 )) {
           if(this.listaTrabalhadorCbo.length <= 0)
             this.mensagem.tratarErroPersonalizado('', '\'Pelo menos um CBO deve ser adicionado');
           if(this.listaTrabalhadorCbo.length >= 6)
@@ -818,7 +824,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   replicarHorario(i,item) {
     this.listaTrabalhadorAgenda.forEach((element, index) => {
       if (index != i && element.flagSel && item.flagSel) {
-        console.log(element.flagSel);
+
         element.nrHor1 = this.listaTrabalhadorAgenda[i].nrHor1;
         element.nrHor2 = this.listaTrabalhadorAgenda[i].nrHor2;
         element.nrHor3 = this.listaTrabalhadorAgenda[i].nrHor3;

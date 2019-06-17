@@ -3,7 +3,8 @@ import { Auditoria } from "../auditoria";
 import { Cbo } from "./cbo";
 import { TrabalhadorCbo } from "./trabalhador-cbo";
 import { TrabalhadorDeficiencia } from "./trabalhador-deficiencia";
-import { TrabalhadorAgenda} from './trabalhador-agenda';
+import { TrabalhadorAgenda } from './trabalhador-agenda';
+import { TrabalhadorLog } from './trabalhador-log';
 
 export class Trabalhador {
     
@@ -18,7 +19,8 @@ export class Trabalhador {
     descricaoSituacaoIngresso: string;
     motivoInativacao: string;
     motivoAtivacao: string;
-    tipoTrabalhador:string;
+    flagTrabalhadorInformal:boolean;
+    flagTrabalhadorFormal:boolean;
     observacao: string;
     ufCtps: string;
     numeroSerieCtps: Number;
@@ -33,5 +35,7 @@ export class Trabalhador {
     listaTrabalhadorCbo: TrabalhadorCbo[];
     listaTrabalhadorDeficiencia: TrabalhadorDeficiencia[];
     listaTrabalhadorAgenda:TrabalhadorAgenda[];
+    listaTrabalhadorLog:TrabalhadorLog[];
+    listaTrabalhadorLogOrdenada:TrabalhadorLog[];
 
 }

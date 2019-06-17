@@ -109,6 +109,7 @@ import { MenuComponent } from './menu/menu.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { DateFormat } from './util/date-format';
 import { ChamadaWebsocketService } from "src/app/services/painel-eletronico/websocket/chamada-websocket.service";
+import { ModalAlterarSituacaoTrabalhadorComponent } from '../../pages/geral/modal-situacao-ingresso-trabalhador/modal-alterar-situacao-trabalhador.component';
 
 @NgModule({
     exports: [
@@ -220,6 +221,7 @@ import { ChamadaWebsocketService } from "src/app/services/painel-eletronico/webs
         ModalEditarAgendaComponent,
         ModalVagaFinalizarComponent,
 		ModalAtivarInativarTrabalhadorComponent,
+        ModalAlterarSituacaoTrabalhadorComponent,
 
         LayoutComponent,
         AptCpfComponent,
