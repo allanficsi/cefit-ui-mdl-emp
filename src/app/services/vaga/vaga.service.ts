@@ -20,4 +20,7 @@ export class VagaService extends AptareCrudService<Vaga> {
         return this.http.post(`${HOST_CEFIT}/api/`+this.artefato()+`/alterarSituacaoVaga`, obj)
     }
 
+    listarVagasEncaminhamento(obj: Vaga) {
+        return this.http.post(`${HOST_CEFIT}/api/`+this.artefato()+`/listarVagasEncaminhamento`, obj)
+    }
 }

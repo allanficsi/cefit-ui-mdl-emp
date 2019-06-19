@@ -7,9 +7,12 @@ export class Encaminhamento {
     codigo: Number;
     codigoTrabalhador: Number;
     codigoVaga: Number;
+    flagAtivo: string;
+    dataCancelamento: Date;
+    codigoUsuarioCancelamento: Number;
 
-    trabalhadorEntity: Trabalhador;
-    vagaEntity: Vaga;
+    trabalhador: Trabalhador;
+    vaga: Vaga;
     auditoria: Auditoria;
 
 }

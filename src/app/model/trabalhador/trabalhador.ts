@@ -25,7 +25,7 @@ export class Trabalhador {
     numeroInscricaoPrefeitura: Number;
     numeroInss: Number;
     flagPsicologo: string;
-    codigoQualificacao;
+    telefoneExtenso: string;
 
     cadastroUnico: CadastroUnico;
     auditoria: Auditoria;

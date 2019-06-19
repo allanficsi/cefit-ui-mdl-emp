@@ -7,8 +7,9 @@ export class EncaminhamentoNaoAtendido {
     codigo: Number;
     codigoTrabalhador: Number;
     codigoVaga: Number;
+    flagAtivo: string;
 
-    trabalhadorEntity: Trabalhador;
+    trabalhador: Trabalhador;
     vagaEntity: Vaga;
     auditoria: Auditoria;
 

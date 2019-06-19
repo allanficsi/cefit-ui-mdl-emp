@@ -1,3 +1,7 @@
 .cal {
     cursor: pointer !important;
 }
+
+.tr-selected {
+    background-color: #4eded4;
+}

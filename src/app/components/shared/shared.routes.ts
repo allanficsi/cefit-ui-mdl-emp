@@ -52,6 +52,8 @@ import { VagaVisualizarComponent } from '../../pages/vaga/visualizar/vaga-visual
 import { AuthGuard } from '../security/auth.guard';
 import { LayoutComponent } from './layout/layout.component';
 import { LovModalComponent } from './lov-modal/lov-modal.component';
+import { EncaminhamentoAtualizarComponent } from '../../pages/encaminhamento/atualizar/encaminhamento-atualizar.component';
+import { EncaminhamentoPesquisarComponent } from '../../pages/encaminhamento/pesquisar/encaminhamento-pesquisar.component';
 
 export const CONTENT_ROUTES: Routes = [
 
@@ -103,6 +105,9 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'vaga-atualizar/:id', component: VagaAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'vaga-visualizar/:id', component: VagaVisualizarComponent, canActivate: [AuthGuard] },
     { path : 'vaga-gerenciar', component: VagaGerenciarComponent, canActivate: [AuthGuard] },
+
+    { path : 'encaminhamento-atualizar', component: EncaminhamentoAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'encaminhamento-pesquisar', component: EncaminhamentoPesquisarComponent, canActivate: [AuthGuard] },
 
     { path : 'qualificacao-pesquisar', component: QualificacaoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'qualificacao-atualizar', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },

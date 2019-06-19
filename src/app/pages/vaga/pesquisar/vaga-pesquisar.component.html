@@ -24,25 +24,34 @@
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-sm-3">
-                    <div class="form-group">
-                      <label>Tipo da Vaga *</label>
-                      <div style="margin-top: 10px;">
-                        <label class="checkbox-inline checkbox-styled" *ngFor="let tipoVaga of listaTipoVaga">
-                          <input type="checkbox"
-                                 name="fgSelecionado"
-                                [(ngModel)]="tipoVaga.fgSelecionado"/>
-                          <span>{{tipoVaga.nome}}</span> 
-                        </label>
-                      </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Tipo da Vaga *</label>
+                    <div style="margin-top: 10px;">
+                      <label class="checkbox-inline checkbox-styled" *ngFor="let tipoVaga of listaTipoVaga">
+                        <input type="checkbox"
+                               name="fgSelecionado"
+                               [(ngModel)]="tipoVaga.fgSelecionado"/>
+                        <span>{{tipoVaga.nome}}</span> 
+                      </label>
                     </div>
                   </div>
                 </div>
-
               </div>
 
-
+              <div class="row">
+                <div class="col-sm-9">
+                  <div class="form-group">
+                    <input type="text" autocomplete="off" [formControl]="myControlCbo" matInput class="form-control" [(ngModel)]="cbo" name="cbo" [matAutocomplete]="auto" placeholder='Informe o CBO da vaga.'>
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCbo">
+                        <mat-option *ngFor="let option of filteredOptionsCbo | async" [value]="option">
+                            {{option.nome}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <label>CBO *</label>
+                  </div>
+                </div>
+              </div>
 
             </form>
           </div>
@@ -72,6 +81,7 @@
                 <thead class="style-default-dark">
                   <tr>
                     <th class="text-left">Descrição</th>
+                    <th class="text-left">Cbo</th>
                     <th class="text-left">Tipo da Vaga</th>
                     <th class="text-left">Tipo da Descrição</th>
                     <th class="text-left">Data de Início</th>
@@ -84,11 +94,16 @@
 
                 <tr *ngFor="let item of listaResultado">
                   <td>{{item.descricao}}</td>
-                  <td *ngIf="item.tipoVaga == 'F'">Formal</td>
-                  <td *ngIf="item.tipoVaga == 'I'">Informal</td>
-                  <td *ngIf="item.tipoDescricaoVaga == 'G'">Geral</td>
-                  <td *ngIf="item.tipoDescricaoVaga == 'N'">Nominal</td>
-                  <td *ngIf="item.tipoDescricaoVaga == 'F'">Freguesia</td>
+                  <td>{{item.cboEntity.nome}}</td>
+                  <td>
+                    <span *ngIf="item.tipoVaga == 'F'">Formal</span>
+                    <span *ngIf="item.tipoVaga == 'I'">Informal</span>
+                  </td>
+                  <td>
+                    <span *ngIf="item.tipoDescricaoVaga == 'G'">Geral</span>
+                    <span *ngIf="item.tipoDescricaoVaga == 'N'">Nominal</span>
+                    <span *ngIf="item.tipoDescricaoVaga == 'F'">Freguesia</span>
+                  </td>
                   <td>{{item.dataInicio | date: 'dd/MM/yyyy'}}</td>
                   <td>{{item.dataFim | date: 'dd/MM/yyyy'}}</td>
                   <td>{{item.descricaoSituacao}}</td>

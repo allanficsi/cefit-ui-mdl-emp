@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Vaga } from '../../model/vaga/vaga';
-import { AptareCrudService } from '../shared/aptare-crud.service';
 import { HOST_CEFIT } from '../cefit.api';
-import { Encaminhamento } from '../../model/vaga/encaminhamento';
+import { AptareCrudService } from '../shared/aptare-crud.service';
+import { EncaminhamentoNaoAtendido } from '../../model/vaga/encaminhamento-nao-atendido';
 
 @Injectable()
-export class EncaminhamentoNaoAtendidoService extends AptareCrudService<EncaminhamentoNaoAtendidoService> {
+export class EncaminhamentoNaoAtendidoService extends AptareCrudService<EncaminhamentoNaoAtendido> {
 
     artefato(): string {    
         return "encaminhamentoNaoAtendido";

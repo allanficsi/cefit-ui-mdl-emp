@@ -108,7 +108,11 @@ import { LovComponent } from './lov/lov.component';
 import { MenuComponent } from './menu/menu.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { DateFormat } from './util/date-format';
-import { ChamadaWebsocketService } from "src/app/services/painel-eletronico/websocket/chamada-websocket.service";
+import { ChamadaWebsocketService } from "../../services/painel-eletronico/websocket/chamada-websocket.service";
+import { EncaminhamentoAtualizarComponent } from "../../pages/encaminhamento/atualizar/encaminhamento-atualizar.component";
+import { EncaminhamentoService } from "../../services/vaga/encaminhamento.service";
+import { EncaminhamentoNaoAtendidoService } from "../../services/vaga/encaminhamento-nao-atendido.service";
+import { EncaminhamentoPesquisarComponent } from "../../pages/encaminhamento/pesquisar/encaminhamento-pesquisar.component";
 
 @NgModule({
     exports: [
@@ -195,6 +199,9 @@ import { ChamadaWebsocketService } from "src/app/services/painel-eletronico/webs
         VagaVisualizarComponent,
         VagaGerenciarComponent,
 
+        EncaminhamentoAtualizarComponent,
+        EncaminhamentoPesquisarComponent,
+
         GuicheAtualizarComponent,
         GuichePesquisarComponent,
 
@@ -255,6 +262,8 @@ import { ChamadaWebsocketService } from "src/app/services/painel-eletronico/webs
       CadastroUnicoService,
       EspacoItemEspacoService,
       VagaService,
+      EncaminhamentoService,
+      EncaminhamentoNaoAtendidoService,
       GuicheService,
       TipoSenhaService,
       ChamadaService,
