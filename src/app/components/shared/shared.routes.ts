@@ -53,6 +53,8 @@ import { AuthGuard } from '../security/auth.guard';
 import { LayoutComponent } from './layout/layout.component';
 import { LovModalComponent } from './lov-modal/lov-modal.component';
 import { ModalAlterarSituacaoTrabalhadorComponent } from '../../pages/geral/modal-situacao-ingresso-trabalhador/modal-alterar-situacao-trabalhador.component';
+import { EncaminhamentoAtualizarComponent } from '../../pages/encaminhamento/atualizar/encaminhamento-atualizar.component';
+import { EncaminhamentoPesquisarComponent } from '../../pages/encaminhamento/pesquisar/encaminhamento-pesquisar.component';
 
 export const CONTENT_ROUTES: Routes = [
 

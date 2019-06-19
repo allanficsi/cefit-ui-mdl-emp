@@ -113,6 +113,7 @@ import { EncaminhamentoAtualizarComponent } from "../../pages/encaminhamento/atu
 import { EncaminhamentoService } from "../../services/vaga/encaminhamento.service";
 import { EncaminhamentoNaoAtendidoService } from "../../services/vaga/encaminhamento-nao-atendido.service";
 import { EncaminhamentoPesquisarComponent } from "../../pages/encaminhamento/pesquisar/encaminhamento-pesquisar.component";
+import { ModalAlterarSituacaoTrabalhadorComponent } from "../../pages/geral/modal-situacao-ingresso-trabalhador/modal-alterar-situacao-trabalhador.component";
 
 @NgModule({
     exports: [
