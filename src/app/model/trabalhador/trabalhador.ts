@@ -17,11 +17,8 @@ export class Trabalhador {
     descricaoSituacao: string;
     situacaoIngresso: Number;
     descricaoSituacaoIngresso: string;
-    motivoInativacao: string;
-    motivoAtivacao: string;
     flagTrabalhadorInformal:boolean;
     flagTrabalhadorFormal:boolean;
-    observacao: string;
     ufCtps: string;
     numeroSerieCtps: Number;
     numeroInscricaoPrefeitura: Number;

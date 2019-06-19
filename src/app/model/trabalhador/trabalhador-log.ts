@@ -8,6 +8,8 @@ export class TrabalhadorLog {
    dataOperacao:Date;
    codigoUsuarioOperacao:Number;
    observacaoSitucaoIngresso:Number;
+   observacaoInativacaoAtivacao:string;
+   motivoInativacaoAtivacao:string;
    codigoTrabalhador:Number;
 
 }

@@ -9,6 +9,7 @@ import { Trabalhador } from '../../../model/trabalhador/trabalhador';
 import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
 import { ResponseApi } from '../../../model/response-api';
 import { NgForm } from '@angular/forms';
+import {TrabalhadorLog} from '../../../model/trabalhador/trabalhador-log';
 
 @Component({
   selector: 'app-modal-item-espaco',
@@ -28,6 +29,8 @@ export class ModalAtivarInativarTrabalhadorComponent extends AptareCrudControlle
     super(router, route, dialog, Trabalhador, service, mensagem, dialogService);
   }
 
+  trabalhadorLog: TrabalhadorLog;
+
   @ViewChild('form')
   formulario:NgForm;
 
@@ -37,13 +40,15 @@ export class ModalAtivarInativarTrabalhadorComponent extends AptareCrudControlle
     let trabalhador = new Trabalhador();
     trabalhador.codigo = this.data.codigo;
 
+    this.trabalhadorLog = new TrabalhadorLog();
+    this.trabalhadorLog.codigoTrabalhador = this.data.codigo;
+    this.trabalhadorLog.observacaoSitucaoIngresso= null;
+    this.trabalhadorLog.motivoInativacaoAtivacao = null;
+
     this.service.get(trabalhador)
                 .subscribe((reposonseApi: ResponseApi) => {
           this.objetoAtualiza = reposonseApi['data'];
-          //PREPARA PARA INSERIR
-          this.objetoAtualiza.motivoInativacao=null;
-          this.objetoAtualiza.motivoAtivacao=null;
-          this.objetoAtualiza.observacao=null;
+          this.objetoAtualiza.listaTrabalhadorLog = [];
         }
     ,err => {
       this.mensagem.tratarErro(err);
@@ -83,15 +88,14 @@ export class ModalAtivarInativarTrabalhadorComponent extends AptareCrudControlle
     if(flagInativar){
       this.objetoAtualiza.situacao = TrabalhadorService.SITUACAO_INATIVA;
       this.objetoAtualiza.situacaoIngresso = TrabalhadorService.EXCLUIDO;
-      this.objetoAtualiza.motivoAtivacao = null;
     }else{
       this.objetoAtualiza.situacao = TrabalhadorService.SITUACAO_ATIVA;
       this.objetoAtualiza.situacaoIngresso = TrabalhadorService.PENDENTE_DE_AVALIACAO;
-      this.objetoAtualiza.motivoInativacao = null;
     }
 
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+    this.objetoAtualiza.listaTrabalhadorLog.push(this.trabalhadorLog);
 
     this.service.alterarSituacaoDeIngresso(this.objetoAtualiza).subscribe((responseApi:ResponseApi) => {
       this.fecharEAtualizar(true);
@@ -102,11 +106,11 @@ export class ModalAtivarInativarTrabalhadorComponent extends AptareCrudControlle
 
   validarAlterar() {
     //VALIDACAO DE CAMPOS OBRIGATORIOS
-    if((this.objetoAtualiza.motivoInativacao == null || this.objetoAtualiza.motivoInativacao == '')
-      && (this.objetoAtualiza.motivoAtivacao == null || this.objetoAtualiza.motivoAtivacao == '')) {
+    if(this.trabalhadorLog.motivoInativacaoAtivacao == null || this.trabalhadorLog.motivoInativacaoAtivacao == '')
+    {
      return false;
     }
-    return !(this.objetoAtualiza.observacao == null || this.objetoAtualiza.observacao == '');
+    return !(this.trabalhadorLog.observacaoInativacaoAtivacao == null || this.trabalhadorLog.observacaoInativacaoAtivacao == '');
   }
 
   fecharEAtualizar(flagAtulizarRegistros:boolean) {
