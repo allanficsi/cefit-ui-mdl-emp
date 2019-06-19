@@ -1,5 +1,6 @@
 export class FiltroVaga {
 
-    tipoVagaIN = [];
+    tipoVagaIN: any[];
+    flagAtivoDiferenteEncaminhamento: string;
     
 }

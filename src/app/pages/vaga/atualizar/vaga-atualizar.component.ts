@@ -230,6 +230,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
 
   popularTrabalhador() {
     let trabalhador: Trabalhador = new Trabalhador();
+    trabalhador.situacaoIngresso = TrabalhadorService.APROVADO;
     trabalhador.situacao = TrabalhadorService.SITUACAO_ATIVA;
 
     this.trabalhadorService.pesquisar(trabalhador)
