@@ -71,7 +71,6 @@ export class AptareCrudController <Entity,
     this.service.pesquisar(this.objetoPesquisa)
                           .subscribe((responseApi:ResponseApi) => {
       this.listaResultado = responseApi['data'];
-      console.log(this.listaResultado);
     } , err => {
       this.mensagem.tratarErro(err);
     });
