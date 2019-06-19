@@ -105,6 +105,9 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'vaga-visualizar/:id', component: VagaVisualizarComponent, canActivate: [AuthGuard] },
     { path : 'vaga-gerenciar', component: VagaGerenciarComponent, canActivate: [AuthGuard] },
 
+    { path : 'encaminhamento-atualizar', component: EncaminhamentoAtualizarComponent, canActivate: [AuthGuard] },
+    { path : 'encaminhamento-pesquisar', component: EncaminhamentoPesquisarComponent, canActivate: [AuthGuard] },
+
     { path : 'qualificacao-pesquisar', component: QualificacaoPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'qualificacao-atualizar', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'qualificacao-atualizar/:id', component: QualificacaoAtualizarComponent, canActivate: [AuthGuard] },
