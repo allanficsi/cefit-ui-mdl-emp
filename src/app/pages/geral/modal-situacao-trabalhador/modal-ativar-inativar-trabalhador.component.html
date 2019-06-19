@@ -9,29 +9,29 @@
         <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
           
           <div class="card-body" style="display: block;">
-            <div *ngIf="objetoAtualiza.situacao == 2 ; else ativacao" class="col-sm-12">
+            <div class="col-sm-12">
                   <div class="form-group">
-                    <input  type="text" maxlength="50" [(ngModel)]="objetoAtualiza.motivoInativacao" autocomplete="off"
-                           name="motivoInativacao" class="form-control" #inativacao="ngModel" style="text-transform: uppercase;"  required>
+                    <input  type="text" maxlength="50" [(ngModel)]="trabalhadorLog.motivoInativacaoAtivacao" autocomplete="off"
+                           name="inativacaoAtivacao" class="form-control" #inativacaoAtivacao="ngModel" style="text-transform: uppercase;"  required>
                       <label>Motivo *</label>
                   </div>
-              <app-error-message [form]="form" [input]="inativacao"></app-error-message>
+              <app-error-message [form]="form" [input]="inativacaoAtivacao"></app-error-message>
             </div>
 
-            <ng-template #ativacao >
-            <div class="col-sm-12">
-              <div class="form-group">
-                <input  type="text" maxlength="50" [(ngModel)]="objetoAtualiza.motivoAtivacao" autocomplete="off"
-                        name="motivoAtivacao" class="form-control" #ativivacao="ngModel" style="text-transform: uppercase;"  required>
-                <label>Motivo *</label>
-              </div>
-              <app-error-message [form]="form" [input]="ativivacao"></app-error-message>
-            </div>
-            </ng-template>
+<!--            <ng-template #ativacao >-->
+<!--            <div class="col-sm-12">-->
+<!--              <div class="form-group">-->
+<!--                <input  type="text" maxlength="50" [(ngModel)]="trabalhadorLog.motivoAtivacao" autocomplete="off"-->
+<!--                        name="motivoAtivacao" class="form-control" #ativivacao="ngModel" style="text-transform: uppercase;"  required>-->
+<!--                <label>Motivo *</label>-->
+<!--              </div>-->
+<!--              <app-error-message [form]="form" [input]="ativivacao"></app-error-message>-->
+<!--            </div>-->
+<!--            </ng-template>-->
 
             <div class="col-sm-12">
               <div class="form-group">
-                <input type="text" maxlength="50"  autocomplete="off" [(ngModel)]="objetoAtualiza.observacao"
+                <input type="text" maxlength="50"  autocomplete="off" [(ngModel)]="trabalhadorLog.observacaoInativacaoAtivacao"
                        name="observacao" #situacao="ngModel" class="form-control" style="text-transform: uppercase;" required>
                 <label>Observação *</label>
               </div>
