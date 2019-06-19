@@ -52,8 +52,7 @@ import { VagaVisualizarComponent } from '../../pages/vaga/visualizar/vaga-visual
 import { AuthGuard } from '../security/auth.guard';
 import { LayoutComponent } from './layout/layout.component';
 import { LovModalComponent } from './lov-modal/lov-modal.component';
-import { EncaminhamentoAtualizarComponent } from '../../pages/encaminhamento/atualizar/encaminhamento-atualizar.component';
-import { EncaminhamentoPesquisarComponent } from '../../pages/encaminhamento/pesquisar/encaminhamento-pesquisar.component';
+import { ModalAlterarSituacaoTrabalhadorComponent } from '../../pages/geral/modal-situacao-ingresso-trabalhador/modal-alterar-situacao-trabalhador.component';
 
 export const CONTENT_ROUTES: Routes = [
 
@@ -139,6 +138,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'modal-editar-agenda', component: ModalEditarAgendaComponent, canActivate: [AuthGuard] },
     { path : 'modal-vaga-finalizar', component: ModalVagaFinalizarComponent, canActivate: [AuthGuard] },
     { path : 'modal-editar-situacao', component: ModalAtivarInativarTrabalhadorComponent, canActivate: [AuthGuard] },
+    { path : 'modal-alterar-situacao-ingresso', component: ModalAlterarSituacaoTrabalhadorComponent, canActivate: [AuthGuard] },
 
     { path : 'layout-pesquisar', component: LayoutComponent, canActivate: [AuthGuard] },
 
