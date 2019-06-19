@@ -227,6 +227,7 @@ import { EncaminhamentoPesquisarComponent } from "../../pages/encaminhamento/pes
         ModalEditarAgendaComponent,
         ModalVagaFinalizarComponent,
 		ModalAtivarInativarTrabalhadorComponent,
+        ModalAlterarSituacaoTrabalhadorComponent,
 
         LayoutComponent,
         AptCpfComponent,
