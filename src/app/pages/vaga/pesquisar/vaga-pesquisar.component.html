@@ -74,6 +74,18 @@
 
     </div>
 
+    <div class="col-lg-12" *ngIf="listaResultado != null">
+      <em class="text-caption result" *ngIf="listaResultado.length > 1">
+        Foram encontrados {{listaResultado.length}} registros.
+      </em>
+      <em class="text-caption result" *ngIf="listaResultado.length == 1">
+        Foi encontrado {{listaResultado.length}} registro.
+      </em> 
+      <em class="text-caption result" *ngIf="listaResultado.length < 1">
+        Nenhum registro foi encontrado.
+      </em>   
+    </div>
+
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
