@@ -227,6 +227,15 @@ export class AptareCrudController <Entity,
     return JSON.parse(localStorage.getItem("usuario"));
   }
 
+  getCodigoEmpregadorLogado()
+  {
+    return this.getEmpregadorLogado().codigo;
+  }
+
+  getEmpregadorLogado()
+  {
+    return JSON.parse(localStorage.getItem("empregador"));
+  }
   myDateRangePickerOptions: IMyDrpOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',

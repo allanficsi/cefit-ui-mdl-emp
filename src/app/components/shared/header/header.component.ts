@@ -17,12 +17,13 @@ export class HeaderComponent extends AptareUtilController  {
   }
 
   ngOnInit() {
-    this.login = JSON.parse(localStorage.getItem("usuario")).login;
+    this.login = JSON.parse(localStorage.getItem("empregador")).cadastroUnico.nome;
   }
 
   logout() {
       localStorage.removeItem("usuario");
       localStorage.removeItem("token");
+      localStorage.removeItem("empregador");
       this.router.navigate(['/login']);
   }
 

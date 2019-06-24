@@ -18,6 +18,9 @@ import { AptEmailComponent } from './components/shared/email/apt-email.component
 import { SenhaService } from './services/painel-eletronico/senha.service';
 import { SenhaAtualizarComponent } from './pages/painel-eletronico/senha/atualizar/senha-atualizar.component';
 import { PainelVisualizarComponent } from './pages/painel-eletronico/painel/visualizar/painel-visualizar.component';
+import { CadastroComponent } from './pages/cadastro/cadastro.component';
+import { CargoService } from './services/cadastro-unico/cargo.service';
+import { CnaeService } from './services/empregador/cnae.service';
 
 @NgModule({
   declarations: [
@@ -26,11 +29,11 @@ import { PainelVisualizarComponent } from './pages/painel-eletronico/painel/visu
     SenhaAtualizarComponent,
     PainelVisualizarComponent,
     TemplateComponent,
+    CadastroComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule,
     SharedModule,
     FormsModule,
     AppRoutingModule,
@@ -42,6 +45,9 @@ import { PainelVisualizarComponent } from './pages/painel-eletronico/painel/visu
     UsuarioService,
     SenhaService,
     AuthGuard,
+    CargoService,
+    CnaeService,
+    CargoService,
     {provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => LovComponent),
       multi: true},

@@ -114,13 +114,35 @@ import { EncaminhamentoService } from "../../services/vaga/encaminhamento.servic
 import { EncaminhamentoNaoAtendidoService } from "../../services/vaga/encaminhamento-nao-atendido.service";
 import { EncaminhamentoPesquisarComponent } from "../../pages/encaminhamento/pesquisar/encaminhamento-pesquisar.component";
 import { ModalAlterarSituacaoTrabalhadorComponent } from "../../pages/geral/modal-situacao-ingresso-trabalhador/modal-alterar-situacao-trabalhador.component";
+import {ModalResetarSenhaComponent} from '../../pages/geral/modal-resetar-senha/modal-resetar-senha.component';
 
 @NgModule({
     exports: [
       FooterComponent,
       MenuComponent,
       HeaderComponent,
-      CommonModule
+      CommonModule,
+      RouterModule,
+      BrowserModule,
+      FormsModule,
+      ReactiveFormsModule,
+      HttpClientModule,
+      CommonModule,
+      AptCpfComponent,
+      AptCnpjComponent,
+      NgxMaskModule,
+      MatDatepickerModule,
+      MatAutocompleteModule,
+      AptEmailComponent,
+      MatDialogModule,
+      MatToolbarModule,
+      MatCardModule,
+      MatMenuModule,
+      MatIconModule,
+      MatButtonModule,
+      MatAutocompleteModule,
+      MatFormFieldModule,
+      BrowserAnimationsModule,
     ],
     imports: [
         RouterModule,
@@ -144,7 +166,8 @@ import { ModalAlterarSituacaoTrabalhadorComponent } from "../../pages/geral/moda
         ToastrModule.forRoot(),
         NgbModule.forRoot(),
         CurrencyMaskModule,
-        NgxMaskModule.forRoot()
+        NgxMaskModule.forRoot(),
+
     ],
     declarations: [
         FooterComponent,
@@ -229,6 +252,7 @@ import { ModalAlterarSituacaoTrabalhadorComponent } from "../../pages/geral/moda
         ModalVagaFinalizarComponent,
 		ModalAtivarInativarTrabalhadorComponent,
         ModalAlterarSituacaoTrabalhadorComponent,
+      ModalResetarSenhaComponent,
 
         LayoutComponent,
         AptCpfComponent,
@@ -249,7 +273,6 @@ import { ModalAlterarSituacaoTrabalhadorComponent } from "../../pages/geral/moda
       EmpregadorService,
       TrabalhadorService,
       ProfissionalService,
-      CargoService,
       LocalService,
       QualificacaoService,
       TipoAcaoService,
@@ -275,10 +298,10 @@ import { ModalAlterarSituacaoTrabalhadorComponent } from "../../pages/geral/moda
         provide: HTTP_INTERCEPTORS,
         useClass: AuthInterceptor,
         multi: true
-      }, 
+      },
       { provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
       { provide: DateAdapter, useClass: DateFormat },
-      
+
     ],
 
     entryComponents: [ DialogComponent ],

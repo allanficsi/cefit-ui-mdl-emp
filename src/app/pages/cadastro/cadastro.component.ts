@@ -1,46 +1,49 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators/map';
-import { startWith } from 'rxjs/operators/startWith';
-import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
-import { Auditoria } from '../../../model/auditoria';
-import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
-import { Cargo } from '../../../model/cadastro-unico/cargo';
-import { Contato } from '../../../model/cadastro-unico/contato';
-import { Endereco } from '../../../model/cadastro-unico/endereco';
-import { ExtensaoEndereco } from '../../../model/cadastro-unico/extensao-endereco';
-import { PessoaFisica } from '../../../model/cadastro-unico/pessoa-fisica';
-import { PessoaJuridica } from '../../../model/cadastro-unico/pessoa-juridica';
-import { Telefone } from '../../../model/cadastro-unico/telefone';
-import { Correio } from '../../../model/correio/correio';
-import { Cnae } from '../../../model/empregador/cnae';
-import { Empregador } from '../../../model/empregador/empregador';
-import { Dominio } from '../../../model/geral/dominio';
-import { ResponseApi } from '../../../model/response-api';
-import { CargoService } from '../../../services/cadastro-unico/cargo.service';
-import { CorreioService } from '../../../services/correio/correio.service';
-import { CnaeService } from '../../../services/empregador/cnae.service';
-import { EmpregadorService } from '../../../services/empregador/empregador.service';
-import { DominioService } from '../../../services/geral/dominio.service';
-import { DialogService } from '../../../services/shared/dialog.service';
-import { MensagemService } from '../../../services/shared/mensagem.service';
-import { ModalCargoComponent } from '../../geral/modal-cargo/modal-cargo.component';
-import { ModalEditarContatoComponent } from '../../geral/modal-editar-contato/modal-editar-contato.component';
-import { ModalTelefoneComponent } from '../../geral/modal-telefone/modal-telefone.component';
-
+import { CurrentUser } from '../../model/current-user';
+import { UsuarioService } from '../../services/usuario/usuario.service';
+import { Usuario } from '../../model/usuario';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import { MensagemService } from '../../services/shared/mensagem.service';
+import * as $ from 'jquery';
+import {Endereco} from '../../model/cadastro-unico/endereco';
+import {Contato} from '../../model/cadastro-unico/contato';
+import {Telefone} from '../../model/cadastro-unico/telefone';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {Cnae} from '../../model/empregador/cnae';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {EmpregadorService} from '../../services/empregador/empregador.service';
+import {DominioService} from '../../services/geral/dominio.service';
+import {CorreioService} from '../../services/correio/correio.service';
+import {CargoService} from '../../services/cadastro-unico/cargo.service';
+import {CnaeService} from '../../services/empregador/cnae.service';
+import {DialogService} from '../../services/shared/dialog.service';
+import {Empregador} from '../../model/empregador/empregador';
+import {map, startWith} from 'rxjs/operators';
+import {ExtensaoEndereco} from '../../model/cadastro-unico/extensao-endereco';
+import {CadastroUnico} from '../../model/cadastro-unico/cadastro-unico';
+import {PessoaJuridica} from '../../model/cadastro-unico/pessoa-juridica';
+import {PessoaFisica} from '../../model/cadastro-unico/pessoa-fisica';
+import {ResponseApi} from '../../model/response-api';
+import {Dominio} from '../../model/geral/dominio';
+import {Correio} from '../../model/correio/correio';
+import {Cargo} from '../../model/cadastro-unico/cargo';
+import {Auditoria} from '../../model/auditoria';
+import {ModalTelefoneComponent} from '../geral/modal-telefone/modal-telefone.component';
+import {ModalCargoComponent} from '../geral/modal-cargo/modal-cargo.component';
+import {ModalEditarContatoComponent} from '../geral/modal-editar-contato/modal-editar-contato.component';
+import {AptareCrudController} from '../../components/shared/crud/aptare-crud-controller';
 
 @Component({
-  selector: 'app-empregador-atualizar',
-  templateUrl: './empregador-atualizar.component.html',
-  styleUrls: ['./empregador-atualizar.component.css']
+  selector: 'app-login',
+  templateUrl: './cadastro.component.html',
+  styleUrls: ['./cadastro.component.css']
 })
-export class EmpregadorAtualizarComponent extends AptareCrudController<Empregador, {new(): Empregador}>{ 
+export class CadastroComponent extends AptareCrudController<Empregador, {new(): Empregador}> {
+
   @Input() value: any;
   @Output() valueChange = new EventEmitter();
- 
+
 
   listaTipoEndereco = [];
   listaTipoTelefone = [];
@@ -59,24 +62,24 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   isBairroReadOnly: boolean;
   isLocalidadeReadOnly: boolean;
   isUfReadOnly: boolean;
-  
+
   myControlCnae: FormControl = new FormControl();
   filteredOptions: Observable<Cnae[]>;
 
   constructor(router: Router,
-              route: ActivatedRoute,  
-              dialog: MatDialog,                   
-              service: EmpregadorService,
+              route: ActivatedRoute,
+              dialog: MatDialog,
+               service: EmpregadorService,
               private dominioService: DominioService,
               private correioService: CorreioService,
-              private cargoService: CargoService,
+               private cargoService: CargoService,
               private cnaeService: CnaeService,
               mensagem: MensagemService,
               dialogService: DialogService) {
     super(router, route, dialog, Empregador, service, mensagem, dialogService);
- }
+  }
 
- ngOnInit(): void {
+  ngOnInit(): void {
     super.ngOnInit();
     this.filteredOptions = this.myControlCnae.valueChanges
       .pipe(
@@ -84,9 +87,6 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
         map(value => typeof value === 'string' ? value : value.descricao),
         map(descricao => descricao ? this._filter(descricao) : this.listaCnae.slice())
       );
-
-   this.codigo = this.getCodigoEmpregadorLogado();
-   this.iniciarPaginaAlterar();
   }
 
   displayFn(cnae?: Cnae): string | undefined {
@@ -101,12 +101,12 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
 
   setListasStaticas() {
 
-    super.setListasStaticas();
-    this.popularTipoEndereco();
-    this.popularCargo(null);
-    this.popularPorteEmpresa();
-    this.popularCnae();
-    this.popularTipoContato();
+     super.setListasStaticas();
+     this.popularTipoEndereco();
+     this.popularCargo(null);
+     this.popularPorteEmpresa();
+     this.popularCnae();
+     this.popularTipoContato();
     this.popularTipoTelefone();
 
   }
@@ -144,7 +144,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     empregador.codigo = +this.codigo;
 
     // GET EMPREGADOR COM O CODIGO
-    this.service.get(empregador).subscribe((responseApi:ResponseApi) => {              
+    this.service.get(empregador).subscribe((responseApi:ResponseApi) => {
 
       this.objetoAtualiza = responseApi.data;
 
@@ -193,16 +193,16 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       //setar valor Cnae
       for(var i=0; i < this.listaCnae.length;i++)
       {
-      	 //console.log(this.listaCnae[i].codigo);
-      	 if(this.listaCnae[i].codigo == this.objetoAtualiza.codigoCnae)
-      	 {
-      	 	this.objetoAtualiza.cnae = this.listaCnae[i];
-      	 }
+        //console.log(this.listaCnae[i].codigo);
+        if(this.listaCnae[i].codigo == this.objetoAtualiza.codigoCnae)
+        {
+          this.objetoAtualiza.cnae = this.listaCnae[i];
+        }
       }
 
       //console.log(this.objetoAtualiza);
     } , err => {
-      this.mensagem.tratarErro(err);  
+      this.mensagem.tratarErro(err);
     });
   }
 
@@ -223,11 +223,11 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
 
     this.objetoAtualiza.numeroCei = null;
 
-    
+
     this.objetoAtualiza.cadastroUnico.tipoPessoa = tipoPessoa;
     this.listaTelefonePf = [];
     this.listaContato = [];
-    
+
   }
 
   popularTipoTelefone() {
@@ -238,12 +238,12 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     dominio.nomeCampo = 'TP_TLF';
 
     this.dominioService.pesquisar(dominio)
-                .subscribe((responseApi:ResponseApi) => {
-      this.listaTipoTelefone = responseApi['data'];
-      this.telefonePf.objTipo = this.listaTipoTelefone[0];
-    } , err => {
-      this.mensagem.tratarErro(err);
-    });
+      .subscribe((responseApi:ResponseApi) => {
+        this.listaTipoTelefone = responseApi['data'];
+        this.telefonePf.objTipo = this.listaTipoTelefone[0];
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
   }
 
   popularTipoEndereco() {
@@ -251,12 +251,12 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     dominio.nomeCampo = 'TP_EDR';
 
     this.dominioService.pesquisar(dominio)
-                .subscribe((responseApi:ResponseApi) => {
-      this.listaTipoEndereco = responseApi['data'];
-      this.endereco.objTipo = this.listaTipoEndereco[0]; 
-    } , err => {
-      this.mensagem.tratarErro(err);
-    });
+      .subscribe((responseApi:ResponseApi) => {
+        this.listaTipoEndereco = responseApi['data'];
+        this.endereco.objTipo = this.listaTipoEndereco[0];
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
   }
 
   popularPorteEmpresa() {
@@ -264,51 +264,51 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     dominio.nomeCampo = 'CD_PEM';
 
     this.dominioService.pesquisar(dominio)
-                .subscribe((responseApi:ResponseApi) => {
-      this.listaPorteEmpresa = responseApi['data']; 
-    } , err => {
-      this.mensagem.tratarErro(err);
-    });
+      .subscribe((responseApi:ResponseApi) => {
+        this.listaPorteEmpresa = responseApi['data'];
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
   }
 
   pesquisarCep() {
     if(this.endereco.cepFormatado != null
-        && this.endereco.cepFormatado != '') {
+      && this.endereco.cepFormatado != '') {
       let correio: Correio = new Correio();
       correio.cep = Number(this.endereco.cepFormatado);
 
       this.correioService.get(correio)
-                  .subscribe((responseApi:ResponseApi) => {
-        let correio: Correio = new Correio();
-        correio = responseApi['data'];
-        
-        this.endereco.extensaoEndereco = new ExtensaoEndereco();
-        
-        if(correio != null) {
-          this.endereco.extensaoEndereco.logradouro = correio.logradouro;
-          this.endereco.extensaoEndereco.bairro = correio.bairro;
-          this.endereco.extensaoEndereco.localidade = correio.localidade;
-          this.endereco.extensaoEndereco.uf = correio.uf;
+        .subscribe((responseApi:ResponseApi) => {
+          let correio: Correio = new Correio();
+          correio = responseApi['data'];
 
-          this.endereco.extensaoEndereco.logradouro == "" ? this.isLogradouroReadOnly = false : this.isLogradouroReadOnly = true;
-          this.endereco.extensaoEndereco.bairro == "" ? this.isBairroReadOnly = false : this.isBairroReadOnly = true;
-          this.endereco.extensaoEndereco.localidade == "" ? this.isLocalidadeReadOnly = false : this.isLocalidadeReadOnly = true;
-          this.endereco.extensaoEndereco.uf == "" ? this.isUfReadOnly = false : this.isUfReadOnly = true;
+          this.endereco.extensaoEndereco = new ExtensaoEndereco();
 
-        } else {
-          this.endereco.extensaoEndereco.logradouro = null;
-          this.endereco.extensaoEndereco.bairro = null;
-          this.endereco.extensaoEndereco.localidade = null;
-          this.endereco.extensaoEndereco.uf = 'AC';
+          if(correio != null) {
+            this.endereco.extensaoEndereco.logradouro = correio.logradouro;
+            this.endereco.extensaoEndereco.bairro = correio.bairro;
+            this.endereco.extensaoEndereco.localidade = correio.localidade;
+            this.endereco.extensaoEndereco.uf = correio.uf;
 
-          this.isLogradouroReadOnly = false;
-          this.isBairroReadOnly = false;
-          this.isLocalidadeReadOnly = false;
-          this.isUfReadOnly = false;
-        }
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
+            this.endereco.extensaoEndereco.logradouro == "" ? this.isLogradouroReadOnly = false : this.isLogradouroReadOnly = true;
+            this.endereco.extensaoEndereco.bairro == "" ? this.isBairroReadOnly = false : this.isBairroReadOnly = true;
+            this.endereco.extensaoEndereco.localidade == "" ? this.isLocalidadeReadOnly = false : this.isLocalidadeReadOnly = true;
+            this.endereco.extensaoEndereco.uf == "" ? this.isUfReadOnly = false : this.isUfReadOnly = true;
+
+          } else {
+            this.endereco.extensaoEndereco.logradouro = null;
+            this.endereco.extensaoEndereco.bairro = null;
+            this.endereco.extensaoEndereco.localidade = null;
+            this.endereco.extensaoEndereco.uf = 'AC';
+
+            this.isLogradouroReadOnly = false;
+            this.isBairroReadOnly = false;
+            this.isLocalidadeReadOnly = false;
+            this.isUfReadOnly = false;
+          }
+        } , err => {
+          this.mensagem.tratarErro(err);
+        });
     } else {
       this.endereco.extensaoEndereco.logradouro = null;
       this.endereco.extensaoEndereco.bairro = null;
@@ -326,31 +326,31 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     let cargo: Cargo = new Cargo();
 
     this.cargoService.pesquisar(cargo)
-                .subscribe((responseApi:ResponseApi) => {
-      this.listaCargo = responseApi['data']; 
-      if(codigo != null && typeof codigo !== "undefined") {
-        for(let i = 0; i < this.listaCargo.length; i++) {
-          if(codigo == this.listaCargo[i].codigo) {
-            this.contato.cargo = this.listaCargo[i];
+      .subscribe((responseApi:ResponseApi) => {
+        this.listaCargo = responseApi['data'];
+        if(codigo != null && typeof codigo !== "undefined") {
+          for(let i = 0; i < this.listaCargo.length; i++) {
+            if(codigo == this.listaCargo[i].codigo) {
+              this.contato.cargo = this.listaCargo[i];
+            }
           }
+        } else {
+          this.contato.cargo = this.listaCargo[0];
         }
-      } else {
-        this.contato.cargo = this.listaCargo[0];
-      }
-    } , err => {
-      this.mensagem.tratarErro(err);
-    });
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
   }
 
   popularCnae() {
     let cnae: Cnae = new Cnae();
 
     this.cnaeService.pesquisar(cnae)
-                .subscribe((responseApi:ResponseApi) => {
-      this.listaCnae = responseApi['data']; 
-    } , err => {
-      this.mensagem.tratarErro(err);
-    });
+      .subscribe((responseApi:ResponseApi) => {
+        this.listaCnae = responseApi['data'];
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
   }
 
   popularTipoContato() {
@@ -358,17 +358,17 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     dominio.nomeCampo = 'TP_CTT';
 
     this.dominioService.pesquisar(dominio)
-                .subscribe((responseApi:ResponseApi) => {
-      this.listaTipoContato = responseApi['data']; 
-      this.contato.objTipoContato = this.listaTipoContato[0];
-    } , err => {
-      this.mensagem.tratarErro(err);
-    });
+      .subscribe((responseApi:ResponseApi) => {
+        this.listaTipoContato = responseApi['data'];
+        this.contato.objTipoContato = this.listaTipoContato[0];
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
   }
 
   adicionarEndereco() {
     if(this.validarEndereco()) {
-      
+
       let enderecoAdicionar: Endereco = new Endereco();
       enderecoAdicionar.extensaoEndereco = new ExtensaoEndereco();
 
@@ -385,7 +385,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       enderecoAdicionar.extensaoEndereco.uf = this.endereco.extensaoEndereco.uf;
       enderecoAdicionar.flagAtivo = 'S';
       enderecoAdicionar.auditoria = new Auditoria();
-      enderecoAdicionar.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
+      enderecoAdicionar.auditoria.codigoUsuarioInclusao = 1 // todo this.getCodigoUsuarioLogado();
       enderecoAdicionar.auditoria.dataInclusao = new Date();
 
       this.listaEndereco.push(enderecoAdicionar);
@@ -411,7 +411,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     contatoAdicionar.objTipoContato = this.contato.objTipoContato;
     contatoAdicionar.flagAtivo = "S";
     contatoAdicionar.auditoria = new Auditoria();
-    contatoAdicionar.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
+    contatoAdicionar.auditoria.codigoUsuarioInclusao = 1;//todo, aki era getcodigoDoUsuaarioLogado
     contatoAdicionar.auditoria.dataInclusao = new Date();
 
     this.listaContato.push(contatoAdicionar);
@@ -424,14 +424,14 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     dialogConfig.autoFocus = true;
     dialogConfig.height = '280px';
     dialogConfig.width = '750px';
-    dialogConfig.data = {index: index};    
+    dialogConfig.data = {index: index};
 
     this.dialog.open(ModalTelefoneComponent, dialogConfig)
-               .afterClosed().subscribe((data) => {
+      .afterClosed().subscribe((data) => {
       if(typeof data !== "undefined") {
         this.adicionarTelefone(data, index);
       }
-    });  
+    });
   }
 
   adicionarTelefone(telefone: Telefone, index) {
@@ -443,7 +443,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
         }
 
         telefone.auditoria = new Auditoria();
-        telefone.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
+        telefone.auditoria.codigoUsuarioInclusao = 1 //todo this.getCodigoUsuarioLogado();
         telefone.auditoria.dataInclusao = new Date();
         telefone.flagAtivo = 'S';
         telefone.flagWhats = (typeof telefone.flagWhats !== 'undefined') ? true : false ;
@@ -464,7 +464,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       telefoneAdicionar.numero = Number(this.telefonePf.nrTelefoneExtenso.substring(2,this.telefonePf.nrTelefoneExtenso.length));
       telefoneAdicionar.auditoria = new Auditoria();
       telefoneAdicionar.auditoria.dataInclusao = new Date();
-      telefoneAdicionar.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
+      telefoneAdicionar.auditoria.codigoUsuarioInclusao = 1; //todo this.getCodigoUsuarioLogado(); ;
       telefoneAdicionar.flagAtivo = 'S';
       telefoneAdicionar.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false ;
 
@@ -475,9 +475,9 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   }
 
   validarTelefonePf() {
-    if((typeof this.telefonePf.nrTelefoneExtenso === "undefined") 
-            || this.telefonePf.nrTelefoneExtenso === ''
-            || Number(this.telefonePf.nrTelefoneExtenso.length) < 11) {
+    if((typeof this.telefonePf.nrTelefoneExtenso === "undefined")
+      || this.telefonePf.nrTelefoneExtenso === ''
+      || Number(this.telefonePf.nrTelefoneExtenso.length) < 11) {
       this.mensagem.tratarErroPersonalizado("", "Informe um telefone com no mínimo 11 dígitos.");
       return false;
     }
@@ -510,7 +510,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     dialogConfig.height = '250px';
 
     this.dialog.open(ModalCargoComponent, dialogConfig)
-                            .afterClosed().subscribe((data) => {
+      .afterClosed().subscribe((data) => {
       this.popularCargo(data.codigo);
     });
 
@@ -538,13 +538,13 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     //dialogConfig.height = '280px';
     dialogConfig.width = '680px';
     dialogConfig.data = contato;
-   
+
     this.dialog.open(ModalEditarContatoComponent, dialogConfig)
-               .afterClosed().subscribe((data) => {
+      .afterClosed().subscribe((data) => {
       if(typeof data !== "undefined") {
         this.editarContato(data, index);
       }
-    });  
+    });
 
   }
 
@@ -552,13 +552,13 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     this.listaContato[index] = data;
     this.listaContato[index].descricaoTipoContato = data.objTipoContato.nomeValor;
     this.listaContato[index].codigoCargo = data.cargo.codigo;
-  } 
+  }
 
 
   excluirContato(index) {
     if(this.listaContato[index].codigo != null && typeof this.listaContato[index].codigo !== "undefined") {
       this.listaContato[index].flagAtivo = "N";
-      this.listaContato[index].codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+      this.listaContato[index].codigoUsuarioAlteracao = 1//todo this.getCodigoUsuarioLogado();
       this.listaContato[index].dataAlteracao = new Date();
     } else {
       this.listaContato.splice(index,1);
@@ -574,7 +574,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   }
 
   completarInserir() {
-    
+
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J") {
       if(this.objetoAtualiza.cadastroUnico.cnpj != null && typeof this.objetoAtualiza.cadastroUnico.cnpj !== 'undefined') {
         this.objetoAtualiza.cadastroUnico.cpfCnpj = Number(this.objetoAtualiza.cadastroUnico.cnpj);
@@ -587,7 +587,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       if(this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato.length > 0) {
         this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato.forEach(element => {
           element.auditoria = new Auditoria();
-          element.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
+          element.auditoria.codigoUsuarioInclusao = 1; //todo this.getCodigoUsuarioLogado();
           element.auditoria.dataInclusao = new Date();
           element.flagAtivo = 'S';
         });
@@ -609,17 +609,17 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     this.objetoAtualiza.situacao = 2;  //ATIVO
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.dataInclusao = new Date();
-    this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
+    this.objetoAtualiza.auditoria.codigoUsuarioInclusao = 1;//todo this.getCodigoUsuarioLogado();
 
     //AUDITORIA CUN
     this.objetoAtualiza.cadastroUnico.auditoria = new Auditoria();
     this.objetoAtualiza.cadastroUnico.auditoria.dataInclusao = new Date();
-    this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
+    this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioInclusao = 1; //todo this.getCodigoUsuarioLogado();
 
     if(this.objetoAtualiza.cadastroUnico !== null
       && this.objetoAtualiza.cadastroUnico.codigo !== null && typeof this.objetoAtualiza.cadastroUnico.codigo !== 'undefined') {
-        this.objetoAtualiza.cadastroUnico.auditoria.dataAlteracao = new Date();
-        this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+      this.objetoAtualiza.cadastroUnico.auditoria.dataAlteracao = new Date();
+      this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioAlteracao = 1; //todo this.getCodigoUsuarioLogado();
     }
 
   }
@@ -685,11 +685,11 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   }
 
   validarInserir() {
-    
+
     //VALIDACAO DE CAMPOS OBRIGATORIOS PJ
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J") {
       if((this.objetoAtualiza.cadastroUnico.cnpj == null || this.objetoAtualiza.cadastroUnico.cnpj == '')
-            && (this.objetoAtualiza.numeroCei == null || this.objetoAtualiza.numeroCei <= 0)) {
+        && (this.objetoAtualiza.numeroCei == null || this.objetoAtualiza.numeroCei <= 0)) {
         this.mensagem.tratarErroPersonalizado("", "Pelo menos um dos campos CNPJ ou CEI é obrigatório.");
         return false;
       }
@@ -816,12 +816,12 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   carregarCadastroUnico(event) {
     // Verificando se existe empregador (pf) com o cdcun
     if(event.codigo !== null && typeof event.codigo !== 'undefined'){
-      
+
       let objEmp: Empregador = new Empregador();
       objEmp.codigoCadastroUnico = event.codigo;
 
-       this.service.get(objEmp).subscribe((responseApi:ResponseApi) => {
-         
+      this.service.get(objEmp).subscribe((responseApi:ResponseApi) => {
+
         this.objetoAtualiza = new Empregador();
         this.iniciarPaginaInserir();
 
@@ -839,42 +839,42 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
 
         //populando endereco
         this.listaEndereco = [];
-    
-          if(typeof this.objetoAtualiza.cadastroUnico.listaEndereco !== 'undefined') {
-            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.listaEndereco.length; i++) {
-    
-              let eex: ExtensaoEndereco = new ExtensaoEndereco();
-    
-              if(this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio != null) {
-                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.logradouro;
-                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.bairro;
-                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.localidade;
-                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.uf;
-              } else {
-                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.logradouro;
-                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.bairro;
-                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.localidade;
-                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.uf;
-              }
-    
-              this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco = eex;
-              this.listaEndereco.push(this.objetoAtualiza.cadastroUnico.listaEndereco[i]);
-    
+
+        if(typeof this.objetoAtualiza.cadastroUnico.listaEndereco !== 'undefined') {
+          for(let i = 0; i < this.objetoAtualiza.cadastroUnico.listaEndereco.length; i++) {
+
+            let eex: ExtensaoEndereco = new ExtensaoEndereco();
+
+            if(this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio != null) {
+              eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.logradouro;
+              eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.bairro;
+              eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.localidade;
+              eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.uf;
+            } else {
+              eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.logradouro;
+              eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.bairro;
+              eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.localidade;
+              eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.uf;
             }
+
+            this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco = eex;
+            this.listaEndereco.push(this.objetoAtualiza.cadastroUnico.listaEndereco[i]);
+
           }
-    
-          // populando telefone
-          this.listaTelefonePf = [];
-          if(typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone !== 'undefined') {
-            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone.length; i++) {
-              this.listaTelefonePf.push(this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i]);
-            }
+        }
+
+        // populando telefone
+        this.listaTelefonePf = [];
+        if(typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone !== 'undefined') {
+          for(let i = 0; i < this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone.length; i++) {
+            this.listaTelefonePf.push(this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i]);
           }
+        }
         //}
 
-       } , err => {
-         this.mensagem.tratarErro(err);
-       });
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
     } else {
       this.objetoAtualiza = new Empregador();
       this.iniciarPaginaInserir();
@@ -882,7 +882,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
       this.listaTelefonePf = [];
       this.objetoAtualiza.cadastroUnico.cpf = event.cpf;
     }
-    
+
   }
 
 
@@ -890,18 +890,18 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   carregarCadastroUnicoPJ(event) {
     // Verificando se existe empregador (pj) com o cdcun
     if(event.codigo !== null && typeof event.codigo !== 'undefined'){
-      
+
       let objEmp: Empregador = new Empregador();
       objEmp.codigoCadastroUnico = event.codigo;
 
-       this.service.get(objEmp).subscribe((responseApi:ResponseApi) => {
-         
+      this.service.get(objEmp).subscribe((responseApi:ResponseApi) => {
+
         this.objetoAtualiza = new Empregador();
         this.iniciarPaginaInserir();
 
         if(responseApi['data'] !== null && typeof responseApi['data'] !== 'undefined') {
           this.objetoAtualiza = responseApi['data'];
-          
+
           this.mensagem.tratarErroPersonalizado("", "Já existe um empregador cadastrado com este cnpj.");
         }
 
@@ -909,52 +909,52 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
 
         //populando endereco
         this.listaEndereco = [];
-    
-          if(typeof this.objetoAtualiza.cadastroUnico.listaEndereco !== 'undefined') {
-            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.listaEndereco.length; i++) {
-    
-              let eex: ExtensaoEndereco = new ExtensaoEndereco();
-    
-              if(this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio != null) {
-                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.logradouro;
-                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.bairro;
-                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.localidade;
-                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.uf;
-              } else {
-                eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.logradouro;
-                eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.bairro;
-                eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.localidade;
-                eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.uf;
-              }
-    
-              this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco = eex;
-              this.listaEndereco.push(this.objetoAtualiza.cadastroUnico.listaEndereco[i]);
-    
-            }
-          }
-    
-          // populando contato
-          this.listaContato = [];
-          if(this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato != null && typeof this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato !== 'undefined') {
-            for(let i = 0; i < this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato.length; i++) {
-              this.listaContato.push(this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato[i]);
-            }
-          }
 
-          if(typeof this.listaCnae !== 'undefined') {
-            for(var i=0; i < this.listaCnae.length;i++)
+        if(typeof this.objetoAtualiza.cadastroUnico.listaEndereco !== 'undefined') {
+          for(let i = 0; i < this.objetoAtualiza.cadastroUnico.listaEndereco.length; i++) {
+
+            let eex: ExtensaoEndereco = new ExtensaoEndereco();
+
+            if(this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio != null) {
+              eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.logradouro;
+              eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.bairro;
+              eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.localidade;
+              eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.uf;
+            } else {
+              eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.logradouro;
+              eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.bairro;
+              eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.localidade;
+              eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.uf;
+            }
+
+            this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco = eex;
+            this.listaEndereco.push(this.objetoAtualiza.cadastroUnico.listaEndereco[i]);
+
+          }
+        }
+
+        // populando contato
+        this.listaContato = [];
+        if(this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato != null && typeof this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato !== 'undefined') {
+          for(let i = 0; i < this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato.length; i++) {
+            this.listaContato.push(this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato[i]);
+          }
+        }
+
+        if(typeof this.listaCnae !== 'undefined') {
+          for(var i=0; i < this.listaCnae.length;i++)
+          {
+            //console.log(this.listaCnae[i].codigo);
+            if(this.listaCnae[i].codigo == this.objetoAtualiza.codigoCnae)
             {
-              //console.log(this.listaCnae[i].codigo);
-              if(this.listaCnae[i].codigo == this.objetoAtualiza.codigoCnae)
-              {
-                this.objetoAtualiza.cnae = this.listaCnae[i];
-              }
+              this.objetoAtualiza.cnae = this.listaCnae[i];
             }
           }
+        }
 
-       } , err => {
-         this.mensagem.tratarErro(err);
-       });
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
     } else {
       this.objetoAtualiza = new Empregador();
       this.iniciarPaginaInserir();

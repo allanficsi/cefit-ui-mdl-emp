@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MensagemService } from '../../services/shared/mensagem.service';
 import * as $ from 'jquery';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { ModalResetarSenhaComponent } from '../geral/modal-resetar-senha/modal-resetar-senha.component';
 
 @Component({
   selector: 'app-login',
@@ -13,12 +15,13 @@ import * as $ from 'jquery';
 })
 export class LoginComponent implements OnInit {
 
-  usuario = new Usuario(null,'','', null);  
+  usuario = new Usuario(null,'','', null,null);
   usrLogado: string;
 
   constructor(private usuarioService: UsuarioService,
               private mensagem: MensagemService,
-              private router: Router) { }
+              private router: Router,
+              private dialog: MatDialog) { }
 
 
   ngOnInit() {
@@ -46,6 +49,7 @@ export class LoginComponent implements OnInit {
     this.usuarioService.login(this.usuario)
       .subscribe((userAuthentication: CurrentUser) => {
           localStorage.setItem("usuario", JSON.stringify(userAuthentication.usuario));
+          localStorage.setItem("empregador", JSON.stringify(userAuthentication.usuario.empregador));
           localStorage.setItem("token", userAuthentication.token);
 
           this.router.navigate(['/']);
@@ -54,8 +58,28 @@ export class LoginComponent implements OnInit {
       } , err => {
           localStorage.removeItem("usuario");
           localStorage.removeItem("token");
+          localStorage.removeItem("empregador");
           this.mensagem.tratarErro(err);
       });
   }
+
+  cadastrar() {
+    this.router.navigate(['cadastrar']);
+  }
+
+  resetarSenha() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '280px';
+    dialogConfig.width = '750px';
+    //dialogConfig.data = {index: index};
+
+    this.dialog.open(ModalResetarSenhaComponent, dialogConfig)
+      .afterClosed().subscribe((data) => {
+
+    });
+  }
+
 
 }

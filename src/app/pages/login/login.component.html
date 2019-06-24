@@ -12,7 +12,7 @@
 	<div class="card contain-sm style-default-light">
 		<div class="card-body">
 			<div class="row">
-				<div class="col-sm-6 col-sm-offset-3">
+				<div class="col-sm-9 col-sm-offset-1">
 					<form class="form floating-label" #form="ngForm" (ngSubmit)="login()" novalidate accept-charset="utf-8">
 						<div class="form-group">
 							<input type="text"
@@ -22,7 +22,7 @@
                                  id="inputLogin"
                              #dsLogin="ngModel" required>
 
-							<label for="username">Login</label>
+							<label for="inputLogin">Login</label>
 						</div>
 						<div class="form-group">
 							<input type="password"
@@ -32,22 +32,27 @@
 											id="inputPassword"
 							#dsPassword="ngModel" required>
 
-							<label for="password">Senha</label>
-							
+							<label for="inputPassword">Senha</label>
+              <p class="help-block"><a [routerLink]=""  (click)="resetarSenha()"> Esqueceu a senha ?</a></p>
 						</div>
+
 						<br/>
 						<div class="row">
-							<div class="col-xs-6 text-left">
+							<div class="col-xs-4 text-left">
 								<div class="checkbox checkbox-inline checkbox-styled">
 									<label>
 										<input type="checkbox"> <span>Lembrar-me</span>
 									</label>
 								</div>
 							</div><!--end .col -->
-							<div class="col-xs-6 text-right">
+
+							<div class="col-xs-3 text-right">
 								<button type="submit" [disabled]="!form.valid" class="btn ink-reaction btn-raised btn-primary">Entrar</button>
 							</div><!--end .col -->
-						</div><!--end .row --> 
+              <div class="col-xs-5 text-right">
+                <button type="button" class="btn btn-block btn-raised btn-primary" (click)="cadastrar()">Cadastre-se</button>
+              </div><!--end .col -->
+						</div><!--end .row -->
 						<br/>
 						<div class="footer text-center">
 							<img alt="Logo Aptare" src="assets/framework-aptare/img/footer.png">

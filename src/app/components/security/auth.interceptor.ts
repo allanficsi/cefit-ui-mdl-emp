@@ -49,6 +49,7 @@ export class AuthInterceptor implements HttpInterceptor {
                   //this.mensagem.tratarErroPersonalizado('Sua sessão expirou, favor realizar o login novamente.','Sessão expirada');
                   localStorage.removeItem("usuario");
                   localStorage.removeItem("token");
+                  localStorage.removeItem("empregador");
                   this.router.navigate(['/login']);
                 }
               }
