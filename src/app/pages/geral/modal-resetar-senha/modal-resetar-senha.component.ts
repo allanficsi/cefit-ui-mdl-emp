@@ -46,25 +46,6 @@ export class ModalResetarSenhaComponent extends AptareCrudController<Empregador,
   //   this.objetoAtualiza.auditoria.dataInclusao = new Date();
   // }
 
-  resetarSenha() {
-    if (this.validarInserir()) {
-      this.service.resetarSenha(this.objetoAtualiza).subscribe(value => {
-
-        this.fechar();
-      },err =>{
-        console.log(err);
-      } );
-
-    }
-  }
-  completarPosInserir() {
-    this.fechar();
-  }
-
-  fechar() {
-    this.dialogRef.close(this.objetoAtualiza);
-  }
-
   validarInserir() {
     //VALIDACAO DE CAMPOS OBRIGATORIOS
     if(this.objetoAtualiza.cadastroUnico.email == null || this.objetoAtualiza.cadastroUnico.email == '' || this.objetoAtualiza.cadastroUnico.email == undefined) {
@@ -73,6 +54,24 @@ export class ModalResetarSenhaComponent extends AptareCrudController<Empregador,
     }
 
     return true;
+  }
+  resetarSenha() {
+    if (this.validarInserir()) {
+      this.service.resetarSenha(this.objetoAtualiza).subscribe(value => {
+        this.fechar();
+      },err =>{
+        console.log(err);
+      } );
+
+    }
+  }
+
+  completarPosInserir() {
+    this.fechar();
+  }
+
+  fechar() {
+    this.dialogRef.close(this.objetoAtualiza);
   }
 
 

@@ -1,38 +1,38 @@
 import { CurrentUser } from '../../model/current-user';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { Usuario } from '../../model/usuario';
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { ActivatedRoute, Router} from '@angular/router';
 import { MensagemService } from '../../services/shared/mensagem.service';
 import * as $ from 'jquery';
-import {Endereco} from '../../model/cadastro-unico/endereco';
-import {Contato} from '../../model/cadastro-unico/contato';
-import {Telefone} from '../../model/cadastro-unico/telefone';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {Cnae} from '../../model/empregador/cnae';
-import {MatDialog, MatDialogConfig} from '@angular/material';
-import {EmpregadorService} from '../../services/empregador/empregador.service';
-import {DominioService} from '../../services/geral/dominio.service';
-import {CorreioService} from '../../services/correio/correio.service';
-import {CargoService} from '../../services/cadastro-unico/cargo.service';
-import {CnaeService} from '../../services/empregador/cnae.service';
-import {DialogService} from '../../services/shared/dialog.service';
-import {Empregador} from '../../model/empregador/empregador';
-import {map, startWith} from 'rxjs/operators';
-import {ExtensaoEndereco} from '../../model/cadastro-unico/extensao-endereco';
-import {CadastroUnico} from '../../model/cadastro-unico/cadastro-unico';
-import {PessoaJuridica} from '../../model/cadastro-unico/pessoa-juridica';
-import {PessoaFisica} from '../../model/cadastro-unico/pessoa-fisica';
-import {ResponseApi} from '../../model/response-api';
-import {Dominio} from '../../model/geral/dominio';
-import {Correio} from '../../model/correio/correio';
-import {Cargo} from '../../model/cadastro-unico/cargo';
-import {Auditoria} from '../../model/auditoria';
-import {ModalTelefoneComponent} from '../geral/modal-telefone/modal-telefone.component';
-import {ModalCargoComponent} from '../geral/modal-cargo/modal-cargo.component';
-import {ModalEditarContatoComponent} from '../geral/modal-editar-contato/modal-editar-contato.component';
-import {AptareCrudController} from '../../components/shared/crud/aptare-crud-controller';
+import { Endereco } from '../../model/cadastro-unico/endereco';
+import { Contato } from '../../model/cadastro-unico/contato';
+import { Telefone } from '../../model/cadastro-unico/telefone';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Cnae } from '../../model/empregador/cnae';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { EmpregadorService } from '../../services/empregador/empregador.service';
+import { DominioService } from '../../services/geral/dominio.service';
+import { CorreioService } from '../../services/correio/correio.service';
+import { CargoService } from '../../services/cadastro-unico/cargo.service';
+import { CnaeService } from '../../services/empregador/cnae.service';
+import { DialogService } from '../../services/shared/dialog.service';
+import { Empregador } from '../../model/empregador/empregador';
+import { map, startWith } from 'rxjs/operators';
+import { ExtensaoEndereco } from '../../model/cadastro-unico/extensao-endereco';
+import { CadastroUnico } from '../../model/cadastro-unico/cadastro-unico';
+import { PessoaJuridica } from '../../model/cadastro-unico/pessoa-juridica';
+import { PessoaFisica } from '../../model/cadastro-unico/pessoa-fisica';
+import { ResponseApi } from '../../model/response-api';
+import { Dominio } from '../../model/geral/dominio';
+import { Correio } from '../../model/correio/correio';
+import { Cargo } from '../../model/cadastro-unico/cargo';
+import { Auditoria } from '../../model/auditoria';
+import { ModalTelefoneComponent } from '../geral/modal-telefone/modal-telefone.component';
+import { ModalCargoComponent } from '../geral/modal-cargo/modal-cargo.component';
+import { ModalEditarContatoComponent } from '../geral/modal-editar-contato/modal-editar-contato.component';
+import { AptareCrudController } from '../../components/shared/crud/aptare-crud-controller';
 
 @Component({
   selector: 'app-login',
@@ -72,7 +72,7 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
                service: EmpregadorService,
               private dominioService: DominioService,
               private correioService: CorreioService,
-               private cargoService: CargoService,
+              private cargoService: CargoService,
               private cnaeService: CnaeService,
               mensagem: MensagemService,
               dialogService: DialogService) {
@@ -130,7 +130,23 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
     this.objetoAtualiza.cadastroUnico.pessoaFisica.sexo = 'M';
 
   }
+  inserir() {
+    if(this.validarInserir()) {
+      this.completarInserir();
+      //console.log(this.objetoAtualiza);
+      this.service.inserir(this.objetoAtualiza).subscribe((responseApi:ResponseApi) => {
+        //RETORNO DO OBJETO PERSISTIDO
+        this.objetoAtualiza = responseApi.data;
+       // this.objetoAtualiza = objeto;
+        this.completarPosInserir();
+        this.mensagem.msgSucesso('O Cadastro foi realizado com sucesso.');
 
+        // this.spinnerService.hide();
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
+    }
+  }
   iniciarPaginaAlterar() {
 
     this.objetoAtualiza.cadastroUnico = new CadastroUnico();
@@ -677,7 +693,7 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
   }
 
   completarPosInserir() {
-    this.router.navigate(['empregador-pesquisar']);
+    this.router.navigate(['/']);
   }
 
   completarPosAlterar() {
