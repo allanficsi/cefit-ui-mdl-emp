@@ -1,14 +1,14 @@
 import { CurrentUser } from '../../model/current-user';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { Usuario } from '../../model/usuario';
-import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
 import { MensagemService } from '../../services/shared/mensagem.service';
 import * as $ from 'jquery';
 import { Endereco } from '../../model/cadastro-unico/endereco';
 import { Contato } from '../../model/cadastro-unico/contato';
 import { Telefone } from '../../model/cadastro-unico/telefone';
-import { FormControl } from '@angular/forms';
+import {FormControl, NgModel} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Cnae } from '../../model/empregador/cnae';
 import { MatDialog, MatDialogConfig } from '@angular/material';
@@ -43,7 +43,7 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
 
   @Input() value: any;
   @Output() valueChange = new EventEmitter();
-
+  @ViewChildren(NgModel) fields: QueryList<NgModel>;
 
   listaTipoEndereco = [];
   listaTipoTelefone = [];
@@ -69,11 +69,12 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
   constructor(router: Router,
               route: ActivatedRoute,
               dialog: MatDialog,
-               service: EmpregadorService,
+              service: EmpregadorService,
               private dominioService: DominioService,
               private correioService: CorreioService,
               private cargoService: CargoService,
               private cnaeService: CnaeService,
+              private usuarioService:UsuarioService,
               mensagem: MensagemService,
               dialogService: DialogService) {
     super(router, route, dialog, Empregador, service, mensagem, dialogService);
@@ -510,6 +511,7 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
     this.contato = new Contato();
     this.contato.cargo = this.listaCargo[0];
     this.contato.objTipoContato = this.listaTipoContato[0];
+
   }
 
   resetEndereco() {
@@ -622,7 +624,7 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
     }
 
     //AUDITORIA
-    this.objetoAtualiza.situacao = 2;  //ATIVO
+    this.objetoAtualiza.situacao = EmpregadorService.SITUACAO_PENDENTE;  //PENDENTE
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.dataInclusao = new Date();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = 1;//todo this.getCodigoUsuarioLogado();
@@ -693,7 +695,7 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
   }
 
   completarPosInserir() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
   completarPosAlterar() {
@@ -719,6 +721,10 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
         this.mensagem.tratarErroPersonalizado("", "O campo Nome Fantasia é obrigatório.");
         return false;
       }
+      if(this.objetoAtualiza.cadastroUnico.email == null || this.objetoAtualiza.cadastroUnico.email == '') {
+        this.mensagem.tratarErroPersonalizado("", "O campo E-mail é obrigatório.");
+        return false;
+      }
     }
 
     //VALIDACAO DE CAMPOS OBRIGATORIOS PF
@@ -735,6 +741,11 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
 
       if(this.objetoAtualiza.cadastroUnico.pessoaFisica.nomeMae == null || this.objetoAtualiza.cadastroUnico.pessoaFisica.nomeMae == '') {
         this.mensagem.tratarErroPersonalizado("", "O campo Nome da Mãe é obrigatório.");
+        return false;
+      }
+
+      if(this.objetoAtualiza.cadastroUnico.email == null || this.objetoAtualiza.cadastroUnico.email == '') {
+        this.mensagem.tratarErroPersonalizado("", "O campo E-mail é obrigatório.");
         return false;
       }
 
@@ -830,6 +841,8 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
   }
 
   carregarCadastroUnico(event) {
+
+    console.log("dentro CARREGAR CADASTRO UNICO");
     // Verificando se existe empregador (pf) com o cdcun
     if(event.codigo !== null && typeof event.codigo !== 'undefined'){
 
@@ -897,6 +910,7 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
       this.listaEndereco = [];
       this.listaTelefonePf = [];
       this.objetoAtualiza.cadastroUnico.cpf = event.cpf;
+      throw this.objetoAtualiza.cadastroUnico.tipoPessoa = 'F';
     }
 
   }
@@ -904,6 +918,8 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
 
 
   carregarCadastroUnicoPJ(event) {
+
+    console.log("dentro CARREGAR CADASTRO UNICO pj");
     // Verificando se existe empregador (pj) com o cdcun
     if(event.codigo !== null && typeof event.codigo !== 'undefined'){
 
@@ -977,6 +993,7 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
       this.listaEndereco = [];
       this.listaContato = [];
       this.objetoAtualiza.cadastroUnico.cnpj = event.cnpj;
+      this.objetoAtualiza.cadastroUnico.tipoPessoa = 'J'
     }
 
     this.endereco.objTipo = this.listaTipoEndereco[0];
@@ -988,4 +1005,17 @@ export class CadastroComponent extends AptareCrudController<Empregador, {new(): 
     this.back('empregador-pesquisar');
   }
 
+  resetarCampos(tipoPessoa:string) {
+    this.objetoAtualiza = new Empregador();
+    this.iniciarPaginaInserir();
+   // this.checkErrors();
+    this.objetoAtualiza.cadastroUnico.tipoPessoa = tipoPessoa;
+
+  }
+  checkErrors() {
+    this.fields.forEach(model => {
+      model.control.markAsUntouched();
+      model.control.markAsPristine();
+    });
+  };
 }

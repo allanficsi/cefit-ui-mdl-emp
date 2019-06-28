@@ -1,0 +1,88 @@
+<section>    
+  <div class="section-body">
+
+    <!-- <div *ngIf="mensagem">      
+      {{mensagem.text}}
+    </div> -->
+
+    <!-- BEGIN BASICDATION -->
+    <div class="row">     
+
+      <div class="col-lg-12">
+        <div class="card card-underline">
+          <div class="card-head card-head-sm">
+            <header><b>Empregador - Redefinir Senha</b></header>
+
+<!--            <div class="tools">-->
+<!--              <div class="btn-group" title="Apagar todos os campos">-->
+<!--                <a href="javascript:void(0);" class="btn btn-icon-toggle" (click)="limparCampos()">-->
+<!--                  <i class="fa fa-eraser"></i>-->
+<!--                </a>-->
+<!--              </div>-->
+<!--            </div>-->
+          </div>
+          
+          <div class="card-body">
+            <form class="form" name="formulario" autocomplete="off" #form="ngForm" novalidate accept-charset="utf-8"  (ngSubmit)="redefinirSenha()">
+              
+              <h5>Os campos com * são obrigatórios.</h5>
+
+              <!-- OUTRAS INFORMACOES -->
+              <div class="card card-outlined style-primary" id="divOutrasInfo">
+                  <div class="card-head">
+                    <header>Redefinir Senha</header>
+                  </div>
+                
+                  <div class="card-body" style="display: block;">
+
+                  <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <input type="text" maxlength="80" [(ngModel)]="objetoAtualiza.filtro.senhaAntiga"
+                                 name="senhaAtual" class="form-control" autocomplete="off" required >
+                          <label>Digite a senha atual *</label>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <input type="password" maxlength="80" [(ngModel)]="objetoAtualiza.senha"
+                                 name="novaSenha" class="form-control" autocomplete="off" required >
+                          <label>Informe a nova senha *</label>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <input type="password" maxlength="80" [(ngModel)]="objetoAtualiza.filtro.confirmarSenha"
+                                 name="novaSenha2" class="form-control"  #confirmarSenha="ngModel" autocomplete="off" required >
+                          <label>Confirme a nova senha *</label>
+                        </div>
+                      </div>
+               </div>
+               </div>
+              </div>
+
+              <div class="card-actionbar">
+                  <div class="card-actionbar-row">
+                    
+                      <button *ngIf="codigo == undefined" type="submit" class="btn ink-reaction btn-raised btn-success"  accesskey="C">
+                        Redefinir
+                      </button>  
+<!--                      <button *ngIf="codigo != undefined" type="button" (click)="alterar()" class="btn ink-reaction btn-raised btn-success"  accesskey="A">-->
+<!--                        Alterar-->
+<!--                      </button>  -->
+
+                  </div>
+              </div>
+            </form>
+          </div>
+
+        </div>      
+      </div>
+
+    </div>    
+
+  </div>
+  
+</section>

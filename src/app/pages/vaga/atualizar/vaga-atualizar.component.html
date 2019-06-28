@@ -38,8 +38,8 @@
                           <label>Tipo da Vaga *</label>
                           <div style="margin-top: 10px;">
                             <label class="radio-inline radio-styled">
-                              <input *ngIf="codigo == undefined" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel">
-                              <input *ngIf="codigo != undefined" disabled="true" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" >
+                              <input *ngIf="codigo == undefined" disabled="true" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel">
+<!--                              <input *ngIf="codigo != undefined" disabled="true" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" >-->
                               <span>Formal</span>
                             </label>
                             <label class="radio-inline radio-styled">
@@ -93,7 +93,7 @@
                     </div>
                   </div>
 
-                  <div class="row" *ngIf="objetoAtualiza.tipoVaga == 'F'">
+                  <div class="row">
                     <div class="col-sm-9">
                       <div class="form-group">
                           <input type="text" autocomplete="off" [formControl]="myControlCbo" matInput class="form-control" [(ngModel)]="cbo" name="cbo" [matAutocomplete]="auto" placeholder='Informe o CBO da vaga.' required>
@@ -204,64 +204,64 @@
               </div>
 
               <!-- EMPREGADOR -->
-              <div class="card card-outlined style-primary" id="divEndereco">
-                <div class="card-head">
-                  <header>Empregador</header>
-                </div>
+<!--              <div class="card card-outlined style-primary" id="divEndereco">-->
+<!--                <div class="card-head">-->
+<!--                  <header>Empregador</header>-->
+<!--                </div>-->
 
-                <div class="card-body" style="display: block;"> 
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <input type="text" autocomplete="off" maxlength="100" [(ngModel)]="filtroEmpregador" placeholder='Informe o CPF, CNPJ, CEI ou parte do nome do empregador' 
-                              name="filtroEmpregador" class="form-control">  
-                        <label>CPF/CNPJ/CEI ou NOME</label>
-                      </div>
-                    </div>
+<!--                <div class="card-body" style="display: block;"> -->
+<!--                  <div class="row">-->
+<!--                    <div class="col-sm-6">-->
+<!--                      <div class="form-group">-->
+<!--                        <input type="text" autocomplete="off" maxlength="100" [(ngModel)]="filtroEmpregador" placeholder='Informe o CPF, CNPJ, CEI ou parte do nome do empregador' -->
+<!--                              name="filtroEmpregador" class="form-control">  -->
+<!--                        <label>CPF/CNPJ/CEI ou NOME</label>-->
+<!--                      </div>-->
+<!--                    </div>-->
 
-                    <div class="col-sm-1" style="width: 5%; padding-top: 1%;">
-                      <div class="form-group">
-                        <i class="fa fa-search" style="cursor: pointer;" title="Pesquisar empregador" (click)="pesquisarEmpregador()"> </i>
-                      </div>
-                    </div>
-                  </div>
+<!--                    <div class="col-sm-1" style="width: 5%; padding-top: 1%;">-->
+<!--                      <div class="form-group">-->
+<!--                        <i class="fa fa-search" style="cursor: pointer;" title="Pesquisar empregador" (click)="pesquisarEmpregador()"> </i>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
 
-                  <div class="row" *ngIf="empregador != null">
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                        <label>Tipo</label>
-                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>PESSOA JURÍDICA</span>
-                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>PESSOA FÍSICA</span>
-                      </div>
-                    </div>
+<!--                  <div class="row" *ngIf="empregador != null">-->
+<!--                    <div class="col-sm-3">-->
+<!--                      <div class="form-group">-->
+<!--                        <label>Tipo</label>-->
+<!--                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>PESSOA JURÍDICA</span>-->
+<!--                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>PESSOA FÍSICA</span>-->
+<!--                      </div>-->
+<!--                    </div>-->
 
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                        <label *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>CNPJ</label>
-                        <label *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>CPF</label>
-                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>{{empregador.cadastroUnico.cnpj}}</span>
-                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>{{empregador.cadastroUnico.cpf}}</span>
-                      </div>
-                    </div>
+<!--                    <div class="col-sm-3">-->
+<!--                      <div class="form-group">-->
+<!--                        <label *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>CNPJ</label>-->
+<!--                        <label *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>CPF</label>-->
+<!--                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>{{empregador.cadastroUnico.cnpj}}</span>-->
+<!--                        <span *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>{{empregador.cadastroUnico.cpf}}</span>-->
+<!--                      </div>-->
+<!--                    </div>-->
 
-                    <div class="col-sm-3" *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>
-                        <div class="form-group">
-                          <label>CEI</label>
-                          <span>{{empregador.numeroCei}}</span>
-                        </div>
-                      </div>
-                  </div>
+<!--                    <div class="col-sm-3" *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>-->
+<!--                        <div class="form-group">-->
+<!--                          <label>CEI</label>-->
+<!--                          <span>{{empregador.numeroCei}}</span>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                  </div>-->
 
-                  <div class="row" *ngIf="empregador != null">
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label>Nome/Razão Social</label>
-                          <span>{{empregador.cadastroUnico.nome}}</span>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
+<!--                  <div class="row" *ngIf="empregador != null">-->
+<!--                      <div class="col-sm-3">-->
+<!--                        <div class="form-group">-->
+<!--                          <label>Nome/Razão Social</label>-->
+<!--                          <span>{{empregador.cadastroUnico.nome}}</span>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--              </div>-->
 
               <!-- AGENDA -->
               <div class="card card-outlined style-primary" id="divAgenda">

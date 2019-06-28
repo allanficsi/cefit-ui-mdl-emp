@@ -1,11 +1,12 @@
-import {Empregador} from './empregador/empregador';
+import { Empregador } from './empregador/empregador';
+import { FiltroUsuario } from './FiltroUsuario';
 
 export class Usuario {
-    constructor(
-        public codigo: Number,
-        public login: string,
-        public senha: string,
-        public codigoCadastroUnico: Number,
-        public empregador:Empregador
-    ){}
+
+        public codigo: Number;
+        public login: String;
+        public senha: String;
+        public codigoCadastroUnico: Number;
+        public empregador:Empregador;
+        public filtro: FiltroUsuario;
 }

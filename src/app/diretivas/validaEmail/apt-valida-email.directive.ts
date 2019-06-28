@@ -1,12 +1,14 @@
 import { element } from 'protractor';
 import { Directive, ElementRef, HostListener } from '@angular/core';
+import {DialogService} from '../../services/shared/dialog.service';
 
 @Directive({
   selector: '[aptValidaEmail]'
 })
 export class AptValidaEmailDirective {
 
-  constructor(private element: ElementRef) {}
+  constructor(private element: ElementRef,
+              private dialogRef:DialogService) {}
 
   @HostListener('blur')
   blur() {   
@@ -30,7 +32,8 @@ export class AptValidaEmailDirective {
 	} 
 	else
 	{
-		alert("Favor digitar um e-mail válido!");
+	  this.dialogRef.openAlertDialog("Favor digitar um e-mail válido!");
+		//alert("Favor digitar um e-mail válido!");
 		this.element.nativeElement.value = "";
 	}
 

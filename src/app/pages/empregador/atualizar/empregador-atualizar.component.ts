@@ -606,7 +606,8 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     }
 
     //AUDITORIA
-    this.objetoAtualiza.situacao = 2;  //ATIVO
+    this.objetoAtualiza.situacao = EmpregadorService.SITUACAO_ATIVA;  //ATIVO
+
     this.objetoAtualiza.auditoria = new Auditoria();
     this.objetoAtualiza.auditoria.dataInclusao = new Date();
     this.objetoAtualiza.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
@@ -677,11 +678,11 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   }
 
   completarPosInserir() {
-    this.router.navigate(['empregador-pesquisar']);
+    this.router.navigate(['/']);
   }
 
   completarPosAlterar() {
-    this.router.navigate(['empregador-pesquisar']);
+    this.router.navigate(['/']);
   }
 
   validarInserir() {

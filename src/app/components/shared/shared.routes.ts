@@ -56,6 +56,7 @@ import { ModalAlterarSituacaoTrabalhadorComponent } from '../../pages/geral/moda
 import { EncaminhamentoAtualizarComponent } from '../../pages/encaminhamento/atualizar/encaminhamento-atualizar.component';
 import { EncaminhamentoPesquisarComponent } from '../../pages/encaminhamento/pesquisar/encaminhamento-pesquisar.component';
 import { ModalResetarSenhaComponent } from '../../pages/geral/modal-resetar-senha/modal-resetar-senha.component';
+import { EmpregadorRedefinirSenhaComponent } from '../../pages/empregador/resetar-senha/empregador-redefinir-senha.component';
 
 export const CONTENT_ROUTES: Routes = [
 
@@ -66,6 +67,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'empregador-atualizar', component: EmpregadorAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'empregador-atualizar/:id', component: EmpregadorAtualizarComponent, canActivate: [AuthGuard] },
     { path : 'empregador-visualizar/:id', component: EmpregadorVisualizarComponent, canActivate: [AuthGuard] },
+    { path : 'empregador-redefinir', component: EmpregadorRedefinirSenhaComponent, canActivate: [AuthGuard] },
 
     { path : 'trabalhador-pesquisar', component: TrabalhadorPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'trabalhador-atualizar', component: TrabalhadorAtualizarComponent, canActivate: [AuthGuard] },

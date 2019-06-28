@@ -1,13 +1,15 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
+import {DialogService} from '../../services/shared/dialog.service';
 
 @Directive({
   selector: '[aptValidaCnpj]'
 })
 export class AptValidaCnpjDirective {
   
-  constructor(private element: ElementRef) {}
+  constructor(private element: ElementRef,
+              private dialogService: DialogService) {}
 
-  load
+
 
   @HostListener('blur')
   blur() {
@@ -35,7 +37,7 @@ export class AptValidaCnpjDirective {
 
 
     if (cnpj.length < 14 && cnpj.length < 15){
-      alert("CNPJ Inválido");
+      this.dialogService.openAlertDialog('Este CNPJ é inválido, favor informar um CNPJ válido.');
       this.element.nativeElement.value = null;   
       return;
     }
@@ -62,7 +64,7 @@ export class AptValidaCnpjDirective {
         resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
 
         if (resultado != digitos.charAt(0)) {
-          alert("CNPJ Inválido");
+          this.dialogService.openAlertDialog('Este CNPJ é inválido, favor informar um CNPJ válido.');
           this.element.nativeElement.value = null;   
           return;
         }
@@ -79,15 +81,15 @@ export class AptValidaCnpjDirective {
         }
         resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
         if (resultado != digitos.charAt(1)){
-          alert("CNPJ Inválido");
+          this.dialogService.openAlertDialog('Este CNPJ é inválido, favor informar um CNPJ válido.');
           this.element.nativeElement.value = null;   
           return;
         }
 
     }
     else
-    {      
-      alert("CNPJ Inválido");
+    {
+      this.dialogService.openAlertDialog('Este CNPJ é inválido, favor informar um CNPJ válido.');
       this.element.nativeElement.value = null;   
       return;
     }

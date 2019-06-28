@@ -80,6 +80,7 @@ export class VagaGerenciarComponent extends AptareCrudController<Vaga, {new(): V
   }
 
   completarPesquisar() {
+    this.objetoPesquisa.filtro = null;
     let arrayTipo = [];
     let filtro = new FiltroVaga();
 
@@ -93,6 +94,8 @@ export class VagaGerenciarComponent extends AptareCrudController<Vaga, {new(): V
       filtro.tipoVagaIN = arrayTipo;
       this.objetoPesquisa.filtro = filtro;
     }
+    this.objetoPesquisa.codigoEmpregador = this.getCodigoEmpregadorLogado();
+
   }
 
   finalizar(codigo) {

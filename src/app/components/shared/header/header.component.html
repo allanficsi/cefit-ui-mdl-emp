@@ -34,8 +34,8 @@
 							</a>
 							<ul class="dropdown-menu animation-dock">
 								<li class="dropdown-header">Config</li>
-								<li><a href="javascript:alert('Funcionalidade em desenvolvimento')">Meu perfil</a></li>
-								<li><a href="javascript:alert('Funcionalidade em desenvolvimento')">Alterar senha</a></li>
+								<li><a [routerLink]="['/empregador-atualizar']" >Meu perfil</a></li>
+								<li><a [routerLink]="['/empregador-redefinir']">Alterar senha</a></li>
 								<li class="divider"></li>								
 								<li>
 								<a href="javascript:void(0)" (click)="logout()"><i class="fa fa-fw fa-power-off text-danger"></i>Logout</a>

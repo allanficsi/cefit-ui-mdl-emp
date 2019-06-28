@@ -109,7 +109,7 @@
 
                 <tr *ngFor="let item of listaResultado">
                   <td>{{item.descricao}}</td>
-                  <td>{{item.cboEntity.nome}}</td>
+                  <td>{{item?.cboEntity?.nome}}</td>
                   <td>
                     <span *ngIf="item.tipoVaga == 'F'">Formal</span>
                     <span *ngIf="item.tipoVaga == 'I'">Informal</span>
@@ -119,6 +119,7 @@
                     <span *ngIf="item.tipoDescricaoVaga == 'N'">Nominal</span>
                     <span *ngIf="item.tipoDescricaoVaga == 'F'">Freguesia</span>
                   </td>
+                  <td>{{item.dataLimite | date: 'dd/MM/yyyy'}}</td>
                   <td>{{item.dataInicio | date: 'dd/MM/yyyy'}}</td>
                   <td>{{item.dataFim | date: 'dd/MM/yyyy'}}</td>
                   <td>{{item.descricaoSituacao}}</td>

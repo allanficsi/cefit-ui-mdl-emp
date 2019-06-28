@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EmpregadorAtualizarComponent } from './empregador-atualizar.component';
+import { EmpregadorRedefinirSenhaComponent } from './empregador-redefinir-senha.component';
 
 describe('EmpregadorRedefinirSenhaComponent', () => {
-  let component: EmpregadorAtualizarComponent;
-  let fixture: ComponentFixture<EmpregadorAtualizarComponent>;
+  let component: EmpregadorRedefinirSenhaComponent;
+  let fixture: ComponentFixture<EmpregadorRedefinirSenhaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EmpregadorAtualizarComponent ]
+      declarations: [ EmpregadorRedefinirSenhaComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EmpregadorAtualizarComponent);
+    fixture = TestBed.createComponent(EmpregadorRedefinirSenhaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -66,10 +66,11 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
   }
 
   iniciarPaginaInserir() {
-    this.objetoAtualiza.tipoVaga = "F";
+    this.objetoAtualiza.tipoVaga = "I";
     this.objetoAtualiza.tipoDescricaoVaga = "G";
     this.flagSelecionarTodosAgenda = true;
     this.objetoAtualiza.direcionamento = null;
+    this.objetoAtualiza.codigoEmpregador = this.getCodigoEmpregadorLogado();
   }
 
   iniciarPaginaAlterar() {
@@ -348,8 +349,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       this.objetoAtualiza.codigoTrabalhador = this.trabalhador.codigo;
     }
 
-    if(this.objetoAtualiza.tipoVaga == 'F'
-      && (this.cbo != null && typeof this.cbo.codigo != 'undefined')) {
+    if(this.cbo != null && typeof this.cbo.codigo != 'undefined') {
       this.objetoAtualiza.codigoCbo = this.cbo.codigo;
     }
 
@@ -452,10 +452,10 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       return false;
     }
 
-    if(this.empregador == null) {
-      this.mensagem.tratarErroPersonalizado("", "O campo Empregador é obrigatório.");
-      return false;
-    }
+    // if(this.empregador == null) {
+    //   this.mensagem.tratarErroPersonalizado("", "O campo Empregador é obrigatório.");
+    //   return false;
+    // }
 
     return true;
   }

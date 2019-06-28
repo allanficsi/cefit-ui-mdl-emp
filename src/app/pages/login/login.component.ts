@@ -15,7 +15,8 @@ import { ModalResetarSenhaComponent } from '../geral/modal-resetar-senha/modal-r
 })
 export class LoginComponent implements OnInit {
 
-  usuario = new Usuario(null,'','', null,null);
+  usuario = new Usuario();
+
   usrLogado: string;
 
   constructor(private usuarioService: UsuarioService,
@@ -61,6 +62,7 @@ export class LoginComponent implements OnInit {
           localStorage.removeItem("empregador");
           this.mensagem.tratarErro(err);
       });
+
   }
 
   cadastrar() {
@@ -71,14 +73,15 @@ export class LoginComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.height = '280px';
+    dialogConfig.height = '400px';
     dialogConfig.width = '750px';
     //dialogConfig.data = {index: index};
 
     this.dialog.open(ModalResetarSenhaComponent, dialogConfig)
       .afterClosed().subscribe((data) => {
-
-    });
+    }, err =>{
+        this.mensagem.tratarErro(err);
+    } );
   }
 
 

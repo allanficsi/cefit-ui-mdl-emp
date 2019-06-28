@@ -115,6 +115,7 @@ import { EncaminhamentoNaoAtendidoService } from "../../services/vaga/encaminham
 import { EncaminhamentoPesquisarComponent } from "../../pages/encaminhamento/pesquisar/encaminhamento-pesquisar.component";
 import { ModalAlterarSituacaoTrabalhadorComponent } from "../../pages/geral/modal-situacao-ingresso-trabalhador/modal-alterar-situacao-trabalhador.component";
 import {ModalResetarSenhaComponent} from '../../pages/geral/modal-resetar-senha/modal-resetar-senha.component';
+import {EmpregadorRedefinirSenhaComponent} from '../../pages/empregador/resetar-senha/empregador-redefinir-senha.component';
 
 @NgModule({
     exports: [
@@ -188,6 +189,7 @@ import {ModalResetarSenhaComponent} from '../../pages/geral/modal-resetar-senha/
         EmpregadorPesquisarComponent,
         EmpregadorAtualizarComponent,
         EmpregadorVisualizarComponent,
+        EmpregadorRedefinirSenhaComponent,
 
         TrabalhadorPesquisarComponent,
         TrabalhadorAtualizarComponent,
@@ -250,9 +252,9 @@ import {ModalResetarSenhaComponent} from '../../pages/geral/modal-resetar-senha/
         ModalTipoAcaoComponent,
         ModalEditarAgendaComponent,
         ModalVagaFinalizarComponent,
-		ModalAtivarInativarTrabalhadorComponent,
+		    ModalAtivarInativarTrabalhadorComponent,
         ModalAlterarSituacaoTrabalhadorComponent,
-      ModalResetarSenhaComponent,
+        ModalResetarSenhaComponent,
 
         LayoutComponent,
         AptCpfComponent,

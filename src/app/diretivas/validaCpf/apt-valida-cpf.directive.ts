@@ -1,12 +1,15 @@
 import { element } from 'protractor';
 import { Directive, ElementRef, HostListener, ViewChild, Renderer2, Renderer, Input } from '@angular/core';
+import {DialogService} from '../../services/shared/dialog.service';
 
 @Directive({
   selector: '[aptValidaCpf]'
 })
 export class ValidaCpfDirective {
 
-  constructor(private element: ElementRef, private renderer: Renderer2) {}
+  constructor(private element: ElementRef,
+              private renderer: Renderer2,
+              private dialogService :DialogService) {}
 
 
   @HostListener('blur')
@@ -22,13 +25,15 @@ export class ValidaCpfDirective {
     }
 
     if (cpf.length != 11) { 
-      alert('CPF Inválido');
-      this.element.nativeElement.value = '';       
+      // alert('CPF Inválido');
+      this.dialogService.openAlertDialog('Este CPF é inválido, favor informar um CPF válido.');
+      this.element.nativeElement.value = '';
       return;
     }
 
     if ((cpf == '00000000000') || (cpf == '11111111111') || (cpf == '22222222222') || (cpf == '33333333333') || (cpf == '44444444444') || (cpf == '55555555555') || (cpf == '66666666666') || (cpf == '77777777777') || (cpf == '88888888888') || (cpf == '99999999999')) {
-      alert('CPF Inválido');
+     // alert('CPF Inválido');
+      this.dialogService.openAlertDialog('Este CPF é inválido, favor informar um CPF válido.');
       this.element.nativeElement.value = '';   
       return;
     }
@@ -73,8 +78,9 @@ export class ValidaCpfDirective {
     }
     cpfAux = cpfAux + digito2;
     if (cpf != cpfAux) {
-      this.element.nativeElement.value = '';   
-      alert('CPF Inválido');
+      this.element.nativeElement.value = '';
+      this.dialogService.openAlertDialog('Este CPF é inválido, favor informar um CPF válido.');
+      //alert('CPF Inválido');
       return;
     }
 

@@ -42,10 +42,10 @@
                     </div>
                   </div>
 
-                  <div class="row" *ngIf="objetoAtualiza.tipoVaga == 'F'">
+                  <div class="row" >
                       <div class="col-sm-9">
                         <div class="form-group">
-                          <input type="text" autocomplete="off" class="form-control" [(ngModel)]="objetoAtualiza.cboEntity.nome" name="cbo" disabled placeholder='Informe o CBO da vaga.'>
+                          <input type="text" autocomplete="off" class="form-control" [ngModel]="objetoAtualiza.cboEntity?.nome" name="cbo" disabled placeholder='Informe o CBO da vaga.'>
                           <label>CBO *</label>
                         </div>
                       </div>

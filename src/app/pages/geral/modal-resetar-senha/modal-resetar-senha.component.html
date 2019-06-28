@@ -10,16 +10,56 @@
     
         <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
           
-          <div class="card-body" style="display: block;">          
-            
+          <div class="card-body" style="display: block;">
             <div class="row">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label>Tipo de Pessoa *</label>
+                <div style="margin-top: 10px;">
+                  <label class="radio-inline radio-styled">
+                    <input  type="radio" value="F" [(ngModel)]="objetoAtualiza.cadastroUnico.tipoPessoa" name="tipoPessoa" #tipoPessoa="ngModel" >
+                    <span>Física</span>
+                  </label>
+                  <label class="radio-inline radio-styled">
+                    <input  type="radio" value="J" [(ngModel)]="objetoAtualiza.cadastroUnico.tipoPessoa" name="tipoPessoa" #tipoPessoa="ngModel" >
+                    <span>Jurídica</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            </div>
 
+            <div class="row">
               <div class="col-sm-12">
                   <div class="form-group">
                     <apt-email [(ngModel)]="objetoAtualiza.cadastroUnico.email" name="email" #email="ngModel"></apt-email>
                     <label>E-mail *</label>
                   </div>
                 </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "F"'>
+                <div class="form-group">
+                   <input  type="text" maxlength="18" aptValidaCpf autocomplete="offCpf"
+                  [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'
+                        name="cpf" class="form-control" required>
+<!--                  <input *ngIf="codigo != undefined" type="text" [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" mask='000.000.000-00'-->
+<!--                        name="cpf" class="form-control" required readonly="true">-->
+<!--                  <apt-cpf [(ngModel)]="objetoAtualiza.cadastroUnico.cpf" name="cpf" #cpf="ngModel" [isReadOnly]="codigo != undefined" ></apt-cpf>-->
+                  <label>CPF *</label>
+                </div>
+              </div>
+
+              <div class="col-sm-6" *ngIf='objetoAtualiza.cadastroUnico.tipoPessoa == "J"'>
+                <div class="form-group">
+                   <input type="text" maxlength="18" aptValidaCnpj autocomplete="offCnpj"
+                  [(ngModel)]="objetoAtualiza.cadastroUnico.cnpj" mask='00.000.000/0000-00'
+                        name="cnpj" class="form-control" required>
+<!--                  <apt-cnpj [(ngModel)]="objetoAtualiza.cadastroUnico.cnpj" name="cnpj" #cnpj="ngModel" [isReadOnly]="codigo != undefined" ></apt-cnpj>-->
+                  <label>CNPJ</label>
+                </div>
+              </div>
             </div>
           </div>
 
