@@ -17,7 +17,7 @@ export class HeaderComponent extends AptareUtilController  {
   }
 
   ngOnInit() {
-    this.login = JSON.parse(localStorage.getItem("empregador")).cadastroUnico.nome;
+    this.login = JSON.parse(localStorage.getItem("usuario")).login;
   }
 
   logout() {

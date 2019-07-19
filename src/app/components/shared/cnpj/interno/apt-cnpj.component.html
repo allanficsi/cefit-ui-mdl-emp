@@ -1,0 +1,14 @@
+<!-- CNPJ ATIVO -->
+<input *ngIf="!isReadOnly" 
+       type="text" (blur)="validarCnpj(); getCadastroUnico()"
+       autocomplete="offCnpj"
+       [(ngModel)]="cnpjValor" 
+       mask='00.000.000/0000-00' name="cnpj" class="form-control" required> 
+
+<!-- CNPJ READONLY-->
+<input *ngIf="isReadOnly" 
+       type="text" 
+       [(ngModel)]="cnpjValor"
+       mask='00.000.000/0000-00'
+       name="cnpj" class="form-control" 
+       required readonly="true">

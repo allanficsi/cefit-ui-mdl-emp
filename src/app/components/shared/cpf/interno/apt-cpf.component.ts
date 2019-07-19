@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, forwardRef, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
+import { CadastroUnico } from '../../../../model/cadastro-unico/cadastro-unico';
 import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
-import { ResponseApi } from '../../../model/response-api';
+import { ResponseApi } from '../../../../model/response-api';
 import { DialogService } from 'src/app/services/shared/dialog.service';
 import { MensagemService } from 'src/app/services/shared/mensagem.service';
 import { EventEmitter } from '@angular/core';

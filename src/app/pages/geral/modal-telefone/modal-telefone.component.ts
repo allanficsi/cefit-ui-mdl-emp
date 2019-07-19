@@ -22,8 +22,8 @@ export class ModalTelefoneComponent extends AptareCrudController<Empregador, {ne
   listaTipoTelefone = [];
   telefone: Telefone;
 
-  constructor(router: Router, 
-              route: ActivatedRoute,             
+  constructor(router: Router,
+              route: ActivatedRoute,
               service: EmpregadorService,
               dialog: MatDialog,
               private dominioService: DominioService,
@@ -35,27 +35,32 @@ export class ModalTelefoneComponent extends AptareCrudController<Empregador, {ne
   }
 
   ngOnInit() {
-    
-    this.telefone = new Telefone();
-    this.telefone.tipo = 1;
+
+    //ADICIONANDO NOVO TELEFONE
+    if(typeof this.data.index  !== "undefined"){
+      this.telefone = new Telefone();
+      this.telefone.tipo = 1;
+    }else {
+      //EDITANDO TELEFONE
+      this.telefone = this.data.telefone;
+      this.telefone.nrTelefoneExtenso = this.telefone.ddd.toString() + this.telefone.numero.toString();
+    }
 
     let dominio: Dominio = new Dominio();
     dominio.nomeCampo = 'TP_TLF';
 
-    this.dominioService.pesquisar(dominio)
-                .subscribe((responseApi:ResponseApi) => {
-      this.listaTipoTelefone = responseApi['data']; 
-    } , err => {
-      this.mensagem.tratarErro(err);
-    });
+    this.dominioService.pesquisarExterno(dominio)
+      .subscribe((responseApi:ResponseApi) => {
+        this.listaTipoTelefone = responseApi['data'];
+        this.telefone.objTipo = this.listaTipoTelefone[0];
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
   }
 
   adicionarTelefone() {
 
-    if((typeof this.telefone.nrTelefoneExtenso === "undefined") 
-            || this.telefone.nrTelefoneExtenso === ''
-            || Number(this.telefone.nrTelefoneExtenso.length) < 11) {
-      this.mensagem.tratarErroPersonalizado("", "Informe um telefone com no mínimo 11 dígitos.");
+    if(!this.validarTelefonePJ()){
       return false;
     }
 
@@ -70,6 +75,31 @@ export class ModalTelefoneComponent extends AptareCrudController<Empregador, {ne
 
     this.dialogRef.close(this.telefone);
   }
+
+  validarTelefonePJ() {
+    if ((typeof this.telefone.nrTelefoneExtenso === "undefined")
+      || this.telefone.nrTelefoneExtenso === '') {
+      return false;
+    }
+
+    //VALIDA TELEONE RESIDENCIAL
+    if(Number(this.telefone.nrTelefoneExtenso.length) < 10 && this.telefone.tipo == 1){
+      this.mensagem.tratarErroPersonalizado("","O Telefone deve possuir no mínimo 10 digitos");
+      return false;
+    }
+
+    //VALIDA TELEFONE CELULAR E COMERCIAL
+    if(Number(this.telefone.nrTelefoneExtenso.length) < 11 && (this.telefone.tipo == 2
+      || this.telefone.tipo == 3 ))
+    {
+      this.mensagem.tratarErroPersonalizado("","O Telefone deve possuir no mínimo 11 digitos");
+      return false;
+    }
+
+    return true;
+  }
+
+
 
   fechar() {
     this.dialogRef.close();

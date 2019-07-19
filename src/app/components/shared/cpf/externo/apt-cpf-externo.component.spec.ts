@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AptCpfComponent } from './apt-cpf.component';
+import { AptCpfExternoComponent } from './apt-cpf-externo.component';
 
-describe('AptCpfComponent', () => {
-  let component: AptCpfComponent;
-  let fixture: ComponentFixture<AptCpfComponent>;
+describe('AptCpfExternoComponent', () => {
+  let component: AptCpfExternoComponent;
+  let fixture: ComponentFixture<AptCpfExternoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AptCpfComponent ]
+      declarations: [ AptCpfExternoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AptCpfComponent);
+    fixture = TestBed.createComponent(AptCpfExternoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

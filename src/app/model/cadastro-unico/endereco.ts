@@ -18,6 +18,7 @@ export class Endereco {
     logradouroGenerico: string;
     pontoReferencia: string;
 
+
     objTipo: Dominio;
     auditoria: Auditoria;
     extensaoEndereco: ExtensaoEndereco;

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CadastroComponent } from './cadastro.component';
+import { AptCpfComponent } from './apt-cpf.component';
 
-describe('CadastroComponent', () => {
-  let component: CadastroComponent;
-  let fixture: ComponentFixture<CadastroComponent>;
+describe('AptCpfExternoComponent', () => {
+  let component: AptCpfComponent;
+  let fixture: ComponentFixture<AptCpfComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CadastroComponent ]
+      declarations: [ AptCpfComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CadastroComponent);
+    fixture = TestBed.createComponent(AptCpfComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

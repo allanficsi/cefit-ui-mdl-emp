@@ -173,7 +173,7 @@ export class EncaminhamentoAtualizarComponent extends AptareCrudController<Encam
     this.trabalhador = new Trabalhador();
     this.trabalhador.cadastroUnico = new CadastroUnico();
 
-    this.empregador = this.vaga.empregadorEntity;
+   // this.empregador = this.vaga.empregadorEntity;
 
     // Nominal
     if(this.vaga.tipoDescricaoVaga == "N") {

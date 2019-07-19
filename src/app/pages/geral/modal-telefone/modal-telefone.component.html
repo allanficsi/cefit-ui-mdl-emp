@@ -1,82 +1,83 @@
 
-      <!-- BEGIN BASICDATION -->
-      <div class="row">     
-  
-          <div class="col-lg-12">
-            
-              <div class="card-head card-head-sm">
-                <header><b>Adicionar Telefone</b></header>
-              </div>
-          
-              <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
-                
-                <div class="card-body" style="display: block;">          
-                  
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                          <select class="form-control" [(ngModel)]="telefone.tipo" name="tipoTelefone" #tipoTelefone="ngModel" required>
-                            <option *ngFor="let tipo of listaTipoTelefone" [ngValue]="tipo.valorCampo">{{tipo.nomeValor}}</option>
-                          </select>
-                        <label>Tipo</label>
-                      </div>
-                    </div>
+<!-- BEGIN BASICDATION -->
+<div class="row">
 
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                          <input type="text" [(ngModel)]="telefone.nrTelefoneExtenso" autocomplete="offTel"
-                                  mask='(00) 00000-0000' name="nrTelefoneExtensoPf" class="form-control" required>
-                        <label>Telefone *</label>
-                      </div>
-                    </div>
+  <div class="col-lg-12">
 
-                    <!-- <div class="col-sm-2">
-                      <div class="form-group">
-                          <input type="text" [(ngModel)]="telefone.ddd" autocomplete="off"
-                                 mask='(00)' name="ddd" class="form-control" required>
-                        <label>DDD *</label>
-                      </div>
-                    </div>
+    <div class="card-head card-head-sm">
+      <header><b>Adicionar Telefone</b></header>
+    </div>
 
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <input type="text" [(ngModel)]="telefone.numero" autocomplete="off"
-                                   mask='00000-0000' name="numera" class="form-control" required>
-                          <label>Número *</label>
-                        </div> 
-                      </div> -->
+    <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
 
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <div style="margin-top: 10px;">
-                            <label class="checkbox-inline checkbox-styled">
-                              <input type="checkbox" [(ngModel)]="telefone.flagWhats" name="flagWhats" #flagWhats="ngModel" >
-                              <span><img src="assets/img/wapp.png" style="width: 24px; height: 24px;">WhatsApp</span>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-    
-      
-                <div class="card-actionbar">
-                    <div class="card-actionbar-row">
-                        <button type="button" (click)="adicionarTelefone()" class="btn ink-reaction btn-raised btn-success" accesskey="F">
-                          Adicionar
-                        </button> 
-                        &nbsp;
-                        <button type="button" (click)="fechar()" class="btn ink-reaction btn-raised btn-default" accesskey="F">
-                          Fechar
-                        </button> 
-                    </div>
-                </div>
-              </form>
-    
-            
+      <div class="card-body" style="display: block;">
+
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="form-group">
+              <select class="form-control" [(ngModel)]="telefone.tipo" name="tipoTelefone" #tipoTelefone="ngModel" required>
+                <option *ngFor="let tipo of listaTipoTelefone" [ngValue]="tipo.valorCampo">{{tipo.nomeValor}}</option>
+              </select>
+              <label>Tipo</label>
+            </div>
           </div>
-    
-        </div>    
-    
-    
-  
+
+          <div class="col-sm-4">
+            <div class="form-group">
+              <input type="text" [(ngModel)]="telefone.nrTelefoneExtenso" autocomplete="offTel"
+                     mask="{{telefone.tipo == 1 ? '(00) 0000-0000' : '(00) 00000-0000'}}" name="nrTelefoneExtensoPf" class="form-control" required>
+              <label>Telefone *</label>
+            </div>
+          </div>
+
+          <!-- <div class="col-sm-2">
+            <div class="form-group">
+                <input type="text" [(ngModel)]="telefone.ddd" autocomplete="off"
+                       mask='(00)' name="ddd" class="form-control" required>
+              <label>DDD *</label>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+              <div class="form-group">
+                  <input type="text" [(ngModel)]="telefone.numero" autocomplete="off"
+                         mask='00000-0000' name="numera" class="form-control" required>
+                <label>Número *</label>
+              </div>
+            </div> -->
+
+          <div class="col-sm-3">
+            <div class="form-group">
+              <div *ngIf="telefone.tipo != 1"style="margin-top: 10px;">
+                <label class="checkbox-inline checkbox-styled">
+                  <input type="checkbox" [(ngModel)]="telefone.flagWhats" name="flagWhats" #flagWhats="ngModel" >
+                  <span><img src="assets/img/wapp.png" style="width: 24px; height: 24px;">WhatsApp</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="card-actionbar">
+        <div class="card-actionbar-row">
+          <button *ngIf="telefone.codigo == null" type="button" (click)="adicionarTelefone()" class="btn ink-reaction btn-raised btn-success" accesskey="F">
+            Adicionar
+          </button>
+
+          <button *ngIf="telefone.codigo != null" type="button" (click)="adicionarTelefone()" class="btn ink-reaction btn-raised btn-success" accesskey="F">
+            Alterar
+          </button>
+          &nbsp;
+          <button type="button" (click)="fechar()" class="btn ink-reaction btn-raised btn-default" accesskey="F">
+            Fechar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+

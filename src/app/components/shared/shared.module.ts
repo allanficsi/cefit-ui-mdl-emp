@@ -95,9 +95,9 @@ import { AuthInterceptor } from '../security/auth.interceptor';
 import { AptSoNumeroDirective } from './../../diretivas/sonumero/apt-so-numero.directive';
 import { AptValidaCnpjDirective } from './../../diretivas/validaCnpj/apt-valida-cnpj.directive';
 import { ValidaCpfDirective } from './../../diretivas/validaCpf/apt-valida-cpf.directive';
-import { AptCnpjComponent } from "./cnpj/apt-cnpj.component";
+import { AptCnpjComponent } from "./cnpj/interno/apt-cnpj.component";
 import { DialogComponent } from "./confirm-dialog/dialog.component";
-import { AptCpfComponent } from "./cpf/apt-cpf.component";
+import { AptCpfComponent } from "./cpf/interno/apt-cpf.component";
 import { AptEmailComponent } from "./email/apt-email.component";
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { FooterComponent } from './footer/footer.component';
@@ -114,37 +114,49 @@ import { EncaminhamentoService } from "../../services/vaga/encaminhamento.servic
 import { EncaminhamentoNaoAtendidoService } from "../../services/vaga/encaminhamento-nao-atendido.service";
 import { EncaminhamentoPesquisarComponent } from "../../pages/encaminhamento/pesquisar/encaminhamento-pesquisar.component";
 import { ModalAlterarSituacaoTrabalhadorComponent } from "../../pages/geral/modal-situacao-ingresso-trabalhador/modal-alterar-situacao-trabalhador.component";
-import {ModalResetarSenhaComponent} from '../../pages/geral/modal-resetar-senha/modal-resetar-senha.component';
-import {EmpregadorRedefinirSenhaComponent} from '../../pages/empregador/resetar-senha/empregador-redefinir-senha.component';
+import { ModalResetarSenhaComponent } from '../../pages/geral/modal-resetar-senha/modal-resetar-senha.component';
+import { EmpregadorRedefinirSenhaComponent } from '../../pages/empregador/resetar-senha/empregador-redefinir-senha.component';
+import { AptCpfExternoComponent } from './cpf/externo/apt-cpf-externo.component';
+import { AptCnpjExternoComponent } from './cnpj/externo/apt-cnpj-externo.component';
+import { Moeda } from '../../pipes/moeda';
+import { ModalEmpregadorComponent } from '../../pages/geral/modal-empregador/modal-empregador.component';
 
 @NgModule({
-    exports: [
-      FooterComponent,
-      MenuComponent,
-      HeaderComponent,
-      CommonModule,
-      RouterModule,
-      BrowserModule,
-      FormsModule,
-      ReactiveFormsModule,
-      HttpClientModule,
-      CommonModule,
-      AptCpfComponent,
-      AptCnpjComponent,
-      NgxMaskModule,
-      MatDatepickerModule,
-      MatAutocompleteModule,
-      AptEmailComponent,
-      MatDialogModule,
-      MatToolbarModule,
-      MatCardModule,
-      MatMenuModule,
-      MatIconModule,
-      MatButtonModule,
-      MatAutocompleteModule,
-      MatFormFieldModule,
-      BrowserAnimationsModule,
-    ],
+  exports: [
+    FooterComponent,
+    MenuComponent,
+    HeaderComponent,
+
+    CommonModule,
+    RouterModule,
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    CommonModule,
+    BrowserAnimationsModule,
+
+    AptCpfComponent,
+    AptCpfExternoComponent,
+    AptCnpjComponent,
+    AptCnpjExternoComponent,
+
+    AptEmailComponent,
+    NgxMaskModule,
+    MatDatepickerModule,
+    MatAutocompleteModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    AptValidaEmailDirective,
+
+    Moeda,
+  ],
     imports: [
         RouterModule,
         BrowserModule,
@@ -183,8 +195,8 @@ import {EmpregadorRedefinirSenhaComponent} from '../../pages/empregador/resetar-
         ValidaCpfDirective,
         AptValidaCnpjDirective,
         AptValidaEmailDirective,
-        AptCpfComponent,
-        AptCnpjComponent,
+
+        Moeda,
 
         EmpregadorPesquisarComponent,
         EmpregadorAtualizarComponent,
@@ -255,10 +267,13 @@ import {EmpregadorRedefinirSenhaComponent} from '../../pages/empregador/resetar-
 		    ModalAtivarInativarTrabalhadorComponent,
         ModalAlterarSituacaoTrabalhadorComponent,
         ModalResetarSenhaComponent,
+        ModalEmpregadorComponent,
 
         LayoutComponent,
         AptCpfComponent,
+        AptCpfExternoComponent,
         AptCnpjComponent,
+        AptCnpjExternoComponent,
         AptEmailComponent,
         ErrorMessageComponent,
     ],

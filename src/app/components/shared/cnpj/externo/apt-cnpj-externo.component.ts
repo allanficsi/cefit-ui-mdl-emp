@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, forwardRef, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
+import { CadastroUnico } from '../../../../model/cadastro-unico/cadastro-unico';
 import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-unico.service';
-import { ResponseApi } from '../../../model/response-api';
+import { ResponseApi } from '../../../../model/response-api';
 import { DialogService } from 'src/app/services/shared/dialog.service';
 import { MensagemService } from 'src/app/services/shared/mensagem.service';
 import { EventEmitter } from '@angular/core';
@@ -15,17 +15,17 @@ const noop = () => {
 
 export const CNPJ_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => AptCnpjComponent),
+  useExisting: forwardRef(() => AptCnpjExternoComponent),
   multi: true
 };
 
 @Component({
-  selector: 'apt-cnpj',
-  templateUrl: './apt-cnpj.component.html',
-  styleUrls: ['./apt-cnpj.component.css'],
+  selector: 'apt-cnpj-externo',
+  templateUrl: './apt-cnpj-externo.component.html',
+  styleUrls: ['./apt-cnpj-externo.component.css'],
   providers: [ CNPJ_CONTROL_VALUE_ACCESSOR ]
 })
-export class AptCnpjComponent implements ControlValueAccessor, OnInit {
+export class AptCnpjExternoComponent implements ControlValueAccessor, OnInit {
 
   @Input() isReadOnly;
   @Output() cadastroUnicoChange = new EventEmitter();
@@ -165,7 +165,7 @@ export class AptCnpjComponent implements ControlValueAccessor, OnInit {
         let cadastroUnico: CadastroUnico = new CadastroUnico();
         cadastroUnico.cpfCnpj = this.cnpjValor;
 
-        this.cadastroUnicoService.get(cadastroUnico).subscribe((responseApi:ResponseApi) => {
+        this.cadastroUnicoService.getExterno(cadastroUnico).subscribe((responseApi:ResponseApi) => {
           
           let obj: CadastroUnico = responseApi["data"];
 

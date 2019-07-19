@@ -11,8 +11,10 @@ import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { VagaService } from '../../../services/vaga/vaga.service';
 import { startWith, map } from 'rxjs/operators';
-import { CboService } from 'src/app/services/trabalhador/cbo.service';
-import { ResponseApi } from 'src/app/model/response-api';
+import { CboService } from '../../../services/trabalhador/cbo.service';
+import { ResponseApi } from '../../../model/response-api';
+import { Dominio } from '../../../model/geral/dominio';
+import { DominioService } from '../../../services/geral/dominio.service';
 
 @Component({
   selector: 'app-vaga-pesquisar',
@@ -29,32 +31,37 @@ export class VagaPesquisarComponent extends AptareCrudController<Vaga, {new(): V
   myControlCbo: FormControl = new FormControl();
   filteredOptionsCbo: Observable<Cbo[]>;
 
-  constructor(router: Router, 
-              route: ActivatedRoute,             
+  constructor(router: Router,
+              route: ActivatedRoute,
               service: VagaService,
               dialog: MatDialog,
               mensagem: MensagemService,
               private cboService: CboService,
+              private dominioService: DominioService,
               dialogService: DialogService) {
     super(router, route, dialog, Vaga, service, mensagem, dialogService);
   }
 
   iniciarPaginaPesquisar() {
     this.cbo = new Cbo();
+
+    this.objetoPesquisa.situacao = null;
+    this.objetoPesquisa.codigoEmpregador = this.getCodigoEmpregadorLogado();
   }
 
   setListasStaticas() {
     this.listaTipoVaga = [{nome: "Formal", valor: "F"}, {nome: "Informal", valor: "I"}];
 
     this.popularCbo();
+    this.popularSituacao();
 
     // Autocomplete cbo
     this.filteredOptionsCbo = this.myControlCbo.valueChanges
-    .pipe(
-      startWith<string | Cbo>(''),
-      map(value => typeof value === 'string' ? value : value.nome),
-      map(nome => nome ? this._filterCbo(nome) : this.listaCbo.slice())
-    );
+      .pipe(
+        startWith<string | Cbo>(''),
+        map(value => typeof value === 'string' ? value : value.nome),
+        map(nome => nome ? this._filterCbo(nome) : this.listaCbo.slice())
+      );
   }
 
   displayFnCbo(cbo?: Cbo): string | undefined {
@@ -71,16 +78,26 @@ export class VagaPesquisarComponent extends AptareCrudController<Vaga, {new(): V
     let cbo = new Cbo();
 
     this.cboService.pesquisar(cbo)
-                .subscribe((responseApi:ResponseApi) => {
-      this.listaCbo = responseApi['data'];
-    } , err => {
-      this.mensagem.tratarErro(err);
-    });
+      .subscribe((responseApi:ResponseApi) => {
+        this.listaCbo = responseApi['data'];
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
+  }
+
+  popularSituacao() {
+    let dominio: Dominio = new Dominio();
+    dominio.nomeCampo = 'ST_VAG';
+
+    this.dominioService.pesquisar(dominio)
+      .subscribe((responseApi:ResponseApi) => {
+        this.listaSituacao = responseApi['data'];
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
   }
 
   completarPesquisar() {
-    this.objetoPesquisa.filtro = null;
-
     let arrayTipo = [];
     let filtro = new FiltroVaga();
     filtro.tipoVagaIN = [];
@@ -98,17 +115,15 @@ export class VagaPesquisarComponent extends AptareCrudController<Vaga, {new(): V
 
     if(this.cbo != null) {
       this.objetoPesquisa.codigoCbo = this.cbo.codigo;
-     }
-    this.objetoPesquisa.codigoEmpregador = this.getCodigoEmpregadorLogado();
-
-    console.log(this.objetoPesquisa);
+    }
   }
-  
+
   novo() {
+    console.log(this.listaResultado);
     this.router.navigate(['/vaga-atualizar']);
   }
 
-  editar(id:string){   
+  editar(id:string){
     super.editar('/vaga-atualizar', id);
   }
 

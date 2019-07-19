@@ -1,155 +1,114 @@
-<section>    
+<section>
   <div class="section-body">
 
     <!-- BEGIN BASICDATION -->
-    <div class="row">     
+    <div class="row">
 
       <div class="col-lg-12">
         <div class="card card-underline">
           <div class="card-head card-head-sm">
             <header><b>Vaga - Visualizar</b></header>
           </div>
-          
+
           <div class="card-body">
 
             <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8" (ngSubmit)="inserir()">
-              
+
               <div class="card card-outlined style-primary" id="divDadosGeraisEspaco">
                 <div class="card-head">
                   <header>Dados Gerais</header>
                 </div>
-                
-                <div class="card-body" style="display: block;">          
-              
+
+                <div class="card-body" style="display: block;">
+
                   <div class="row">
-                    <div class="col-sm-9">
+                    <div class="col-sm-4">
                       <div class="form-group">
-                        <input type="text" autocomplete="off" maxlength="200" disabled [(ngModel)]="objetoAtualiza.descricao" placeholder='Por exemplo, "Vaga para auxiliar administrativo".' 
-                              name="descricao" #nome="ngModel" class="form-control">  
+                        <label>Tipo da Vaga *</label>
+                        <div style="margin-top: 10px;">
+                          <label class="radio-inline radio-styled">
+                            <input disabled="true" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga">
+                            <span>Formal</span>
+                          </label>
+                          <label class="radio-inline radio-styled">
+                            <input disabled="true" type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" >
+                            <span>Informal</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-8" *ngIf="objetoAtualiza.tipoVaga == 'I'">
+                      <div class="form-group">
+                        <label>Característica da Vaga *</label>
+                        <div style="margin-top: 10px;">
+                          <label class="radio-inline radio-styled">
+                            <input type="radio" value="G" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" disabled="true">
+                            <span>Geral</span>
+                          </label>
+                          <label class="radio-inline radio-styled">
+                            <input type="radio" value="N" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" disabled="true">
+                            <span>Nominal</span>
+                          </label>
+                          <label class="radio-inline radio-styled">
+                            <input type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel" disabled="true">
+                            <span>Freguesia</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div class="form-group">
+                        <input type="text" disabled="true" autocomplete="off" [formControl]="myControlCbo" matInput class="form-control" [(ngModel)]="cbo" name="cbo" [matAutocomplete]="auto" placeholder='Informe a ocupação da vaga.' required>
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCbo">
+                          <mat-option *ngFor="let option of filteredOptionsCbo | async" [value]="option">
+                            {{option.nome}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <label>Ocupação *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2" *ngIf="cbo != null && cbo.flagValorFixo != null">
+                      <div class="form-group">
+                        <p class="form-control-static" *ngIf='cbo.flagValorFixo == "N"'>À combinar</p>
+                        <p class="form-control-static" *ngIf='cbo.flagValorFixo == "S"'>{{cbo.valorServico | moeda}}</p>
+                        <label>Valor do Serviço * </label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2" *ngIf='cbo != null && cbo.flagValorFixo == "N"'>
+                      <div class="form-group">
+                        <p class="form-control-static">{{cbo.valorVisita | moeda}}</p>
+                        <label>Valor da Visita * </label>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div class="form-group">
+                        <input type="text" disabled="true" autocomplete="off" maxlength="200" [(ngModel)]="objetoAtualiza.descricao" placeholder='Por exemplo, "Vaga para auxiliar administrativo".'
+                               name="nome" #nome="ngModel" class="form-control" required>
                         <label>Descrição *</label>
                       </div>
                     </div>
                   </div>
 
-                  <div class="row"  *ngIf="objetoAtualiza.tipoVaga == 'F'">
-                    <div class="col-sm-4">
+                  <div class="row" *ngIf='objetoAtualiza.tipoDescricaoVaga == "N" || objetoAtualiza.tipoDescricaoVaga == "F"'>
+                    <div class="col-sm-8">
                       <div class="form-group">
-                        <select class="form-control" [(ngModel)]="objetoAtualiza.direcionamento" name="direcionamento" disabled>
-                          <option *ngFor="let tipoDirecionamento of listaDirecionamento" [ngValue]="tipoDirecionamento.valor">{{tipoDirecionamento.nome}}</option>
-                        </select>
-                        <label>Direcionamento *</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row" >
-                      <div class="col-sm-9">
-                        <div class="form-group">
-                          <input type="text" autocomplete="off" class="form-control" [ngModel]="objetoAtualiza.cboEntity?.nome" name="cbo" disabled placeholder='Informe o CBO da vaga.'>
-                          <label>CBO *</label>
-                        </div>
-                      </div>
-                    </div>
-
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <div class="form-group">
-                        <label>Tipo da Vaga *</label>
-                        <div style="margin-top: 10px;">
-                        <label class="radio-inline radio-styled">
-                          <input disabled="true" type="radio" value="F" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" >
-                          <span>Formal</span>
-                        </label>
-                        <label class="radio-inline radio-styled">
-                          <input disabled="true" type="radio" value="I" [(ngModel)]="objetoAtualiza.tipoVaga" name="tipoVaga" #tipoVaga="ngModel" >
-                          <span>Informal</span>
-                        </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-sm-3" *ngIf="objetoAtualiza.tipoVaga == 'I'">
-                      <div class="form-group">
-                        <label>Característica da Vaga *</label>
-                        <div style="margin-top: 10px;">
-                        <label class="radio-inline radio-styled">
-                          <input type="radio" disabled value="G" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel">
-                          <span>Geral</span>
-                        </label>
-                        <label class="radio-inline radio-styled">
-                          <input type="radio" disabled value="N" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel">
-                          <span>Nominal</span>
-                        </label>
-                        <label class="radio-inline radio-styled">
-                          <input type="radio" disabled value="F" [(ngModel)]="objetoAtualiza.tipoDescricaoVaga" name="tipoDescricaoVaga" #tipoDescricaoVaga="ngModel">
-                          <span>Freguesia</span>
-                        </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row" *ngIf='objetoAtualiza.tipoDescricaoVaga == "N"'>
-                    <div class="col-sm-9">
-                      <div class="form-group">
-                        <input type="text" disabled autocomplete="off" class="form-control" [(ngModel)]="trabalhador.cadastroUnico.nome" name="trabalhador" placeholder='Informe o funcionário indicado pelo empregador para a vaga.'>
-                        <label>Funcionário *</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row" *ngIf='objetoAtualiza.tipoDescricaoVaga == "F"'>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                          <label>Dias *</label>
-                          <div style="margin-top: 10px;">
-                            <label class="checkbox-inline checkbox-styled" *ngFor="let dia of listaDia; let i = index">
-                              <input type="checkbox"
-                                     name="fgSelecionada{{i}}"
-                                    [(ngModel)]="dia.fgSelecionada" disabled/>
-                              <span>{{dia.nomeReduzido}}</span> 
-                            </label>
-                          </div>
-                        </div>
-                    </div>
-                  </div>
-
-                  <div class="row" >
-                    <div class="col-sm-3" *ngIf='objetoAtualiza.tipoVaga == "F"'>
-                      <div class="form-group control-width-normal">
-                        <div class="input-group date" id="textDataLimite">
-                          <div class="input-group-content">
-                            <input matInput [matDatepicker]="pickerLimite" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.dataLimite" name="dataLimite"
-                                   class="form-control" maxlength="10" #dataLimite="ngModel" autocomplete="off" disabled>
-                            <label>Data Limite *</label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <div class="form-group control-width-normal">
-                        <div class="input-group date" id="textDataInicio">
-                          <div class="input-group-content">
-                            <input matInput [matDatepicker]="pickerInicio" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.dataInicio" name="dataInicio"
-                            class="form-control" maxlength="10" #dataInicio="ngModel" autocomplete="off" disabled> 
-                            <label>Data Início *</label>
-                          </div>
-                        </div>                        
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <div class="form-group control-width-normal">
-                        <div class="input-group date" id="textDataFim">
-                          <div class="input-group-content">
-                            <input matInput [matDatepicker]="pickerFim" onkeypress="return formataData(event, this);" [(ngModel)]="objetoAtualiza.dataFim" name="dataFim"
-                            class="form-control" maxlength="10" #dataFim="ngModel" autocomplete="off" disabled> 
-                            <label>Data Fim</label>
-                          </div>
-                        </div>                        
+                        <input type="text" disabled="true" autocomplete="off" [formControl]="myControlTrabalhador" matInput class="form-control" [(ngModel)]="trabalhador" name="trabalhador" [matAutocomplete]="auto" placeholder='Informe o funcionário indicado pelo empregador para a vaga.'>
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnTrabalhador">
+                          <mat-option *ngFor="let option of filteredOptionsTrabalhador | async" [value]="option">
+                            {{option.cadastroUnico.nome}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <label>Trabalhador *</label>
                       </div>
                     </div>
                   </div>
@@ -157,8 +116,8 @@
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <input type="text" autocomplete="offNmEsp" maxlength="200" [(ngModel)]="objetoAtualiza.observacao" placeholder='Informe observações relevantes' 
-                              name="observacao" #observacao="ngModel" class="form-control" disabled>  
+                        <input type="text" disabled="true" autocomplete="offNmEsp" maxlength="200" [(ngModel)]="objetoAtualiza.observacao" placeholder='Informe as observações relevantes sobre a vaga.'
+                               name="observacao" class="form-control">
                         <label>Observação</label>
                       </div>
                     </div>
@@ -167,6 +126,74 @@
                 </div>
               </div>
 
+
+              <!-- DATA DO SERVIÇO -->
+              <div class="card card-outlined style-primary" id="divEndereco">
+                <div class="card-head">
+                  <header>Data do Serviço</header>
+                </div>
+
+                <div class="card-body" style="display: block;">
+
+                  <div class="row" *ngIf='objetoAtualiza.tipoDescricaoVaga != "F"'>
+                    <div class="col-sm-3">
+                      <div class="form-group control-width-normal">
+                        <div class="input-group date" id="textDataServico">
+                          <div class="input-group-content">
+                            <input matInput [matDatepicker]="picker" onkeypress="return formataData(event, this);" [(ngModel)]="vagaDia.data" name="data"
+                                   class="form-control" maxlength="10" #data="ngModel" autocomplete="off">
+                            <label>Data do Serviço *</label>
+                          </div>
+
+                          <span class="input-group-addon cal" (click)="picker.open()"><i class="fa fa-calendar"></i></span>
+                          <mat-datepicker-toggle style="display: none;" matSuffix [for]="picker" class="input-group-addon cal"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <input type="text" autocomplete="offNmEsp" maxlength="5" mask="Hh:m0" [(ngModel)]="vagaDia.horarioEntrada"
+                               name="horarioEntrada" class="form-control">
+                        <label>Entrada *</label>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <input type="text" autocomplete="offNmEsp" minlength="5" maxlength="5" mask="Hh:m0" [(ngModel)]="vagaDia.horarioSaida"
+                               name="horarioSaida" class="form-control">
+                        <label>Saída</label>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="row" *ngIf='objetoAtualiza.tipoDescricaoVaga == "F"'>
+                    <div class="table-responsive no-margin">
+                      <table class="table table-condensed table-hover no-margin">
+                        <thead class="style-primary-light">
+                        <tr>
+                          <th style="text-align: center">Data</th>
+                          <th style="text-align: center">Horário Entrada</th>
+                          <th style="text-align: center">Horário Saída</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let dia of listaVagaDia; let i = index" [attr.data-index]="i">
+                          <td style="text-align: center">{{dia.data | date: 'dd/MM/yyyy'}}</td>
+                          <td style="text-align: center">{{dia.horarioEntrada | mask: '99:99'}}</td>
+                          <td style="text-align: center">{{dia.horarioSaida | mask: '99:99'}}</td>
+
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
               <!-- EMPREGADOR -->
               <div class="card card-outlined style-primary" id="divEndereco">
                 <div class="card-head">
@@ -174,6 +201,7 @@
                 </div>
 
                 <div class="card-body" style="display: block;">
+
                   <div class="row" *ngIf="empregador != null">
                     <div class="col-sm-3">
                       <div class="form-group">
@@ -193,106 +221,81 @@
                     </div>
 
                     <div class="col-sm-3" *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>
-                        <div class="form-group">
-                          <label>CEI</label>
-                          <span>{{empregador.numeroCei}}</span>
-                        </div>
+                      <div class="form-group">
+                        <label>CEI</label>
+                        <span>{{empregador.numeroCei}}</span>
                       </div>
+                    </div>
                   </div>
 
                   <div class="row" *ngIf="empregador != null">
-                      <div class="col-sm-3">
-                        <div class="form-group">
-                          <label>Nome/Razão Social</label>
-                          <span>{{empregador.cadastroUnico.nome}}</span>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-
-              <!-- AGENDA -->
-              <div class="card card-outlined style-primary" id="divAgenda">
-                <div class="card-head">
-                  <header>AGENDA SEMANAL</header>
-                </div>
-                  
-                <div class="card-body" style="display: block;"> 
-                  <div class="row">
-                    <div class="col-sm-12" *ngIf="listaVagaAgendamento.length > 0">
-                        <div class="card">
-                          <div class="card-body no-padding">
-                            <div class="table-responsive no-margin">
-                              <table id="datatable" class="table table-hover no-margin">
-                                <thead class="style-default-dark">
-                                  <tr>
-                                    <th class="text-center" style="width: 3%;">
-                                    </th>
-                                    <th style="width: 20%;" class="text-center" >Data</th>
-                                    <th class="text-center">Horário 1</th>
-                                    <th class="text-center">Horário 2</th>
-                                    <th class="text-center">Horário 3</th>
-                                    <th class="text-center">Horário 4</th>
-                                    <th class="text-center" style="width: 3%;" title="Apagar todos os horários"></th>
-                                  </tr>
-                                </thead>
-              
-                                <tr *ngFor="let item of listaVagaAgendamento; let i = index">
-                                  <td class="text-left">
-                                    <div style="margin-top: 10px;">
-                                      <label class="checkbox-inline checkbox-styled">
-                                        <input type="checkbox" [(ngModel)]="item.flagAtivo" name="item.flagAtivo{{i}}"  disabled>
-                                        <span></span>
-                                      </label>
-                                    </div>
-                                  </td>
-                                  <td class="text-left">
-                                    <b><span>{{item.nomeDia}}</span></b>
-                                  </td>
-                                  <td class="text-center">
-                                    <input type="text" disabled [(ngModel)]="item.numeroHora1" mask="Hh:m0" name="numeroHora1{{i}}" class="form-control" style="text-align: center" *ngIf="item.flagAtivo">
-                                  </td>
-                                  <td class="text-center">
-                                    <input type="text" disabled [(ngModel)]="item.numeroHora2" mask="Hh:m0" name="numeroHora2{{i}}" class="form-control" style="text-align: center" *ngIf="item.flagAtivo">
-                                  </td>
-                                  <td class="text-center">
-                                      <input type="text" disabled [(ngModel)]="item.numeroHora3" mask="Hh:m0" name="numeroHora3{{i}}" class="form-control" style="text-align: center" *ngIf="item.flagAtivo">
-                                  </td>
-                                  <td class="text-center">
-                                      <input type="text" disabled [(ngModel)]="item.numeroHora4" mask="Hh:m0" name="numeroHora4{{i}}" class="form-control" style="text-align: center" *ngIf="item.flagAtivo">
-                                  </td>
-                                  <td class="text-center">
-                                  </td>
-                                </tr>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label>Nome/Razão Social</label>
+                        <span>{{empregador.cadastroUnico.nome}}</span>
                       </div>
                     </div>
                   </div>
+
+                  <div class="row" *ngIf="listaEndereco.length > 0">
+                    <div class="table-responsive no-margin">
+                      <table id="datatable1" class="table no-margin">
+                        <thead class="style-primary-light">
+                        <tr>
+                          <th class="text-left" style="width: 3%;"></th>
+                          <th>Tipo de Endereço</th>
+                          <th>CEP</th>
+                          <th>Logradouro</th>
+                          <th>Número</th>
+                          <th>Complemento</th>
+                          <th>Ponto de Referência</th>
+                          <th>Bairro</th>
+                          <th>Cidade</th>
+                          <th>Estado</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let endereco of listaEndereco; let i = index" [ngClass]="{'tr-selected' : endereco.codigo == objetoAtualiza.codigoEndereco}" style="cursor: pointer;" [attr.data-index]="i">
+                          <td>
+                            <i *ngIf="endereco.codigo == objetoAtualiza.codigoEndereco" class="fa fa-check" style="width:18px; height: 18px; cursor: pointer;"></i>
+                          </td>
+                          <td>{{endereco.descricaoTipo}}</td>
+                          <td>{{endereco.cepFormatado | mask: '00.000-000'}}</td>
+                          <td>{{endereco.extensaoEndereco.logradouro}}</td>
+                          <td >{{endereco.numero}}</td>
+                          <td>{{endereco.complemento}}</td>
+                          <td>{{endereco.pontoReferencia}}</td>
+                          <td>{{endereco.extensaoEndereco.bairro}}</td>
+                          <td>{{endereco.extensaoEndereco.localidade}}</td>
+                          <td>{{endereco.extensaoEndereco.uf}}</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+
                 </div>
+              </div>
 
 
               <div class="card-actionbar">
                 <div class="card-actionbar-row">
                   <a class="btn ink-reaction btn-raised btn-default" accesskey="V" (click)="voltar()">
-                    Voltar 
+                    Voltar
                   </a>
                 </div>
               </div>
-  
+
 
             </form>
 
-            
+
           </div>
 
-        </div>      
+        </div>
       </div>
 
-    </div>    
+    </div>
 
   </div>
-  
+
 </section>

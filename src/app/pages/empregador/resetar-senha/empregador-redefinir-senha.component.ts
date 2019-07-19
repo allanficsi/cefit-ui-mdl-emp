@@ -100,5 +100,7 @@ ngOnInit(): void {
     this.objetoAtualiza.filtro.senhaAntiga = '';
   }
 
-
+ voltar() {
+   this.router.navigate(['/']);
+ }
 }

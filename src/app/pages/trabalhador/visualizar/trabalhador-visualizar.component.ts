@@ -91,7 +91,7 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
     this.objetoAtualiza.cadastroUnico.pessoaFisica = new PessoaFisica();
     this.objetoAtualiza.cadastroUnico.pessoaFisica.ufOrgaoEmissorRg = 'AC';
     this.objetoAtualiza.cadastroUnico.pessoaFisica.sexo = 'M';
-    this.objetoAtualiza.cadastroUnico.pessoaFisica.estadoCivil = 1; 
+    this.objetoAtualiza.cadastroUnico.pessoaFisica.estadoCivil = 1;
 
   }
 
@@ -99,7 +99,7 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
 
     // Verificando se existe trabalhador com o cdcun
     if(event.codigo !== null && typeof event.codigo !== 'undefined'){
-      
+
       let objTrb: Trabalhador = new Trabalhador();
       objTrb.codigoCadastroUnico = event.codigo;
 
@@ -123,7 +123,7 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
               this.listaTrabalhadorCbo.push(this.objetoAtualiza.listaTrabalhadorCbo[i]);
             }
           }
-    
+
           this.listaTrabalhadorDeficiencia = [];
           if(typeof this.objetoAtualiza.listaTrabalhadorDeficiencia !== 'undefined') {
             for(let i = 0; i < this.objetoAtualiza.listaTrabalhadorDeficiencia.length; i++) {
@@ -146,12 +146,12 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
 
         //populando endereco
         this.listaEndereco = [];
-    
+
           if(typeof this.objetoAtualiza.cadastroUnico.listaEndereco !== 'undefined') {
             for(let i = 0; i < this.objetoAtualiza.cadastroUnico.listaEndereco.length; i++) {
-    
+
               let eex: ExtensaoEndereco = new ExtensaoEndereco();
-    
+
               if(this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio != null) {
                 eex.logradouro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.logradouro;
                 eex.bairro = this.objetoAtualiza.cadastroUnico.listaEndereco[i].correio.bairro;
@@ -163,13 +163,13 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
                 eex.localidade = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.localidade;
                 eex.uf = this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco.uf;
               }
-    
+
               this.objetoAtualiza.cadastroUnico.listaEndereco[i].extensaoEndereco = eex;
               this.listaEndereco.push(this.objetoAtualiza.cadastroUnico.listaEndereco[i]);
-    
+
             }
           }
-    
+
           // populando telefone
           this.listaTelefonePf = [];
           if(typeof this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone !== 'undefined') {
@@ -210,7 +210,7 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
     this.service.get(trabalhador).subscribe((responseApi:ResponseApi) => {
 
       this.objetoAtualiza = responseApi.data;
-      
+
       this.listaTrabalhadorCbo = [];
       if(typeof this.objetoAtualiza.listaTrabalhadorCbo !== 'undefined') {
         for(let i = 0; i < this.objetoAtualiza.listaTrabalhadorCbo.length; i++) {
@@ -265,9 +265,9 @@ export class TrabalhadorVisualizarComponent extends AptareCrudController<Trabalh
           this.listaTrabalhadorLog.push(this.objetoAtualiza.listaTrabalhadorLogOrdenada[i]);
         }
       }
-      
+
     } , err => {
-      this.mensagem.tratarErro(err);  
+      this.mensagem.tratarErro(err);
     });
   }
 

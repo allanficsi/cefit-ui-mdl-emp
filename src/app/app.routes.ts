@@ -6,13 +6,13 @@ import { TemplateComponent } from './components/shared/template/template.compone
 import { LoginComponent } from './pages/login/login.component';
 import { SenhaAtualizarComponent } from './pages/painel-eletronico/senha/atualizar/senha-atualizar.component';
 import { PainelVisualizarComponent } from './pages/painel-eletronico/painel/visualizar/painel-visualizar.component';
-import { CadastroComponent } from './pages/cadastro/cadastro.component';
+import { EmpregadorCadastroComponent } from './pages/empregador/cadastro/empregador-cadastro.component';
 
 const appRoutes : Routes = [
 
 
   { path : 'login', component: LoginComponent },
-  { path : 'cadastrar', component: CadastroComponent},
+  { path : 'cadastrar', component: EmpregadorCadastroComponent},
   { path : 'senha', component: SenhaAtualizarComponent },
   { path : 'painel', component: PainelVisualizarComponent },
     

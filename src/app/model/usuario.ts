@@ -7,6 +7,5 @@ export class Usuario {
         public login: String;
         public senha: String;
         public codigoCadastroUnico: Number;
-        public empregador:Empregador;
         public filtro: FiltroUsuario;
 }

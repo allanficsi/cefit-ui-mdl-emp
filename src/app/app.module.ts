@@ -13,14 +13,16 @@ import { TemplateComponent } from './components/shared/template/template.compone
 import { LoginComponent } from './pages/login/login.component';
 import { TokenService } from './services/token/token.service';
 import { UsuarioService } from './services/usuario/usuario.service';
-import { AptCpfComponent } from './components/shared/cpf/apt-cpf.component';
+import { AptCpfComponent } from './components/shared/cpf/interno/apt-cpf.component';
 import { AptEmailComponent } from './components/shared/email/apt-email.component';
 import { SenhaService } from './services/painel-eletronico/senha.service';
 import { SenhaAtualizarComponent } from './pages/painel-eletronico/senha/atualizar/senha-atualizar.component';
 import { PainelVisualizarComponent } from './pages/painel-eletronico/painel/visualizar/painel-visualizar.component';
-import { CadastroComponent } from './pages/cadastro/cadastro.component';
+import { EmpregadorCadastroComponent } from './pages/empregador/cadastro/empregador-cadastro.component';
 import { CargoService } from './services/cadastro-unico/cargo.service';
 import { CnaeService } from './services/empregador/cnae.service';
+import { AptCpfExternoComponent } from './components/shared/cpf/externo/apt-cpf-externo.component';
+import { AptCnpjExternoComponent } from './components/shared/cnpj/externo/apt-cnpj-externo.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,7 @@ import { CnaeService } from './services/empregador/cnae.service';
     SenhaAtualizarComponent,
     PainelVisualizarComponent,
     TemplateComponent,
-    CadastroComponent
+    EmpregadorCadastroComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +55,12 @@ import { CnaeService } from './services/empregador/cnae.service';
       multi: true},
     {provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => AptCpfComponent),
+      multi: true},
+    {provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => AptCpfExternoComponent),
+      multi: true},
+    {provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => AptCnpjExternoComponent),
       multi: true},
     {provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => AptEmailComponent),

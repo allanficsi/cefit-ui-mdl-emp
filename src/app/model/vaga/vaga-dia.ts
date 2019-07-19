@@ -1,10 +1,10 @@
-import { Auditoria } from "../auditoria";
-import { Trabalhador } from "../trabalhador/trabalhador";
 
 export class VagaDia {
 
-    codigo: number;
-    codigoVaga: number;
-    codigoDia: number;
-    
+  codigo: number;
+  codigoVaga: number;
+  data: Date;
+  horarioEntrada: string;
+  horarioSaida: string;
+
 }

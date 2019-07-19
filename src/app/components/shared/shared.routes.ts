@@ -57,6 +57,7 @@ import { EncaminhamentoAtualizarComponent } from '../../pages/encaminhamento/atu
 import { EncaminhamentoPesquisarComponent } from '../../pages/encaminhamento/pesquisar/encaminhamento-pesquisar.component';
 import { ModalResetarSenhaComponent } from '../../pages/geral/modal-resetar-senha/modal-resetar-senha.component';
 import { EmpregadorRedefinirSenhaComponent } from '../../pages/empregador/resetar-senha/empregador-redefinir-senha.component';
+import { ModalEmpregadorComponent } from '../../pages/geral/modal-empregador/modal-empregador.component';
 
 export const CONTENT_ROUTES: Routes = [
 
@@ -145,7 +146,7 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'modal-editar-situacao', component: ModalAtivarInativarTrabalhadorComponent, canActivate: [AuthGuard] },
     { path : 'modal-alterar-situacao-ingresso', component: ModalAlterarSituacaoTrabalhadorComponent, canActivate: [AuthGuard] },
     { path : 'modal-resetar-senha', component: ModalResetarSenhaComponent},
-
+    { path : 'modal-empregador', component: ModalEmpregadorComponent, canActivate: [AuthGuard] },
     { path : 'layout-pesquisar', component: LayoutComponent, canActivate: [AuthGuard] },
 
 
