@@ -40,9 +40,10 @@ export class ModalTelefoneComponent extends AptareCrudController<Empregador, {ne
     if(typeof this.data.index  !== "undefined"){
       this.telefone = new Telefone();
       this.telefone.tipo = 1;
+      this.telefone.flagWhats = false;
     }else {
       //EDITANDO TELEFONE
-      this.telefone = this.data.telefone;
+      this.telefone = {...this.data.telefone};
       this.telefone.nrTelefoneExtenso = this.telefone.ddd.toString() + this.telefone.numero.toString();
     }
 
@@ -78,21 +79,9 @@ export class ModalTelefoneComponent extends AptareCrudController<Empregador, {ne
 
   validarTelefonePJ() {
     if ((typeof this.telefone.nrTelefoneExtenso === "undefined")
-      || this.telefone.nrTelefoneExtenso === '') {
-      return false;
-    }
-
-    //VALIDA TELEONE RESIDENCIAL
-    if(Number(this.telefone.nrTelefoneExtenso.length) < 10 && this.telefone.tipo == 1){
+      || this.telefone.nrTelefoneExtenso === ''
+      || Number(this.telefone.nrTelefoneExtenso.length) < 10 ) {
       this.mensagem.tratarErroPersonalizado("","O Telefone deve possuir no mínimo 10 digitos");
-      return false;
-    }
-
-    //VALIDA TELEFONE CELULAR E COMERCIAL
-    if(Number(this.telefone.nrTelefoneExtenso.length) < 11 && (this.telefone.tipo == 2
-      || this.telefone.tipo == 3 ))
-    {
-      this.mensagem.tratarErroPersonalizado("","O Telefone deve possuir no mínimo 11 digitos");
       return false;
     }
 

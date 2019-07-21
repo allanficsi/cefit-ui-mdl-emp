@@ -1,7 +1,7 @@
 <section>
   <div class="section-body">
 
-    <!-- <div *ngIf="mensagem">      
+    <!-- <div *ngIf="mensagem">
       {{mensagem.text}}
     </div> -->
 
@@ -517,6 +517,7 @@
                           <th style="width: 23%;">Nome</th>
                           <th style="width: 22%;">Cargo</th>
                           <th style="width: 23%;">E-mail</th>
+                          <th style="width: 23%;">WhatZap</th>
                           <th style="width: 3%;"></th>
                           <th style="width: 3%;"></th>
                           <th style="width: 3%;"></th>
@@ -544,7 +545,6 @@
                               <tr *ngFor="let telefone of contato.listaTelefone; let j = index" [attr.data-index]="i">
                                 <td>{{telefone.descricaoTipo}}</td>
                                 <td>({{telefone.ddd}}) {{telefone.numero.toString().length ==  8 ? (telefone.numero | mask: '0000-0000'): (telefone.numero | mask: '00000-0000')}}</td>
-                                <td *ngIf="telefone.flagWhats">(WhatsApp)</td>
                                 <td style="width: 3%;">
                                   <i class="fa fa-pencil" (click)="preparaEditarTelefone(j,i)" style="cursor: pointer;" title="Editar"></i>
                                 </td>

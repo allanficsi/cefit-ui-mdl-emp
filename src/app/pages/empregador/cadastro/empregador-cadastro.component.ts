@@ -456,18 +456,15 @@ export class EmpregadorCadastroComponent extends AptareCrudController<Empregador
         }
 
         telefone.auditoria = new Auditoria();
-        telefone.auditoria.codigoUsuarioInclusao = 1;
+        telefone.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
         telefone.auditoria.dataInclusao = new Date();
         telefone.flagAtivo = 'S';
 
         //SE TELEFONE NÃO FOR RESIDENCIAL PODE TER ZAP
-        if (telefone.objTipo.valorCampo != 1) {
-          telefone.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false;
-        } else {
-          //TELEFONE RESIDENCIAL NAO TEM ZAP
+        if (telefone.objTipo.valorCampo === 1) {
           telefone.flagWhats = false;
         }
-
+        console.log(telefone);
         this.listaContato[i].listaTelefone.push(telefone);
       }
     }
@@ -502,15 +499,12 @@ export class EmpregadorCadastroComponent extends AptareCrudController<Empregador
   adicionarTelefoneEditado(telefone: Telefone, indexContato,indexTelefone) {
 
     if(typeof  telefone.codigo !== "undefined" && telefone.codigo != null){
-      telefone.auditoria.codigoUsuarioAlteracao = 1;
+      telefone.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
       telefone.auditoria.dataAlteracao = new Date();
     }
 
     //SE TELEFONE NÃO FOR RESIDENCIAL PODE TER ZAP
-    if (telefone.objTipo.valorCampo != 1) {
-      telefone.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false;
-    } else {
-      //TELEFONE RESIDENCIAL NAO TEM ZAP
+    if (telefone.objTipo.valorCampo === 1) {
       telefone.flagWhats = false;
     }
 
@@ -519,9 +513,8 @@ export class EmpregadorCadastroComponent extends AptareCrudController<Empregador
     }else {
       this.listaTelefonePf[indexTelefone] = telefone;
     }
-    console.log(telefone);
+    // console.log(telefone);
   }
-
 
   adicionarTelefonePf() {
 
@@ -552,22 +545,10 @@ export class EmpregadorCadastroComponent extends AptareCrudController<Empregador
   }
 
   validarTelefonePf() {
-    if ((typeof this.telefonePf.nrTelefoneExtenso === "undefined")
-      || this.telefonePf.nrTelefoneExtenso === '') {
-      return false;
-    }
-
-    //VALIDA TELEONE FIXO
-    if(Number(this.telefonePf.nrTelefoneExtenso.length) < 10 && this.telefonePf.objTipo.valorCampo == 1){//RESIDENCIAL
-      this.mensagem.tratarErroPersonalizado("","O Telefone deve possuir no mínimo 10 digitos");
-      return false;
-    }
-
-    //VALIDA TELEFONE RESIDENCIAL
-    if(Number(this.telefonePf.nrTelefoneExtenso.length) < 11 && (this.telefonePf.objTipo.valorCampo == 2//CELULAR
-      || this.telefonePf.objTipo.valorCampo == 3 ))//COMERCIAL
-    {
-      this.mensagem.tratarErroPersonalizado("","O Telefone deve possuir no mínimo 11 digitos");
+    if((typeof this.telefonePf.nrTelefoneExtenso === "undefined")
+      || this.telefonePf.nrTelefoneExtenso === ''
+      || Number(this.telefonePf.nrTelefoneExtenso.length) < 10) {
+      this.mensagem.tratarErroPersonalizado("", "Informe um telefone com no mínimo 10 dígitos.");
       return false;
     }
 
@@ -650,7 +631,7 @@ export class EmpregadorCadastroComponent extends AptareCrudController<Empregador
     //   this.listaContato[index].codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
     //   this.listaContato[index].dataAlteracao = new Date();
     // } else {
-      this.listaContato.splice(index,1);
+    this.listaContato.splice(index,1);
     // }
   }
 
@@ -660,7 +641,7 @@ export class EmpregadorCadastroComponent extends AptareCrudController<Empregador
     //   this.listaEndereco[index].codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
     //   this.listaEndereco[index].dataAlteracao = new Date();
     // } else {
-      this.listaEndereco.splice(index,1);
+    this.listaEndereco.splice(index,1);
     // }
   }
 
@@ -670,7 +651,7 @@ export class EmpregadorCadastroComponent extends AptareCrudController<Empregador
     //   this.listaTelefonePf[index].codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
     //   this.listaTelefonePf[index].dataAlteracao = new Date();
     // } else {
-      this.listaTelefonePf.splice(index,1);
+    this.listaTelefonePf.splice(index,1);
     // }
   }
 
@@ -694,7 +675,7 @@ export class EmpregadorCadastroComponent extends AptareCrudController<Empregador
   }
 
   validarInserir() {
-console.log(this.objetoAtualiza);
+    console.log(this.objetoAtualiza);
     //VALIDACAO DE CAMPOS OBRIGATORIOS PJ
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J") {
       if((this.objetoAtualiza.cadastroUnico.cnpj == null || this.objetoAtualiza.cadastroUnico.cnpj == '')
@@ -775,16 +756,10 @@ console.log(this.objetoAtualiza);
 
     //PELO MENOS UM CONTATO COM FLAG ATIVO 'S' OBRIGATORIO (PJ)
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J"){
-
-      if(this.listaContato != null && this.listaContato.length > 0) {
-
-        let isExisteContatoAtivo = this.listaContato.every(element => { return element.flagAtivo == 'N';});
-
-        //SE FOR TRUE SIGNIFICA QUE O ARRAY TEM ALGO, MAS SÃO TODOS INATIVADO
-        if(isExisteContatoAtivo){
-          this.mensagem.tratarErroPersonalizado("", "Pelo menos um Contato deve ser adicionado.");
-          return false;
-        }
+      if (this.listaContato.every(element => { return element.flagAtivo == 'N'; }))
+      {
+        this.mensagem.tratarErroPersonalizado('', 'Pelo menos um Contato deve ser adicionado.');
+        return false;
       }
     }
 
@@ -792,6 +767,15 @@ console.log(this.objetoAtualiza);
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "F") {
       if(this.listaTelefonePf == null || this.listaTelefonePf.length <= 0) {
         this.mensagem.tratarErroPersonalizado("", "Pelo menos um Telefone deve ser adicionado.");
+        return false;
+      }
+    }
+
+    //PELO MENOS UM TELEFONE COM FLAG ATIVO 'S' É OBRIGATORIO
+    if (this.objetoAtualiza.cadastroUnico.tipoPessoa == 'F') {
+      if (this.listaTelefonePf.every(element => { return element.flagAtivo == 'N'; }))
+      {
+        this.mensagem.tratarErroPersonalizado('', 'Pelo menos um Telefone deve ser adicionado.');
         return false;
       }
     }
@@ -874,67 +858,6 @@ console.log(this.objetoAtualiza);
 
   }
 
-  // completarAlterar() {
-  //
-  //   if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J") {
-  //     if(this.objetoAtualiza.cadastroUnico.cnpj != null && typeof this.objetoAtualiza.cadastroUnico.cnpj !== 'undefined') {
-  //       this.objetoAtualiza.cadastroUnico.cpfCnpj = Number(this.objetoAtualiza.cadastroUnico.cnpj);
-  //     }
-  //     this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato = this.listaContato;
-  //
-  //     //VERIFICA SE UM CNAE FOI SELECIONADO OU NÃO
-  //     if (this.objetoAtualiza.cnae == null || typeof this.objetoAtualiza.cnae == 'undefined') {
-  //       this.objetoAtualiza.codigoCnae = null;
-  //     } else {
-  //       this.objetoAtualiza.codigoCnae = this.objetoAtualiza.cnae.codigo;
-  //     }
-  //
-  //
-  //     // AUDITORIA CONTATO
-  //     if(this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato.length > 0) {
-  //       this.objetoAtualiza.cadastroUnico.pessoaJuridica.listaContato.forEach(element => {
-  //         element.codigoCadastroUnico = this.objetoAtualiza.codigoCadastroUnico;
-  //         //element.auditoria = new Auditoria();
-  //         element.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
-  //         element.auditoria.dataAlteracao = new Date();
-  //       });
-  //     }
-  //   }
-  //
-  //   if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "F") {
-  //     this.objetoAtualiza.cadastroUnico.cpfCnpj = Number(this.objetoAtualiza.cadastroUnico.cpf);
-  //     this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone = this.listaTelefonePf;
-  //   }
-  //
-  //   //ENDERECO
-  //   this.objetoAtualiza.cadastroUnico.listaEndereco = [];
-  //   for(let i = 0; i < this.listaEndereco.length; i++) {
-  //     //AUDITORIA ENDEREÇO
-  //     this.listaEndereco[i].auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
-  //     this.listaEndereco[i].auditoria.dataAlteracao = new Date();
-  //     this.objetoAtualiza.cadastroUnico.listaEndereco.push(this.listaEndereco[i]);
-  //   }
-  //
-  //   //AUDITORIA
-  //   //this.objetoAtualiza.auditoria = new Auditoria();
-  //   this.objetoAtualiza.auditoria.dataAlteracao = new Date();
-  //   this.objetoAtualiza.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
-  //
-  //   //AUDITORIA CUN
-  //   //this.objetoAtualiza.cadastroUnico.auditoria = new Auditoria();
-  //   this.objetoAtualiza.cadastroUnico.auditoria.dataAlteracao = new Date();
-  //   this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
-  //
-  //   //AUDITORIA TELEFONE PF
-  //   if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "F") {
-  //     for(let i = 0; i < this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone.length; i++) {
-  //       //this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i].auditoria = new Auditoria();
-  //       this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i].auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
-  //       this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i].auditoria.dataAlteracao = new Date();
-  //     }
-  //   }
-  //
-  // }
 
   completarPosInserir() {
     this.router.navigate(['login']);
@@ -1137,7 +1060,7 @@ console.log(this.objetoAtualiza);
   }
 
   voltar() {
-    this.back('empregador-pesquisar');
+    this.router.navigate(['/login']);
   }
 
 }

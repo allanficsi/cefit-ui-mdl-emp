@@ -7,6 +7,8 @@ export class TrabalhadorCbo {
     codigoCbo: Number;
     descricaoCbo: string;
     nome: string;
+    codigoExperiencia:Number;
+    possuiComprovacao:string;
 
     cbo: Cbo;
 

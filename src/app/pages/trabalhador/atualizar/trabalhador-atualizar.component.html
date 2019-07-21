@@ -113,7 +113,7 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                       <div class="form-group control-width-normal">
                         <div class="input-group date" id="textDataNascimentoContato">
                           <div class="input-group-content">
@@ -129,7 +129,7 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                       <div class="form-group">
                         <label>Sexo </label>
                         <div style="margin-top: 10px;">
@@ -145,7 +145,7 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                       <div class="form-group">
                         <label>Tipo De Trabalhador *</label>
                         <div style="margin-top: 10px;">
@@ -161,17 +161,18 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-2">
-                      <div class="form-group">
+
+                  </div>
+                  <div class="row">
+                  <div class="col-sm-2">
+                    <div class="form-group">
                         <select class="form-control" [(ngModel)]="objetoAtualiza.cadastroUnico.pessoaFisica.estadoCivil" name="estadoCivil" #estadoCivil="ngModel" required>
                           <option *ngFor="let estadoCivil of listaEstadoCivil" [ngValue]="estadoCivil.valorCampo">{{estadoCivil.nomeValor}}</option>
                         </select>
                         <label>Estado Civil </label>
-                      </div>
                     </div>
-
                   </div>
-                                
+                  </div>
                 </div>
               </div>
 
@@ -267,11 +268,11 @@
               </div>
 
 
-              <!-- CBO -->
+              <!-- OCUPACAO (CBO) -->
               <div class="card card-outlined style-primary" id="cbo">
                 <div class="card-head">
-                  <header>CBO
-                      <small>  (Adicione pelo menos um CBO)</small>
+                  <header>Ocupação
+                      <small>  (Adicione pelo menos uma ocupação)</small>
                   </header>
                 </div>
                 <div class="card-body" style="display: block;">
@@ -283,11 +284,11 @@
                         <input type="text" autocomplete="off" [formControl]="myControlCbo" matInput class="form-control" [(ngModel)]="trabalhadorCbo.cbo" name="cbo" [matAutocomplete]="autoCbo">
                         <mat-autocomplete #autoCbo="matAutocomplete" [displayWith]="displayFnCbo">
                             <mat-option *ngFor="let optCbo of filteredOptionsCbo | async" [value]="optCbo">
-                                {{optCbo.nome}}
+                                {{optCbo.nomePersonalizado}}
                             </mat-option>
                         </mat-autocomplete>
 
-                        <label>CBO</label>
+                        <label>Ocupação</label>
                       </div>
                     </div>
 
@@ -300,11 +301,37 @@
                     </div>
 
                   </div>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label>Possui Comprovação *</label>
+                        <div style="margin-top: 10px;">
+                          <label class="radio-inline radio-styled">
+                            <input  type="radio" value="S" [(ngModel)]="trabalhadorCbo.possuiComprovacao" name="comprovacao" #comprovacao="ngModel" >
+                            <span>Sim</span>
+                          </label>
+                          <label class="radio-inline radio-styled">
+                            <input type="radio" value="N" [(ngModel)]="trabalhadorCbo.possuiComprovacao" name="comprovacao" #comprovacao="ngModel" >
+                            <span>Não</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
 
+                  <div class="col-sm-5" *ngIf="trabalhadorCbo.possuiComprovacao == 'S'">
+                    <div class="form-group">
+                      <select class="form-control" [(ngModel)]="trabalhadorCbo.codigoExperiencia" name="tipoComprovacao" #tipoComprovacao="ngModel">
+                        <option [ngValue]="null">- Selecione uma Opção -</option>
+                        <option *ngFor="let tipo of listaExperiencia" [ngValue]="tipo.valorCampo">{{tipo.nomeValor}}</option>
+                      </select>
+                      <label>Tipo de Comprovação *</label>
+                    </div>
+                  </div>
+                  </div>
                   <div class="row small-padding">
                     <div class="pull-left">
                         <button type="button" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" (click)="adicionarCbo()">
-                          Adicionar CBO
+                          Adicionar Ocupação
                         </button> 
                     </div>
                   </div>
@@ -314,8 +341,12 @@
                       <table class="table table-condensed table-hover no-margin">
                         <thead class="style-primary-light">	
                           <tr>
-                            <th>CBO</th>
+                            <th>Ocupação</th>
                             <th>Descrição</th>
+                            <th>Possui Comprovação</th>
+                            <th>Descrição Comprovação</th>
+
+                            <th style="width: 3%;"></th>
                             <th style="width: 3%;"></th>
                           </tr>
                         </thead>
@@ -323,6 +354,11 @@
                           <tr *ngFor="let trabalhadorCbo of listaTrabalhadorCbo; let i = index" [attr.data-index]="i">
                             <td style="width: 25%;">{{trabalhadorCbo.descricaoCbo}}</td>
                             <td style="width: 25%;">{{trabalhadorCbo.nome}}</td>
+                            <td style="width: 25%;">{{trabalhadorCbo.codigoExperiencia != null? 'Sim':'Não'}}</td>
+                            <ng-container *ngFor="let listaExperiencia of listaExperiencia">
+                            <td style="width: 35%;" *ngIf="trabalhadorCbo.codigoExperiencia == listaExperiencia.valorCampo">{{listaExperiencia.nomeValor}}</td>
+                            </ng-container>
+                            <td style="width: 35%;" *ngIf="trabalhadorCbo.codigoExperiencia == null"></td>
                             <td style="width: 3%;">
                               <i class="glyphicon glyphicon-trash" (click)="excluirTrabalhadorCbo(i)" style="cursor: pointer;" title="Inativar"></i>
                             </td>
@@ -509,7 +545,8 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let endereco of listaEndereco; let i = index" [attr.data-index]="i">
+                        <ng-container  *ngFor="let endereco of listaEndereco; let i = index" [attr.data-index]="i">
+                          <tr *ngIf="endereco.flagAtivo == 'S'">
                             <td>{{endereco.descricaoTipo}}</td>
                             <td>{{endereco.cepFormatado | mask: '00.000-000'}}</td>
                             <td>{{endereco.extensaoEndereco.logradouro}}</td>
@@ -523,6 +560,7 @@
                                 <i class="glyphicon glyphicon-trash" (click)="excluirEndereco(i)" style="cursor: pointer;" title="Inativar"></i>
                             </td>
                           </tr>
+                        </ng-container>
                       </table>
                     </div>
                   </div>
@@ -554,15 +592,16 @@
 
                     <div class="col-sm-4">
                       <div class="form-group">
+
                           <input type="text" [(ngModel)]="telefonePf.nrTelefoneExtenso" autocomplete="offTel"
-                                  mask='(00) 00000-0000' name="nrTelefoneExtensoPf" class="form-control" required>
+                                 mask="{{telefonePf.objTipo?.valorCampo == 1 ? '(00) 0000-0000' : '(00) 00000-0000'}}" name="nrTelefoneExtensoPf" class="form-control" required>
                         <label>Telefone *</label>
                       </div>
                     </div>
 
                     <div class="col-sm-2">
                       <div class="form-group">
-                        <div style="margin-top: 10px;">
+                        <div  *ngIf="telefonePf.objTipo?.valorCampo != 1" style="margin-top: 10px;">
                           <label class="checkbox-inline checkbox-styled">
                             <input type="checkbox" [(ngModel)]="telefonePf.flagWhats" name="flagWhats" #flagWhats="ngModel" >
                             <span><img src="assets/img/wapp.png" style="width: 24px; height: 24px;">WhatsApp</span>
@@ -589,20 +628,28 @@
                             <th>Número</th>
                             <th>WhatsApp</th>
                             <th style="width: 3%;"></th>
+                            <th style="width: 3%;"></th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let telefonePf of listaTelefonePf; let i = index" >
+                        <ng-container *ngFor="let telefonePf of listaTelefonePf; let i = index">
+                          <tr *ngIf="telefonePf.flagAtivo == 'S'" >
                             <td style="width: 25%;">{{telefonePf.descricaoTipo}}</td>
-                            <td style="width: 25%;">({{telefonePf.ddd}}) {{telefonePf.numero | mask: '00000-0000'}}</td>
+<!--                            <td style="width: 25%;">({{telefonePf.ddd}}) {{telefonePf.numero | mask: '00000-0000'}}</td>-->
+                            <td>({{telefonePf.ddd}}) {{telefonePf.numero.toString().length ==  8 ? (telefonePf.numero | mask: '0000-0000'): (telefonePf.numero | mask: '00000-0000')}}</td>
+
                             <td style="width: 25%;"> 
                               <span *ngIf="telefonePf.flagWhats">SIM</span>
                               <span *ngIf="!telefonePf.flagWhats">NÃO</span>
                             </td>
                             <td style="width: 3%;">
+                              <i class="fa fa-pencil" (click)="preparaEditarTelefone(i)" style="cursor: pointer;" title="Editar"></i>
+                            </td>
+                            <td style="width: 3%;">
                               <i class="glyphicon glyphicon-trash" (click)="excluirTelefonePf(i)" style="cursor: pointer;" title="Inativar"></i>
                             </td>
                           </tr>
+                        </ng-container>
                       </table>
                     </div>
                   </div>
@@ -610,7 +657,7 @@
               </div>
 
               <!-- AGENDA -->
-              <div class="card card-outlined style-primary" id="divAgenda">
+              <!-- <div class="card card-outlined style-primary" id="divAgenda">
                 <div class="card-head">
                   <header>Agenda Semanal</header>
                 </div>
@@ -671,7 +718,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <div class="card-actionbar">
                   <div class="card-actionbar-row">

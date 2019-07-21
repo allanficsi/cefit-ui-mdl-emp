@@ -120,6 +120,8 @@ import { AptCpfExternoComponent } from './cpf/externo/apt-cpf-externo.component'
 import { AptCnpjExternoComponent } from './cnpj/externo/apt-cnpj-externo.component';
 import { Moeda } from '../../pipes/moeda';
 import { ModalEmpregadorComponent } from '../../pages/geral/modal-empregador/modal-empregador.component';
+import {ModalEmpregadorRejeicaoComponent} from '../../pages/geral/modal-empregador-rejeicao/modal-empregador-rejeicao.component';
+import {ModalEmpregadorPresencaComponent} from '../../pages/geral/modal-empregador-presenca/modal-empregador-presenca.component';
 
 @NgModule({
   exports: [
@@ -268,6 +270,8 @@ import { ModalEmpregadorComponent } from '../../pages/geral/modal-empregador/mod
         ModalAlterarSituacaoTrabalhadorComponent,
         ModalResetarSenhaComponent,
         ModalEmpregadorComponent,
+        ModalEmpregadorRejeicaoComponent,
+        ModalEmpregadorPresencaComponent,
 
         LayoutComponent,
         AptCpfComponent,

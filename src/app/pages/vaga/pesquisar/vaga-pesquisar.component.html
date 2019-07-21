@@ -2,24 +2,24 @@
   <div class="section-body">
 
     <!-- BEGIN BASIC VALIDATION -->
-    <div class="row">
-
+    <div class="row">     
+     
       <div class="col-lg-12">
         <div class="card card-underline">
           <div class="card-head card-head-sm">
             <header><b>Vaga - Pesquisar</b></header>
           </div>
-
+      
           <div class="card-body" style="display: block;">
             <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
-
+                
               <div class="row">
-
+                
                 <div class="col-sm-1">
                   <div class="form-group">
                     <input type="text" maxlength="80" autocomplete="off"
-                           [(ngModel)]="objetoPesquisa.codigo"
-                           name="nome" class="form-control">
+                            [(ngModel)]="objetoPesquisa.codigo" 
+                            name="nome" class="form-control">  
                     <label>Código</label>
                   </div>
                 </div>
@@ -27,8 +27,8 @@
                 <div class="col-sm-5">
                   <div class="form-group">
                     <input type="text" maxlength="80" autocomplete="off"
-                           [(ngModel)]="objetoPesquisa.descricao"
-                           name="nome" class="form-control">
+                           [(ngModel)]="objetoPesquisa.descricao" 
+                           name="nome" class="form-control">  
                     <label>Descrição</label>
                   </div>
                 </div>
@@ -41,7 +41,7 @@
                         <input type="checkbox"
                                name="fgSelecionado"
                                [(ngModel)]="tipoVaga.fgSelecionado"/>
-                        <span>{{tipoVaga.nome}}</span>
+                        <span>{{tipoVaga.nome}}</span> 
                       </label>
                     </div>
                   </div>
@@ -54,7 +54,7 @@
                         <select class="form-control" [(ngModel)]="objetoPesquisa.situacao" name="codigoLocal">
                           <option [ngValue]="null">- Selecione a Situação -</option>
                           <option *ngFor="let situacao of listaSituacao" [ngValue]="situacao.valorCampo">{{situacao.nomeValor}}</option>
-                        </select>
+                        </select>   
                         <label>Situação</label>
                       </div>
                     </div>
@@ -64,14 +64,14 @@
               </div>
 
               <div class="row">
-
+                
                 <div class="col-sm-6">
                   <div class="form-group">
                     <input type="text" autocomplete="off" [formControl]="myControlCbo" matInput class="form-control" [(ngModel)]="cbo" name="cbo" [matAutocomplete]="auto" placeholder='Informe o CBO da vaga.'>
                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCbo">
-                      <mat-option *ngFor="let option of filteredOptionsCbo | async" [value]="option">
-                        {{option.nome}}
-                      </mat-option>
+                        <mat-option *ngFor="let option of filteredOptionsCbo | async" [value]="option">
+                            {{option.nome}}
+                        </mat-option>
                     </mat-autocomplete>
                     <label>Ocupação/CBO</label>
                   </div>
@@ -83,17 +83,17 @@
           </div>
 
           <div class="card-actionbar">
-            <div class="card-actionbar-row">
-              <a class="btn ink-reaction btn-raised btn-success" (click)="pesquisar()" accesskey="P">
-                Pesquisar
-              </a>
-              <a class="btn ink-reaction btn-raised btn-default" (click)="novo()" accesskey="N">
-                Novo
-              </a>
-            </div>
+              <div class="card-actionbar-row">
+                  <a class="btn ink-reaction btn-raised btn-success" (click)="pesquisar()" accesskey="P">
+                  Pesquisar  
+                  </a> 
+                  <a class="btn ink-reaction btn-raised btn-default" (click)="novo()" accesskey="N">
+                  Novo  
+                  </a>                  
+              </div>
           </div>
 
-        </div>
+        </div>      
       </div>
 
     </div>
@@ -104,10 +104,10 @@
       </em>
       <em class="text-caption result" *ngIf="listaResultado.length == 1">
         Foi encontrado {{listaResultado.length}} registro.
-      </em>
+      </em> 
       <em class="text-caption result" *ngIf="listaResultado.length < 1">
         Nenhum registro foi encontrado.
-      </em>
+      </em>   
     </div>
 
     <div class="row">
@@ -115,20 +115,20 @@
         <div class="card">
           <div class="card-body no-padding">
             <div class="table-responsive no-margin">
-              <table id="datatable1" class="table table-hover no-margin">
+               <table id="datatable1" class="table table-hover no-margin">
                 <thead class="style-default-dark">
-                <tr>
-                  <th class="text-left">Código</th>
-                  <th class="text-left">Ocupação</th>
-                  <th class="text-left">Descrição</th>
-                  <th class="text-left">Empregador</th>
-                  <th class="text-left">Trabalhador</th>
-                  <th class="text-left">Tipo da Vaga</th>
-                  <th class="text-left">Tipo da Descrição</th>
-                  <th class="text-left">Situação</th>
-                  <th class="text-left" style="width: 3%;"></th>
-                  <th class="text-left" style="width: 3%;"></th>
-                </tr>
+                  <tr>
+                    <th class="text-left">Código</th>
+                    <th class="text-left">Ocupação</th>
+                    <th class="text-left">Descrição</th>
+                    <th class="text-left">Empregador</th>
+                    <th class="text-left">Trabalhador</th>
+                    <th class="text-left">Tipo da Vaga</th>
+                    <th class="text-left">Tipo da Descrição</th>
+                    <th class="text-left">Situação</th>
+                    <th class="text-left" style="width: 3%;"></th>
+                    <th class="text-left" style="width: 3%;"></th>
+                  </tr>
                 </thead>
 
                 <tr *ngFor="let item of listaResultado">
@@ -149,12 +149,12 @@
                     <span *ngIf="item.tipoDescricaoVaga == 'F'">Freguesia</span>
                   </td>
                   <td>{{item.descricaoSituacao}}</td>
-                  <td>
+                  <td> 
                     <button type="button" class="btn btn-icon-toggle" (click)="visualizar(item.codigo)" title="Visualizar">
                       <i class="fa fa-search"></i>
                     </button>
                   </td>
-                  <td>
+                  <td> 
                     <button type="button" *ngIf='(item.situacao == 1 || item.situacao == 2) && (item.tipoDescricaoVaga == "G")' class="btn btn-icon-toggle" (click)="editar(item.codigo)" title="Editar" >
                       <i class="fa fa-edit"></i>
                     </button>

@@ -8,4 +8,5 @@ export class Usuario {
         public senha: String;
         public codigoCadastroUnico: Number;
         public filtro: FiltroUsuario;
+        public isRememberme:boolean;
 }

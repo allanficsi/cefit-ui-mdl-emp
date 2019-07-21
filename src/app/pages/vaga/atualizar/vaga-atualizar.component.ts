@@ -32,7 +32,7 @@ import { CadastroUnicoService } from 'src/app/services/cadastro-unico/cadastro-u
   templateUrl: './vaga-atualizar.component.html',
   styleUrls: ['./vaga-atualizar.component.css']
 })
-export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): Vaga}>{
+export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): Vaga}>{ 
 
   flagSelecionarTodosAgenda: boolean;
   filtroEmpregador: string;
@@ -57,8 +57,8 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
   filteredOptionsCbo: Observable<Cbo[]>;
 
   constructor(router: Router,
-              route: ActivatedRoute,
-              dialog: MatDialog,
+              route: ActivatedRoute,  
+              dialog: MatDialog,                   
               service: VagaService,
               mensagem: MensagemService,
               private trabalhadorService: TrabalhadorService,
@@ -79,6 +79,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     this.vagaDia = new VagaDia();
 
     this.popularCbo();
+    this.pesquisarEmpregador();
   }
 
   iniciarPaginaAlterar() {
@@ -89,7 +90,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     this.listaVagaDia = [];
 
     // GET VAGA COM O CODIGO
-    this.service.get(vaga).subscribe((responseApi:ResponseApi) => {
+    this.service.get(vaga).subscribe((responseApi:ResponseApi) => {      
       this.objetoAtualiza = responseApi.data;
       this.objetoAtualiza.dataInicio = new Date(this.objetoAtualiza.dataInicio);
 
@@ -104,12 +105,12 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       } else {
         this.objetoAtualiza.dataFim = null;
       }
-
+      
       // Nominal ou freguesia
       if(this.objetoAtualiza.tipoDescricaoVaga == 'N' || this.objetoAtualiza.tipoDescricaoVaga == 'F') {
         this.trabalhador = this.objetoAtualiza.trabalhadorEntity;
       }
-
+      
       // Freguesia
       if(this.objetoAtualiza.tipoDescricaoVaga == 'F') {
         this.listaVagaDia = this.objetoAtualiza.listaVagaDia;
@@ -127,7 +128,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       let cadastroUnico = new CadastroUnico();
       cadastroUnico.codigo = this.empregador.codigoCadastroUnico;
       this.cadastroUnicoService.get(cadastroUnico)
-        .subscribe((responseApi:ResponseApi) => {
+                            .subscribe((responseApi:ResponseApi) => {
 
           let objCun: CadastroUnico = responseApi.data;
 
@@ -152,11 +153,11 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
             this.listaEndereco.push(objCun.listaEndereco[i]);
           }
 
-        });
+      });
 
 
     } , err => {
-      this.mensagem.tratarErro(err);
+      this.mensagem.tratarErro(err);  
     });
   }
 
@@ -189,19 +190,19 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
 
     // Autocomplete profissional
     this.filteredOptionsTrabalhador = this.myControlTrabalhador.valueChanges
-      .pipe(
-        startWith<string | Trabalhador>(''),
-        map(value => typeof value === 'string' ? value : value.cadastroUnico.nome),
-        map(nome => nome ? this._filterTrabalhador(nome) : this.listaTrabalhador.slice())
-      );
+    .pipe(
+      startWith<string | Trabalhador>(''),
+      map(value => typeof value === 'string' ? value : value.cadastroUnico.nome),
+      map(nome => nome ? this._filterTrabalhador(nome) : this.listaTrabalhador.slice())
+    );
 
     // Autocomplete cbo
     this.filteredOptionsCbo = this.myControlCbo.valueChanges
-      .pipe(
-        startWith<string | Cbo>(''),
-        map(value => typeof value === 'string' ? value : value.nome),
-        map(nome => nome ? this._filterCbo(nome) : this.listaCbo.slice())
-      );
+    .pipe(
+      startWith<string | Cbo>(''),
+      map(value => typeof value === 'string' ? value : value.nome),
+      map(nome => nome ? this._filterCbo(nome) : this.listaCbo.slice())
+    );
   }
 
   popularDirecionamento() {
@@ -222,11 +223,11 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     cbo.flagAtivo = "S";
 
     this.cboService.pesquisar(cbo)
-      .subscribe((responseApi:ResponseApi) => {
-        this.listaCbo = responseApi['data'];
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
+                .subscribe((responseApi:ResponseApi) => {
+      this.listaCbo = responseApi['data'];
+    } , err => {
+      this.mensagem.tratarErro(err);
+    });
   }
 
   popularTrabalhador() {
@@ -235,13 +236,13 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       trabalhador.situacaoIngresso = TrabalhadorService.APROVADO;
       trabalhador.situacao = TrabalhadorService.SITUACAO_ATIVA;
       trabalhador.codigoCbo = this.cbo.codigo;
-
+      
       this.trabalhadorService.pesquisar(trabalhador)
-        .subscribe((responseApi:ResponseApi) => {
-          this.listaTrabalhador = responseApi['data'];
-        } , err => {
-          this.mensagem.tratarErro(err);
-        });
+                  .subscribe((responseApi:ResponseApi) => {
+        this.listaTrabalhador = responseApi['data'];
+      } , err => {
+        this.mensagem.tratarErro(err);
+      });
     }else{
       this.listaTrabalhador = [];
     }
@@ -253,67 +254,33 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
 
       let empregador = new Empregador();
       empregador.situacao = EmpregadorService.SITUACAO_ATIVA;
-      empregador.filtroGenerico = null;
       empregador.codigo = this.getCodigoEmpregadorLogado();
+      empregador.filtroGenerico = this.filtroEmpregador;
 
       // Realizando consulta do empregador
       this.empregadorService.pesquisar(empregador)
-        .subscribe((responseApi:ResponseApi) => {
-          this.listaEmpregador = responseApi['data'];
+          .subscribe((responseApi:ResponseApi) => {
+        this.listaEmpregador = responseApi['data'];
 
-          // Se retornar varios empregadores, abrir modal com lista de empregadores
-          if(this.listaEmpregador.length > 1) {
-            const dialogConfig = new MatDialogConfig();
-            dialogConfig.width = '900px';
-            dialogConfig.height = '450px';
-            dialogConfig.data = {listaResultado: this.listaEmpregador};
+        // Se retornar varios empregadores, abrir modal com lista de empregadores
+        if(this.listaEmpregador.length > 1) {
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.width = '900px';
+          dialogConfig.height = '450px';
+          dialogConfig.data = {listaResultado: this.listaEmpregador};
 
-            this.dialog.open(ModalEmpregadorComponent, dialogConfig)
-              .afterClosed().subscribe((data) => {
+          this.dialog.open(ModalEmpregadorComponent, dialogConfig)
+                                  .afterClosed().subscribe((data) => {
+            
+            this.empregador = data;
 
-              this.empregador = data;
-
-              // Ao selecionar o empregador (close modal), get no cun com lista de enderecos
-              let cadastroUnico = this.empregador.cadastroUnico;
-              this.cadastroUnicoService.get(cadastroUnico)
-                .subscribe((responseApi:ResponseApi) => {
-
-                  let objCun: CadastroUnico = responseApi.data;
-
-                  for(let i = 0; i < objCun.listaEndereco.length; i++) {
-
-                    let eex: ExtensaoEndereco = new ExtensaoEndereco();
-
-                    if(objCun.listaEndereco[i].correio != null) {
-                      eex.logradouro = objCun.listaEndereco[i].correio.logradouro;
-                      eex.bairro = objCun.listaEndereco[i].correio.bairro;
-                      eex.localidade = objCun.listaEndereco[i].correio.localidade;
-                      eex.uf = objCun.listaEndereco[i].correio.uf;
-                    } else {
-                      eex.logradouro = objCun.listaEndereco[i].extensaoEndereco.logradouro;
-                      eex.bairro = objCun.listaEndereco[i].extensaoEndereco.bairro;
-                      eex.localidade = objCun.listaEndereco[i].extensaoEndereco.localidade;
-                      eex.uf = objCun.listaEndereco[i].extensaoEndereco.uf;
-                    }
-
-                    objCun.listaEndereco[i].extensaoEndereco = eex;
-                    this.listaEndereco.push(objCun.listaEndereco[i]);
-                  }
-
-                });
-
-            });
-          } else {
-            // Se retornar somente um empregador, ja selecionar e pesquisar o cadastro unico com lista de enderecos
-            this.empregador = this.listaEmpregador[0];
-
-            let cadastroUnico = new CadastroUnico();
-            cadastroUnico.codigo = this.empregador.codigoCadastroUnico;
+            // Ao selecionar o empregador (close modal), get no cun com lista de enderecos
+            let cadastroUnico = this.empregador.cadastroUnico;
             this.cadastroUnicoService.get(cadastroUnico)
-              .subscribe((responseApi:ResponseApi) => {
+                                  .subscribe((responseApi:ResponseApi) => {
 
                 let objCun: CadastroUnico = responseApi.data;
-                // Endereco
+                
                 for(let i = 0; i < objCun.listaEndereco.length; i++) {
 
                   let eex: ExtensaoEndereco = new ExtensaoEndereco();
@@ -334,12 +301,46 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
                   this.listaEndereco.push(objCun.listaEndereco[i]);
                 }
 
-              });
+            });
 
-          }
-        } , err => {
-          this.mensagem.tratarErro(err);
-        });
+          });
+        } else {
+          // Se retornar somente um empregador, ja selecionar e pesquisar o cadastro unico com lista de enderecos
+          this.empregador = this.listaEmpregador[0];
+
+          let cadastroUnico = new CadastroUnico();
+          cadastroUnico.codigo = this.empregador.codigoCadastroUnico;
+          this.cadastroUnicoService.get(cadastroUnico)
+                                .subscribe((responseApi:ResponseApi) => {
+
+              let objCun: CadastroUnico = responseApi.data;
+              // Endereco
+              for(let i = 0; i < objCun.listaEndereco.length; i++) {
+
+                let eex: ExtensaoEndereco = new ExtensaoEndereco();
+
+                if(objCun.listaEndereco[i].correio != null) {
+                  eex.logradouro = objCun.listaEndereco[i].correio.logradouro;
+                  eex.bairro = objCun.listaEndereco[i].correio.bairro;
+                  eex.localidade = objCun.listaEndereco[i].correio.localidade;
+                  eex.uf = objCun.listaEndereco[i].correio.uf;
+                } else {
+                  eex.logradouro = objCun.listaEndereco[i].extensaoEndereco.logradouro;
+                  eex.bairro = objCun.listaEndereco[i].extensaoEndereco.bairro;
+                  eex.localidade = objCun.listaEndereco[i].extensaoEndereco.localidade;
+                  eex.uf = objCun.listaEndereco[i].extensaoEndereco.uf;
+                }
+
+                objCun.listaEndereco[i].extensaoEndereco = eex;
+                this.listaEndereco.push(objCun.listaEndereco[i]);
+              }
+
+          });
+          
+        }
+      } , err => {
+      this.mensagem.tratarErro(err);
+      });
   }
 
   // replicarHorario(index) {
@@ -411,7 +412,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
   }
 
   completarAlterar() {
-
+    
     this.objetoAtualiza.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
     this.objetoAtualiza.auditoria.dataAlteracao = new Date();
 
@@ -436,7 +437,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     this.objetoAtualiza.listaVagaDia = [];
 
     if(this.objetoAtualiza.tipoVaga == 'I') {
-
+      
       if(this.objetoAtualiza.tipoDescricaoVaga == 'F') {
         this.listaVagaDia.forEach(element => {
           this.objetoAtualiza.listaVagaDia.push(element);
@@ -449,10 +450,10 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
 
   adicionarDiaFreguesia() {
 
-    if(this.vagaDia == null || this.vagaDia.data == null ||
-      this.vagaDia.horarioEntrada == "" || typeof this.vagaDia.horarioEntrada == "undefined") {
-      this.mensagem.tratarErroPersonalizado("", "Preencha todos os campos com * para adicionar um dia para a freguesia.");
-      return false;
+    if(this.vagaDia == null || this.vagaDia.data == null || 
+       this.vagaDia.horarioEntrada == "" || typeof this.vagaDia.horarioEntrada == "undefined") {
+          this.mensagem.tratarErroPersonalizado("", "Preencha todos os campos com * para adicionar um dia para a freguesia.");
+          return false;   
     }
     else{
       if(this.vagaDia.horarioEntrada.length < 4 || this.vagaDia.horarioSaida.length < 4) {
@@ -474,15 +475,15 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
     }
 
     if(this.vagaDia.horarioEntrada != "" && typeof this.vagaDia.horarioEntrada != "undefined"
-      && this.vagaDia.horarioSaida != "" && typeof this.vagaDia.horarioSaida != "undefined") {
+       && this.vagaDia.horarioSaida != "" && typeof this.vagaDia.horarioSaida != "undefined") {
 
-      let numeroIni: number = parseInt(this.vagaDia.horarioEntrada);
-      let numeroFim: number = parseInt(this.vagaDia.horarioSaida);
+        let numeroIni: number = parseInt(this.vagaDia.horarioEntrada);
+        let numeroFim: number = parseInt(this.vagaDia.horarioSaida);
 
-      if(numeroIni > numeroFim) {
-        this.mensagem.tratarErroPersonalizado("", "O campo Entrada deve ser menor que o campo Saída.");
-        return false;
-      }
+        if(numeroIni > numeroFim) {
+          this.mensagem.tratarErroPersonalizado("", "O campo Entrada deve ser menor que o campo Saída.");
+          return false;   
+        }
     }
 
     let retorno: boolean = true;
@@ -491,7 +492,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       this.listaVagaDia.forEach(element => {
         if(new Date(element.data).toDateString() === new Date(this.vagaDia.data).toDateString()) {
           this.mensagem.tratarErroPersonalizado("", "Esta data já foi adicionada na lista.");
-          retorno = false;
+          retorno = false;    
         }
       });
     }
@@ -505,7 +506,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
       this.listaVagaDia.push(obj);
       this.vagaDia = new VagaDia();
     }
-
+    
   }
 
   removerDiaFreguesia(index) {
@@ -530,7 +531,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
 
     // Regras nominal e freguesia
     if(this.objetoAtualiza.tipoVaga == 'I' && (this.objetoAtualiza.tipoDescricaoVaga == 'N' || this.objetoAtualiza.tipoDescricaoVaga == 'F')
-      && (this.trabalhador == null || typeof this.trabalhador.codigo == 'undefined')) {
+            && (this.trabalhador == null || typeof this.trabalhador.codigo == 'undefined')) {
       this.mensagem.tratarErroPersonalizado("", "O campo Trabalhador é obrigatório.");
       return false;
     }
@@ -544,9 +545,9 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
         }
       } else {
         // Nominal ou Geral
-        if(this.vagaDia == null || this.vagaDia.data == null ||
-          this.vagaDia.horarioEntrada == "" || typeof this.vagaDia.horarioEntrada == "undefined" ||
-          this.vagaDia.horarioSaida == "" || typeof this.vagaDia.horarioSaida == "undefined")
+        if(this.vagaDia == null || this.vagaDia.data == null || 
+           this.vagaDia.horarioEntrada == "" || typeof this.vagaDia.horarioEntrada == "undefined" ||
+           this.vagaDia.horarioSaida == "" || typeof this.vagaDia.horarioSaida == "undefined")
         {
           this.mensagem.tratarErroPersonalizado("", "É necessário informar os dados com * para a Data do Serviço.");
           return false;
@@ -559,7 +560,7 @@ export class VagaAtualizarComponent extends AptareCrudController<Vaga, {new(): V
           }
         }
       }
-    }
+    }    
 
     if(this.empregador == null) {
       this.mensagem.tratarErroPersonalizado("", "O campo Empregador é obrigatório.");

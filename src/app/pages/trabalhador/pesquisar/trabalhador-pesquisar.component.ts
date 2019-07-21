@@ -15,6 +15,8 @@ import { TrabalhadorAgenda } from '../../../model/trabalhador/trabalhador-agenda
 import { ModalEditarItemEspacoComponent } from '../../geral/modal-editar-item-espaco/modal-editar-item-espaco.component';
 import { ModalEditarAgendaComponent } from '../../geral/modal-editar-agenda/modal-editar-agenda.component';
 import { AgendaTrabalhadorService } from '../../../services/trabalhador/agenda-trabalhador.service';
+import {ModalEmpregadorRejeicaoComponent} from '../../geral/modal-empregador-rejeicao/modal-empregador-rejeicao.component';
+import {ModalEmpregadorPresencaComponent} from '../../geral/modal-empregador-presenca/modal-empregador-presenca.component';
 
 @Component({
   selector: 'app-trabalhador-pesquisar',
@@ -116,4 +118,33 @@ export class TrabalhadorPesquisarComponent extends AptareCrudController<Trabalha
       .afterClosed()
       .subscribe(value => {});
   }
+
+  preparaRejeicao(index) {
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '650px';
+    dialogConfig.width = '900px';
+    dialogConfig.data = index;
+
+    this.dialog.open(ModalEmpregadorRejeicaoComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(value => {});
+  }
+
+  preparaPresenca(index) {
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '650px';
+    dialogConfig.width = '900px';
+    dialogConfig.data = index;
+
+    this.dialog.open(ModalEmpregadorPresencaComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(value => {});
+  }
+
 }

@@ -58,16 +58,18 @@ import { EncaminhamentoPesquisarComponent } from '../../pages/encaminhamento/pes
 import { ModalResetarSenhaComponent } from '../../pages/geral/modal-resetar-senha/modal-resetar-senha.component';
 import { EmpregadorRedefinirSenhaComponent } from '../../pages/empregador/resetar-senha/empregador-redefinir-senha.component';
 import { ModalEmpregadorComponent } from '../../pages/geral/modal-empregador/modal-empregador.component';
+import { ModalEmpregadorRejeicaoComponent } from '../../pages/geral/modal-empregador-rejeicao/modal-empregador-rejeicao.component';
+import { ModalEmpregadorPresencaComponent } from '../../pages/geral/modal-empregador-presenca/modal-empregador-presenca.component';
 
 export const CONTENT_ROUTES: Routes = [
 
     { path : '', component: HomeComponent, canActivate: [AuthGuard] },
     { path : 'lov-modal', component: LovModalComponent, canActivate: [AuthGuard] },
 
-    { path : 'empregador-pesquisar', component: EmpregadorPesquisarComponent, canActivate: [AuthGuard] },
+    // { path : 'empregador-pesquisar', component: EmpregadorPesquisarComponent, canActivate: [AuthGuard] },
     { path : 'empregador-atualizar', component: EmpregadorAtualizarComponent, canActivate: [AuthGuard] },
-    { path : 'empregador-atualizar/:id', component: EmpregadorAtualizarComponent, canActivate: [AuthGuard] },
-    { path : 'empregador-visualizar/:id', component: EmpregadorVisualizarComponent, canActivate: [AuthGuard] },
+    // { path : 'empregador-atualizar/:id', component: EmpregadorAtualizarComponent, canActivate: [AuthGuard] },
+    // { path : 'empregador-visualizar/:id', component: EmpregadorVisualizarComponent, canActivate: [AuthGuard] },
     { path : 'empregador-redefinir', component: EmpregadorRedefinirSenhaComponent, canActivate: [AuthGuard] },
 
     { path : 'trabalhador-pesquisar', component: TrabalhadorPesquisarComponent, canActivate: [AuthGuard] },
@@ -147,6 +149,8 @@ export const CONTENT_ROUTES: Routes = [
     { path : 'modal-alterar-situacao-ingresso', component: ModalAlterarSituacaoTrabalhadorComponent, canActivate: [AuthGuard] },
     { path : 'modal-resetar-senha', component: ModalResetarSenhaComponent},
     { path : 'modal-empregador', component: ModalEmpregadorComponent, canActivate: [AuthGuard] },
+    { path : 'modal-empregador-rejeicao', component: ModalEmpregadorRejeicaoComponent, canActivate: [AuthGuard] },
+    { path : 'modal-empregador-presenca', component: ModalEmpregadorPresencaComponent, canActivate: [AuthGuard] },
     { path : 'layout-pesquisar', component: LayoutComponent, canActivate: [AuthGuard] },
 
 

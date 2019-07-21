@@ -35,6 +35,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.usrLogado = localStorage.getItem("usuario");
+    this.usuario.login =  JSON.parse(localStorage.getItem("login"));
+    this.usuario.senha =  JSON.parse(localStorage.getItem("senha"));
+    this.usuario.isRememberme = JSON.parse(localStorage.getItem('remember'));
+
   }
  
   ngAfterViewInit()
@@ -67,10 +71,12 @@ export class LoginComponent implements OnInit {
         //BUSCANDO MEPREGADOR LOGADO
         this.empregadorService.getExterno(this.empregador)
           .subscribe((responseApi: ResponseApi) => {
-            localStorage.setItem('empregador', JSON.stringify(responseApi['data']));
+            localStorage.setItem("empregador", JSON.stringify(responseApi['data']));
             localStorage.setItem("usuario", JSON.stringify(userAuthentication.usuario));
             localStorage.setItem("token", userAuthentication.token);
             this.router.navigate(['/']);
+
+            this.remenberMe(this.usuario.isRememberme);
 
           }, err => {//ERRO AO BUSCAR EMPREGADOR
             localStorage.removeItem('usuario');
@@ -90,6 +96,22 @@ export class LoginComponent implements OnInit {
 
   cadastrar() {
     this.router.navigate(['cadastrar']);
+  }
+
+
+  //IMPLEMENTA O LEMBRAR SENHA
+  remenberMe(isRemember){
+    if(isRemember){
+      localStorage.setItem("login", JSON.stringify(this.usuario.login));
+      localStorage.setItem("senha", JSON.stringify(this.usuario.senha));
+      localStorage.setItem("remember", JSON.stringify(this.usuario.isRememberme));
+    }else{
+      localStorage.removeItem("login");
+      localStorage.removeItem("senha");
+      localStorage.removeItem("remember");
+    }
+
+
   }
 
   resetarSenha() {

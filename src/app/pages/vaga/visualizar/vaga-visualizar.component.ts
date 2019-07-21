@@ -26,7 +26,7 @@ import { startWith, map } from 'rxjs/operators';
   templateUrl: './vaga-visualizar.component.html',
   styleUrls: ['./vaga-visualizar.component.css']
 })
-export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): Vaga}>{
+export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): Vaga}>{ 
 
   trabalhador: Trabalhador;
   empregador: Empregador;
@@ -49,8 +49,8 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
   filteredOptionsCbo: Observable<Cbo[]>;
 
   constructor(router: Router,
-              route: ActivatedRoute,
-              dialog: MatDialog,
+              route: ActivatedRoute,  
+              dialog: MatDialog,                   
               service: VagaService,
               mensagem: MensagemService,
               private trabalhadorService: TrabalhadorService,
@@ -70,7 +70,7 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
     this.listaVagaDia = [];
 
     // GET VAGA COM O CODIGO
-    this.service.get(vaga).subscribe((responseApi:ResponseApi) => {
+    this.service.get(vaga).subscribe((responseApi:ResponseApi) => {      
       this.objetoAtualiza = responseApi.data;
       this.objetoAtualiza.dataInicio = new Date(this.objetoAtualiza.dataInicio);
 
@@ -85,7 +85,7 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
       } else {
         this.objetoAtualiza.dataFim = null;
       }
-
+      
       // Nominal ou freguesia
       if(this.objetoAtualiza.tipoDescricaoVaga == 'N' || this.objetoAtualiza.tipoDescricaoVaga == 'F') {
         this.trabalhador = this.objetoAtualiza.trabalhadorEntity;
@@ -106,7 +106,7 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
       let cadastroUnico = new CadastroUnico();
       cadastroUnico.codigo = this.empregador.codigoCadastroUnico;
       this.cadastroUnicoService.get(cadastroUnico)
-        .subscribe((responseApi:ResponseApi) => {
+                            .subscribe((responseApi:ResponseApi) => {
 
           let objCun: CadastroUnico = responseApi.data;
 
@@ -131,10 +131,10 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
             this.listaEndereco.push(objCun.listaEndereco[i]);
           }
 
-        });
+      });
 
     } , err => {
-      this.mensagem.tratarErro(err);
+      this.mensagem.tratarErro(err);  
     });
   }
 
@@ -162,23 +162,23 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
     super.setListasStaticas();
 
     this.popularDirecionamento();
-    // this.popularTrabalhador();
+    this.popularTrabalhador();
     this.popularCbo();
 
     this.filteredOptionsTrabalhador = this.myControlTrabalhador.valueChanges
-      .pipe(
-        startWith<string | Trabalhador>(''),
-        map(value => typeof value === 'string' ? value : value.cadastroUnico.nome),
-        map(nome => nome ? this._filterTrabalhador(nome) : this.listaTrabalhador.slice())
-      );
+    .pipe(
+      startWith<string | Trabalhador>(''),
+      map(value => typeof value === 'string' ? value : value.cadastroUnico.nome),
+      map(nome => nome ? this._filterTrabalhador(nome) : this.listaTrabalhador.slice())
+    );
 
     // Autocomplete cbo
     this.filteredOptionsCbo = this.myControlCbo.valueChanges
-      .pipe(
-        startWith<string | Cbo>(''),
-        map(value => typeof value === 'string' ? value : value.nome),
-        map(nome => nome ? this._filterCbo(nome) : this.listaCbo.slice())
-      );
+    .pipe(
+      startWith<string | Cbo>(''),
+      map(value => typeof value === 'string' ? value : value.nome),
+      map(nome => nome ? this._filterCbo(nome) : this.listaCbo.slice())
+    );
   }
 
   carregarVagaAgendamento() {
@@ -197,11 +197,11 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
     let cbo = new Cbo();
 
     this.cboService.pesquisar(cbo)
-      .subscribe((responseApi:ResponseApi) => {
-        this.listaCbo = responseApi['data'];
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
+                .subscribe((responseApi:ResponseApi) => {
+      this.listaCbo = responseApi['data'];
+    } , err => {
+      this.mensagem.tratarErro(err);
+    });
   }
 
   popularDirecionamento() {
@@ -216,11 +216,11 @@ export class VagaVisualizarComponent extends AptareCrudController<Vaga, {new(): 
     trabalhador.situacao = TrabalhadorService.SITUACAO_ATIVA;
 
     this.trabalhadorService.pesquisar(trabalhador)
-      .subscribe((responseApi:ResponseApi) => {
-        this.listaTrabalhador = responseApi['data'];
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
+                .subscribe((responseApi:ResponseApi) => {
+      this.listaTrabalhador = responseApi['data'];
+    } , err => {
+      this.mensagem.tratarErro(err);
+    });
   }
 
   voltar() {

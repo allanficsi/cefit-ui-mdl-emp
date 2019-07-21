@@ -31,8 +31,8 @@ export class VagaPesquisarComponent extends AptareCrudController<Vaga, {new(): V
   myControlCbo: FormControl = new FormControl();
   filteredOptionsCbo: Observable<Cbo[]>;
 
-  constructor(router: Router,
-              route: ActivatedRoute,
+  constructor(router: Router, 
+              route: ActivatedRoute,             
               service: VagaService,
               dialog: MatDialog,
               mensagem: MensagemService,
@@ -47,6 +47,7 @@ export class VagaPesquisarComponent extends AptareCrudController<Vaga, {new(): V
 
     this.objetoPesquisa.situacao = null;
     this.objetoPesquisa.codigoEmpregador = this.getCodigoEmpregadorLogado();
+
   }
 
   setListasStaticas() {
@@ -57,11 +58,11 @@ export class VagaPesquisarComponent extends AptareCrudController<Vaga, {new(): V
 
     // Autocomplete cbo
     this.filteredOptionsCbo = this.myControlCbo.valueChanges
-      .pipe(
-        startWith<string | Cbo>(''),
-        map(value => typeof value === 'string' ? value : value.nome),
-        map(nome => nome ? this._filterCbo(nome) : this.listaCbo.slice())
-      );
+    .pipe(
+      startWith<string | Cbo>(''),
+      map(value => typeof value === 'string' ? value : value.nome),
+      map(nome => nome ? this._filterCbo(nome) : this.listaCbo.slice())
+    );
   }
 
   displayFnCbo(cbo?: Cbo): string | undefined {
@@ -78,11 +79,11 @@ export class VagaPesquisarComponent extends AptareCrudController<Vaga, {new(): V
     let cbo = new Cbo();
 
     this.cboService.pesquisar(cbo)
-      .subscribe((responseApi:ResponseApi) => {
-        this.listaCbo = responseApi['data'];
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
+                .subscribe((responseApi:ResponseApi) => {
+      this.listaCbo = responseApi['data'];
+    } , err => {
+      this.mensagem.tratarErro(err);
+    });
   }
 
   popularSituacao() {
@@ -90,14 +91,16 @@ export class VagaPesquisarComponent extends AptareCrudController<Vaga, {new(): V
     dominio.nomeCampo = 'ST_VAG';
 
     this.dominioService.pesquisar(dominio)
-      .subscribe((responseApi:ResponseApi) => {
-        this.listaSituacao = responseApi['data'];
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
+                .subscribe((responseApi:ResponseApi) => {
+      this.listaSituacao = responseApi['data'];
+    } , err => {
+      this.mensagem.tratarErro(err);
+    });
   }
 
   completarPesquisar() {
+    this.objetoPesquisa.filtro = null;
+
     let arrayTipo = [];
     let filtro = new FiltroVaga();
     filtro.tipoVagaIN = [];
@@ -117,13 +120,12 @@ export class VagaPesquisarComponent extends AptareCrudController<Vaga, {new(): V
       this.objetoPesquisa.codigoCbo = this.cbo.codigo;
     }
   }
-
+  
   novo() {
-    console.log(this.listaResultado);
     this.router.navigate(['/vaga-atualizar']);
   }
 
-  editar(id:string){
+  editar(id:string){   
     super.editar('/vaga-atualizar', id);
   }
 

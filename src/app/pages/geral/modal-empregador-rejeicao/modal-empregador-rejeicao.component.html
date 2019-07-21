@@ -1,0 +1,151 @@
+
+  <div class="card-head">
+    <header>Adicionar Rejeição</header>
+  </div>
+  <form class="form" name="formulario" #form="ngForm" novalidate accept-charset="utf-8">
+
+  <div class="card-body" style="display: block;">
+    <div class="row">
+      <div class="col-sm-10">
+        <div class="form-group">
+          <input type="text" autocomplete="off" maxlength="100" [(ngModel)]="filtroEmpregador" placeholder='Informe o CPF, CNPJ, CEI ou parte do nome do empregador'
+                 name="filtroEmpregador" class="form-control">
+          <label>CPF/CNPJ/CEI ou NOME</label>
+        </div>
+      </div>
+
+      <div class="col-sm-1" style="width: 5%; padding-top: 1%;">
+        <div class="form-group">
+          <i class="fa fa-search" style="cursor: pointer;" title="Pesquisar empregador" (click)="pesquisarEmpregador()"> </i>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="empregador != null">
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label>Tipo</label>
+          <span *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>PESSOA JURÍDICA</span>
+          <span *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>PESSOA FÍSICA</span>
+        </div>
+      </div>
+
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>CNPJ</label>
+          <label *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>CPF</label>
+          <span *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>{{empregador.cadastroUnico.cnpj}}</span>
+          <span *ngIf='empregador.cadastroUnico.tipoPessoa == "F"'>{{empregador.cadastroUnico.cpf}}</span>
+        </div>
+      </div>
+
+      <div class="col-sm-3" *ngIf='empregador.cadastroUnico.tipoPessoa == "J"'>
+        <div class="form-group">
+          <label>CEI</label>
+          <span>{{empregador.numeroCei}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="empregador != null">
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label>Nome/Razão Social</label>
+          <span>{{empregador.cadastroUnico.nome}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-5">
+        <div class="form-group">
+          <select class="form-control" name="tipoMotivo" [(ngModel)]="trabalhadorRejeicao.codigoMotivoRejeicao" #motivo="ngModel" >
+            <option [ngValue]="null">- Selecione o Motivo Da Rejeição -</option>
+            <option *ngFor="let motivo of listaMotivoRejeicao" [ngValue]="motivo.valorCampo">{{motivo.nomeValor}}</option>
+          </select>
+          <label>Motivo Rejeição</label>
+        </div>
+      </div>
+      <div class="col-sm-7">
+        <div class="form-group">
+          <input type="text" maxlength="80" [(ngModel)]="trabalhadorRejeicao.motivoRejeicao" placeholder="Informe o motivo da Rejeição."
+                 name="observacao" class="form-control" autocomplete="off">
+          <label>Observação</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-5">
+        <div class="form-group">
+          <select class="form-control" name="tipoMotivo" [(ngModel)]="trabalhadorRejeicao.tipoOrigemRejeicao" #motivo="ngModel" >
+            <option [ngValue]="null">- Selecione a Origem Da Rejeição -</option>
+            <option *ngFor="let origem of listaOrigemRejeicao" [ngValue]="origem.valorCampo">{{origem.nomeValor}}</option>
+          </select>
+          <label>Origem Da Rejeição</label>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row small-padding">
+      <div class="pull-left">
+        <button type="button" (click)="adicionarRejeicao()" class="btn ink-reaction btn-raised btn-primary btn-raised btn-sm" >
+          Adicionar Rejeição
+        </button>
+      </div>
+    </div>
+  </div>
+
+    <div class="card-body" style="display: block;">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body no-padding">
+            <div class="table-responsive no-margin">
+              <table id="datatable1" class="table table-hover no-margin">
+                <thead class="style-primary-light">
+                <tr>
+                  <th class="text-left">Empregador</th>
+                  <th class="text-left">Motivo</th>
+                  <th class="text-left">Origem </th>
+                  <th class="text-left"></th>
+                </tr>
+                </thead>
+                <ng-container *ngFor="let item of listaTrabalhadorRejeicao; let i = index" [attr.data-index]="i">
+                <tr *ngIf="item.flagAtivo == 'S'">
+                  <td style="text-transform: uppercase;">{{item.empregador != null ? item.empregador.cadastroUnico.nome : empregador.cadastroUnico.nome}}</td>
+<!--                  *ngFor="let motivo of listaMotivoRejeicao">-->
+                  <ng-container *ngFor="let motivo of listaMotivoRejeicao;let k = index">
+                  <td *ngIf="item.codigoMotivoRejeicao ==  motivo.valorCampo">
+                    {{ motivo.nomeValor }}
+                  </td>
+                  </ng-container>
+                  <td>
+                    <span *ngIf="item.tipoOrigemRejeicao == 1"> EMPREGADOR</span>
+                    <span *ngIf="item.tipoOrigemRejeicao == 2"> TRABALHADOR</span>
+                  </td>
+                  <td>
+                    <i class="fa fa-trash" (click)="excluirRejeicao(i)" style="cursor: pointer;" title="Inativar"></i>
+                  </td>
+                </tr>
+                </ng-container>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+    <div class="card-actionbar">
+      <div class="card-actionbar-row">
+        <button type="button" (click)="Salvar()" class="btn ink-reaction btn-raised btn-success" accesskey="F">
+          Atualizar
+        </button>
+        &nbsp;
+        <button class="btn btn-default" (click)="fechar()" data-dismiss="modal" type="button">Fechar</button>
+      </div>
+    </div>
+  </form>
+

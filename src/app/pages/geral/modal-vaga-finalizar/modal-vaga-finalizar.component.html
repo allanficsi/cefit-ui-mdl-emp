@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    {{objetoAtualiza.empregadorEntity.cadastroUnico.nome}}
+                    {{objetoAtualiza.empregador.cadastroUnico.nome}}
                     <label>Empregador </label>
                   </div>
                 </div>
@@ -50,7 +50,7 @@
                       <input type="text" autocomplete="off" [(ngModel)]="objetoAtualiza.valorPago" name="valorPago"
                              class="form-control" id="inputValorPago" placeholder="R$ 00,00" #valorPago="ngModel" currencyMask
                              maxlength="14" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }" required/>  
-                      <label>Valor Pago * </label>
+                      <label>Valor Pago </label>
                     </div>
                   </div>
               </div>

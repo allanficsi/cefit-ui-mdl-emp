@@ -4,6 +4,7 @@ import { Trabalhador } from '../../model/trabalhador/trabalhador';
 import { HOST_CEFIT } from '../cefit.api';
 import { HttpClient } from '@angular/common/http';
 import { Vaga } from '../../model/vaga/vaga';
+import { TrabalhadorPresenca } from "../../model/trabalhador/trabalhadorPresenca";
 
 
 @Injectable()
@@ -53,12 +54,21 @@ export class TrabalhadorService extends AptareCrudService<Trabalhador> {
   salvarManutencao(obj: Trabalhador) {
     return this.http.post(`${HOST_CEFIT}/api/` + this.artefato() + `/salvarManutencao`, obj);
   }
-   alterarSituacaoDeIngresso(obj: Trabalhador) {
+  alterarSituacaoDeIngresso(obj: Trabalhador) {
     return this.http.post(`${HOST_CEFIT}/api/`+this.artefato()+`/alterarSituacaoDeIngresso`, obj)
   }
 
   listarTrabalhadoresDisponiveis(obj: Vaga) {
     return this.http.post(`${HOST_CEFIT}/api/`+this.artefato()+`/listarTrabalhadoresDisponiveis`, obj);
-}
+  }
+  adicionarRetiraRejeicao(obj: Trabalhador) {
+    return this.http.post(`${HOST_CEFIT}/api/`+this.artefato()+`/adicionarRemoverRejeicao`, obj);
+  }
 
+  adicionarRetiraPresenca(obj: Trabalhador) {
+    return this.http.post(`${HOST_CEFIT}/api/`+this.artefato()+`/adicionarRemoverPresenca`, obj);
+  }
+  listarPresencas(obj: TrabalhadorPresenca) {
+    return this.http.post(`${HOST_CEFIT}/api/`+this.artefato()+`/listarPresencas`, obj);
+  }
 }

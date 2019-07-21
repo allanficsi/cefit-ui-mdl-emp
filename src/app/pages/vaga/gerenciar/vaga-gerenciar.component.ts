@@ -29,14 +29,14 @@ export class VagaGerenciarComponent extends AptareCrudController<Vaga, {new(): V
   situacaoCancelada   = VagaService.SITUACAO_CANCELADA;
   situacaoFinalizada  = VagaService.SITUACAO_FINALIZADA;
 
-  constructor(router: Router,
-              route: ActivatedRoute,
+  constructor(router: Router, 
+              route: ActivatedRoute,             
               public service: VagaService,
               private dominioService: DominioService,
               dialog: MatDialog,
               mensagem: MensagemService,
               dialogService: DialogService
-  ) {
+              ) {
     super(router, route, dialog, Vaga, service, mensagem, dialogService);
   }
 
@@ -48,6 +48,7 @@ export class VagaGerenciarComponent extends AptareCrudController<Vaga, {new(): V
   iniciarPaginaPesquisar() {
     this.objetoPesquisa.situacao = null;
     this.objetoPesquisa.codigoEmpregador = this.getCodigoEmpregadorLogado();
+
     this.pesquisar();
   }
 
@@ -56,11 +57,11 @@ export class VagaGerenciarComponent extends AptareCrudController<Vaga, {new(): V
     dominio.nomeCampo = 'ST_VAG';
 
     this.dominioService.pesquisar(dominio)
-      .subscribe((responseApi:ResponseApi) => {
-        this.listaSituacao = responseApi['data'];
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
+                .subscribe((responseApi:ResponseApi) => {
+      this.listaSituacao = responseApi['data'];
+    } , err => {
+      this.mensagem.tratarErro(err);
+    });
   }
 
   alterarStatusVaga(codigo, situacao) {
@@ -71,13 +72,13 @@ export class VagaGerenciarComponent extends AptareCrudController<Vaga, {new(): V
     vaga.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
 
     this.service.alterarSituacaoVaga(vaga)
-      .subscribe((responseApi:ResponseApi) => {
-        this.mensagem.msgSucesso("A vaga foi atualizada com sucesso.");
+                .subscribe((responseApi:ResponseApi) => {
+      this.mensagem.msgSucesso("A vaga foi atualizada com sucesso.");
 
-        this.pesquisar();
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
+      this.pesquisar();
+    } , err => {
+      this.mensagem.tratarErro(err);
+    });
   }
 
   completarPesquisar() {
@@ -104,7 +105,7 @@ export class VagaGerenciarComponent extends AptareCrudController<Vaga, {new(): V
     dialogConfig.data = {codigo: codigo};
 
     this.dialog.open(ModalVagaFinalizarComponent, dialogConfig)
-      .afterClosed().subscribe((data) => {
+                            .afterClosed().subscribe((data) => {
       this.pesquisar();
     });
   }

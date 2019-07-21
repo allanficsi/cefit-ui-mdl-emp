@@ -78,7 +78,10 @@
                     <th class="text-center">RG</th>
                     <th class="text-center">Data de Cadastro</th>
                     <th class="text-left">Situação</th>
+                    <th class="text-left">Situação no Programa</th>
                     <th class="text-center" style="width: 3%;"></th>
+                    <th class="text-center" style="width: 3%;"></th>
+                    <!-- <th class="text-center" style="width: 3%;"></th> -->
                     <th class="text-center" style="width: 3%;"></th>
                     <th class="text-center" style="width: 3%;"></th>
                     <th class="text-center" style="width: 3%;"></th>
@@ -91,12 +94,15 @@
                   <td class="text-right">{{item.cadastroUnico.pessoaFisica.registroGeral}}</td>
                   <td class="text-center">{{item.auditoria.dataInclusao | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                   <td>{{item.descricaoSituacao}}</td>
+                  <td>{{item.descricaoSituacaoIngresso}}</td>
                   <td> <i *ngIf='(item.situacao == 1 || item.situacao == 2)' class="fa fa-search" title="Visualizar" (click)="visualizar(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i></td>
-                  <td> <i *ngIf='(item.situacao == 1 || item.situacao == 2)' class="fa fa-calendar" title="Agenda" (click)="preparaEditarAgenda(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i></td>
+                  <!-- <td> <i *ngIf='(item.situacao == 1 || item.situacao == 2)' class="fa fa-calendar" title="Agenda" (click)="preparaEditarAgenda(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i></td> -->
                   <td> <i class="fa fa-edit" (click)="editar(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i></td>
+                  <td> <i *ngIf='(item.situacao == 1 || item.situacao == 2)' class="fa fa-ban" title="Rejeicões" (click)="preparaRejeicao(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i></td>
+                  <td> <i *ngIf='(item.situacao == 1 || item.situacao == 2)' class="fa fa-calendar" title="Presenças" (click)="preparaPresenca(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i></td>
                   <td>
                     <i *ngIf='(item.situacao == 3)' class="fa fa-check" title="Ativar" (click)="ativarTrabalhador(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
-                    <i *ngIf='(item.situacao == 1 || item.situacao == 2)' class="fa fa-remove" title="Inativar" (click)="inativarTrabalhador(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
+                    <i *ngIf='(item.situacao == 2)' class="fa fa-remove" title="Inativar" (click)="inativarTrabalhador(item.codigo)" style="width:18px; height: 18px; cursor: pointer;"></i>
                   </td>
                 </tr>
               </table>

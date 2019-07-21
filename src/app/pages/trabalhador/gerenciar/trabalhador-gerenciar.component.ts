@@ -146,11 +146,11 @@ export class TrabalhadorGerenciarComponent extends AptareCrudController<Trabalha
 
   }
   editar(id, msg){
-    this.dialogService.openConfirmDialog(msg)
-      .afterClosed().subscribe(res => {
-        if(res)
+    //this.dialogService.openConfirmDialog(msg)
+    //  .afterClosed().subscribe(res => {
+    //    if(res)
          super.editar('/trabalhador-atualizar', id);
-    });
+    //});
   }
 
   private atualizarSitucoes() {

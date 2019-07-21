@@ -79,7 +79,6 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
 
   ngOnInit(): void {
     super.ngOnInit();
-
     this.filteredOptions = this.myControlCnae.valueChanges
       .pipe(
         startWith<string | Cnae>(''),
@@ -89,8 +88,6 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     this.codigo = this.getCodigoEmpregadorLogado();
     this.iniciarPaginaAlterar();
   }
-
-
 
   displayFn(cnae?: Cnae): string | undefined {
     return cnae ? cnae.descricao : undefined;
@@ -226,7 +223,6 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     this.objetoAtualiza.cadastroUnico.pessoaFisica.sexo = 'M';
 
     this.objetoAtualiza.numeroCei = null;
-
 
     this.objetoAtualiza.cadastroUnico.tipoPessoa = tipoPessoa;
     this.listaTelefonePf = [];
@@ -464,13 +460,10 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
         telefone.flagAtivo = 'S';
 
         //SE TELEFONE NÃO FOR RESIDENCIAL PODE TER ZAP
-        if (telefone.objTipo.valorCampo != 1) {
-          telefone.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false;
-        } else {
-          //TELEFONE RESIDENCIAL NAO TEM ZAP
+        if (telefone.objTipo.valorCampo === 1) {
           telefone.flagWhats = false;
         }
-
+        console.log(telefone);
         this.listaContato[i].listaTelefone.push(telefone);
       }
     }
@@ -510,10 +503,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     }
 
     //SE TELEFONE NÃO FOR RESIDENCIAL PODE TER ZAP
-    if (telefone.objTipo.valorCampo != 1) {
-      telefone.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false;
-    } else {
-      //TELEFONE RESIDENCIAL NAO TEM ZAP
+    if (telefone.objTipo.valorCampo === 1) {
       telefone.flagWhats = false;
     }
 
@@ -522,7 +512,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
     }else {
       this.listaTelefonePf[indexTelefone] = telefone;
     }
-    console.log(telefone);
+    // console.log(telefone);
   }
 
 
@@ -555,22 +545,10 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   }
 
   validarTelefonePf() {
-    if ((typeof this.telefonePf.nrTelefoneExtenso === "undefined")
-      || this.telefonePf.nrTelefoneExtenso === '') {
-      return false;
-    }
-
-    //VALIDA TELEONE FIXO
-    if(Number(this.telefonePf.nrTelefoneExtenso.length) < 10 && this.telefonePf.objTipo.valorCampo == 1){//RESIDENCIAL
-      this.mensagem.tratarErroPersonalizado("","O Telefone deve possuir no mínimo 10 digitos");
-      return false;
-    }
-
-    //VALIDA TELEFONE RESIDENCIAL
-    if(Number(this.telefonePf.nrTelefoneExtenso.length) < 11 && (this.telefonePf.objTipo.valorCampo == 2//CELULAR
-      || this.telefonePf.objTipo.valorCampo == 3 ))//COMERCIAL
-    {
-      this.mensagem.tratarErroPersonalizado("","O Telefone deve possuir no mínimo 11 digitos");
+    if((typeof this.telefonePf.nrTelefoneExtenso === "undefined")
+      || this.telefonePf.nrTelefoneExtenso === ''
+      || Number(this.telefonePf.nrTelefoneExtenso.length) < 10) {
+      this.mensagem.tratarErroPersonalizado("", "Informe um telefone com no mínimo 10 dígitos.");
       return false;
     }
 
@@ -678,7 +656,7 @@ export class EmpregadorAtualizarComponent extends AptareCrudController<Empregado
   }
 
   completarInserir() {
-console.log(this.getCodigoUsuarioLogado());
+
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J") {
       if(this.objetoAtualiza.cadastroUnico.cnpj != null && typeof this.objetoAtualiza.cadastroUnico.cnpj !== 'undefined') {
         this.objetoAtualiza.cadastroUnico.cpfCnpj = Number(this.objetoAtualiza.cadastroUnico.cnpj);
@@ -886,16 +864,10 @@ console.log(this.getCodigoUsuarioLogado());
 
     //PELO MENOS UM CONTATO COM FLAG ATIVO 'S' OBRIGATORIO (PJ)
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "J"){
-
-      if(this.listaContato != null && this.listaContato.length > 0) {
-
-        let isExisteContatoAtivo = this.listaContato.every(element => { return element.flagAtivo == 'N';});
-
-        //SE FOR TRUE SIGNIFICA QUE O ARRAY TEM ALGO, MAS SÃO TODOS INATIVADO
-        if(isExisteContatoAtivo){
-          this.mensagem.tratarErroPersonalizado("", "Pelo menos um Contato deve ser adicionado.");
-          return false;
-        }
+      if (this.listaContato.every(element => { return element.flagAtivo == 'N'; }))
+      {
+        this.mensagem.tratarErroPersonalizado('', 'Pelo menos um Contato deve ser adicionado.');
+        return false;
       }
     }
 
@@ -903,6 +875,15 @@ console.log(this.getCodigoUsuarioLogado());
     if(this.objetoAtualiza.cadastroUnico.tipoPessoa == "F") {
       if(this.listaTelefonePf == null || this.listaTelefonePf.length <= 0) {
         this.mensagem.tratarErroPersonalizado("", "Pelo menos um Telefone deve ser adicionado.");
+        return false;
+      }
+    }
+
+    //PELO MENOS UM TELEFONE COM FLAG ATIVO 'S' É OBRIGATORIO
+    if (this.objetoAtualiza.cadastroUnico.tipoPessoa == 'F') {
+      if (this.listaTelefonePf.every(element => { return element.flagAtivo == 'N'; }))
+      {
+        this.mensagem.tratarErroPersonalizado('', 'Pelo menos um Telefone deve ser adicionado.');
         return false;
       }
     }
@@ -1121,8 +1102,7 @@ console.log(this.getCodigoUsuarioLogado());
   }
 
   voltar() {
-    this.router.navigate(['']);
+   this.router.navigate(['']);
   }
-
 
 }

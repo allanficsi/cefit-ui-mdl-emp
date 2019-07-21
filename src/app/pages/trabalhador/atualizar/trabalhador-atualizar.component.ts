@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { AptareCrudController } from '../../../components/shared/crud/aptare-crud-controller';
 import { Auditoria } from '../../../model/auditoria';
 import { CadastroUnico } from '../../../model/cadastro-unico/cadastro-unico';
@@ -11,25 +14,21 @@ import { PessoaJuridica } from '../../../model/cadastro-unico/pessoa-juridica';
 import { Telefone } from '../../../model/cadastro-unico/telefone';
 import { Correio } from '../../../model/correio/correio';
 import { Dominio } from '../../../model/geral/dominio';
+import { Parametro } from '../../../model/geral/parametro';
 import { ResponseApi } from '../../../model/response-api';
 import { Cbo } from '../../../model/trabalhador/cbo';
 import { Trabalhador } from '../../../model/trabalhador/trabalhador';
+import { TrabalhadorAgenda } from '../../../model/trabalhador/trabalhador-agenda';
 import { TrabalhadorCbo } from '../../../model/trabalhador/trabalhador-cbo';
 import { TrabalhadorDeficiencia } from '../../../model/trabalhador/trabalhador-deficiencia';
 import { CorreioService } from '../../../services/correio/correio.service';
 import { DominioService } from '../../../services/geral/dominio.service';
+import { ParametroService } from '../../../services/geral/parametro.service';
 import { DialogService } from '../../../services/shared/dialog.service';
 import { MensagemService } from '../../../services/shared/mensagem.service';
 import { CboService } from '../../../services/trabalhador/cbo.service';
 import { TrabalhadorService } from '../../../services/trabalhador/trabalhador.service';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
-import { TrabalhadorAgenda } from '../../../model/trabalhador/trabalhador-agenda';
-import { EspacoItemEspaco } from '../../../model/espaco/espaco-item-espaco';
-import { ModalEditarItemEspacoComponent } from '../../geral/modal-editar-item-espaco/modal-editar-item-espaco.component';
-import { Parametro } from '../../../model/geral/parametro';
-import { ParametroService } from '../../../services/geral/parametro.service';
+import { ModalTelefoneComponent } from '../../geral/modal-telefone/modal-telefone.component';
 
 @Component({
   selector: 'app-trabalhador-atualizar',
@@ -48,6 +47,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   listaEndereco = [];
   listaCbo = [];
   listaDeficiencia = [];
+  listaExperiencia = [];
   listaTrabalhadorCbo = [];
   listaTrabalhadorDeficiencia = [];
   listaTrabalhadorAgenda = [];
@@ -83,10 +83,10 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     return cbo ? cbo.nome : undefined;
   }
 
-  private _filterCbo(nome: string): Cbo[] {
-    const filterValue = nome.toLowerCase();
+  private _filterCbo(nomePersonalizado: string): Cbo[] {
+    const filterValue = nomePersonalizado.toLowerCase();
 
-    return this.listaCbo.filter(option => option.nome.toLowerCase().indexOf(filterValue) > -1);
+    return this.listaCbo.filter(option => option.nomePersonalizado.toLowerCase().indexOf(filterValue) > -1);
   }
 
   setListasStaticas() {
@@ -96,6 +96,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     this.popularTipoEndereco();
     this.popularEstadoCivil();
     this.popularCbo();
+    this.popularExperiencia();
     this.popularDeficiencia();
     this.popularTipoTelefone();
 
@@ -104,7 +105,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       .pipe(
         startWith<string | Cbo>(''),
         map(value => typeof value === 'string' ? value : value.nome),
-        map(nome => nome ? this._filterCbo(nome) : this.listaCbo.slice())
+        map(nomePersonalizado => nomePersonalizado ? this._filterCbo(nomePersonalizado) : this.listaCbo.slice())
       );
   }
 
@@ -244,7 +245,7 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     this.service.get(trabalhador).subscribe((responseApi: ResponseApi) => {
 
       this.objetoAtualiza = responseApi.data;
-
+      console.log(this.objetoAtualiza);
       this.listaTrabalhadorCbo = [];
       if (typeof this.objetoAtualiza.listaTrabalhadorCbo !== 'undefined') {
         for (let i = 0; i < this.objetoAtualiza.listaTrabalhadorCbo.length; i++) {
@@ -261,13 +262,13 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
         }
       }
 
-      this.listaTrabalhadorAgenda = [];
-      if (typeof this.objetoAtualiza.listaTrabalhadorAgenda !== 'undefined') {
-        for (let i = 0; i < this.objetoAtualiza.listaTrabalhadorAgenda.length; i++) {
-          this.listaTrabalhadorAgenda.push(this.objetoAtualiza.listaTrabalhadorAgenda[i]);
-        }
-          this.listaTrabalhadorAgenda.sort((a, b) => (a.nrDia > b.nrDia ? 1 : -1));
-      }
+      // this.listaTrabalhadorAgenda = [];
+      // if (typeof this.objetoAtualiza.listaTrabalhadorAgenda !== 'undefined') {
+      //   for (let i = 0; i < this.objetoAtualiza.listaTrabalhadorAgenda.length; i++) {
+      //     this.listaTrabalhadorAgenda.push(this.objetoAtualiza.listaTrabalhadorAgenda[i]);
+      //   }
+      //     this.listaTrabalhadorAgenda.sort((a, b) => (a.nrDia > b.nrDia ? 1 : -1));
+      // }
 
       this.listaEndereco = [];
       for (let i = 0; i < this.objetoAtualiza.cadastroUnico.listaEndereco.length; i++) {
@@ -313,12 +314,25 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
     this.cboService.pesquisar(cbo)
       .subscribe((responseApi: ResponseApi) => {
         this.listaCbo = responseApi['data'];
-        //this.trabalhadorCbo.cbo = null;
       }, err => {
         this.mensagem.tratarErro(err);
       });
   }
 
+  popularExperiencia() {
+    this.trabalhadorDeficiencia = new TrabalhadorDeficiencia();
+    let dominio: Dominio = new Dominio();
+    dominio.nomeCampo = 'CD_EXP_CMP_CBO';
+
+    this.dominioService.pesquisar(dominio)
+      .subscribe((responseApi: ResponseApi) => {
+        this.listaExperiencia = responseApi['data'];
+         this.trabalhadorCbo.codigoExperiencia = null;
+         this.trabalhadorCbo.possuiComprovacao = 'S';
+      }, err => {
+        this.mensagem.tratarErro(err);
+      });
+  }
   popularDeficiencia() {
     this.trabalhadorDeficiencia = new TrabalhadorDeficiencia();
     let dominio: Dominio = new Dominio();
@@ -465,7 +479,15 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       telefoneAdicionar.auditoria.dataInclusao = new Date();
       telefoneAdicionar.auditoria.codigoUsuarioInclusao = this.getCodigoUsuarioLogado();
       telefoneAdicionar.flagAtivo = 'S';
-      telefoneAdicionar.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined') ? true : false;
+      telefoneAdicionar.flagWhats = (typeof this.telefonePf.flagWhats !== 'undefined');
+
+      //SE TELEFONE NÃO FOR RESIDENCIAL PODE TER ZAP
+      if (telefoneAdicionar.tipo === 1) {
+        telefoneAdicionar.flagWhats = false;
+      }else{
+        telefoneAdicionar.flagWhats = typeof this.telefonePf.flagWhats !== 'undefined';
+      }
+
 
       this.listaTelefonePf.push(telefoneAdicionar);
       this.resetTelefonePf();
@@ -473,9 +495,43 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
   }
 
+  preparaEditarTelefone(index) {
+    let telefoneEdit = this.listaTelefonePf[index];
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = '280px';
+    dialogConfig.width = '750px';
+    dialogConfig.data = {telefone: telefoneEdit};
+
+
+    this.dialog.open(ModalTelefoneComponent, dialogConfig)
+      .afterClosed().subscribe((data) => {
+      if(typeof data !== "undefined") {
+        this.adicionarTelefoneEditado(data, index);
+      }
+    });
+  }
+  adicionarTelefoneEditado(telefone: Telefone,index) {
+    if(typeof  telefone.codigo !== "undefined" || telefone.codigo != null){
+      telefone.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+      telefone.auditoria.dataAlteracao = new Date();
+    }
+
+    //SE TELEFONE NÃO FOR RESIDENCIAL PODE TER ZAP
+    if (telefone.objTipo.valorCampo === 1) {
+      telefone.flagWhats = false;
+    }
+
+    this.listaTelefonePf[index] = telefone;
+
+  }
+
   adicionarCbo() {
 
-    if (typeof this.trabalhadorCbo.cbo.codigo === 'undefined' || this.trabalhadorCbo.cbo.codigo === null) {
+    console.log(this.trabalhadorCbo);
+    if (typeof this.trabalhadorCbo.cbo == 'undefined'|| typeof this.trabalhadorCbo.cbo.codigo === 'undefined' || this.trabalhadorCbo.cbo.codigo === null) {
       this.mensagem.tratarErroPersonalizado('', 'Selecione o CBO antes de adicionar.');
       return false;
     }
@@ -491,11 +547,21 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       }
     }
 
+    //VERIFICANDO SE FOI ESCOLHIDO O TIPO DE COMPROVACÃO
+    if(this.trabalhadorCbo.possuiComprovacao == 'S' && this.trabalhadorCbo.codigoExperiencia == null){
+      this.mensagem.tratarErroPersonalizado('', 'Selecione Tipo de Comprovação.');
+      return false;
+    }
+
+
     let trabalhadorCbo: TrabalhadorCbo = new TrabalhadorCbo();
 
     trabalhadorCbo.nome = this.trabalhadorCbo.nome;
     trabalhadorCbo.codigoCbo = this.trabalhadorCbo.cbo.codigo;
     trabalhadorCbo.descricaoCbo = this.trabalhadorCbo.cbo.nome;
+    trabalhadorCbo.possuiComprovacao = this.trabalhadorCbo.possuiComprovacao;
+    trabalhadorCbo.codigoExperiencia = trabalhadorCbo.possuiComprovacao == 'S' ? this.trabalhadorCbo.codigoExperiencia : null;
+
 
     this.listaTrabalhadorCbo.push(trabalhadorCbo);
     this.resetTrabalhadorCbo();
@@ -528,6 +594,8 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   resetTrabalhadorCbo() {
     this.trabalhadorCbo = new TrabalhadorCbo();
     this.trabalhadorCbo.cbo = new Cbo();
+    this.trabalhadorCbo.possuiComprovacao = "S";
+    this.trabalhadorCbo.codigoExperiencia = null;
   }
 
   resetTelefonePf() {
@@ -543,25 +611,41 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   }
 
   excluirEndereco(index) {
-    this.listaEndereco.splice(index, 1);
+    if(this.listaEndereco[index].codigo != null && typeof this.listaEndereco[index].codigo !== "undefined") {
+      this.listaEndereco[index].flagAtivo = "N";
+      this.listaEndereco[index].codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+      this.listaEndereco[index].dataAlteracao = new Date();
+    } else {
+      this.listaEndereco.splice(index,1);
+    }
   }
 
   excluirTelefonePf(index) {
-    this.listaTelefonePf.splice(index, 1);
+    if(this.listaTelefonePf[index].codigo != null && typeof this.listaTelefonePf[index].codigo !== "undefined") {
+      this.listaTelefonePf[index].flagAtivo = "N";
+      this.listaTelefonePf[index].codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+      this.listaTelefonePf[index].dataAlteracao = new Date();
+    } else {
+      this.listaTelefonePf.splice(index,1);
+    }
   }
 
   excluirTrabalhadorCbo(index) {
-    this.listaTrabalhadorCbo.splice(index, 1);
+      this.listaTrabalhadorCbo.splice(index,1);
+
   }
 
   excluirTrabalhadorDeficiencia(index) {
-    this.listaTrabalhadorDeficiencia.splice(index, 1);
+    if(this.listaTrabalhadorDeficiencia[index].codigo != null && typeof this.listaTrabalhadorDeficiencia[index].codigo !== "undefined") {
+      this.listaTrabalhadorDeficiencia[index].flagAtivo = "N";
+      this.listaTrabalhadorDeficiencia[index].codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+      this.listaTrabalhadorDeficiencia[index].dataAlteracao = new Date();
+    } else {
+      this.listaTrabalhadorDeficiencia.splice(index,1);
+    }
   }
 
   completarInserir() {
-
-
-
     if (this.objetoAtualiza.cadastroUnico.tipoPessoa == 'F') {
       this.objetoAtualiza.cadastroUnico.cpfCnpj = Number(this.objetoAtualiza.cadastroUnico.cpf);
       this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone = this.listaTelefonePf;
@@ -613,9 +697,6 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       this.objetoAtualiza.cadastroUnico.auditoria.dataAlteracao = new Date();
       this.objetoAtualiza.cadastroUnico.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
     }
-
-
-
   }
 
   completarAlterar() {
@@ -641,7 +722,10 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
     //ENDERECO
     this.objetoAtualiza.cadastroUnico.listaEndereco = [];
-    for (let i = 0; i < this.listaEndereco.length; i++) {
+    for(let i = 0; i < this.listaEndereco.length; i++) {
+      //AUDITORIA ENDEREÇO
+      this.listaEndereco[i].auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
+      this.listaEndereco[i].auditoria.dataAlteracao = new Date();
       this.objetoAtualiza.cadastroUnico.listaEndereco.push(this.listaEndereco[i]);
     }
 
@@ -657,11 +741,9 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
 
     //AUDITORIA TELEFONE PF
     for (let i = 0; i < this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone.length; i++) {
-      this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i].auditoria = new Auditoria();
       this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i].auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
       this.objetoAtualiza.cadastroUnico.pessoaFisica.listaTelefone[i].auditoria.dataAlteracao = new Date();
     }
-
   }
 
   completarPosInserir() {
@@ -673,10 +755,10 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   }
 
   validarTelefonePf() {
-    if ((typeof this.telefonePf.nrTelefoneExtenso === 'undefined')
+    if((typeof this.telefonePf.nrTelefoneExtenso === "undefined")
       || this.telefonePf.nrTelefoneExtenso === ''
-      || Number(this.telefonePf.nrTelefoneExtenso.length) < 11) {
-      this.mensagem.tratarErroPersonalizado('', 'Informe um telefone com no mínimo 11 dígitos.');
+      || Number(this.telefonePf.nrTelefoneExtenso.length) < 10) {
+      this.mensagem.tratarErroPersonalizado("", "Informe um telefone com no mínimo 10 dígitos.");
       return false;
     }
 
@@ -684,7 +766,6 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
   }
 
   validarInserir() {
-
 
     //VALIDACAO DE CAMPOS OBRIGATORIOS PF
     if (this.objetoAtualiza.cadastroUnico.cpf == null || this.objetoAtualiza.cadastroUnico.cpf == '') {
@@ -774,12 +855,24 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       return false;
     }
 
+    //PELO MENOS UM ENDERECO COM FLAG ATIVO 'S' É OBRIGATORIO
+    if(this.listaEndereco.every(element => { return element.flagAtivo == 'N';})) {
+      this.mensagem.tratarErroPersonalizado("", "Pelo menos um Endereço deve ser adicionado.");
+      return false;
+    }
+
     //PELO MENOS UM CONTATO OBRIGATORIO (PF)
     if (this.listaTelefonePf == null || this.listaTelefonePf.length <= 0) {
       this.mensagem.tratarErroPersonalizado('', 'Pelo menos um Telefone deve ser adicionado.');
       return false;
     }
 
+    //PELO MENOS UM TELEFONE COM FLAG ATIVO 'S' É OBRIGATORIO
+      if (this.listaTelefonePf.every(element => { return element.flagAtivo == 'N'; }))
+      {
+        this.mensagem.tratarErroPersonalizado('', 'Pelo menos um Telefone deve ser adicionado.');
+        return false;
+      }
 
     return true;
   }
@@ -875,4 +968,5 @@ export class TrabalhadorAtualizarComponent extends AptareCrudController<Trabalha
       });
 
   }
+
 }

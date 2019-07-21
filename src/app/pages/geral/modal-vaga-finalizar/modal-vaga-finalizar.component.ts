@@ -19,14 +19,14 @@ import { Auditoria } from '../../../model/auditoria';
 export class ModalVagaFinalizarComponent extends AptareCrudController<Vaga, {new(): Vaga}>{
 
   constructor(router: Router,
-              route: ActivatedRoute,
+              route: ActivatedRoute,             
               public service: VagaService,
               dialog: MatDialog,
               public dialogRef: MatDialogRef<ModalVagaFinalizarComponent>,
               @Inject(MAT_DIALOG_DATA) private data: any,
               mensagem: MensagemService,
               dialogService: DialogService) {
-    super(router, route, dialog, Vaga, service, mensagem, dialogService);
+    super(router, route, dialog, Vaga, service, mensagem, dialogService);   
   }
 
   ngOnInit() {
@@ -39,17 +39,17 @@ export class ModalVagaFinalizarComponent extends AptareCrudController<Vaga, {new
     vaga.codigo = this.data.codigo;
 
     this.service.get(vaga)
-      .subscribe((responseApi:ResponseApi) => {
-        this.objetoAtualiza = responseApi['data'];
-        this.objetoAtualiza.flagRealizada = true;
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
+                .subscribe((responseApi:ResponseApi) => {
+      this.objetoAtualiza = responseApi['data'];
+      this.objetoAtualiza.flagRealizada = true;
+    } , err => {
+      this.mensagem.tratarErro(err);
+    });
 
   }
 
   concluir() {
-    // if(this.objetoAtualiza.flagRealizada &&
+    // if(this.objetoAtualiza.flagRealizada && 
     //   (this.objetoAtualiza.valorPago == null || typeof this.objetoAtualiza.valorPago == 'undefined')) {
     //     this.mensagem.tratarErroPersonalizado("", "O campo Valor Pago é obrigatório.");
     //     return false;
@@ -57,10 +57,10 @@ export class ModalVagaFinalizarComponent extends AptareCrudController<Vaga, {new
 
     this.dialogService.openConfirmDialog('Você deseja finalizar a vaga?')
       .afterClosed().subscribe(res =>{
-      if(res){
-        this.alterarStatusVaga();
-      }
-    });
+        if(res){
+          this.alterarStatusVaga();
+        } 
+      });
   }
 
   alterarStatusVaga() {
@@ -69,12 +69,12 @@ export class ModalVagaFinalizarComponent extends AptareCrudController<Vaga, {new
     this.objetoAtualiza.auditoria.codigoUsuarioAlteracao = this.getCodigoUsuarioLogado();
 
     this.service.alterarSituacaoVaga(this.objetoAtualiza)
-      .subscribe((responseApi:ResponseApi) => {
-        this.mensagem.msgSucesso("A vaga foi atualizada com sucesso.");
-        this.fechar();
-      } , err => {
-        this.mensagem.tratarErro(err);
-      });
+                .subscribe((responseApi:ResponseApi) => {
+      this.mensagem.msgSucesso("A vaga foi atualizada com sucesso.");
+      this.fechar();
+    } , err => {
+      this.mensagem.tratarErro(err);
+    });
   }
 
   fechar() {
